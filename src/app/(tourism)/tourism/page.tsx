@@ -538,30 +538,21 @@ export default function TourismPage() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl border border-[#EAEAEA] p-8 md:p-10 shadow-sm text-center">
-
-              {/* Pricing Block Centered */}
-              <div className="mb-8 pb-8 border-b border-[#EAEAEA] flex flex-col items-center">
-
-                <div className="flex items-baseline gap-3 mb-3 justify-center">
-                  <span className="text-[#666666] line-through text-lg">
-                    $1,940 USD
-                  </span>
-                  <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">
-                    $1,792 USD
-                  </span>
+            <div className="bg-white rounded-2xl border border-[#EAEAEA] p-8 md:p-10 shadow-sm">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8 pb-8 border-b border-[#EAEAEA]">
+                <div>
+                  <div className="flex items-baseline gap-3 mb-2">
+                    <span className="text-[#666666] line-through text-lg">$1,940 USD</span>
+                    <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">$1,792 USD</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="bg-[#C49A3A]/10 text-[#C49A3A] px-3 py-1 rounded-full text-sm font-semibold">
+                      Save $148
+                    </span>
+                    <span className="text-[#666666] text-sm">Limited time offer — Book now!</span>
+                  </div>
                 </div>
-
-                <div className="flex items-center gap-3 justify-center mb-4">
-                  <span className="bg-[#C49A3A]/10 text-[#C49A3A] px-3 py-1 rounded-full text-sm font-semibold">
-                    Save $148
-                  </span>
-                  <span className="text-[#666666] text-sm">
-                    Limited time offer — Book now!
-                  </span>
-                </div>
-
-                <div className="flex gap-6 text-sm text-[#666666] justify-center">
+                <div className="flex gap-4 text-sm text-[#666666]">
                   <div className="flex items-center gap-1.5">
                     <Clock size={16} className="text-[#C49A3A]" />
                     <span>6 Days / 5 Nights</span>
@@ -571,11 +562,9 @@ export default function TourismPage() {
                     <span>Private Tour</span>
                   </div>
                 </div>
-
               </div>
 
-              {/* CTA */}
-              <div>
+              <div className="text-center">
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
@@ -589,7 +578,6 @@ export default function TourismPage() {
                   Get instant answers from our Omani tour experts
                 </p>
               </div>
-
             </div>
           </div>
         </div>
@@ -607,24 +595,27 @@ export default function TourismPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {allDays.map((d) => {
-              const Icon = d.icon;
-              return (
-                <button
-                  key={d.day}
-                  onClick={() => setActiveDay(d.day)}
-                  className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
-                    activeDay === d.day
-                      ? 'bg-[#C49A3A] text-white shadow-md'
-                      : 'bg-white text-[#1A1A1A] border border-[#EAEAEA] hover:border-[#C49A3A] hover:text-[#C49A3A]'
-                  }`}
-                >
-                  <Icon size={16} />
-                  Day {d.day}
-                </button>
-              );
-            })}
+          {/* Sticky Day Selector */}
+          <div className="sticky top-20 z-40 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-[#F9F9F9] py-4 mb-10 border-b border-[#EAEAEA]">
+            <div className="flex flex-wrap justify-center gap-2">
+              {allDays.map((d) => {
+                const Icon = d.icon;
+                return (
+                  <button
+                    key={d.day}
+                    onClick={() => setActiveDay(d.day)}
+                    className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
+                      activeDay === d.day
+                        ? 'bg-[#C49A3A] text-white shadow-md'
+                        : 'bg-white text-[#1A1A1A] border border-[#EAEAEA] hover:border-[#C49A3A] hover:text-[#C49A3A]'
+                    }`}
+                  >
+                    <Icon size={16} />
+                    Day {d.day}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {allDays.filter((d) => d.day === activeDay).map((dayData) => {
@@ -852,17 +843,6 @@ export default function TourismPage() {
           </div>
         </div>
       </footer>
-
-      {/* Floating TripAdvisor Button */}
-      <a
-        href={TRIPADVISOR_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 bg-[#34E0A1] hover:bg-[#2BC88E] text-black px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2 z-50"
-      >
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="6.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="17.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M12 2C6.48 2 2 5.88 2 10.5c0 2.52 1.47 4.77 3.77 6.3L4 22l3.73-2.6c1.3.46 2.74.72 4.27.72s2.97-.26 4.27-.72L20 22l-1.77-5.2C20.53 15.27 22 13.02 22 10.5 22 5.88 17.52 2 12 2z" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="6.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="17.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="12" cy="8" r="1.5"/></svg>
-        <span className="font-semibold text-sm hidden sm:inline">TripAdvisor Reviews</span>
-      </a>
 
       {/* Floating WhatsApp Button */}
       <a

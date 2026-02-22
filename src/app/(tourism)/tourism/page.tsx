@@ -464,10 +464,10 @@ export default function TourismPage() {
                 href={TRIPADVISOR_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2 border border-white/30"
+                className="bg-[#34E0A1] hover:bg-[#2BC88E] text-black px-8 py-4 rounded-full font-bold transition-colors inline-flex items-center justify-center gap-2.5 shadow-lg text-lg"
               >
-                <Star size={20} />
-                View Our TripAdvisor Reviews
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="6.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="17.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M12 2C6.48 2 2 5.88 2 10.5c0 2.52 1.47 4.77 3.77 6.3L4 22l3.73-2.6c1.3.46 2.74.72 4.27.72s2.97-.26 4.27-.72L20 22l-1.77-5.2C20.53 15.27 22 13.02 22 10.5 22 5.88 17.52 2 12 2z" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="6.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="17.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="12" cy="8" r="1.5"/></svg>
+                TripAdvisor Reviews
               </a>
             </div>
           </div>
@@ -635,9 +635,10 @@ export default function TourismPage() {
               href={TRIPADVISOR_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#C49A3A] font-semibold hover:underline text-sm inline-flex items-center gap-1"
+              className="inline-flex items-center gap-2 bg-[#34E0A1] hover:bg-[#2BC88E] text-black px-5 py-2.5 rounded-full font-bold text-sm transition-colors shadow-sm"
             >
-              View all reviews on TripAdvisor <ChevronRight size={14} />
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="6.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="17.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M12 2C6.48 2 2 5.88 2 10.5c0 2.52 1.47 4.77 3.77 6.3L4 22l3.73-2.6c1.3.46 2.74.72 4.27.72s2.97-.26 4.27-.72L20 22l-1.77-5.2C20.53 15.27 22 13.02 22 10.5 22 5.88 17.52 2 12 2z" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="6.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="17.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="12" cy="8" r="1.5"/></svg>
+              View all reviews on TripAdvisor
             </a>
           </div>
           <ReviewsCarousel />

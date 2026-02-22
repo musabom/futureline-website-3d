@@ -74,15 +74,21 @@ const optionalMuseums = [
 ];
 
 const galleryItems = [
-  { src: '/images/tourism/gallery-1.jpg', title: 'Daymaniyat Islands Snorkeling', desc: 'Crystal-clear waters and vibrant marine life await at these pristine islands.' },
+  { src: '/images/tourism/1.jpg', title: 'Oman Adventure', desc: 'Discover the beauty and wonder of authentic Oman.' },
   { src: '/images/tourism/gallery-2.jpg', title: 'Jebel Shams Balcony Walk', desc: 'A dramatic cliff-edge trail offering breathtaking views of Oman\'s Grand Canyon.' },
-  { src: '/images/tourism/gallery-3.jpg', title: 'Falaj System', desc: 'Ancient UNESCO-listed irrigation channels that sustain Oman\'s mountain villages.' },
+  { src: '/images/tourism/3.jpg', title: 'Desert Landscape', desc: 'Golden sands stretching to the horizon under vast Omani skies.' },
   { src: '/images/tourism/gallery-4.jpg', title: 'Al Hamra Village', desc: '400-year-old mud-brick houses nestled at the foot of the Hajar Mountains.' },
-  { src: '/images/tourism/gallery-5.jpg', title: 'Traditional Souq', desc: 'A sensory journey through spices, frankincense, silver, and handmade crafts.' },
-  { src: '/images/tourism/gallery-6.jpg', title: 'Cultural Heritage', desc: 'The warmth of Omani hospitality and centuries of living tradition.' },
+  { src: '/images/tourism/4.jpg', title: 'Cultural Experience', desc: 'Immerse yourself in the rich traditions and heritage of Oman.' },
+  { src: '/images/tourism/5.jpg', title: 'Mountain Views', desc: 'Breathtaking vistas from Oman\'s majestic mountain ranges.' },
+  { src: '/images/tourism/6.jpg', title: 'Coastal Scenery', desc: 'Where turquoise waters meet dramatic rocky coastlines.' },
   { src: '/images/tourism/gallery-7.jpg', title: 'Sur City', desc: 'A historic port town known for its traditional dhow boat-building heritage.' },
-  { src: '/images/tourism/gallery-8.jpg', title: 'Coastal Beauty', desc: 'Turquoise waters meet dramatic cliffs along Oman\'s stunning coastline.' },
-  { src: '/images/tourism/gallery-9.jpg', title: 'Forts and Castles', desc: 'Centuries-old fortifications that tell the story of Oman\'s rich history.' },
+  { src: '/images/tourism/12.jpg', title: 'Hidden Wonders', desc: 'Secret spots and natural treasures waiting to be explored.' },
+  { src: '/images/tourism/14.jpg', title: 'Natural Beauty', desc: 'Oman\'s diverse landscapes from wadis to golden dunes.' },
+  { src: '/images/tourism/15.jpg', title: 'Heritage Sites', desc: 'Ancient forts, castles, and monuments across the Sultanate.' },
+  { src: '/images/tourism/16.jpg', title: 'Wadi Exploration', desc: 'Crystal-clear pools and palm-lined canyons in Oman\'s wadis.' },
+  { src: '/images/tourism/17.jpg', title: 'Desert Camp', desc: 'Unforgettable nights under the stars in the Wahiba Sands.' },
+  { src: '/images/tourism/18.jpg', title: 'Scenic Drive', desc: 'Stunning routes through mountains, valleys, and coastal roads.' },
+  { src: '/images/tourism/19.jpg', title: 'Local Life', desc: 'The warmth and hospitality of everyday Omani culture.' },
 ];
 
 const testimonials = [
@@ -256,12 +262,12 @@ function GalleryCarousel() {
         ))}
       </div>
 
-      <div className="grid grid-cols-9 gap-2 mt-4">
+      <div className="flex flex-wrap justify-center gap-2 mt-4">
         {galleryItems.map((item, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${i === current ? 'border-[#C49A3A] ring-2 ring-[#C49A3A]/30' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${i === current ? 'border-[#C49A3A] ring-2 ring-[#C49A3A]/30' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
             <img src={item.src} alt={item.title} className="w-full h-full object-cover" />
           </button>
@@ -434,7 +440,7 @@ export default function TourismPage() {
       {/* Hero */}
       <section id="home" className="relative pt-20">
         <div className="relative h-[600px] md:h-[700px]">
-          <img src="/images/tourism/hero.jpg" alt="Oman landscape" className="absolute inset-0 w-full h-full object-cover" />
+          <img src="/images/tourism/hero.jpg" alt="Discover the Magic of Oman" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
           <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">

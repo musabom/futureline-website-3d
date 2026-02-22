@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
 
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -35,11 +36,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-soft px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-brand-gradient rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">FL</span>
-            </div>
-            <span className="text-2xl font-bold text-navy">FutureLine</span>
+          <Link href="/" className="inline-block mb-6">
+            <img src="/images/logo-light.png" alt="FutureLine" className="h-20 w-auto mx-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-navy">Welcome Back</h1>
           <p className="text-gray-500 mt-1">Sign in to your account</p>

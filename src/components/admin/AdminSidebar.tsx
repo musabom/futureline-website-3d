@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import {
@@ -28,12 +29,10 @@ export default function AdminSidebar() {
     <aside className="w-64 bg-navy text-white flex flex-col min-h-screen sticky top-0">
       <div className="p-6 border-b border-white/10">
         <Link href="/admin" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand-gradient rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">FL</span>
-          </div>
+          <img src="/images/logo-icon-dark.png" alt="FutureLine" className="h-9 w-auto" />
           <div>
-            <span className="text-lg font-bold">FutureLine</span>
-            <span className="block text-xs text-gray-400">Admin Portal</span>
+            <span className="text-lg font-bold block">FutureLine</span>
+            <span className="text-xs text-gray-400">Admin Portal</span>
           </div>
         </Link>
       </div>

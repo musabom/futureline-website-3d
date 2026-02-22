@@ -1,16 +1,14 @@
 import Link from 'next/link';
 
+
 export default function Footer() {
   return (
     <footer className="bg-navy text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-brand-gradient rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">FL</span>
-              </div>
-              <span className="text-xl font-bold">FutureLine</span>
+            <div className="flex items-center mb-4">
+              <img src="/images/logo-dark.png" alt="FutureLine" className="h-14 w-auto" />
             </div>
             <p className="text-gray-400 text-sm">
               Design &bull; Deploy &bull; Evolve

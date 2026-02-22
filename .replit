@@ -1,2 +1,48 @@
+modules = ["nodejs-20"]
 [agent]
 expertMode = true
+integrations = ["javascript_database:1.0.0"]
+
+[nix]
+channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+NEXTAUTH_SECRET = "futureline-secret-key-2026"
+
+[userenv.development]
+NEXTAUTH_URL = "https://e13ac66a-df68-4a97-bf78-c38e169b8e67-00-3azws8dmm1sx1.spock.replit.dev"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "FutureLine App"
+
+[[workflows.workflow]]
+name = "FutureLine App"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+run = ["npm", "run", "start"]

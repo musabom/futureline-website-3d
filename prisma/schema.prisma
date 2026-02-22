@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  INSTRUCTOR
+  CUSTOMER
+}
+
+enum DeliveryType {
+  ONLINE
+  IN_PERSON
+  HYBRID
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now())
+
+  courses     Course[]     @relation("InstructorCourses")
+  orders      Order[]
+  enrollments Enrollment[]
+}
+
+model Course {
+  id               String       @id @default(cuid())
+  title            String
+  slug             String       @unique
+  shortDescription String
+  fullDescription  String
+  deliveryType     DeliveryType
+  category         String
+  level            String
+  price            Float
+  discountPrice    Float?
+  durationHours    Int
+  startDate        DateTime?
+  endDate          DateTime?
+  seatCapacity     Int?
+  location         String?
+  instructorId     String?
+  thumbnail        String?
+  status           CourseStatus @default(DRAFT)
+  createdAt        DateTime     @default(now())
+
+  instructor  User?        @relation("InstructorCourses", fields: [instructorId], references: [id])
+  lessons     Lesson[]
+  orders      Order[]
+  enrollments Enrollment[]
+}
+
+model Lesson {
+  id          String  @id @default(cuid())
+  courseId     String
+  moduleTitle  String
+  lessonTitle  String
+  videoUrl     String?
+  content      String?
+  resources    String?
+  orderIndex   Int
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id           String  @id @default(cuid())
+  title        String
+  description  String
+  category     String
+  pricingModel String?
+  featured     Boolean @default(false)
+  status       String  @default("ACTIVE")
+  createdAt    DateTime @default(now())
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  userId          String
+  courseId         String
+  amount           Float
+  paymentStatus    PaymentStatus @default(PENDING)
+  stripeSessionId  String?
+  createdAt        DateTime      @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+}
+
+model Enrollment {
+  id                 String  @id @default(cuid())
+  userId             String
+  courseId            String
+  progressPercentage Float   @default(0)
+  completed          Boolean @default(false)
+  createdAt          DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  content   String
+  rating    Int      @default(5)
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model BrandSettings {
+  id           String @id @default(cuid())
+  logo         String?
+  primaryColor String @default("#0F1E3D")
+  accentColor  String @default("#18A999")
+  companyName  String @default("FutureLine")
+  tagline      String @default("Design • Deploy • Evolve")
+}
+
+model AISettings {
+  id             String  @id @default(cuid())
+  enabled        Boolean @default(true)
+  welcomeMessage String  @default("Let our AI help you find the perfect course")
+}

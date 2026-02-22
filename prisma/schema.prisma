@@ -154,5 +154,6 @@ model Lead {
   email     String
   tourType  String
   message   String
+  source    String   @default("FL Tourism")
   createdAt DateTime @default(now())
 }

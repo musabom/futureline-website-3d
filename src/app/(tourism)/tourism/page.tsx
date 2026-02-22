@@ -388,7 +388,7 @@ function ContactForm() {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, source: 'FL Tourism' }),
       });
       if (res.ok) {
         setStatus('sent');

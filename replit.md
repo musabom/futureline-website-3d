@@ -83,10 +83,14 @@ public/
 - Contact: WhatsApp +968 9653 2326 / +968 9425 9459, Email: authentic.tour.om@gmail.com
 - TripAdvisor link integrated in hero and reviews section
 - Floating WhatsApp button (green #25D366)
-- Lead model in Prisma stores contact form submissions
+- Lead model in Prisma stores contact form submissions with source tracking
 - Gallery images stored in public/images/tourism/
 
 ## Recent Changes
 - Initial build: Full application with all core features
 - Database seeded with courses, services, testimonials, and demo users
 - FL Tourism page rebuilt with clean tourism theme, 8 sections, gallery, reviews, contact form with lead storage
+- Lead source tracking: Added `source` field to Lead model, tourism form tags submissions as "FL Tourism"
+- Admin Leads page at /admin/leads with search, source filtering, and CSV export
+- Secured leads API: public /api/leads only accepts POST; admin reads via /api/admin/leads (auth-protected)
+- TripAdvisor floating button added to tourism page (green #34E0A1, bottom-left)

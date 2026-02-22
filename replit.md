@@ -79,7 +79,7 @@ public/
 - Standalone page at /tourism with its own route group (bypasses FutureLine header/footer)
 - Clean white/gold theme: bg #FFFFFF, accent #C49A3A, text #1A1A1A, secondary #666666
 - Brand: "Authentic Oman Tours and Adventures"
-- Sections: Hero, Featured Package (pricing), Day 1 Muscat Tour detail, Gallery carousel (9 items), Reviews carousel (6 testimonials), Contact form (stores leads in DB), Footer
+- Sections: Hero, Featured Package (pricing), Full 6-Day Itinerary with tabbed day selector (each day has detailed stops with durations/costs), Gallery carousel (15 items), Reviews carousel (6 testimonials), Contact form (stores leads in DB), Footer
 - Contact: WhatsApp +968 9653 2326 / +968 9425 9459, Email: authentic.tour.om@gmail.com
 - TripAdvisor link integrated in hero and reviews section
 - Floating WhatsApp button (green #25D366)

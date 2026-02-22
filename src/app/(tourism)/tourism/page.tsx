@@ -73,6 +73,55 @@ const optionalMuseums = [
   { name: 'Ghalya\'s Museum of Modern Art', duration: '30 min', cost: '~2 OMR' },
 ];
 
+const day2Stops = [
+  { name: 'Bimmah Sinkhole', desc: 'Marvel at this stunning natural limestone crater filled with turquoise water. A geological wonder where you can take a refreshing swim in the crystal-clear pool.', duration: '30 minutes', cost: 'Free' },
+  { name: 'Wadi Shab', desc: 'Hike through one of Oman\'s most beautiful wadis with emerald pools, towering cliffs, and lush palm groves. Swim through a narrow canyon to discover a hidden waterfall cave.', duration: '2–3 hours', cost: '~1 OMR entry' },
+  { name: 'Fins Beach', desc: 'Stop at this pristine white-sand beach with dramatic turquoise waters — one of Oman\'s most beautiful coastal spots, perfect for photos and a quick rest.', duration: '20 minutes', cost: 'Free' },
+  { name: 'Sur City & Dhow Shipyard', desc: 'Visit the historic port city of Sur, famous for centuries of maritime trade. Watch master craftsmen build traditional wooden dhow boats using age-old techniques.', duration: '45 minutes', cost: 'Free' },
+  { name: 'Ras Al Jinz Turtle Reserve (seasonal)', desc: 'During nesting season, witness endangered green turtles coming ashore to lay eggs on this protected beach — a truly magical wildlife experience.', duration: '1–2 hours', cost: '~5 OMR' },
+];
+
+const day3Stops = [
+  { name: 'Wadi Bani Khalid', desc: 'One of Oman\'s few year-round wadis with deep turquoise pools perfect for swimming, surrounded by date palms and dramatic canyon walls.', duration: '1.5 hours', cost: 'Free' },
+  { name: 'Wahiba Sands (Sharqiya Sands)', desc: 'Enter the vast rolling dunes of the Wahiba desert. Experience the thrill of 4x4 dune bashing as your driver navigates steep sand ridges at exciting angles.', duration: '1 hour', cost: 'Included' },
+  { name: 'Bedouin Village Visit', desc: 'Meet a local Bedouin family and learn about their traditional desert lifestyle, camel herding, and hospitality. Enjoy Omani coffee and dates.', duration: '30 minutes', cost: 'Free' },
+  { name: 'Desert Sunset & Camel Ride', desc: 'Watch the desert transform into golden hues as the sun sets over the dunes. Enjoy a peaceful camel ride through the sands as the sky changes color.', duration: '1 hour', cost: 'Included' },
+  { name: 'Overnight Desert Camp', desc: 'Stay in a traditional-style desert camp under a blanket of stars. Enjoy a BBQ dinner, Arabic coffee, and the profound silence of the desert night.', duration: 'Overnight', cost: 'Included in package' },
+];
+
+const day4Stops = [
+  { name: 'Drive to Nizwa via Mountain Road', desc: 'Travel through the scenic interior of Oman, passing through dramatic mountain passes and traditional villages. The landscape shifts from desert sands to rugged peaks.', duration: '2.5 hours', cost: 'Included' },
+  { name: 'Jabal Akhdar (Green Mountain)', desc: 'Ascend to 2,000+ meters on the "Green Mountain," famous for its terraced rose gardens, fruit orchards, and cool climate. Visit the viewpoint overlooking the vast canyon.', duration: '2–3 hours', cost: 'Free' },
+  { name: 'Rose Terraces & Village Walk', desc: 'Explore the ancient agricultural terraces where Damask roses, pomegranates, and walnuts are grown. In spring, the valley fills with the fragrance of rose harvesting.', duration: '45 minutes', cost: 'Free' },
+  { name: 'Diana\'s Point Viewpoint', desc: 'Stand at the famous viewpoint named after Princess Diana, who visited this spot. The panoramic view of the deep canyon below is breathtaking.', duration: '20 minutes', cost: 'Free' },
+  { name: 'Nizwa by Night', desc: 'Settle into Nizwa and enjoy the town\'s peaceful evening atmosphere. Visit local restaurants for traditional Omani cuisine like shuwa and harees.', duration: 'Evening', cost: 'Meals not included' },
+];
+
+const day5Stops = [
+  { name: 'Nizwa Fort', desc: 'Explore Oman\'s most iconic fort, built in the 17th century. Climb the massive round tower for panoramic views of the oasis town and the Hajar Mountains beyond.', duration: '1 hour', cost: '~5 OMR' },
+  { name: 'Nizwa Souq', desc: 'Wander through the traditional market known for silver jewelry, Omani khanjars (daggers), pottery, and spices. On Fridays, the famous livestock auction takes place.', duration: '45 minutes', cost: 'Free' },
+  { name: 'Jabreen Castle', desc: 'Visit this beautifully preserved 17th-century castle, considered Oman\'s finest example of Islamic architecture. Admire the painted ceilings, secret passages, and intricate carvings.', duration: '45 minutes', cost: '~5 OMR' },
+  { name: 'Bahla Fort (UNESCO)', desc: 'See Oman\'s only UNESCO-listed fort, a massive 12th-century structure surrounded by a 13km wall. The town of Bahla is also renowned for its pottery tradition.', duration: '30 minutes', cost: '~5 OMR' },
+  { name: 'Misfat Al Abriyeen', desc: 'Discover this enchanting cliffside village with ancient stone houses, a falaj irrigation system, and terraced date palm gardens. One of Oman\'s most photogenic villages.', duration: '1 hour', cost: 'Free' },
+];
+
+const day6Stops = [
+  { name: 'Jabal Shams (Sun Mountain)', desc: 'Drive to the summit of Oman\'s highest peak at 3,009 meters. The road itself is an adventure, winding through dramatic mountain scenery with sheer drops.', duration: '1.5 hours drive', cost: 'Included' },
+  { name: 'Balcony Walk (Oman\'s Grand Canyon)', desc: 'Hike the famous Balcony Walk trail along the edge of Wadi Ghul — Oman\'s Grand Canyon. The narrow path offers vertigo-inducing views 1,000 meters down.', duration: '2–3 hours', cost: 'Free' },
+  { name: 'Abandoned Village of Sab Bani Khamis', desc: 'Along the Balcony Walk, explore the ruins of an abandoned cliffside village. The crumbling stone houses and terraces tell stories of the mountain people who once lived here.', duration: 'Part of hike', cost: 'Free' },
+  { name: 'Al Hamra Old Town', desc: 'Visit one of the oldest towns in Oman, featuring well-preserved 400-year-old mud-brick houses. The Bait Al Safah living museum demonstrates traditional Omani daily life.', duration: '1 hour', cost: '~2 OMR (museum)' },
+  { name: 'Return to Muscat', desc: 'Journey back to Muscat with a final scenic drive through the Hajar mountain range, arriving in the evening with unforgettable memories of your Oman adventure.', duration: '2.5 hours', cost: 'Included' },
+];
+
+const allDays = [
+  { day: 1, title: 'Muscat City Tour', subtitle: 'A Journey Through Culture and Majesty', duration: '6–7 hours', stops: day1Stops, icon: Building2 },
+  { day: 2, title: 'Wadi Shab & Sur', subtitle: 'Hidden Waterfalls and Maritime Heritage', duration: 'Full day', stops: day2Stops, icon: Waves },
+  { day: 3, title: 'Desert & Wahiba Sands', subtitle: 'Dunes, Bedouin Life and Starlit Camps', duration: 'Full day + overnight', stops: day3Stops, icon: Tent },
+  { day: 4, title: 'Nizwa & Jabal Akhdar', subtitle: 'Green Mountain and Rose Valley', duration: 'Full day', stops: day4Stops, icon: Mountain },
+  { day: 5, title: 'Forts & Mountain Villages', subtitle: 'Ancient Castles and Cliffside Towns', duration: 'Full day', stops: day5Stops, icon: Castle },
+  { day: 6, title: 'Jabal Shams & Al Hamra', subtitle: 'Grand Canyon and Mud-Brick Heritage', duration: 'Full day', stops: day6Stops, icon: Sun },
+];
+
 const galleryItems = [
   { src: '/images/tourism/1.jpg', title: 'Oman Adventure', desc: 'Discover the beauty and wonder of authentic Oman.' },
   { src: '/images/tourism/gallery-2.jpg', title: 'Jebel Shams Balcony Walk', desc: 'A dramatic cliff-edge trail offering breathtaking views of Oman\'s Grand Canyon.' },
@@ -433,6 +482,8 @@ function ContactForm() {
 }
 
 export default function TourismPage() {
+  const [activeDay, setActiveDay] = useState(1);
+
   return (
     <>
       <TourismHeader />
@@ -547,64 +598,122 @@ export default function TourismPage() {
         </div>
       </section>
 
-      {/* Tours Section - Day 1 Detail */}
+      {/* Tours Section - All Days */}
       <section id="tours" className="py-20 bg-[#F9F9F9]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-2">
-              Day 1: Muscat City Tour — A Journey Through Culture and Majesty
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-4">
+              Your 6-Day Itinerary
             </h2>
-            <div className="flex flex-wrap gap-4 mt-4 text-sm text-[#666666]">
-              <span className="flex items-center gap-1.5">
-                <Clock size={15} className="text-[#C49A3A]" /> Approx. 6–7 hours
-              </span>
-              <span className="flex items-center gap-1.5">
-                <MapPin size={15} className="text-[#C49A3A]" /> 7 stops
-              </span>
-            </div>
+            <p className="text-[#666666] max-w-2xl mx-auto">
+              Every day is a new adventure — from city culture to desert camps, mountain canyons to coastal wonders.
+            </p>
           </div>
 
-          <div className="space-y-6">
-            {day1Stops.map((stop, idx) => (
-              <div key={idx} className="bg-white rounded-xl border border-[#EAEAEA] p-6 hover:shadow-md transition-shadow">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#C49A3A]/10 flex items-center justify-center flex-shrink-0 text-[#C49A3A] font-bold text-sm">
-                    {idx + 1}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-[#1A1A1A] mb-2">{stop.name}</h3>
-                    <p className="text-[#666666] text-sm leading-relaxed mb-3">{stop.desc}</p>
-                    <div className="flex flex-wrap gap-4">
-                      <span className="inline-flex items-center gap-1.5 text-xs text-[#666666] bg-gray-100 px-3 py-1.5 rounded-full">
-                        <Clock size={12} /> {stop.duration}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-[#666666] bg-gray-100 px-3 py-1.5 rounded-full">
-                        {stop.cost}
-                      </span>
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {allDays.map((d) => {
+              const Icon = d.icon;
+              return (
+                <button
+                  key={d.day}
+                  onClick={() => setActiveDay(d.day)}
+                  className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
+                    activeDay === d.day
+                      ? 'bg-[#C49A3A] text-white shadow-md'
+                      : 'bg-white text-[#1A1A1A] border border-[#EAEAEA] hover:border-[#C49A3A] hover:text-[#C49A3A]'
+                  }`}
+                >
+                  <Icon size={16} />
+                  Day {d.day}
+                </button>
+              );
+            })}
+          </div>
+
+          {allDays.filter((d) => d.day === activeDay).map((dayData) => {
+            const Icon = dayData.icon;
+            return (
+              <div key={dayData.day}>
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-12 rounded-full bg-[#C49A3A] flex items-center justify-center text-white">
+                      <Icon size={22} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#1A1A1A]">
+                        Day {dayData.day}: {dayData.title}
+                      </h3>
+                      <p className="text-[#C49A3A] font-medium">{dayData.subtitle}</p>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 bg-white rounded-xl border border-[#EAEAEA] p-6">
-            <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4 flex items-center gap-2">
-              <Compass size={20} className="text-[#C49A3A]" />
-              Optional Museum Visits
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {optionalMuseums.map((m, idx) => (
-                <div key={idx} className="p-4 bg-[#F9F9F9] rounded-lg border border-[#EAEAEA]">
-                  <h4 className="font-medium text-[#1A1A1A] text-sm mb-2">{m.name}</h4>
-                  <div className="flex justify-between text-xs text-[#666666]">
-                    <span>{m.duration}</span>
-                    <span>{m.cost}</span>
+                  <div className="flex flex-wrap gap-4 mt-4 text-sm text-[#666666]">
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={15} className="text-[#C49A3A]" /> {dayData.duration}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin size={15} className="text-[#C49A3A]" /> {dayData.stops.length} stops
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
+
+                <div className="space-y-5">
+                  {dayData.stops.map((stop, idx) => (
+                    <div key={idx} className="bg-white rounded-xl border border-[#EAEAEA] p-6 hover:shadow-md transition-shadow">
+                      <div className="flex gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[#C49A3A]/10 flex items-center justify-center flex-shrink-0 text-[#C49A3A] font-bold text-sm">
+                          {idx + 1}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-[#1A1A1A] mb-2">{stop.name}</h4>
+                          <p className="text-[#666666] text-sm leading-relaxed mb-3">{stop.desc}</p>
+                          <div className="flex flex-wrap gap-3">
+                            <span className="inline-flex items-center gap-1.5 text-xs text-[#666666] bg-gray-100 px-3 py-1.5 rounded-full">
+                              <Clock size={12} /> {stop.duration}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 text-xs text-[#666666] bg-gray-100 px-3 py-1.5 rounded-full">
+                              {stop.cost}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {dayData.day === 1 && (
+                  <div className="mt-8 bg-white rounded-xl border border-[#EAEAEA] p-6">
+                    <h4 className="text-lg font-semibold text-[#1A1A1A] mb-4 flex items-center gap-2">
+                      <Compass size={20} className="text-[#C49A3A]" />
+                      Optional Museum Visits
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {optionalMuseums.map((m, idx) => (
+                        <div key={idx} className="p-4 bg-[#F9F9F9] rounded-lg border border-[#EAEAEA]">
+                          <h4 className="font-medium text-[#1A1A1A] text-sm mb-2">{m.name}</h4>
+                          <div className="flex justify-between text-xs text-[#666666]">
+                            <span>{m.duration}</span>
+                            <span>{m.cost}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-8 text-center">
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#C49A3A] hover:bg-[#B08930] text-white px-8 py-3.5 rounded-lg font-semibold transition-colors shadow-md"
+                  >
+                    <MessageCircle size={18} />
+                    Book This Tour Package
+                  </a>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

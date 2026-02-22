@@ -538,21 +538,30 @@ export default function TourismPage() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl border border-[#EAEAEA] p-8 md:p-10 shadow-sm">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8 pb-8 border-b border-[#EAEAEA]">
-                <div>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-[#666666] line-through text-lg">$1,940 USD</span>
-                    <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">$1,792 USD</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-[#C49A3A]/10 text-[#C49A3A] px-3 py-1 rounded-full text-sm font-semibold">
-                      Save $148
-                    </span>
-                    <span className="text-[#666666] text-sm">Limited time offer — Book now!</span>
-                  </div>
+            <div className="bg-white rounded-2xl border border-[#EAEAEA] p-8 md:p-10 shadow-sm text-center">
+
+              {/* Pricing Block Centered */}
+              <div className="mb-8 pb-8 border-b border-[#EAEAEA] flex flex-col items-center">
+
+                <div className="flex items-baseline gap-3 mb-3 justify-center">
+                  <span className="text-[#666666] line-through text-lg">
+                    $1,940 USD
+                  </span>
+                  <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">
+                    $1,792 USD
+                  </span>
                 </div>
-                <div className="flex gap-4 text-sm text-[#666666]">
+
+                <div className="flex items-center gap-3 justify-center mb-4">
+                  <span className="bg-[#C49A3A]/10 text-[#C49A3A] px-3 py-1 rounded-full text-sm font-semibold">
+                    Save $148
+                  </span>
+                  <span className="text-[#666666] text-sm">
+                    Limited time offer — Book now!
+                  </span>
+                </div>
+
+                <div className="flex gap-6 text-sm text-[#666666] justify-center">
                   <div className="flex items-center gap-1.5">
                     <Clock size={16} className="text-[#C49A3A]" />
                     <span>6 Days / 5 Nights</span>
@@ -562,9 +571,11 @@ export default function TourismPage() {
                     <span>Private Tour</span>
                   </div>
                 </div>
+
               </div>
 
-              <div className="text-center">
+              {/* CTA */}
+              <div>
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
@@ -578,6 +589,7 @@ export default function TourismPage() {
                   Get instant answers from our Omani tour experts
                 </p>
               </div>
+
             </div>
           </div>
         </div>

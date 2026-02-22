@@ -69,6 +69,7 @@ export default async function HomePage() {
                 desc: 'Authentic tours & destination experiences',
                 gradient: 'from-[#0F1E3D] to-[#1B4B6D]',
                 accent: 'bg-sky-400/20 text-sky-300',
+                href: '/tourism',
               },
               {
                 icon: GraduationCap,
@@ -76,6 +77,7 @@ export default async function HomePage() {
                 desc: 'Professional & technical education',
                 gradient: 'from-[#1B2C63] to-[#18A999]',
                 accent: 'bg-teal/20 text-teal-300',
+                href: '/courses',
               },
               {
                 icon: Briefcase,
@@ -83,6 +85,7 @@ export default async function HomePage() {
                 desc: 'Consulting & operational solutions',
                 gradient: 'from-[#0F1E3D] to-[#2D3A6E]',
                 accent: 'bg-indigo-400/20 text-indigo-300',
+                href: '/services',
               },
               {
                 icon: Bot,
@@ -90,10 +93,12 @@ export default async function HomePage() {
                 desc: 'Artificial intelligence & automation systems',
                 gradient: 'from-[#1B2C63] to-[#0F8B6E]',
                 accent: 'bg-emerald-400/20 text-emerald-300',
+                href: '/ai',
               },
             ].map((division) => (
-              <div
+              <Link
                 key={division.title}
+                href={division.href}
                 className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${division.gradient}`} />
@@ -106,7 +111,7 @@ export default async function HomePage() {
                   <p className="text-gray-300 text-sm leading-relaxed">{division.desc}</p>
                   <div className="mt-6 w-12 h-0.5 bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:w-20 transition-all duration-500" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

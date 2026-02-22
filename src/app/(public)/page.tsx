@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/lib/utils';
-import { ArrowRight, Brain, Rocket, TrendingUp, Star, Users, BookOpen, Cpu } from 'lucide-react';
+import { ArrowRight, Brain, Rocket, TrendingUp, Star, Users, BookOpen, Cpu, Compass, GraduationCap, Briefcase, Bot } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,7 +51,68 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal/5 rounded-full blur-3xl -translate-y-1/2" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">Our Divisions</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">Business Divisions</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+              Four specialised divisions delivering excellence across industries
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: Compass,
+                title: 'FL Tourism',
+                desc: 'Authentic tours & destination experiences',
+                gradient: 'from-[#0F1E3D] to-[#1B4B6D]',
+                accent: 'bg-sky-400/20 text-sky-300',
+              },
+              {
+                icon: GraduationCap,
+                title: 'FL Courses',
+                desc: 'Professional & technical education',
+                gradient: 'from-[#1B2C63] to-[#18A999]',
+                accent: 'bg-teal/20 text-teal-300',
+              },
+              {
+                icon: Briefcase,
+                title: 'FL Services',
+                desc: 'Consulting & operational solutions',
+                gradient: 'from-[#0F1E3D] to-[#2D3A6E]',
+                accent: 'bg-indigo-400/20 text-indigo-300',
+              },
+              {
+                icon: Bot,
+                title: 'FL AI',
+                desc: 'Artificial intelligence & automation systems',
+                gradient: 'from-[#1B2C63] to-[#0F8B6E]',
+                accent: 'bg-emerald-400/20 text-emerald-300',
+              },
+            ].map((division) => (
+              <div
+                key={division.title}
+                className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${division.gradient}`} />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+                <div className="relative p-8 flex flex-col items-center text-center min-h-[280px] justify-center">
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${division.accent} backdrop-blur-sm border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
+                    <division.icon size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{division.title}</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">{division.desc}</p>
+                  <div className="mt-6 w-12 h-0.5 bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:w-20 transition-all duration-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">What We Do</h2>

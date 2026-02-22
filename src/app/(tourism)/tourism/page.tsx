@@ -533,8 +533,7 @@ export default function TourismPage() {
               Our Signature Six-Day Oman Adventure
             </h2>
             <p className="text-[#666666] max-w-2xl mx-auto">
-              A carefully curated journey through Oman&apos;s most breathtaking landscapes,
-              ancient heritage sites, and vibrant coastal cities.
+              Experience the complete essence of Oman in our carefully crafted six-day journey through culture, nature, and heritage
             </p>
           </div>
 
@@ -543,12 +542,12 @@ export default function TourismPage() {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8 pb-8 border-b border-[#EAEAEA]">
                 <div>
                   <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-[#666666] line-through text-lg">$2,340 USD</span>
-                    <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">$1,940 USD</span>
+                    <span className="text-[#666666] line-through text-lg">$1,940 USD</span>
+                    <span className="text-3xl md:text-4xl font-bold text-[#C49A3A]">$1,792 USD</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="bg-[#C49A3A]/10 text-[#C49A3A] px-3 py-1 rounded-full text-sm font-semibold">
-                      Save $400
+                      Save $148
                     </span>
                     <span className="text-[#666666] text-sm">Limited time offer — Book now!</span>
                   </div>
@@ -563,20 +562,6 @@ export default function TourismPage() {
                     <span>Private Tour</span>
                   </div>
                 </div>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                {itinerarySummary.map((item) => (
-                  <div key={item.day} className="flex gap-4 items-start group">
-                    <div className="w-10 h-10 rounded-full bg-[#C49A3A]/10 flex items-center justify-center flex-shrink-0 text-[#C49A3A] font-bold text-sm group-hover:bg-[#C49A3A] group-hover:text-white transition-colors">
-                      {item.day}
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-[#1A1A1A]">{item.title}</h4>
-                      <p className="text-sm text-[#666666]">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
               </div>
 
               <div className="text-center">

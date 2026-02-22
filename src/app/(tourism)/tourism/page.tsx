@@ -853,6 +853,17 @@ export default function TourismPage() {
         </div>
       </footer>
 
+      {/* Floating TripAdvisor Button */}
+      <a
+        href={TRIPADVISOR_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 bg-[#34E0A1] hover:bg-[#2BC88E] text-black px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2 z-50"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="6.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="17.5" cy="13.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M12 2C6.48 2 2 5.88 2 10.5c0 2.52 1.47 4.77 3.77 6.3L4 22l3.73-2.6c1.3.46 2.74.72 4.27.72s2.97-.26 4.27-.72L20 22l-1.77-5.2C20.53 15.27 22 13.02 22 10.5 22 5.88 17.52 2 12 2z" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="6.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="17.5" cy="13.5" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><circle cx="12" cy="8" r="1.5"/></svg>
+        <span className="font-semibold text-sm hidden sm:inline">TripAdvisor Reviews</span>
+      </a>
+
       {/* Floating WhatsApp Button */}
       <a
         href={WHATSAPP_URL}

@@ -147,3 +147,12 @@ model AISettings {
   enabled        Boolean @default(true)
   welcomeMessage String  @default("Let our AI help you find the perfect course")
 }
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  tourType  String
+  message   String
+  createdAt DateTime @default(now())
+}

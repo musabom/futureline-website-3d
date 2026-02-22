@@ -22,6 +22,7 @@ FutureLine is a production-ready full-stack web application for a professional A
 src/
   app/
     (public)/          # Public-facing pages (Home, Courses, Services, AI)
+    (tourism)/tourism/ # FL Tourism standalone page (own layout, no FutureLine header/footer)
     (auth)/            # Login and Register pages
     (protected)/       # Dashboard and Admin portal
     api/               # API routes
@@ -30,13 +31,16 @@ src/
       ai/              # AI recommendation
       checkout/        # Payment flow
       enrollment/      # Progress tracking
+      leads/           # Tourism contact form leads API
   components/          # Reusable components
     admin/             # Admin-specific components
   lib/                 # Utilities, Prisma client, auth config
   types/               # TypeScript type definitions
 prisma/
-  schema.prisma        # Database schema
+  schema.prisma        # Database schema (includes Lead model)
   seed.ts              # Seed data script
+public/
+  images/tourism/      # Tourism gallery + hero images
 ```
 
 ## User Roles
@@ -71,6 +75,18 @@ prisma/
 - Seed: `npm run seed`
 - Build: `npm run build`
 
+## FL Tourism Page
+- Standalone page at /tourism with its own route group (bypasses FutureLine header/footer)
+- Clean white/gold theme: bg #FFFFFF, accent #C49A3A, text #1A1A1A, secondary #666666
+- Brand: "Authentic Oman Tours and Adventures"
+- Sections: Hero, Featured Package (pricing), Day 1 Muscat Tour detail, Gallery carousel (9 items), Reviews carousel (6 testimonials), Contact form (stores leads in DB), Footer
+- Contact: WhatsApp +968 9653 2326 / +968 9425 9459, Email: authentic.tour.om@gmail.com
+- TripAdvisor link integrated in hero and reviews section
+- Floating WhatsApp button (green #25D366)
+- Lead model in Prisma stores contact form submissions
+- Gallery images stored in public/images/tourism/
+
 ## Recent Changes
 - Initial build: Full application with all core features
 - Database seeded with courses, services, testimonials, and demo users
+- FL Tourism page rebuilt with clean tourism theme, 8 sections, gallery, reviews, contact form with lead storage

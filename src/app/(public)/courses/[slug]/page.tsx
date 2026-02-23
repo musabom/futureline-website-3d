@@ -10,18 +10,11 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
     where: { slug: params.slug },
     include: {
       instructor: { select: { name: true, email: true } },
-      lessons: { orderBy: { orderIndex: 'asc' } },
-      _count: { select: { enrollments: true } },
+      _count: { select: { enrollments: true, lessons: true } },
     },
   });
 
   if (!course || course.status !== 'PUBLISHED') return notFound();
-
-  const modules = course.lessons.reduce((acc: Record<string, typeof course.lessons>, lesson) => {
-    if (!acc[lesson.moduleTitle]) acc[lesson.moduleTitle] = [];
-    acc[lesson.moduleTitle].push(lesson);
-    return acc;
-  }, {});
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -59,30 +52,6 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
             <h2 className="text-2xl font-bold text-navy mb-4">About This Course</h2>
             <div className="text-gray-600 leading-relaxed whitespace-pre-line">{course.fullDescription}</div>
           </div>
-
-          {Object.keys(modules).length > 0 && (
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-navy mb-6">Course Curriculum</h2>
-              <div className="space-y-4">
-                {Object.entries(modules).map(([moduleName, lessons]) => (
-                  <div key={moduleName} className="card overflow-hidden">
-                    <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
-                      <h3 className="font-semibold text-navy">{moduleName}</h3>
-                      <span className="text-sm text-gray-400">{lessons.length} lessons</span>
-                    </div>
-                    <div className="divide-y divide-gray-50">
-                      {lessons.map((lesson) => (
-                        <div key={lesson.id} className="px-6 py-3 flex items-center gap-3">
-                          <BookOpen className="text-teal flex-shrink-0" size={16} />
-                          <span className="text-sm text-gray-600">{lesson.lessonTitle}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="lg:col-span-1">
@@ -95,11 +64,11 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
               <span className="text-3xl font-bold text-teal">Free</span>
             </div>
 
-            <EnrollButton courseId={course.id} />
+            <EnrollButton courseId={course.id} slug={course.slug} />
 
             <div className="mt-6 space-y-3 text-sm text-gray-500">
               <div className="flex items-center gap-2"><Clock size={14} /> {course.durationHours} hours of content</div>
-              <div className="flex items-center gap-2"><BookOpen size={14} /> {course.lessons.length} lessons</div>
+              <div className="flex items-center gap-2"><BookOpen size={14} /> {course._count.lessons} lessons</div>
               <div className="flex items-center gap-2"><Users size={14} /> {course._count.enrollments} enrolled</div>
               {course.seatCapacity && (
                 <div className="flex items-center gap-2">

@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function EnrollButton({ courseId }: { courseId: string }) {
+export default function EnrollButton({ courseId, slug }: { courseId: string; slug: string }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function EnrollButton({ courseId }: { courseId: string }) {
 
       const data = await res.json();
       if (data.enrolled) {
-        router.push('/dashboard');
+        router.push(`/dashboard/course/${data.slug || slug}`);
       } else {
         alert(data.error || 'Something went wrong');
       }

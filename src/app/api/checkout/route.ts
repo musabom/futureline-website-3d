@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       where: { userId_courseId: { userId: session.user.id, courseId } },
     });
     if (existing) {
-      return NextResponse.json({ enrolled: true, message: 'Already enrolled' });
+      return NextResponse.json({ enrolled: true, slug: course.slug, message: 'Already enrolled' });
     }
 
     if (course.seatCapacity) {
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ enrolled: true });
+    return NextResponse.json({ enrolled: true, slug: course.slug });
   } catch (error) {
     console.error('Enrollment error:', error);
     return NextResponse.json({ error: 'Enrollment failed' }, { status: 500 });

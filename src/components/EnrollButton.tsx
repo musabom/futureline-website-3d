@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function EnrollButton({ courseId, price }: { courseId: string; price: number }) {
+export default function EnrollButton({ courseId }: { courseId: string }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -23,9 +23,7 @@ export default function EnrollButton({ courseId, price }: { courseId: string; pr
       });
 
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else if (data.enrolled) {
+      if (data.enrolled) {
         router.push('/dashboard');
       } else {
         alert(data.error || 'Something went wrong');
@@ -43,7 +41,7 @@ export default function EnrollButton({ courseId, price }: { courseId: string; pr
       disabled={loading}
       className="btn-primary w-full text-center disabled:opacity-50"
     >
-      {loading ? 'Processing...' : `Enroll Now`}
+      {loading ? 'Enrolling...' : 'Enroll for Free'}
     </button>
   );
 }

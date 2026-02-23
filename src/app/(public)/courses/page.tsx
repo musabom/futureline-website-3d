@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { formatPrice } from '@/lib/utils';
 import { BookOpen, Search, Clock, MapPin, Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -91,14 +90,7 @@ export default async function CoursesPage({
                   {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.name}</span>}
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  {course.discountPrice ? (
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-navy text-lg">{formatPrice(course.discountPrice)}</span>
-                      <span className="text-sm text-gray-400 line-through">{formatPrice(course.price)}</span>
-                    </div>
-                  ) : (
-                    <span className="font-bold text-navy text-lg">{formatPrice(course.price)}</span>
-                  )}
+                  <span className="font-bold text-teal text-lg">Free</span>
                   <span className="text-teal font-semibold text-sm">View Details</span>
                 </div>
               </div>

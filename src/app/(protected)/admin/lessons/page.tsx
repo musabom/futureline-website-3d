@@ -66,8 +66,8 @@ export default function AdminLessonsPage() {
             <input name="lessonTitle" placeholder="Lesson Title" value={form.lessonTitle} onChange={e => setForm({...form, lessonTitle: e.target.value})} className="input-field" required />
             <input name="orderIndex" type="number" placeholder="Order" value={form.orderIndex} onChange={e => setForm({...form, orderIndex: Number(e.target.value)})} className="input-field" required />
             <input name="videoUrl" placeholder="YouTube or Vimeo URL (optional)" value={form.videoUrl} onChange={e => setForm({...form, videoUrl: e.target.value})} className="input-field" />
-            <input name="resources" placeholder="Resources (optional)" value={form.resources} onChange={e => setForm({...form, resources: e.target.value})} className="input-field" />
-            <textarea name="content" placeholder="Lesson Content" value={form.content} onChange={e => setForm({...form, content: e.target.value})} className="input-field md:col-span-2" rows={4} />
+            <input name="resources" placeholder="Attachment URLs (one per line, optional)" value={form.resources} onChange={e => setForm({...form, resources: e.target.value})} className="input-field" />
+            <textarea name="content" placeholder="Lesson Notes (shown to students)" value={form.content} onChange={e => setForm({...form, content: e.target.value})} className="input-field md:col-span-2" rows={4} />
           </div>
           <div className="flex gap-4">
             <button type="submit" className="btn-primary text-sm">{editing ? 'Save' : 'Create'}</button>

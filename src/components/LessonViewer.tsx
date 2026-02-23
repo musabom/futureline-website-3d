@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { BookOpen, CheckCircle, Play, FileText } from 'lucide-react';
+import { BookOpen, CheckCircle, Play, FileText, ChevronDown, ChevronRight, Download, StickyNote } from 'lucide-react';
 
 interface Lesson {
   id: string;
@@ -35,6 +35,22 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
   return null;
 }
 
+function parseResources(resources: string): { name: string; url: string }[] {
+  return resources.split('\n').filter(Boolean).map(line => {
+    const parts = line.split('|');
+    if (parts.length === 2) {
+      return { name: parts[0].trim(), url: parts[1].trim() };
+    }
+    try {
+      new URL(line.trim());
+      const filename = line.trim().split('/').pop() || 'Download';
+      return { name: filename, url: line.trim() };
+    } catch {
+      return { name: line.trim(), url: '' };
+    }
+  });
+}
+
 export default function LessonViewer({
   lessons,
   enrollmentId,
@@ -47,16 +63,36 @@ export default function LessonViewer({
   totalLessons: number;
 }) {
   const completedCount = Math.floor((progressPercentage / 100) * totalLessons);
-  const [activeLesson, setActiveLesson] = useState(lessons[0]?.id || '');
   const [completed, setCompleted] = useState<Set<string>>(
     new Set(lessons.slice(0, completedCount).map((l) => l.id))
   );
+  const [activeLesson, setActiveLesson] = useState<string | null>(null);
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
   const modules = lessons.reduce((acc: Record<string, Lesson[]>, lesson) => {
     if (!acc[lesson.moduleTitle]) acc[lesson.moduleTitle] = [];
     acc[lesson.moduleTitle].push(lesson);
     return acc;
   }, {});
+
+  const toggleModule = (moduleName: string) => {
+    setExpandedModules(prev => {
+      const next = new Set(prev);
+      if (next.has(moduleName)) {
+        next.delete(moduleName);
+      } else {
+        next.add(moduleName);
+      }
+      return next;
+    });
+  };
+
+  const selectLesson = (lessonId: string, moduleName: string) => {
+    setActiveLesson(activeLesson === lessonId ? null : lessonId);
+    if (!expandedModules.has(moduleName)) {
+      setExpandedModules(prev => new Set(prev).add(moduleName));
+    }
+  };
 
   const current = lessons.find((l) => l.id === activeLesson);
 
@@ -73,120 +109,167 @@ export default function LessonViewer({
     });
   };
 
+  const moduleNames = Object.keys(modules);
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-1 order-2 lg:order-1">
-        <div className="card overflow-hidden sticky top-24">
-          <div className="p-4 bg-gray-50 border-b border-gray-100">
-            <h3 className="font-semibold text-navy text-sm">Course Content</h3>
-          </div>
-          <div className="max-h-[600px] overflow-y-auto">
-            {Object.entries(modules).map(([moduleName, moduleLessons]) => (
-              <div key={moduleName}>
-                <div className="px-4 py-3 bg-gray-50/50 text-xs font-semibold text-gray-500 uppercase">
-                  {moduleName}
+    <div className="space-y-4">
+      {moduleNames.map((moduleName, moduleIndex) => {
+        const moduleLessons = modules[moduleName];
+        const isExpanded = expandedModules.has(moduleName);
+        const completedInModule = moduleLessons.filter(l => completed.has(l.id)).length;
+
+        return (
+          <div key={moduleName} className="card overflow-hidden">
+            <button
+              onClick={() => toggleModule(moduleName)}
+              className="w-full flex items-center justify-between px-6 py-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+            >
+              <div className="flex items-center gap-3">
+                {isExpanded ? (
+                  <ChevronDown className="text-teal flex-shrink-0" size={20} />
+                ) : (
+                  <ChevronRight className="text-gray-400 flex-shrink-0" size={20} />
+                )}
+                <div>
+                  <h3 className="font-semibold text-navy">
+                    Module {moduleIndex + 1}: {moduleName}
+                  </h3>
+                  <span className="text-xs text-gray-400">
+                    {moduleLessons.length} lessons &middot; {completedInModule}/{moduleLessons.length} completed
+                  </span>
                 </div>
-                {moduleLessons.map((lesson) => (
-                  <button
-                    key={lesson.id}
-                    onClick={() => setActiveLesson(lesson.id)}
-                    className={`w-full text-left px-4 py-3 flex items-center gap-3 text-sm border-b border-gray-50 transition-colors ${
-                      activeLesson === lesson.id
-                        ? 'bg-teal/5 text-teal border-l-4 border-l-teal'
-                        : 'hover:bg-gray-50 text-gray-600'
-                    }`}
-                  >
-                    {completed.has(lesson.id) ? (
-                      <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
-                    ) : (
-                      <BookOpen className="text-gray-400 flex-shrink-0" size={16} />
-                    )}
-                    <span className="line-clamp-1">{lesson.lessonTitle}</span>
-                  </button>
-                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              {completedInModule === moduleLessons.length && moduleLessons.length > 0 && (
+                <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
+              )}
+            </button>
 
-      <div className="lg:col-span-2 order-1 lg:order-2">
-        {current ? (
-          <div className="card p-8">
-            <h2 className="text-xl font-bold text-navy mb-2">{current.lessonTitle}</h2>
-            <p className="text-sm text-gray-400 mb-6">{current.moduleTitle}</p>
+            {isExpanded && (
+              <div className="divide-y divide-gray-100">
+                {moduleLessons.map((lesson) => {
+                  const isActive = activeLesson === lesson.id;
 
-            {current.videoUrl && (() => {
-              const embed = getEmbedUrl(current.videoUrl);
-              if (embed) {
-                return (
-                  <div className="mb-6 rounded-xl overflow-hidden bg-black">
-                    <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-                      <iframe
-                        src={embed.embedUrl}
-                        className="absolute inset-0 w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title={current.lessonTitle}
-                      />
+                  return (
+                    <div key={lesson.id}>
+                      <button
+                        onClick={() => selectLesson(lesson.id, moduleName)}
+                        className={`w-full text-left px-6 py-3 flex items-center gap-3 transition-colors ${
+                          isActive
+                            ? 'bg-teal/5 border-l-4 border-l-teal'
+                            : 'hover:bg-gray-50 border-l-4 border-l-transparent'
+                        }`}
+                      >
+                        {completed.has(lesson.id) ? (
+                          <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
+                        ) : (
+                          <Play className="text-gray-400 flex-shrink-0" size={16} />
+                        )}
+                        <span className={`text-sm ${isActive ? 'text-teal font-semibold' : 'text-gray-600'}`}>
+                          {lesson.lessonTitle}
+                        </span>
+                      </button>
+
+                      {isActive && (
+                        <div className="px-6 py-6 bg-white border-t border-gray-100">
+                          {lesson.videoUrl && (() => {
+                            const embed = getEmbedUrl(lesson.videoUrl);
+                            if (embed) {
+                              return (
+                                <div className="mb-6 rounded-xl overflow-hidden bg-black">
+                                  <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                                    <iframe
+                                      src={embed.embedUrl}
+                                      className="absolute inset-0 w-full h-full"
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                      title={lesson.lessonTitle}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            }
+                            return (
+                              <div className="mb-6 bg-gray-50 rounded-xl p-6 flex items-center gap-3 text-gray-500">
+                                <Play size={20} />
+                                <span className="text-sm">Video content is available for this lesson.</span>
+                              </div>
+                            );
+                          })()}
+
+                          {lesson.content && (
+                            <div className="mb-6">
+                              <div className="flex items-center gap-2 mb-3">
+                                <StickyNote className="text-teal" size={18} />
+                                <h4 className="font-semibold text-navy text-sm">Lesson Notes</h4>
+                              </div>
+                              <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-5">
+                                <div className="text-gray-700 leading-relaxed whitespace-pre-line text-sm">
+                                  {lesson.content}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {lesson.resources && (
+                            <div className="mb-6">
+                              <div className="flex items-center gap-2 mb-3">
+                                <Download className="text-teal" size={18} />
+                                <h4 className="font-semibold text-navy text-sm">Attachments</h4>
+                              </div>
+                              <div className="space-y-2">
+                                {parseResources(lesson.resources).map((resource, i) => (
+                                  <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
+                                    <FileText className="text-gray-400 flex-shrink-0" size={16} />
+                                    {resource.url ? (
+                                      <a
+                                        href={resource.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm text-teal hover:underline font-medium"
+                                        download
+                                      >
+                                        {resource.name}
+                                      </a>
+                                    ) : (
+                                      <span className="text-sm text-gray-600">{resource.name}</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                            {completed.has(lesson.id) ? (
+                              <span className="flex items-center gap-2 text-green-500 font-semibold text-sm">
+                                <CheckCircle size={16} /> Completed
+                              </span>
+                            ) : (
+                              <button
+                                onClick={() => markComplete(lesson.id)}
+                                className="btn-primary text-sm !px-5 !py-2"
+                              >
+                                Mark as Complete
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                );
-              }
-              return (
-                <div className="mb-6 bg-gray-50 rounded-xl p-6 flex items-center gap-3 text-gray-500">
-                  <Play size={20} />
-                  <span className="text-sm">Video content is available for this lesson.</span>
-                </div>
-              );
-            })()}
-
-            {current.content && (
-              <div className="prose max-w-none text-gray-600 leading-relaxed mb-6 whitespace-pre-line">
-                {current.content}
+                  );
+                })}
               </div>
             )}
-
-            {current.resources && (
-              <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <div className="flex items-center gap-2 text-sm font-semibold text-navy mb-2">
-                  <FileText size={16} /> Resources
-                </div>
-                <p className="text-sm text-gray-600">{current.resources}</p>
-              </div>
-            )}
-
-            <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-              {completed.has(current.id) ? (
-                <span className="flex items-center gap-2 text-green-500 font-semibold text-sm">
-                  <CheckCircle size={16} /> Completed
-                </span>
-              ) : (
-                <button
-                  onClick={() => markComplete(current.id)}
-                  className="btn-primary text-sm !px-5 !py-2"
-                >
-                  Mark as Complete
-                </button>
-              )}
-
-              {lessons.indexOf(current) < lessons.length - 1 && (
-                <button
-                  onClick={() => setActiveLesson(lessons[lessons.indexOf(current) + 1].id)}
-                  className="text-teal font-semibold text-sm hover:underline"
-                >
-                  Next Lesson →
-                </button>
-              )}
-            </div>
           </div>
-        ) : (
-          <div className="card p-12 text-center">
-            <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
-            <p className="text-gray-400">Select a lesson to begin</p>
-          </div>
-        )}
-      </div>
+        );
+      })}
+
+      {moduleNames.length === 0 && (
+        <div className="card p-12 text-center">
+          <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
+          <p className="text-gray-400">No lessons available for this course yet.</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -30,46 +30,6 @@ export async function POST(req: Request) {
       }
     }
 
-    const effectivePrice = course.discountPrice ?? course.price;
-
-    if (process.env.STRIPE_SECRET_KEY) {
-      const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-      const checkoutSession = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'gbp',
-              product_data: {
-                name: course.title,
-                description: course.shortDescription,
-              },
-              unit_amount: Math.round(effectivePrice * 100),
-            },
-            quantity: 1,
-          },
-        ],
-        mode: 'payment',
-        success_url: `${process.env.NEXTAUTH_URL || req.headers.get('origin')}/dashboard?enrolled=${courseId}`,
-        cancel_url: `${process.env.NEXTAUTH_URL || req.headers.get('origin')}/courses/${course.slug}`,
-        metadata: {
-          userId: session.user.id,
-          courseId: course.id,
-        },
-      });
-
-      return NextResponse.json({ url: checkoutSession.url });
-    }
-
-    await prisma.order.create({
-      data: {
-        userId: session.user.id,
-        courseId: course.id,
-        amount: effectivePrice,
-        paymentStatus: 'COMPLETED',
-      },
-    });
-
     await prisma.enrollment.create({
       data: {
         userId: session.user.id,
@@ -79,7 +39,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ enrolled: true });
   } catch (error) {
-    console.error('Checkout error:', error);
-    return NextResponse.json({ error: 'Checkout failed' }, { status: 500 });
+    console.error('Enrollment error:', error);
+    return NextResponse.json({ error: 'Enrollment failed' }, { status: 500 });
   }
 }

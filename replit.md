@@ -130,3 +130,9 @@ public/
 - Course Approval: Admin can approve/reject instructor-submitted courses. Only approved courses show publicly.
 - Instructor Management: Admin page at /admin/instructors to manage commission rates, enable/disable instructors.
 - Revenue Split: CommissionRate field on User, InstructorEarning model for future paid courses tracking.
+- CRM Pipeline: Expanded Lead model with 7 pipeline stages (NEW→CONTACTED→OFFER_SENT→FOLLOW_UP→NEGOTIATING→WON→LOST), priority levels, deal value, tags, follow-up scheduling. Pipeline and table views at /admin/leads.
+- Lead Detail Page: Individual lead view at /admin/leads/[id] with stage controls, notes, activity timeline, message composer with template integration, and deal details sidebar.
+- Email Templates: Template system at /admin/templates with WELCOME/PROPOSAL/FOLLOW_UP/CLOSING/THANK_YOU types. Supports {{name}}, {{email}}, {{service}} variables. Templates can be applied when composing messages to leads.
+- Automation Rules: Rule engine at /admin/automation with configurable triggers (stage change, days inactive, new lead, follow-up due) and actions (change stage, send template, set priority, add tag, schedule follow-up). Delay configuration in hours. Ready for email service integration.
+- Lead Activity Logging: All interactions (stage changes, notes, emails, calls) automatically logged with timestamps. Activity API at /api/admin/leads/[id]/activity.
+- Lead capture forms now auto-create activity log entries when new leads submit.

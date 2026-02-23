@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import {
   LayoutDashboard, BookOpen, FileText, Briefcase, Users,
   ShoppingCart, GraduationCap, Brain, Palette, Star,
-  MessageSquare, LogOut, Home, UserCheck
+  MessageSquare, LogOut, Home, UserCheck, Zap, Mail
 } from 'lucide-react';
 
 const links = [
@@ -18,7 +18,9 @@ const links = [
   { href: '/admin/users', label: 'Users', icon: Users },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
   { href: '/admin/enrollments', label: 'Enrollments', icon: GraduationCap },
-  { href: '/admin/leads', label: 'Leads', icon: MessageSquare },
+  { href: '/admin/leads', label: 'CRM Pipeline', icon: MessageSquare },
+  { href: '/admin/templates', label: 'Templates', icon: Mail },
+  { href: '/admin/automation', label: 'Automation', icon: Zap },
   { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
   { href: '/admin/ai-settings', label: 'AI Settings', icon: Brain },
   { href: '/admin/brand', label: 'Brand Settings', icon: Palette },

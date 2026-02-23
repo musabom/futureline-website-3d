@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Plus, ChevronDown, ChevronRight, Trash2, Edit, Save, X, GripVertical, Video, FileText, HelpCircle, BookOpen } from 'lucide-react';
+import { Plus, ChevronDown, ChevronRight, Trash2, Edit, Save, X, GripVertical, Video, FileText, HelpCircle, BookOpen, Check, Pencil } from 'lucide-react';
 import {
   DndContext,
   closestCenter,
@@ -173,6 +173,7 @@ function SortableModule({
   toggleModule,
   startAddLesson,
   deleteModule,
+  renameModule,
   editingLesson,
   editForm,
   setEditForm,
@@ -194,6 +195,7 @@ function SortableModule({
   toggleModule: (name: string) => void;
   startAddLesson: (name: string) => void;
   deleteModule: (name: string) => void;
+  renameModule: (oldName: string, newName: string) => void;
   editingLesson: string | null;
   editForm: LessonData | null;
   setEditForm: (l: LessonData | null) => void;
@@ -208,6 +210,9 @@ function SortableModule({
   saving: boolean;
   onLessonDragEnd: (moduleName: string, event: DragEndEvent) => void;
 }) {
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [renameValue, setRenameValue] = useState(moduleName);
+
   const {
     attributes,
     listeners,
@@ -231,60 +236,103 @@ function SortableModule({
 
   const lessonIds = moduleLessons.map(l => l.id || `temp-${l.orderIndex}`);
 
+  const handleRenameSubmit = () => {
+    const trimmed = renameValue.trim();
+    if (trimmed && trimmed !== moduleName) {
+      renameModule(moduleName, trimmed);
+    }
+    setIsRenaming(false);
+  };
+
   return (
     <div ref={setNodeRef} style={style} className={`card overflow-hidden ${isDragging ? 'shadow-xl ring-2 ring-teal/30' : ''}`}>
       <div className="flex items-center justify-between px-5 py-4 bg-gray-50 border-b border-gray-100">
-        <div className="flex items-center gap-3 flex-1">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
           <button
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-600 touch-none"
+            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-600 touch-none flex-shrink-0"
             title="Drag to reorder module"
           >
             <GripVertical size={20} />
           </button>
-          <button onClick={() => toggleModule(moduleName)} className="flex items-center gap-3 text-left flex-1">
-            {isExpanded ? <ChevronDown className="text-teal" size={20} /> : <ChevronRight className="text-gray-400" size={20} />}
-            <div>
-              <h3 className="font-semibold text-navy">Module {moduleIndex + 1}: {moduleName}</h3>
-              <span className="text-xs text-gray-400">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
+          {isRenaming ? (
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <input
+                value={renameValue}
+                onChange={e => setRenameValue(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleRenameSubmit();
+                  if (e.key === 'Escape') { setIsRenaming(false); setRenameValue(moduleName); }
+                }}
+                className="input-field text-sm flex-1"
+                autoFocus
+              />
+              <button onClick={handleRenameSubmit} className="p-1.5 text-teal hover:bg-teal/10 rounded-lg flex-shrink-0" title="Save name">
+                <Check size={16} />
+              </button>
+              <button onClick={() => { setIsRenaming(false); setRenameValue(moduleName); }} className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg flex-shrink-0" title="Cancel">
+                <X size={16} />
+              </button>
             </div>
-          </button>
+          ) : (
+            <button onClick={() => toggleModule(moduleName)} className="flex items-center gap-3 text-left flex-1 min-w-0">
+              {isExpanded ? <ChevronDown className="text-teal flex-shrink-0" size={20} /> : <ChevronRight className="text-gray-400 flex-shrink-0" size={20} />}
+              <div className="min-w-0">
+                <h3 className="font-semibold text-navy truncate">Module {moduleIndex + 1}: {moduleName}</h3>
+                <span className="text-xs text-gray-400">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
+              </div>
+            </button>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => startAddLesson(moduleName)} className="p-2 text-teal hover:bg-teal/10 rounded-lg" title="Add lesson">
-            <Plus size={16} />
-          </button>
-          <button onClick={() => deleteModule(moduleName)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg" title="Delete module">
-            <Trash2 size={16} />
-          </button>
-        </div>
+        {!isRenaming && (
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <button onClick={() => { setIsRenaming(true); setRenameValue(moduleName); }} className="p-2 text-gray-400 hover:text-navy rounded-lg" title="Rename module">
+              <Pencil size={14} />
+            </button>
+            <button onClick={() => startAddLesson(moduleName)} className="p-2 text-teal hover:bg-teal/10 rounded-lg" title="Add lesson">
+              <Plus size={16} />
+            </button>
+            <button onClick={() => deleteModule(moduleName)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg" title="Delete module">
+              <Trash2 size={16} />
+            </button>
+          </div>
+        )}
       </div>
 
       {isExpanded && (
         <div className="divide-y divide-gray-100">
-          <DndContext
-            sensors={lessonSensors}
-            collisionDetection={closestCenter}
-            onDragEnd={(event) => onLessonDragEnd(moduleName, event)}
-          >
-            <SortableContext items={lessonIds} strategy={verticalListSortingStrategy}>
-              {moduleLessons.map(lesson => (
-                <SortableLesson
-                  key={lesson.id || `temp-${lesson.orderIndex}`}
-                  lesson={lesson}
-                  editingLesson={editingLesson}
-                  editForm={editForm}
-                  setEditForm={setEditForm}
-                  saveLesson={saveLesson}
-                  setEditingLesson={setEditingLesson}
-                  startEdit={startEdit}
-                  deleteLesson={deleteLesson}
-                  saving={saving}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
+          {moduleLessons.length > 0 ? (
+            <DndContext
+              sensors={lessonSensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(event) => onLessonDragEnd(moduleName, event)}
+            >
+              <SortableContext items={lessonIds} strategy={verticalListSortingStrategy}>
+                {moduleLessons.map(lesson => (
+                  <SortableLesson
+                    key={lesson.id || `temp-${lesson.orderIndex}`}
+                    lesson={lesson}
+                    editingLesson={editingLesson}
+                    editForm={editForm}
+                    setEditForm={setEditForm}
+                    saveLesson={saveLesson}
+                    setEditingLesson={setEditingLesson}
+                    startEdit={startEdit}
+                    deleteLesson={deleteLesson}
+                    saving={saving}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          ) : (
+            !(addingTo === moduleName && newLesson) && (
+              <div className="px-5 py-6 text-center text-gray-400 text-sm">
+                No lessons yet.{' '}
+                <button onClick={() => startAddLesson(moduleName)} className="text-teal hover:underline">Add one</button>
+              </div>
+            )
+          )}
 
           {addingTo === moduleName && newLesson && (
             <LessonForm
@@ -305,13 +353,12 @@ export default function AdminLessonsPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<string>('');
   const [lessons, setLessons] = useState<LessonData[]>([]);
+  const [emptyModules, setEmptyModules] = useState<string[]>([]);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
   const [editingLesson, setEditingLesson] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<LessonData | null>(null);
   const [addingTo, setAddingTo] = useState<string | null>(null);
   const [newLesson, setNewLesson] = useState<LessonData | null>(null);
-  const [newModuleName, setNewModuleName] = useState('');
-  const [showNewModule, setShowNewModule] = useState(false);
   const [saving, setSaving] = useState(false);
   const [reordering, setReordering] = useState(false);
 
@@ -337,12 +384,14 @@ export default function AdminLessonsPage() {
       setExpandedModules(new Set());
       setEditingLesson(null);
       setAddingTo(null);
+      setEmptyModules([]);
     } else {
       setLessons([]);
+      setEmptyModules([]);
     }
   }, [selectedCourse, fetchLessons]);
 
-  const { modules, moduleNames } = useMemo(() => {
+  const { lessonModules, lessonModuleNames } = useMemo(() => {
     const sorted = [...lessons].sort((a, b) => a.orderIndex - b.orderIndex);
     const groups: Record<string, LessonData[]> = {};
     const orderedNames: string[] = [];
@@ -353,10 +402,18 @@ export default function AdminLessonsPage() {
       }
       groups[l.moduleTitle].push(l);
     });
-    return { modules: groups, moduleNames: orderedNames };
+    return { lessonModules: groups, lessonModuleNames: orderedNames };
   }, [lessons]);
 
-  const moduleIds = useMemo(() => moduleNames.map(n => `module-${n}`), [moduleNames]);
+  const allModuleNames = useMemo(() => {
+    const names = [...lessonModuleNames];
+    emptyModules.forEach(em => {
+      if (!names.includes(em)) names.push(em);
+    });
+    return names;
+  }, [lessonModuleNames, emptyModules]);
+
+  const moduleIds = useMemo(() => allModuleNames.map(n => `module-${n}`), [allModuleNames]);
 
   const toggleModule = (name: string) => {
     setExpandedModules(prev => {
@@ -380,9 +437,7 @@ export default function AdminLessonsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ courseId: selectedCourse, updates }),
       });
-      if (!res.ok) {
-        throw new Error('Save failed');
-      }
+      if (!res.ok) throw new Error('Save failed');
     } catch (err) {
       console.error('Reorder failed, refetching...', err);
       await fetchLessons();
@@ -397,16 +452,20 @@ export default function AdminLessonsPage() {
     const activeModuleName = (active.id as string).replace('module-', '');
     const overModuleName = (over.id as string).replace('module-', '');
 
-    const oldIndex = moduleNames.indexOf(activeModuleName);
-    const newIndex = moduleNames.indexOf(overModuleName);
+    const oldIndex = allModuleNames.indexOf(activeModuleName);
+    const newIndex = allModuleNames.indexOf(overModuleName);
     if (oldIndex === -1 || newIndex === -1) return;
 
-    const newOrder = arrayMove(moduleNames, oldIndex, newIndex);
+    const newOrder = arrayMove(allModuleNames, oldIndex, newIndex);
 
+    const newEmptyModules = newOrder.filter(n => !lessonModuleNames.includes(n));
+    setEmptyModules(newEmptyModules);
+
+    const lessonOnlyOrder = newOrder.filter(n => lessonModuleNames.includes(n));
     const newLessons: LessonData[] = [];
     let idx = 0;
-    for (const modName of newOrder) {
-      for (const lesson of modules[modName]) {
+    for (const modName of lessonOnlyOrder) {
+      for (const lesson of lessonModules[modName]) {
         newLessons.push({ ...lesson, orderIndex: idx });
         idx++;
       }
@@ -419,7 +478,7 @@ export default function AdminLessonsPage() {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const moduleLessons = modules[moduleName];
+    const moduleLessons = lessonModules[moduleName];
     if (!moduleLessons) return;
 
     const oldIndex = moduleLessons.findIndex(l => (l.id || `temp-${l.orderIndex}`) === active.id);
@@ -468,6 +527,7 @@ export default function AdminLessonsPage() {
     }
 
     await fetchLessons();
+    setEmptyModules(prev => prev.filter(m => m !== lesson.moduleTitle));
     setEditingLesson(null);
     setEditForm(null);
     setAddingTo(null);
@@ -482,8 +542,11 @@ export default function AdminLessonsPage() {
   };
 
   const deleteModule = async (moduleName: string) => {
-    const moduleLessons = modules[moduleName];
-    if (!moduleLessons || moduleLessons.length === 0) return;
+    const moduleLessons = lessonModules[moduleName] || [];
+    if (moduleLessons.length === 0) {
+      setEmptyModules(prev => prev.filter(m => m !== moduleName));
+      return;
+    }
     if (!confirm(`Delete module "${moduleName}" and all its ${moduleLessons.length} lessons?`)) return;
     for (const l of moduleLessons) {
       if (l.id) await fetch(`/api/admin/lessons/${l.id}`, { method: 'DELETE' });
@@ -491,21 +554,65 @@ export default function AdminLessonsPage() {
     setLessons(prev => prev.filter(l => l.moduleTitle !== moduleName));
   };
 
+  const renameModule = async (oldName: string, newName: string) => {
+    if (allModuleNames.includes(newName) && newName !== oldName) {
+      alert('A module with that name already exists.');
+      return;
+    }
+
+    setExpandedModules(prev => {
+      const next = new Set(prev);
+      if (next.has(oldName)) {
+        next.delete(oldName);
+        next.add(newName);
+      }
+      return next;
+    });
+
+    if (addingTo === oldName) setAddingTo(newName);
+
+    const moduleLessons = lessonModules[oldName] || [];
+    if (moduleLessons.length === 0) {
+      setEmptyModules(prev => prev.map(m => m === oldName ? newName : m));
+      return;
+    }
+
+    setLessons(prev => prev.map(l =>
+      l.moduleTitle === oldName ? { ...l, moduleTitle: newName } : l
+    ));
+
+    try {
+      const res = await fetch('/api/admin/lessons/rename-module', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ courseId: selectedCourse, oldName, newName }),
+      });
+      if (!res.ok) throw new Error('Rename failed');
+    } catch (err) {
+      console.error('Rename failed, refetching...', err);
+      await fetchLessons();
+    }
+  };
+
   const startAddLesson = (moduleName: string) => {
-    const moduleLessons = modules[moduleName] || [];
-    const maxOrder = moduleLessons.length > 0 ? Math.max(...moduleLessons.map(l => l.orderIndex)) : 0;
+    const moduleLessons = lessonModules[moduleName] || [];
+    const allLessonsMax = lessons.length > 0 ? Math.max(...lessons.map(l => l.orderIndex)) : -1;
+    const moduleMax = moduleLessons.length > 0 ? Math.max(...moduleLessons.map(l => l.orderIndex)) : allLessonsMax;
     setAddingTo(moduleName);
-    setNewLesson(emptyLesson(selectedCourse, moduleName, maxOrder + 1));
+    setNewLesson(emptyLesson(selectedCourse, moduleName, moduleMax + 1));
     if (!expandedModules.has(moduleName)) {
       setExpandedModules(prev => new Set(prev).add(moduleName));
     }
   };
 
   const addNewModule = () => {
-    if (!newModuleName.trim()) return;
-    startAddLesson(newModuleName.trim());
-    setShowNewModule(false);
-    setNewModuleName('');
+    let num = 1;
+    while (allModuleNames.includes(`Module ${num}`)) {
+      num++;
+    }
+    const name = `Module ${num}`;
+    setEmptyModules(prev => [...prev, name]);
+    setExpandedModules(prev => new Set(prev).add(name));
   };
 
   const startEdit = (lesson: LessonData) => {
@@ -535,24 +642,9 @@ export default function AdminLessonsPage() {
       {selectedCourse && (
         <>
           <div className="flex items-center gap-3 mb-6">
-            {showNewModule ? (
-              <div className="flex items-center gap-2">
-                <input
-                  value={newModuleName}
-                  onChange={e => setNewModuleName(e.target.value)}
-                  placeholder="Module name..."
-                  className="input-field"
-                  autoFocus
-                  onKeyDown={e => e.key === 'Enter' && addNewModule()}
-                />
-                <button onClick={addNewModule} className="btn-primary text-sm !px-4 !py-2">Add</button>
-                <button onClick={() => { setShowNewModule(false); setNewModuleName(''); }} className="btn-secondary text-sm !px-4 !py-2">Cancel</button>
-              </div>
-            ) : (
-              <button onClick={() => setShowNewModule(true)} className="btn-primary flex items-center gap-2 text-sm">
-                <Plus size={18} /> Add Module
-              </button>
-            )}
+            <button onClick={addNewModule} className="btn-primary flex items-center gap-2 text-sm">
+              <Plus size={18} /> Add Module
+            </button>
           </div>
 
           <DndContext
@@ -562,16 +654,17 @@ export default function AdminLessonsPage() {
           >
             <SortableContext items={moduleIds} strategy={verticalListSortingStrategy}>
               <div className="space-y-4">
-                {moduleNames.map((moduleName, moduleIndex) => (
+                {allModuleNames.map((moduleName, moduleIndex) => (
                   <SortableModule
                     key={moduleName}
                     moduleName={moduleName}
                     moduleIndex={moduleIndex}
-                    moduleLessons={modules[moduleName]}
+                    moduleLessons={lessonModules[moduleName] || []}
                     isExpanded={expandedModules.has(moduleName)}
                     toggleModule={toggleModule}
                     startAddLesson={startAddLesson}
                     deleteModule={deleteModule}
+                    renameModule={renameModule}
                     editingLesson={editingLesson}
                     editForm={editForm}
                     setEditForm={setEditForm}
@@ -591,25 +684,7 @@ export default function AdminLessonsPage() {
             </SortableContext>
           </DndContext>
 
-          {addingTo && !modules[addingTo] && newLesson && (
-            <div className="card overflow-hidden mt-4">
-              <div className="px-5 py-4 bg-gray-50 border-b border-gray-100">
-                <div className="flex items-center gap-3">
-                  <ChevronDown className="text-teal" size={20} />
-                  <h3 className="font-semibold text-navy">New Module: {addingTo}</h3>
-                </div>
-              </div>
-              <LessonForm
-                lesson={newLesson}
-                onChange={setNewLesson}
-                onSave={() => saveLesson(newLesson)}
-                onCancel={() => { setAddingTo(null); setNewLesson(null); }}
-                saving={saving}
-              />
-            </div>
-          )}
-
-          {Object.keys(modules).length === 0 && !addingTo && (
+          {allModuleNames.length === 0 && !addingTo && (
             <div className="card p-12 text-center">
               <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
               <h3 className="text-lg font-semibold text-gray-400 mb-2">No modules yet</h3>

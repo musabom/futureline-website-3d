@@ -94,4 +94,5 @@ public/
 - Admin Leads page at /admin/leads with search, source filtering, and CSV export
 - Secured leads API: public /api/leads only accepts POST; admin reads via /api/admin/leads (auth-protected)
 - TripAdvisor floating button added to tourism page (green #34E0A1, bottom-left)
-- FL Services page rebuilt with real Digitalisation content: Hero, Services Grid, Digitalisation Details (problems, delivery, deliverables, use case with demo link), Industries, and CTA. Scalable array structure for adding future services.
+- FL Services page rebuilt with real Digitalisation content: Hero, Services Grid, Industries, and CTA. Scalable array structure for adding future services.
+- Digitalisation details moved to dedicated page at /services/digitalisation with sections: Live Case (with Turnaround Hub demo link), What We Fix, How We Deliver, What You Get, and CTA. Back to Services navigation included.

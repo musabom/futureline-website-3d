@@ -10,60 +10,40 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { courseId, moduleOrder } = await req.json();
+    const { courseId, updates } = await req.json();
 
-    if (!courseId || !Array.isArray(moduleOrder)) {
-      return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
+    if (!courseId || !Array.isArray(updates) || updates.length === 0) {
+      return NextResponse.json({ error: 'Invalid data: courseId and updates required' }, { status: 400 });
     }
 
-    const lessons = await prisma.lesson.findMany({
-      where: { courseId },
-      orderBy: { orderIndex: 'asc' },
+    for (const item of updates) {
+      if (!item.id || typeof item.orderIndex !== 'number') {
+        return NextResponse.json({ error: 'Each update must have id and orderIndex' }, { status: 400 });
+      }
+    }
+
+    const lessonIds = updates.map((u: { id: string }) => u.id);
+    const existingLessons = await prisma.lesson.findMany({
+      where: { id: { in: lessonIds }, courseId },
+      select: { id: true },
     });
 
-    const moduleGroups: Record<string, typeof lessons> = {};
-    const existingModuleOrder: string[] = [];
-    for (const lesson of lessons) {
-      if (!moduleGroups[lesson.moduleTitle]) {
-        moduleGroups[lesson.moduleTitle] = [];
-        existingModuleOrder.push(lesson.moduleTitle);
-      }
-      moduleGroups[lesson.moduleTitle].push(lesson);
+    if (existingLessons.length !== lessonIds.length) {
+      return NextResponse.json({ error: 'Some lesson IDs do not belong to the specified course' }, { status: 400 });
     }
 
-    const finalOrder = [...moduleOrder];
-    for (const name of existingModuleOrder) {
-      if (!finalOrder.includes(name)) {
-        finalOrder.push(name);
-      }
-    }
-
-    let currentIndex = 0;
-    const updates: Promise<any>[] = [];
-
-    for (const moduleName of finalOrder) {
-      const moduleLessons = moduleGroups[moduleName];
-      if (!moduleLessons) continue;
-
-      for (const lesson of moduleLessons) {
-        if (lesson.orderIndex !== currentIndex) {
-          updates.push(
-            prisma.lesson.update({
-              where: { id: lesson.id },
-              data: { orderIndex: currentIndex },
-            })
-          );
-        }
-        currentIndex++;
-      }
-    }
-
-    if (updates.length > 0) {
-      await Promise.all(updates);
-    }
+    await prisma.$transaction(
+      updates.map((item: { id: string; orderIndex: number }) =>
+        prisma.lesson.update({
+          where: { id: item.id },
+          data: { orderIndex: item.orderIndex },
+        })
+      )
+    );
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error('Reorder error:', error);
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 500 });
   }
 }

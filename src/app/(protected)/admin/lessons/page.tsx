@@ -1,6 +1,23 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Plus, ChevronDown, ChevronRight, Trash2, Edit, Save, X, GripVertical, Video, FileText, HelpCircle, BookOpen } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface Question {
   question: string;
@@ -44,6 +61,152 @@ const emptyQuestion = (): Question => ({
   correctIndex: 0,
 });
 
+function SortableModule({
+  moduleName,
+  moduleIndex,
+  moduleLessons,
+  isExpanded,
+  toggleModule,
+  startAddLesson,
+  deleteModule,
+  editingLesson,
+  editForm,
+  setEditForm,
+  saveLesson,
+  setEditingLesson,
+  startEdit,
+  deleteLesson,
+  addingTo,
+  newLesson,
+  setNewLesson,
+  setAddingTo,
+  saving,
+}: {
+  moduleName: string;
+  moduleIndex: number;
+  moduleLessons: LessonData[];
+  isExpanded: boolean;
+  toggleModule: (name: string) => void;
+  startAddLesson: (name: string) => void;
+  deleteModule: (name: string) => void;
+  editingLesson: string | null;
+  editForm: LessonData | null;
+  setEditForm: (l: LessonData | null) => void;
+  saveLesson: (l: LessonData) => void;
+  setEditingLesson: (id: string | null) => void;
+  startEdit: (l: LessonData) => void;
+  deleteLesson: (id: string) => void;
+  addingTo: string | null;
+  newLesson: LessonData | null;
+  setNewLesson: (l: LessonData | null) => void;
+  setAddingTo: (s: string | null) => void;
+  saving: boolean;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: moduleName });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : undefined,
+    opacity: isDragging ? 0.8 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className={`card overflow-hidden ${isDragging ? 'shadow-xl ring-2 ring-teal/30' : ''}`}>
+      <div className="flex items-center justify-between px-5 py-4 bg-gray-50 border-b border-gray-100">
+        <div className="flex items-center gap-3 flex-1">
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-600 touch-none"
+            title="Drag to reorder"
+          >
+            <GripVertical size={20} />
+          </button>
+          <button onClick={() => toggleModule(moduleName)} className="flex items-center gap-3 text-left flex-1">
+            {isExpanded ? <ChevronDown className="text-teal" size={20} /> : <ChevronRight className="text-gray-400" size={20} />}
+            <div>
+              <h3 className="font-semibold text-navy">Module {moduleIndex + 1}: {moduleName}</h3>
+              <span className="text-xs text-gray-400">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
+            </div>
+          </button>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={() => startAddLesson(moduleName)} className="p-2 text-teal hover:bg-teal/10 rounded-lg" title="Add lesson">
+            <Plus size={16} />
+          </button>
+          <button onClick={() => deleteModule(moduleName)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg" title="Delete module">
+            <Trash2 size={16} />
+          </button>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="divide-y divide-gray-100">
+          {moduleLessons.map(lesson => (
+            <div key={lesson.id}>
+              {editingLesson === lesson.id && editForm ? (
+                <LessonForm
+                  lesson={editForm}
+                  onChange={setEditForm}
+                  onSave={() => saveLesson(editForm)}
+                  onCancel={() => { setEditingLesson(null); setEditForm(null); }}
+                  saving={saving}
+                />
+              ) : (
+                <div className="flex items-center justify-between px-5 py-3 hover:bg-gray-50/50">
+                  <div className="flex items-center gap-3">
+                    <GripVertical className="text-gray-300" size={16} />
+                    {lesson.lessonType === 'QUIZ' ? (
+                      <HelpCircle className="text-orange-400 flex-shrink-0" size={16} />
+                    ) : (
+                      <BookOpen className="text-teal flex-shrink-0" size={16} />
+                    )}
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">{lesson.lessonTitle}</span>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${lesson.lessonType === 'QUIZ' ? 'bg-orange-50 text-orange-500' : 'bg-teal/10 text-teal'}`}>
+                          {lesson.lessonType}
+                        </span>
+                        {lesson.videoUrl && <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><Video size={10} /> Video</span>}
+                        {lesson.content && <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><FileText size={10} /> Notes</span>}
+                        {lesson.lessonType === 'QUIZ' && lesson.questions?.length > 0 && (
+                          <span className="text-[10px] text-gray-400">{lesson.questions.length} questions</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => startEdit(lesson)} className="p-2 text-gray-400 hover:text-teal rounded-lg"><Edit size={14} /></button>
+                    <button onClick={() => lesson.id && deleteLesson(lesson.id)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg"><Trash2 size={14} /></button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {addingTo === moduleName && newLesson && (
+            <LessonForm
+              lesson={newLesson}
+              onChange={setNewLesson}
+              onSave={() => saveLesson(newLesson)}
+              onCancel={() => { setAddingTo(null); setNewLesson(null); }}
+              saving={saving}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function AdminLessonsPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<string>('');
@@ -56,6 +219,12 @@ export default function AdminLessonsPage() {
   const [newModuleName, setNewModuleName] = useState('');
   const [showNewModule, setShowNewModule] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [reordering, setReordering] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
 
   useEffect(() => {
     fetch('/api/admin/courses').then(r => r.json()).then(setCourses);
@@ -87,11 +256,19 @@ export default function AdminLessonsPage() {
     }
   }, [selectedCourse]);
 
-  const modules: Record<string, LessonData[]> = {};
-  lessons.forEach(l => {
-    if (!modules[l.moduleTitle]) modules[l.moduleTitle] = [];
-    modules[l.moduleTitle].push(l);
-  });
+  const { modules, moduleNames } = useMemo(() => {
+    const sorted = [...lessons].sort((a, b) => a.orderIndex - b.orderIndex);
+    const groups: Record<string, LessonData[]> = {};
+    const orderedNames: string[] = [];
+    sorted.forEach(l => {
+      if (!groups[l.moduleTitle]) {
+        groups[l.moduleTitle] = [];
+        orderedNames.push(l.moduleTitle);
+      }
+      groups[l.moduleTitle].push(l);
+    });
+    return { modules: groups, moduleNames: orderedNames };
+  }, [lessons]);
 
   const toggleModule = (name: string) => {
     setExpandedModules(prev => {
@@ -99,6 +276,54 @@ export default function AdminLessonsPage() {
       next.has(name) ? next.delete(name) : next.add(name);
       return next;
     });
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = moduleNames.indexOf(active.id as string);
+    const newIndex = moduleNames.indexOf(over.id as string);
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const newOrder = arrayMove(moduleNames, oldIndex, newIndex);
+
+    let newLessons: LessonData[] = [];
+    let idx = 0;
+    for (const modName of newOrder) {
+      for (const lesson of modules[modName]) {
+        newLessons.push({ ...lesson, orderIndex: idx });
+        idx++;
+      }
+    }
+    setLessons(newLessons);
+
+    setReordering(true);
+    try {
+      const res = await fetch('/api/admin/lessons/reorder', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ courseId: selectedCourse, moduleOrder: newOrder }),
+      });
+      if (!res.ok) throw new Error('Save failed');
+    } catch (err) {
+      console.error('Failed to save order', err);
+      const res = await fetch(`/api/admin/lessons?courseId=${selectedCourse}`);
+      const data = await res.json();
+      setLessons(data.map((l: any) => ({
+        id: l.id,
+        courseId: l.courseId,
+        moduleTitle: l.moduleTitle,
+        lessonTitle: l.lessonTitle,
+        lessonType: l.lessonType || 'CONTENT',
+        videoUrl: l.videoUrl || '',
+        content: l.content || '',
+        resources: l.resources || '',
+        questions: (l.questions as Question[]) || [],
+        orderIndex: l.orderIndex,
+      })));
+    }
+    setReordering(false);
   };
 
   const saveLesson = async (lesson: LessonData) => {
@@ -187,6 +412,7 @@ export default function AdminLessonsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-navy">Course Builder</h1>
+        {reordering && <span className="text-sm text-teal animate-pulse">Saving order...</span>}
       </div>
 
       <div className="mb-6">
@@ -224,106 +450,58 @@ export default function AdminLessonsPage() {
             )}
           </div>
 
-          <div className="space-y-4">
-            {Object.entries(modules).map(([moduleName, moduleLessons], moduleIndex) => {
-              const isExpanded = expandedModules.has(moduleName);
-              return (
-                <div key={moduleName} className="card overflow-hidden">
-                  <div className="flex items-center justify-between px-5 py-4 bg-gray-50 border-b border-gray-100">
-                    <button onClick={() => toggleModule(moduleName)} className="flex items-center gap-3 text-left flex-1">
-                      {isExpanded ? <ChevronDown className="text-teal" size={20} /> : <ChevronRight className="text-gray-400" size={20} />}
-                      <div>
-                        <h3 className="font-semibold text-navy">Module {moduleIndex + 1}: {moduleName}</h3>
-                        <span className="text-xs text-gray-400">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
-                      </div>
-                    </button>
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => startAddLesson(moduleName)} className="p-2 text-teal hover:bg-teal/10 rounded-lg" title="Add lesson">
-                        <Plus size={16} />
-                      </button>
-                      <button onClick={() => deleteModule(moduleName)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg" title="Delete module">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {isExpanded && (
-                    <div className="divide-y divide-gray-100">
-                      {moduleLessons.map(lesson => (
-                        <div key={lesson.id}>
-                          {editingLesson === lesson.id && editForm ? (
-                            <LessonForm
-                              lesson={editForm}
-                              onChange={setEditForm}
-                              onSave={() => saveLesson(editForm)}
-                              onCancel={() => { setEditingLesson(null); setEditForm(null); }}
-                              saving={saving}
-                            />
-                          ) : (
-                            <div className="flex items-center justify-between px-5 py-3 hover:bg-gray-50/50">
-                              <div className="flex items-center gap-3">
-                                <GripVertical className="text-gray-300" size={16} />
-                                {lesson.lessonType === 'QUIZ' ? (
-                                  <HelpCircle className="text-orange-400 flex-shrink-0" size={16} />
-                                ) : (
-                                  <BookOpen className="text-teal flex-shrink-0" size={16} />
-                                )}
-                                <div>
-                                  <span className="text-sm font-medium text-gray-700">{lesson.lessonTitle}</span>
-                                  <div className="flex items-center gap-2 mt-0.5">
-                                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${lesson.lessonType === 'QUIZ' ? 'bg-orange-50 text-orange-500' : 'bg-teal/10 text-teal'}`}>
-                                      {lesson.lessonType}
-                                    </span>
-                                    {lesson.videoUrl && <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><Video size={10} /> Video</span>}
-                                    {lesson.content && <span className="text-[10px] text-gray-400 flex items-center gap-0.5"><FileText size={10} /> Notes</span>}
-                                    {lesson.lessonType === 'QUIZ' && lesson.questions?.length > 0 && (
-                                      <span className="text-[10px] text-gray-400">{lesson.questions.length} questions</span>
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <button onClick={() => startEdit(lesson)} className="p-2 text-gray-400 hover:text-teal rounded-lg"><Edit size={14} /></button>
-                                <button onClick={() => lesson.id && deleteLesson(lesson.id)} className="p-2 text-gray-400 hover:text-red-500 rounded-lg"><Trash2 size={14} /></button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-
-                      {addingTo === moduleName && newLesson && (
-                        <LessonForm
-                          lesson={newLesson}
-                          onChange={setNewLesson}
-                          onSave={() => saveLesson(newLesson)}
-                          onCancel={() => { setAddingTo(null); setNewLesson(null); }}
-                          saving={saving}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {addingTo && !modules[addingTo] && newLesson && (
-              <div className="card overflow-hidden">
-                <div className="px-5 py-4 bg-gray-50 border-b border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <ChevronDown className="text-teal" size={20} />
-                    <h3 className="font-semibold text-navy">New Module: {addingTo}</h3>
-                  </div>
-                </div>
-                <LessonForm
-                  lesson={newLesson}
-                  onChange={setNewLesson}
-                  onSave={() => saveLesson(newLesson)}
-                  onCancel={() => { setAddingTo(null); setNewLesson(null); }}
-                  saving={saving}
-                />
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={moduleNames} strategy={verticalListSortingStrategy}>
+              <div className="space-y-4">
+                {moduleNames.map((moduleName, moduleIndex) => (
+                  <SortableModule
+                    key={moduleName}
+                    moduleName={moduleName}
+                    moduleIndex={moduleIndex}
+                    moduleLessons={modules[moduleName]}
+                    isExpanded={expandedModules.has(moduleName)}
+                    toggleModule={toggleModule}
+                    startAddLesson={startAddLesson}
+                    deleteModule={deleteModule}
+                    editingLesson={editingLesson}
+                    editForm={editForm}
+                    setEditForm={setEditForm}
+                    saveLesson={saveLesson}
+                    setEditingLesson={setEditingLesson}
+                    startEdit={startEdit}
+                    deleteLesson={deleteLesson}
+                    addingTo={addingTo}
+                    newLesson={newLesson}
+                    setNewLesson={setNewLesson}
+                    setAddingTo={setAddingTo}
+                    saving={saving}
+                  />
+                ))}
               </div>
-            )}
-          </div>
+            </SortableContext>
+          </DndContext>
+
+          {addingTo && !modules[addingTo] && newLesson && (
+            <div className="card overflow-hidden mt-4">
+              <div className="px-5 py-4 bg-gray-50 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <ChevronDown className="text-teal" size={20} />
+                  <h3 className="font-semibold text-navy">New Module: {addingTo}</h3>
+                </div>
+              </div>
+              <LessonForm
+                lesson={newLesson}
+                onChange={setNewLesson}
+                onSave={() => saveLesson(newLesson)}
+                onCancel={() => { setAddingTo(null); setNewLesson(null); }}
+                saving={saving}
+              />
+            </div>
+          )}
 
           {Object.keys(modules).length === 0 && !addingTo && (
             <div className="card p-12 text-center">

@@ -96,3 +96,4 @@ public/
 - TripAdvisor floating button added to tourism page (green #34E0A1, bottom-left)
 - FL Services page rebuilt with real Digitalisation content: Hero, Services Grid, Industries, and CTA. Scalable array structure for adding future services.
 - Digitalisation details moved to dedicated page at /services/digitalisation with sections: Live Case (with Turnaround Hub demo link), What We Fix, How We Deliver, What You Get, and CTA. Back to Services navigation included.
+- Lesson video embedding: LessonViewer now embeds YouTube/Vimeo videos in a responsive 16:9 iframe player instead of exposing raw URLs. Only YouTube and Vimeo URLs are allowed (security). Admin lesson form updated with clearer placeholder text.

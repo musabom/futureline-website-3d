@@ -12,6 +12,29 @@ interface Lesson {
   orderIndex: number;
 }
 
+function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo' } | null {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
+  } catch {
+    return null;
+  }
+
+  const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) {
+    return { embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`, type: 'youtube' };
+  }
+
+  const vimeoMatch = url.match(/(?:vimeo\.com\/)(\d+)/);
+  if (vimeoMatch) {
+    return { embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?title=0&byline=0&portrait=0`, type: 'vimeo' };
+  }
+
+  return null;
+}
+
 export default function LessonViewer({
   lessons,
   enrollmentId,
@@ -93,13 +116,30 @@ export default function LessonViewer({
             <h2 className="text-xl font-bold text-navy mb-2">{current.lessonTitle}</h2>
             <p className="text-sm text-gray-400 mb-6">{current.moduleTitle}</p>
 
-            {current.videoUrl && (
-              <div className="mb-6 bg-navy rounded-lg p-8 flex items-center justify-center">
-                <a href={current.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white hover:text-teal transition-colors">
-                  <Play size={24} /> Watch Video
-                </a>
-              </div>
-            )}
+            {current.videoUrl && (() => {
+              const embed = getEmbedUrl(current.videoUrl);
+              if (embed) {
+                return (
+                  <div className="mb-6 rounded-xl overflow-hidden bg-black">
+                    <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                      <iframe
+                        src={embed.embedUrl}
+                        className="absolute inset-0 w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={current.lessonTitle}
+                      />
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div className="mb-6 bg-gray-50 rounded-xl p-6 flex items-center gap-3 text-gray-500">
+                  <Play size={20} />
+                  <span className="text-sm">Video content is available for this lesson.</span>
+                </div>
+              );
+            })()}
 
             {current.content && (
               <div className="prose max-w-none text-gray-600 leading-relaxed mb-6 whitespace-pre-line">

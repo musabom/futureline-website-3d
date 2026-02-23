@@ -9,7 +9,7 @@ export default async function CoursesPage({
 }: {
   searchParams: { type?: string; level?: string; search?: string };
 }) {
-  const where: any = { status: 'PUBLISHED' };
+  const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
   if (searchParams.type) where.deliveryType = searchParams.type;
   if (searchParams.level) where.level = searchParams.level;
   if (searchParams.search) {

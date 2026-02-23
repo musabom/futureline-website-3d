@@ -86,6 +86,30 @@ public/
 - Lead model in Prisma stores contact form submissions with source tracking
 - Gallery images stored in public/images/tourism/
 
+## Instructor Portal
+- Separate portal at `/instructor` with own layout and sidebar
+- Instructors only see and manage their own courses and lessons
+- Instructor course builder mirrors admin course builder with instructor-scoped APIs
+- Course submission: Instructors create courses with `approvalStatus: PENDING`
+- Login redirects by role: ADMIN → /admin, INSTRUCTOR → /instructor, CUSTOMER → /dashboard
+
+## Course Approval Flow
+- New courses from instructors start with `approvalStatus: PENDING`
+- Admin can approve/reject courses from the admin courses page
+- Rejected courses show reason to instructor
+- Only `APPROVED` courses appear on public pages
+
+## Revenue Split
+- Each instructor has a `commissionRate` (default 70%) - instructor's share of revenue
+- Platform keeps the remainder (e.g., 30%)
+- Admin can adjust per-instructor from the Instructors management page
+- `InstructorEarning` model ready for tracking when paid courses are enabled
+
+## API Security
+- Instructor APIs at `/api/instructor/*` verify ownership of courses/lessons
+- Admin APIs at `/api/admin/*` require ADMIN role
+- Instructors cannot modify `approvalStatus` or `instructorId` on their courses
+
 ## Recent Changes
 - Initial build: Full application with all core features
 - Database seeded with courses, services, testimonials, and demo users
@@ -102,3 +126,7 @@ public/
 - Enrollment redirects to course learning page directly (not dashboard). Course curriculum hidden from public course page until enrolled.
 - Admin Course Builder: Visual accordion-based lesson management. Select a course, add/delete modules, add multiple lessons per module. Two lesson types: Content (video, notes, attachments) and Quiz (multiple-choice questions with correct answer marking). Inline editing forms.
 - Student Quiz View: Quiz lessons show interactive multiple-choice questions. Students select answers, submit, see score with correct/incorrect highlighting. Perfect score auto-completes the lesson. "Try Again" option for incomplete scores.
+- Instructor Portal: Separate /instructor area with dashboard, course management, and course builder. Role-based login redirect. Instructor-scoped APIs with ownership verification.
+- Course Approval: Admin can approve/reject instructor-submitted courses. Only approved courses show publicly.
+- Instructor Management: Admin page at /admin/instructors to manage commission rates, enable/disable instructors.
+- Revenue Split: CommissionRate field on User, InstructorEarning model for future paid courses tracking.

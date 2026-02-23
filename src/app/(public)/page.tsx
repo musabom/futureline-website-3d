@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const featuredCourses = await prisma.course.findMany({
-    where: { status: 'PUBLISHED' },
+    where: { status: 'PUBLISHED', approvalStatus: 'APPROVED' },
     include: { instructor: { select: { name: true } } },
     take: 3,
     orderBy: { createdAt: 'desc' },

@@ -1,47 +1,33 @@
 'use client';
 import Link from 'next/link';
-
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import {
-  LayoutDashboard, BookOpen, FileText, Briefcase, Users,
-  ShoppingCart, GraduationCap, Brain, Palette, Star,
-  MessageSquare, LogOut, Home, UserCheck
-} from 'lucide-react';
+import { LayoutDashboard, BookOpen, FileText, LogOut, Home } from 'lucide-react';
 
 const links = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/courses', label: 'Courses', icon: BookOpen },
-  { href: '/admin/lessons', label: 'Course Builder', icon: FileText },
-  { href: '/admin/instructors', label: 'Instructors', icon: UserCheck },
-  { href: '/admin/services', label: 'Services', icon: Briefcase },
-  { href: '/admin/users', label: 'Users', icon: Users },
-  { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
-  { href: '/admin/enrollments', label: 'Enrollments', icon: GraduationCap },
-  { href: '/admin/leads', label: 'Leads', icon: MessageSquare },
-  { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
-  { href: '/admin/ai-settings', label: 'AI Settings', icon: Brain },
-  { href: '/admin/brand', label: 'Brand Settings', icon: Palette },
+  { href: '/instructor', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/instructor/courses', label: 'My Courses', icon: BookOpen },
+  { href: '/instructor/lessons', label: 'Course Builder', icon: FileText },
 ];
 
-export default function AdminSidebar() {
+export default function InstructorSidebar() {
   const pathname = usePathname();
 
   return (
     <aside className="w-64 bg-navy text-white flex flex-col min-h-screen sticky top-0">
       <div className="p-6 border-b border-white/10">
-        <Link href="/admin" className="flex items-center gap-2">
+        <Link href="/instructor" className="flex items-center gap-2">
           <img src="/images/logo-icon-dark.png" alt="FutureLine" className="h-9 w-auto" />
           <div>
             <span className="text-lg font-bold block">FutureLine</span>
-            <span className="text-xs text-gray-400">Admin Portal</span>
+            <span className="text-xs text-gray-400">Instructor Portal</span>
           </div>
         </Link>
       </div>
 
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {links.map((link) => {
-          const isActive = pathname === link.href || (link.href !== '/admin' && pathname.startsWith(link.href));
+          const isActive = pathname === link.href || (link.href !== '/instructor' && pathname.startsWith(link.href));
           return (
             <Link
               key={link.href}

@@ -25,6 +25,12 @@ enum CourseStatus {
   ARCHIVED
 }
 
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum PaymentStatus {
   PENDING
   COMPLETED
@@ -33,22 +39,26 @@ enum PaymentStatus {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  password       String
+  role           Role     @default(CUSTOMER)
+  bio            String?
+  commissionRate Float    @default(70)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
 
   courses     Course[]     @relation("InstructorCourses")
   orders      Order[]
   enrollments Enrollment[]
+  earnings    InstructorEarning[]
 }
 
 model Course {
-  id               String       @id @default(cuid())
+  id               String         @id @default(cuid())
   title            String
-  slug             String       @unique
+  slug             String         @unique
   shortDescription String
   fullDescription  String
   deliveryType     DeliveryType
@@ -63,13 +73,16 @@ model Course {
   location         String?
   instructorId     String?
   thumbnail        String?
-  status           CourseStatus @default(DRAFT)
-  createdAt        DateTime     @default(now())
+  status           CourseStatus    @default(DRAFT)
+  approvalStatus   ApprovalStatus @default(APPROVED)
+  rejectionReason  String?
+  createdAt        DateTime       @default(now())
 
-  instructor  User?        @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructor  User?              @relation("InstructorCourses", fields: [instructorId], references: [id])
   lessons     Lesson[]
   orders      Order[]
   enrollments Enrollment[]
+  earnings    InstructorEarning[]
 }
 
 enum LessonType {
@@ -128,6 +141,20 @@ model Enrollment {
   course Course @relation(fields: [courseId], references: [id])
 
   @@unique([userId, courseId])
+}
+
+model InstructorEarning {
+  id             String   @id @default(cuid())
+  instructorId   String
+  courseId        String
+  amount         Float
+  platformCut    Float
+  instructorCut  Float
+  period         String
+  createdAt      DateTime @default(now())
+
+  instructor User   @relation(fields: [instructorId], references: [id])
+  course     Course @relation(fields: [courseId], references: [id])
 }
 
 model Testimonial {

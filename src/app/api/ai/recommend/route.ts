@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   try {
     const { goal, skillLevel, deliveryPref, budget } = await req.json();
 
-    const where: any = { status: 'PUBLISHED' };
+    const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
 
     if (skillLevel) where.level = skillLevel;
     if (deliveryPref) where.deliveryType = deliveryPref;

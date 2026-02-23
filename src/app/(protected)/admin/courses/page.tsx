@@ -1,13 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 
 export default function AdminCoursesPage() {
   const [courses, setCourses] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [rejectingId, setRejectingId] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState('');
 
   useEffect(() => {
     fetchCourses();
@@ -26,17 +28,42 @@ export default function AdminCoursesPage() {
     fetchCourses();
   };
 
+  const approveCourse = async (id: string) => {
+    await fetch(`/api/admin/courses/${id}/approve`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'approve' }),
+    });
+    fetchCourses();
+  };
+
+  const rejectCourse = async (id: string) => {
+    await fetch(`/api/admin/courses/${id}/approve`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'reject', reason: rejectReason }),
+    });
+    setRejectingId(null);
+    setRejectReason('');
+    fetchCourses();
+  };
+
   const filtered = courses.filter(c =>
     c.title.toLowerCase().includes(search.toLowerCase()) ||
     c.category.toLowerCase().includes(search.toLowerCase())
   );
+
+  const pendingCount = courses.filter(c => c.approvalStatus === 'PENDING').length;
 
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-navy">Manage Courses</h1>
-          <p className="text-gray-500 mt-1">{courses.length} courses total</p>
+          <p className="text-gray-500 mt-1">
+            {courses.length} courses total
+            {pendingCount > 0 && <span className="text-orange-500 font-medium ml-2">({pendingCount} pending approval)</span>}
+          </p>
         </div>
         <Link href="/admin/courses/new" className="btn-primary flex items-center gap-2 text-sm">
           <Plus size={18} /> Add Course
@@ -62,29 +89,59 @@ export default function AdminCoursesPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Title</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Type</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Instructor</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Level</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Price</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Approval</th>
                 <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filtered.map((course) => (
-                <tr key={course.id} className="hover:bg-gray-50/50">
+                <tr key={course.id} className={`hover:bg-gray-50/50 ${course.approvalStatus === 'PENDING' ? 'bg-yellow-50/30' : ''}`}>
                   <td className="px-6 py-4">
                     <div className="font-medium text-navy text-sm">{course.title}</div>
                     <div className="text-xs text-gray-400">{course.category}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{course.deliveryType.replace('_', ' ')}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {course.instructor?.name || <span className="text-gray-300">No instructor</span>}
+                  </td>
                   <td className="px-6 py-4 text-sm text-gray-600">{course.level}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-navy">{formatPrice(course.price)}</td>
                   <td className="px-6 py-4">
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
                       course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
                       course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
                       'bg-gray-100 text-gray-500'
                     }`}>{course.status}</span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {course.approvalStatus === 'PENDING' ? (
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => approveCourse(course.id)}
+                          className="p-1.5 text-green-500 hover:bg-green-50 rounded-lg"
+                          title="Approve"
+                        >
+                          <CheckCircle size={16} />
+                        </button>
+                        <button
+                          onClick={() => setRejectingId(course.id)}
+                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg"
+                          title="Reject"
+                        >
+                          <XCircle size={16} />
+                        </button>
+                        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600 ml-1">
+                          <Clock size={10} className="inline mr-1" />Pending
+                        </span>
+                      </div>
+                    ) : (
+                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                        course.approvalStatus === 'APPROVED' ? 'bg-green-50 text-green-600' :
+                        course.approvalStatus === 'REJECTED' ? 'bg-red-50 text-red-600' :
+                        'bg-gray-100 text-gray-500'
+                      }`}>{course.approvalStatus || 'APPROVED'}</span>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -99,6 +156,25 @@ export default function AdminCoursesPage() {
           </table>
         </div>
       </div>
+
+      {rejectingId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 className="text-lg font-bold text-navy mb-4">Reject Course</h3>
+            <textarea
+              value={rejectReason}
+              onChange={e => setRejectReason(e.target.value)}
+              placeholder="Reason for rejection (optional, will be visible to instructor)"
+              className="input-field mb-4"
+              rows={3}
+            />
+            <div className="flex gap-3 justify-end">
+              <button onClick={() => { setRejectingId(null); setRejectReason(''); }} className="btn-secondary text-sm">Cancel</button>
+              <button onClick={() => rejectCourse(rejectingId)} className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600">Reject</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

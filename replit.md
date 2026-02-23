@@ -99,3 +99,6 @@ public/
 - Lesson video embedding: LessonViewer now embeds YouTube/Vimeo videos in a responsive 16:9 iframe player instead of exposing raw URLs. Only YouTube and Vimeo URLs are allowed (security). Admin lesson form updated with clearer placeholder text.
 - All courses made free: Removed payment/Stripe flow, enrollment is direct and free. Course pages show "Free" instead of prices.
 - Course learning page rebuilt with collapsible module accordion: Modules expand/collapse to show lesson titles. Clicking a lesson opens it inline with Video (top), Lesson Notes box (middle), and downloadable Attachments (bottom). Mark as Complete button per lesson tracks progress.
+- Enrollment redirects to course learning page directly (not dashboard). Course curriculum hidden from public course page until enrolled.
+- Admin Course Builder: Visual accordion-based lesson management. Select a course, add/delete modules, add multiple lessons per module. Two lesson types: Content (video, notes, attachments) and Quiz (multiple-choice questions with correct answer marking). Inline editing forms.
+- Student Quiz View: Quiz lessons show interactive multiple-choice questions. Students select answers, submit, see score with correct/incorrect highlighting. Perfect score auto-completes the lesson. "Try Again" option for incomplete scores.

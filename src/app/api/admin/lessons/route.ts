@@ -31,7 +31,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const data = await req.json();
-    const lesson = await prisma.lesson.create({ data });
+    const lessonData: any = {
+      courseId: data.courseId,
+      moduleTitle: data.moduleTitle,
+      lessonTitle: data.lessonTitle,
+      lessonType: data.lessonType || 'CONTENT',
+      orderIndex: data.orderIndex,
+      videoUrl: data.videoUrl || null,
+      content: data.content || null,
+      resources: data.resources || null,
+      questions: data.questions || null,
+    };
+    const lesson = await prisma.lesson.create({ data: lessonData });
     return NextResponse.json(lesson);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });

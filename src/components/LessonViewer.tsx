@@ -1,14 +1,22 @@
 'use client';
 import { useState } from 'react';
-import { BookOpen, CheckCircle, Play, FileText, ChevronDown, ChevronRight, Download, StickyNote } from 'lucide-react';
+import { BookOpen, CheckCircle, Play, FileText, ChevronDown, ChevronRight, Download, StickyNote, HelpCircle, CircleDot } from 'lucide-react';
+
+interface Question {
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
 
 interface Lesson {
   id: string;
   moduleTitle: string;
   lessonTitle: string;
+  lessonType: string;
   content: string | null;
   videoUrl: string | null;
   resources: string | null;
+  questions: Question[] | null;
   orderIndex: number;
 }
 
@@ -49,6 +57,84 @@ function parseResources(resources: string): { name: string; url: string }[] {
       return { name: line.trim(), url: '' };
     }
   });
+}
+
+function QuizView({ questions, onComplete }: { questions: Question[]; onComplete: () => void }) {
+  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const score = questions.reduce((acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0), 0);
+  const allAnswered = Object.keys(answers).length === questions.length;
+
+  const handleSubmit = () => {
+    setSubmitted(true);
+    if (score === questions.length) {
+      onComplete();
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      {questions.map((q, qi) => (
+        <div key={qi} className="bg-gray-50 rounded-xl p-5">
+          <p className="font-medium text-navy text-sm mb-3">
+            {qi + 1}. {q.question}
+          </p>
+          <div className="space-y-2">
+            {q.options.map((opt, oi) => {
+              if (!opt.trim()) return null;
+              const isSelected = answers[qi] === oi;
+              const isCorrect = q.correctIndex === oi;
+              let optionStyle = 'border-gray-200 bg-white hover:border-teal/50';
+              if (submitted) {
+                if (isCorrect) optionStyle = 'border-green-400 bg-green-50';
+                else if (isSelected && !isCorrect) optionStyle = 'border-red-400 bg-red-50';
+              } else if (isSelected) {
+                optionStyle = 'border-teal bg-teal/5';
+              }
+
+              return (
+                <button
+                  key={oi}
+                  onClick={() => !submitted && setAnswers(prev => ({ ...prev, [qi]: oi }))}
+                  disabled={submitted}
+                  className={`w-full text-left p-3 rounded-lg border text-sm transition-colors flex items-center gap-3 ${optionStyle}`}
+                >
+                  <CircleDot size={16} className={isSelected ? 'text-teal' : 'text-gray-300'} />
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {!submitted ? (
+        <button
+          onClick={handleSubmit}
+          disabled={!allAnswered}
+          className="btn-primary text-sm !px-6 !py-2 disabled:opacity-50"
+        >
+          Submit Answers
+        </button>
+      ) : (
+        <div className={`rounded-xl p-5 ${score === questions.length ? 'bg-green-50 border border-green-200' : 'bg-orange-50 border border-orange-200'}`}>
+          <p className={`font-semibold text-sm ${score === questions.length ? 'text-green-700' : 'text-orange-700'}`}>
+            You scored {score} out of {questions.length}
+            {score === questions.length ? ' - Perfect!' : ''}
+          </p>
+          {score < questions.length && (
+            <button
+              onClick={() => { setSubmitted(false); setAnswers({}); }}
+              className="text-sm text-orange-600 hover:underline mt-2"
+            >
+              Try Again
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function LessonViewer({
@@ -93,8 +179,6 @@ export default function LessonViewer({
       setExpandedModules(prev => new Set(prev).add(moduleName));
     }
   };
-
-  const current = lessons.find((l) => l.id === activeLesson);
 
   const markComplete = async (lessonId: string) => {
     const newCompleted = new Set(completed);
@@ -148,6 +232,7 @@ export default function LessonViewer({
               <div className="divide-y divide-gray-100">
                 {moduleLessons.map((lesson) => {
                   const isActive = activeLesson === lesson.id;
+                  const isQuiz = lesson.lessonType === 'QUIZ';
 
                   return (
                     <div key={lesson.id}>
@@ -161,17 +246,24 @@ export default function LessonViewer({
                       >
                         {completed.has(lesson.id) ? (
                           <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
+                        ) : isQuiz ? (
+                          <HelpCircle className="text-orange-400 flex-shrink-0" size={16} />
                         ) : (
                           <Play className="text-gray-400 flex-shrink-0" size={16} />
                         )}
                         <span className={`text-sm ${isActive ? 'text-teal font-semibold' : 'text-gray-600'}`}>
                           {lesson.lessonTitle}
                         </span>
+                        {isQuiz && (
+                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-50 text-orange-500 ml-auto">
+                            Quiz
+                          </span>
+                        )}
                       </button>
 
                       {isActive && (
                         <div className="px-6 py-6 bg-white border-t border-gray-100">
-                          {lesson.videoUrl && (() => {
+                          {!isQuiz && lesson.videoUrl && (() => {
                             const embed = getEmbedUrl(lesson.videoUrl);
                             if (embed) {
                               return (
@@ -200,7 +292,9 @@ export default function LessonViewer({
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
                                 <StickyNote className="text-teal" size={18} />
-                                <h4 className="font-semibold text-navy text-sm">Lesson Notes</h4>
+                                <h4 className="font-semibold text-navy text-sm">
+                                  {isQuiz ? 'Instructions' : 'Lesson Notes'}
+                                </h4>
                               </div>
                               <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-5">
                                 <div className="text-gray-700 leading-relaxed whitespace-pre-line text-sm">
@@ -210,7 +304,16 @@ export default function LessonViewer({
                             </div>
                           )}
 
-                          {lesson.resources && (
+                          {isQuiz && lesson.questions && lesson.questions.length > 0 && (
+                            <div className="mb-6">
+                              <QuizView
+                                questions={lesson.questions}
+                                onComplete={() => markComplete(lesson.id)}
+                              />
+                            </div>
+                          )}
+
+                          {!isQuiz && lesson.resources && (
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
                                 <Download className="text-teal" size={18} />
@@ -239,20 +342,28 @@ export default function LessonViewer({
                             </div>
                           )}
 
-                          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                            {completed.has(lesson.id) ? (
-                              <span className="flex items-center gap-2 text-green-500 font-semibold text-sm">
-                                <CheckCircle size={16} /> Completed
-                              </span>
-                            ) : (
-                              <button
-                                onClick={() => markComplete(lesson.id)}
-                                className="btn-primary text-sm !px-5 !py-2"
-                              >
-                                Mark as Complete
-                              </button>
-                            )}
-                          </div>
+                          {!isQuiz && (
+                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                              {completed.has(lesson.id) ? (
+                                <span className="flex items-center gap-2 text-green-500 font-semibold text-sm">
+                                  <CheckCircle size={16} /> Completed
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => markComplete(lesson.id)}
+                                  className="btn-primary text-sm !px-5 !py-2"
+                                >
+                                  Mark as Complete
+                                </button>
+                              )}
+                            </div>
+                          )}
+
+                          {isQuiz && completed.has(lesson.id) && (
+                            <div className="flex items-center gap-2 text-green-500 font-semibold text-sm pt-4 border-t border-gray-100">
+                              <CheckCircle size={16} /> Completed
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

@@ -72,14 +72,21 @@ model Course {
   enrollments Enrollment[]
 }
 
+enum LessonType {
+  CONTENT
+  QUIZ
+}
+
 model Lesson {
-  id          String  @id @default(cuid())
+  id          String     @id @default(cuid())
   courseId     String
   moduleTitle  String
   lessonTitle  String
+  lessonType   LessonType @default(CONTENT)
   videoUrl     String?
   content      String?
   resources    String?
+  questions    Json?
   orderIndex   Int
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)

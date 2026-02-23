@@ -55,9 +55,11 @@ export default async function CourseLearnPage({ params }: { params: { slug: stri
             id: l.id,
             moduleTitle: l.moduleTitle,
             lessonTitle: l.lessonTitle,
+            lessonType: l.lessonType,
             content: l.content,
             videoUrl: l.videoUrl,
             resources: l.resources,
+            questions: l.questions as any,
             orderIndex: l.orderIndex,
           }))}
           enrollmentId={enrollment.id}

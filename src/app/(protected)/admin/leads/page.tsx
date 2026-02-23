@@ -56,7 +56,7 @@ export default function AdminLeadsPage() {
     fetchLeads();
   };
 
-  const sources = ['all', ...Array.from(new Set(leads.map(l => l.source || 'FL Tourism')))];
+  const SOURCES = ['all', 'FL Tourism', 'FL Courses', 'FL Services', 'FL AI Automation'];
 
   const filtered = leads.filter(l => {
     if (!search) return true;
@@ -131,8 +131,8 @@ export default function AdminLeadsPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input type="text" placeholder="Search leads..." value={search} onChange={e => setSearch(e.target.value)} className="input-field !pl-10" />
         </form>
-        <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="input-field min-w-[160px]">
-          {sources.map(s => (
+        <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="input-field min-w-[180px]">
+          {SOURCES.map(s => (
             <option key={s} value={s}>{s === 'all' ? 'All Sources' : s}</option>
           ))}
         </select>

@@ -7,9 +7,10 @@ import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
   const course = await prisma.course.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     select: { title: true, shortDescription: true, category: true, slug: true },
   });
 
@@ -29,9 +30,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
+export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const course = await prisma.course.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       instructor: { select: { name: true, email: true } },
       _count: { select: { enrollments: true, lessons: true } },

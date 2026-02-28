@@ -11,6 +11,7 @@ packages = ["imagemagick"]
 
 [userenv.shared]
 NEXTAUTH_SECRET = "futureline-secret-key-2026"
+RESEND_API_KEY = "re_42y46P2T_7SEQzCME6FNxyZALXd7y7qWV"
 
 [userenv.development]
 NEXTAUTH_URL = "https://e13ac66a-df68-4a97-bf78-c38e169b8e67-00-3azws8dmm1sx1.spock.replit.dev"

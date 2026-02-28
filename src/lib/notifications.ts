@@ -1,3 +1,5 @@
+import { Resend } from 'resend';
+
 export interface EmailNotification {
   to: string;
   subject: string;
@@ -11,7 +13,7 @@ export interface NotificationProvider {
 
 class ConsoleNotificationProvider implements NotificationProvider {
   async sendEmail(notification: EmailNotification): Promise<boolean> {
-    console.log('[Notification] 📧 Email would be sent:');
+    console.log('[Notification] Email would be sent:');
     console.log(`  To: ${notification.to}`);
     console.log(`  Subject: ${notification.subject}`);
     console.log(`  Body: ${notification.body}`);
@@ -22,7 +24,42 @@ class ConsoleNotificationProvider implements NotificationProvider {
   }
 }
 
-let provider: NotificationProvider = new ConsoleNotificationProvider();
+class ResendNotificationProvider implements NotificationProvider {
+  private resend: Resend;
+  private fromAddress: string;
+
+  constructor(apiKey: string, fromAddress: string = 'FutureLine <onboarding@resend.dev>') {
+    this.resend = new Resend(apiKey);
+    this.fromAddress = fromAddress;
+  }
+
+  async sendEmail(notification: EmailNotification): Promise<boolean> {
+    try {
+      const { data, error } = await this.resend.emails.send({
+        from: this.fromAddress,
+        to: notification.to,
+        subject: notification.subject,
+        text: notification.body,
+      });
+
+      if (error) {
+        console.error('[Resend] Error sending email:', error);
+        return false;
+      }
+
+      console.log(`[Resend] Email sent successfully to ${notification.to}, id: ${data?.id}`);
+      return true;
+    } catch (err) {
+      console.error('[Resend] Exception sending email:', err);
+      return false;
+    }
+  }
+}
+
+const resendApiKey = process.env.RESEND_API_KEY;
+let provider: NotificationProvider = resendApiKey
+  ? new ResendNotificationProvider(resendApiKey)
+  : new ConsoleNotificationProvider();
 
 export function setNotificationProvider(p: NotificationProvider) {
   provider = p;

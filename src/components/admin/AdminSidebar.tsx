@@ -63,7 +63,7 @@ export default function AdminSidebar() {
           <Home size={18} />
           <span className="text-sm">View Site</span>
         </Link>
-        <button onClick={() => signOut()} className="admin-sidebar-item w-full">
+        <button onClick={() => signOut({ callbackUrl: '/' })} className="admin-sidebar-item w-full">
           <LogOut size={18} />
           <span className="text-sm">Sign Out</span>
         </button>

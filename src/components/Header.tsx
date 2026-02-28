@@ -49,7 +49,7 @@ export default function Header() {
                   {strings.nav.dashboard}
                 </Link>
                 <button
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: '/' })}
                   className="text-gray-500 hover:text-navy font-medium transition-colors"
                 >
                   {strings.nav.signOut}
@@ -94,7 +94,7 @@ export default function Header() {
                     <Link href="/admin" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.admin}</Link>
                   )}
                   <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.dashboard}</Link>
-                  <button onClick={() => signOut()} className="text-left text-gray-500 hover:text-navy font-medium px-2 py-1">{strings.nav.signOut}</button>
+                  <button onClick={() => signOut({ callbackUrl: '/' })} className="text-left text-gray-500 hover:text-navy font-medium px-2 py-1">{strings.nav.signOut}</button>
                 </>
               ) : (
                 <>

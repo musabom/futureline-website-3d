@@ -1,14 +1,25 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { leadSchema, formatZodError } from '@/lib/validations';
+import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, email, phone, tourType, message, source } = body;
-
-    if (!name || !email || !tourType || !message) {
-      return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const rl = rateLimit(`leads:${ip}`, 5, 60 * 1000);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: getRateLimitHeaders(rl.remaining, rl.resetIn) }
+      );
     }
+
+    const body = await req.json();
+    const parsed = leadSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
+    }
+    const { name, email, phone, tourType, message, source } = parsed.data;
 
     const lead = await prisma.lead.create({
       data: {

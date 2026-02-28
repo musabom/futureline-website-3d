@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { profileSchema, formatZodError } from '@/lib/validations';
 
 async function requireInstructor() {
   const session = await getServerSession(authOptions);
@@ -37,17 +38,17 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const session = await requireInstructor();
-    const { name, bio } = await req.json();
-
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-      return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+    const body = await req.json();
+    const parsed = profileSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
     }
 
     const updated = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        name: name.trim(),
-        bio: bio?.trim() || null,
+        name: parsed.data.name.trim(),
+        bio: parsed.data.bio?.trim() || null,
       },
       select: {
         id: true,

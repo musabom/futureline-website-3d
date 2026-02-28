@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { templateSchema, formatZodError } from '@/lib/validations';
 
 export async function GET() {
   try {
@@ -27,13 +28,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, type, subject, body, variables } = await req.json();
-    if (!name || !type || !subject || !body) {
-      return NextResponse.json({ error: 'Name, type, subject and body are required' }, { status: 400 });
+    const reqBody = await req.json();
+    const parsed = templateSchema.safeParse(reqBody);
+    if (!parsed.success) {
+      return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
     }
 
     const template = await prisma.emailTemplate.create({
-      data: { name, type, subject, body, variables },
+      data: parsed.data,
     });
 
     return NextResponse.json(template);

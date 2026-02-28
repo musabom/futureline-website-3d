@@ -4,15 +4,16 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { strings } from '@/lib/strings';
 
 export default function Header() {
   const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [
-    { href: '/courses', label: 'Courses' },
-    { href: '/services', label: 'Services' },
-    { href: '/ai', label: 'AI Solutions' },
+    { href: '/courses', label: strings.nav.courses },
+    { href: '/services', label: strings.nav.services },
+    { href: '/ai', label: strings.nav.aiSolutions },
   ];
 
   return (
@@ -20,8 +21,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/images/logo-icon-light.png" alt="FutureLine" className="h-10 w-auto" />
-            <span className="text-xl font-bold text-navy">FutureLine</span>
+            <img src="/images/logo-icon-light.png" alt={strings.brand.name} className="h-10 w-auto" />
+            <span className="text-xl font-bold text-navy">{strings.brand.name}</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -41,26 +42,26 @@ export default function Header() {
               <div className="flex items-center gap-4">
                 {session.user.role === 'ADMIN' && (
                   <Link href="/admin" className="text-gray-600 hover:text-navy font-medium transition-colors">
-                    Admin
+                    {strings.nav.admin}
                   </Link>
                 )}
                 <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium transition-colors">
-                  Dashboard
+                  {strings.nav.dashboard}
                 </Link>
                 <button
                   onClick={() => signOut()}
                   className="text-gray-500 hover:text-navy font-medium transition-colors"
                 >
-                  Sign Out
+                  {strings.nav.signOut}
                 </button>
               </div>
             ) : (
               <>
                 <Link href="/login" className="text-gray-600 hover:text-navy font-medium transition-colors">
-                  Sign In
+                  {strings.nav.signIn}
                 </Link>
                 <Link href="/register" className="btn-primary text-sm !px-5 !py-2">
-                  Get Started
+                  {strings.nav.getStarted}
                 </Link>
               </>
             )}
@@ -90,15 +91,15 @@ export default function Header() {
               {session ? (
                 <>
                   {session.user.role === 'ADMIN' && (
-                    <Link href="/admin" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>Admin</Link>
+                    <Link href="/admin" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.admin}</Link>
                   )}
-                  <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>Dashboard</Link>
-                  <button onClick={() => signOut()} className="text-left text-gray-500 hover:text-navy font-medium px-2 py-1">Sign Out</button>
+                  <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.dashboard}</Link>
+                  <button onClick={() => signOut()} className="text-left text-gray-500 hover:text-navy font-medium px-2 py-1">{strings.nav.signOut}</button>
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>Sign In</Link>
-                  <Link href="/register" className="btn-primary text-sm text-center" onClick={() => setMobileOpen(false)}>Get Started</Link>
+                  <Link href="/login" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.signIn}</Link>
+                  <Link href="/register" className="btn-primary text-sm text-center" onClick={() => setMobileOpen(false)}>{strings.nav.getStarted}</Link>
                 </>
               )}
             </div>

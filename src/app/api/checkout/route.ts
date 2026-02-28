@@ -2,12 +2,23 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { notifyNewEnrollment } from '@/lib/notifications';
+import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
 
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const ip = req.headers.get('x-forwarded-for') || session.user.id;
+    const rl = rateLimit(`checkout:${ip}`, 10, 60 * 1000);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: getRateLimitHeaders(rl.remaining, rl.resetIn) }
+      );
     }
 
     const { courseId } = await req.json();
@@ -36,6 +47,11 @@ export async function POST(req: Request) {
         courseId: course.id,
       },
     });
+
+    notifyNewEnrollment(
+      { name: session.user.name || 'Student', email: session.user.email || '' },
+      { title: course.title, slug: course.slug }
+    );
 
     return NextResponse.json({ enrolled: true, slug: course.slug });
   } catch (error) {

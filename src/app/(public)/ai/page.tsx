@@ -1,5 +1,17 @@
 import Link from 'next/link';
 import { Brain, Cpu, Zap, Bot, Mail, Clock, ArrowRight, Sparkles, Cog, BarChart3 } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AI & Automation — FutureLine | Intelligent Business Solutions',
+  description: 'AI-powered solutions to help businesses automate processes, gain insights, and operate smarter. Machine learning, process automation, and AI-powered analytics.',
+  openGraph: {
+    title: 'AI & Automation — FutureLine',
+    description: 'AI-powered solutions to help businesses automate processes, gain insights, and operate smarter.',
+    type: 'website',
+    url: '/ai',
+  },
+};
 
 export default function AIPage() {
   return (

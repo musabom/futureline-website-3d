@@ -2,8 +2,31 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { Clock, MapPin, Users, Calendar, BookOpen, CheckCircle } from 'lucide-react';
 import EnrollButton from '@/components/EnrollButton';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const course = await prisma.course.findUnique({
+    where: { slug: params.slug },
+    select: { title: true, shortDescription: true, category: true, slug: true },
+  });
+
+  if (!course) {
+    return { title: 'Course Not Found — FutureLine' };
+  }
+
+  return {
+    title: `${course.title} — FutureLine Courses`,
+    description: course.shortDescription || `Learn ${course.title} with FutureLine. Professional training and education.`,
+    openGraph: {
+      title: course.title,
+      description: course.shortDescription || `Learn ${course.title} with FutureLine.`,
+      type: 'website',
+      url: `/courses/${course.slug}`,
+    },
+  };
+}
 
 export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
   const course = await prisma.course.findUnique({

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { notifyLeadStageChange } from '@/lib/notifications';
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   try {
@@ -65,6 +66,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
           performedBy: (session.user as any).id,
         },
       });
+
+      notifyLeadStageChange(
+        { name: oldLead.name, email: oldLead.email, stage },
+        oldLead.stage,
+        stage
+      );
     }
 
     if (priority && priority !== oldLead.priority) {

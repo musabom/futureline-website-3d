@@ -1,8 +1,20 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { BookOpen, Search, Clock, MapPin, Users } from 'lucide-react';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Courses — FutureLine | Professional & Technical Training',
+  description: 'Browse our catalogue of professional and technical courses. Filter by delivery type, level, and category. Online, in-person, and hybrid options available.',
+  openGraph: {
+    title: 'Courses — FutureLine',
+    description: 'Browse our catalogue of professional and technical courses. Online, in-person, and hybrid options available.',
+    type: 'website',
+    url: '/courses',
+  },
+};
 
 export default async function CoursesPage({
   searchParams,

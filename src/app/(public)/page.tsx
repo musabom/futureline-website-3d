@@ -1,8 +1,20 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { ArrowRight, Brain, Rocket, TrendingUp, Star, Users, BookOpen, Cpu, Compass, GraduationCap, Briefcase, Bot } from 'lucide-react';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'FutureLine — Design. Deploy. Evolve. | AI Solutions & Professional Training',
+  description: 'AI-driven solutions, professional training, and intelligent digital services that empower your business to thrive in the modern era. Explore courses, services, tourism, and AI.',
+  openGraph: {
+    title: 'FutureLine — Design. Deploy. Evolve.',
+    description: 'AI-driven solutions, professional training, and intelligent digital services that empower your business to thrive in the modern era.',
+    type: 'website',
+    url: '/',
+  },
+};
 
 export default async function HomePage() {
   const featuredCourses = await prisma.course.findMany({

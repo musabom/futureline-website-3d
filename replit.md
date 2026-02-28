@@ -149,3 +149,14 @@ public/
 - Admin Dashboard Enhanced: Added enrollment trend and revenue trend bar charts (last 7 days), pending approvals alert banner, lead pipeline summary (counts per CRM stage), top instructors by student count.
 - Instructor Profile Settings: /instructor/settings page with editable name/bio, read-only commission rate and account status. API at /api/instructor/profile (GET/PUT) with auth and ownership checks.
 - InstructorSidebar updated with Earnings and Settings links.
+- Future-Proofing Audit: Comprehensive 15-area review completed with fixes applied.
+- Input Validation: Zod schemas for all major POST/PUT endpoints (register, leads, courses, templates, profile). Prevents mass assignment.
+- Security Headers: middleware.ts adds X-Frame-Options, X-Content-Type-Options, Referrer-Policy, HSTS, XSS-Protection, Permissions-Policy to all routes.
+- Config Hardening: Tightened allowedOrigins and image remotePatterns in next.config.js (removed wildcards).
+- Rate Limiting: In-memory IP-based rate limiting on /api/auth/register (5/min), /api/leads (5/min), /api/checkout (10/min). Returns 429 with Retry-After.
+- SEO: Per-page metadata with OpenGraph on all public pages. Dynamic sitemap.xml at /sitemap.xml. robots.txt blocking admin/instructor/dashboard/api paths.
+- Error Handling: Global error boundary (error.tsx), custom 404 page (not-found.tsx), root fallback (global-error.tsx).
+- Database Indexes: @@index added to all high-traffic foreign keys (Course.instructorId, Lesson.courseId, Order.userId/courseId, Enrollment.userId/courseId, InstructorEarning, LeadActivity.leadId, LeadNote.leadId).
+- Notification Foundation: Pluggable NotificationProvider interface in src/lib/notifications.ts. Console provider for dev. Wired into lead stage changes and enrollments. Ready for SendGrid/Resend swap.
+- i18n Readiness: Centralized strings in src/lib/strings.ts. Header and Footer use string constants. Integration guide for next-intl documented.
+- Future-proofing guide at .local/future-proofing-guide.md with detailed next steps for all 15 areas.

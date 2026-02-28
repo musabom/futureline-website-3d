@@ -85,6 +85,8 @@ model Course {
   orders      Order[]
   enrollments Enrollment[]
   earnings    InstructorEarning[]
+
+  @@index([instructorId])
 }
 
 enum LessonType {
@@ -105,6 +107,8 @@ model Lesson {
   orderIndex   Int
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
 }
 
 model Service {
@@ -129,6 +133,9 @@ model Order {
 
   user   User   @relation(fields: [userId], references: [id])
   course Course @relation(fields: [courseId], references: [id])
+
+  @@index([userId])
+  @@index([courseId])
 }
 
 model Enrollment {
@@ -143,6 +150,8 @@ model Enrollment {
   course Course @relation(fields: [courseId], references: [id])
 
   @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
 }
 
 model InstructorEarning {
@@ -157,6 +166,9 @@ model InstructorEarning {
 
   instructor User   @relation(fields: [instructorId], references: [id])
   course     Course @relation(fields: [courseId], references: [id])
+
+  @@index([instructorId])
+  @@index([courseId])
 }
 
 model Testimonial {
@@ -234,6 +246,8 @@ model LeadActivity {
   createdAt   DateTime @default(now())
 
   lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
 }
 
 model LeadNote {
@@ -245,6 +259,8 @@ model LeadNote {
 
   lead   Lead  @relation(fields: [leadId], references: [id], onDelete: Cascade)
   author User? @relation("LeadNotes", fields: [authorId], references: [id])
+
+  @@index([leadId])
 }
 
 model EmailTemplate {

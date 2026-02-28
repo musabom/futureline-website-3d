@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Settings, Save, User, Shield } from 'lucide-react';
+import { Settings, Save, User, Shield, Lock } from 'lucide-react';
+import ChangePasswordForm from '@/components/ChangePasswordForm';
 
 export default function InstructorSettingsPage() {
   const { data: session } = useSession();
@@ -156,6 +157,14 @@ export default function InstructorSettingsPage() {
             </button>
           </div>
         </form>
+
+        <div className="mt-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Lock className="text-teal" size={20} />
+            <h2 className="text-lg font-semibold text-navy">Security</h2>
+          </div>
+          <ChangePasswordForm />
+        </div>
       </div>
     </div>
   );

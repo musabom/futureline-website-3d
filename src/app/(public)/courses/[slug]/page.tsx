@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { Clock, MapPin, Users, Calendar, BookOpen, CheckCircle } from 'lucide-react';
 import EnrollButton from '@/components/EnrollButton';
+import { formatPrice } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -84,10 +85,19 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
             </div>
 
             <div className="mb-6">
-              <span className="text-3xl font-bold text-teal">Free</span>
+              {course.price > 0 ? (
+                <div>
+                  <span className="text-3xl font-bold text-teal">{formatPrice(course.discountPrice ?? course.price)}</span>
+                  {course.discountPrice && course.discountPrice < course.price && (
+                    <span className="text-lg text-gray-400 line-through ml-2">{formatPrice(course.price)}</span>
+                  )}
+                </div>
+              ) : (
+                <span className="text-3xl font-bold text-teal">Free</span>
+              )}
             </div>
 
-            <EnrollButton courseId={course.id} slug={course.slug} />
+            <EnrollButton courseId={course.id} slug={course.slug} price={course.price} />
 
             <div className="mt-6 space-y-3 text-sm text-gray-500">
               <div className="flex items-center gap-2"><Clock size={14} /> {course.durationHours} hours of content</div>

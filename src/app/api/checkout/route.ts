@@ -34,6 +34,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ enrolled: true, slug: course.slug, message: 'Already enrolled' });
     }
 
+    if (course.price > 0) {
+      return NextResponse.json({
+        paymentRequired: true,
+        message: 'This is a paid course. Online payment will be available soon. Please contact us to enrol.',
+      });
+    }
+
     if (course.seatCapacity) {
       const enrollmentCount = await prisma.enrollment.count({ where: { courseId } });
       if (enrollmentCount >= course.seatCapacity) {

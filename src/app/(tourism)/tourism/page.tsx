@@ -8,7 +8,7 @@ import {
   Compass, CheckCircle
 } from 'lucide-react';
 
-const WHATSAPP_URL = 'https://wa.me/96896532326';
+const WHATSAPP_URL = 'https://api.whatsapp.com/send?phone=96896532326';
 const TRIPADVISOR_URL = 'https://www.tripadvisor.com/Attraction_Review-g1940497-d33120883-Reviews-Authentic_Omani_Adventures_Private_Guided_Tours_Across_Oman-Muscat_Muscat_Gover.html';
 
 const navLinks = [
@@ -772,8 +772,8 @@ export default function TourismPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-[#1A1A1A] text-sm">WhatsApp</h4>
-                    <a href="https://wa.me/96896532326" className="text-[#666666] text-sm hover:text-[#C49A3A] block">+968 9653 2326</a>
-                    <a href="https://wa.me/96894259459" className="text-[#666666] text-sm hover:text-[#C49A3A] block">+968 9425 9459</a>
+                    <a href="https://api.whatsapp.com/send?phone=96896532326" className="text-[#666666] text-sm hover:text-[#C49A3A] block">+968 9653 2326</a>
+                    <a href="https://api.whatsapp.com/send?phone=96894259459" className="text-[#666666] text-sm hover:text-[#C49A3A] block">+968 9425 9459</a>
                   </div>
                 </div>
 

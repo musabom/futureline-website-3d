@@ -3,8 +3,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -17,7 +18,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
     const note = await prisma.leadNote.create({
       data: {
-        leadId: params.id,
+        leadId: id,
         content: content.trim(),
         authorId: (session.user as any).id,
       },
@@ -26,7 +27,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
     await prisma.leadActivity.create({
       data: {
-        leadId: params.id,
+        leadId: id,
         type: 'NOTE_ADDED',
         description: 'Note added',
         performedBy: (session.user as any).id,

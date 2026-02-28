@@ -4,15 +4,16 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notifyLeadStageChange } from '@/lib/notifications';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const lead = await prisma.lead.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         assignee: { select: { id: true, name: true } },
         activities: { orderBy: { createdAt: 'desc' } },
@@ -30,8 +31,9 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -40,7 +42,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const body = await req.json();
     const { stage, priority, assignedTo, tags, value, nextFollowUpAt, lastContactedAt } = body;
 
-    const oldLead = await prisma.lead.findUnique({ where: { id: params.id } });
+    const oldLead = await prisma.lead.findUnique({ where: { id: id } });
     if (!oldLead) return NextResponse.json({ error: 'Lead not found' }, { status: 404 });
 
     const updateData: any = {};
@@ -53,14 +55,14 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     if (lastContactedAt !== undefined) updateData.lastContactedAt = lastContactedAt ? new Date(lastContactedAt) : null;
 
     const lead = await prisma.lead.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
     });
 
     if (stage && stage !== oldLead.stage) {
       await prisma.leadActivity.create({
         data: {
-          leadId: params.id,
+          leadId: id,
           type: 'STAGE_CHANGE',
           description: `Stage changed from ${oldLead.stage} to ${stage}`,
           performedBy: (session.user as any).id,
@@ -77,7 +79,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     if (priority && priority !== oldLead.priority) {
       await prisma.leadActivity.create({
         data: {
-          leadId: params.id,
+          leadId: id,
           type: 'PRIORITY_CHANGE',
           description: `Priority changed from ${oldLead.priority} to ${priority}`,
           performedBy: (session.user as any).id,
@@ -92,14 +94,15 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await prisma.lead.delete({ where: { id: params.id } });
+    await prisma.lead.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete lead' }, { status: 500 });

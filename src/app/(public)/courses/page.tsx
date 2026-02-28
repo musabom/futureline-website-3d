@@ -20,16 +20,17 @@ export const metadata: Metadata = {
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: { type?: string; level?: string; search?: string };
+  searchParams: Promise<{ type?: string; level?: string; search?: string }>;
 }) {
+  const resolvedParams = await searchParams;
   const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
-  if (searchParams.type) where.deliveryType = searchParams.type;
-  if (searchParams.level) where.level = searchParams.level;
-  if (searchParams.search) {
+  if (resolvedParams.type) where.deliveryType = resolvedParams.type;
+  if (resolvedParams.level) where.level = resolvedParams.level;
+  if (resolvedParams.search) {
     where.OR = [
-      { title: { contains: searchParams.search, mode: 'insensitive' } },
-      { shortDescription: { contains: searchParams.search, mode: 'insensitive' } },
-      { category: { contains: searchParams.search, mode: 'insensitive' } },
+      { title: { contains: resolvedParams.search, mode: 'insensitive' } },
+      { shortDescription: { contains: resolvedParams.search, mode: 'insensitive' } },
+      { category: { contains: resolvedParams.search, mode: 'insensitive' } },
     ];
   }
 
@@ -52,18 +53,18 @@ export default async function CoursesPage({
           <input
             type="text"
             name="search"
-            defaultValue={searchParams.search}
+            defaultValue={resolvedParams.search}
             placeholder="Search courses..."
             className="input-field !pl-10"
           />
         </div>
-        <select name="type" defaultValue={searchParams.type || ''} className="input-field md:w-48">
+        <select name="type" defaultValue={resolvedParams.type || ''} className="input-field md:w-48">
           <option value="">All Types</option>
           <option value="ONLINE">Online</option>
           <option value="IN_PERSON">In-Person</option>
           <option value="HYBRID">Hybrid</option>
         </select>
-        <select name="level" defaultValue={searchParams.level || ''} className="input-field md:w-48">
+        <select name="level" defaultValue={resolvedParams.level || ''} className="input-field md:w-48">
           <option value="">All Levels</option>
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>

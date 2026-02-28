@@ -3,8 +3,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'INSTRUCTOR')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -21,20 +22,21 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       questions: data.questions || null,
     };
     if (data.courseId) updateData.courseId = data.courseId;
-    const lesson = await prisma.lesson.update({ where: { id: params.id }, data: updateData });
+    const lesson = await prisma.lesson.update({ where: { id: id }, data: updateData });
     return NextResponse.json(lesson);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });
   }
 }
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'INSTRUCTOR')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    await prisma.lesson.delete({ where: { id: params.id } });
+    await prisma.lesson.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });

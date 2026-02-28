@@ -7,11 +7,11 @@ function cleanup() {
   const now = Date.now();
   if (now - lastCleanup < CLEANUP_INTERVAL) return;
   lastCleanup = now;
-  for (const [key, value] of rateLimitMap.entries()) {
+  rateLimitMap.forEach((value, key) => {
     if (now > value.resetTime) {
       rateLimitMap.delete(key);
     }
-  }
+  });
 }
 
 export function rateLimit(

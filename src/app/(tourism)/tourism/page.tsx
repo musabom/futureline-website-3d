@@ -823,11 +823,11 @@ export default function TourismPage() {
 
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
-              <div className="space-y-2 text-gray-400 text-sm">
+              <div className="flex flex-col space-y-2 text-gray-400 text-sm">
                 <p>Muscat, Sultanate of Oman</p>
-                <p>+968 9653 2326</p>
-                <p>+968 9425 9459</p>
-                <p>authentic.tour.om@gmail.com</p>
+                <a href="https://api.whatsapp.com/send?phone=96896532326" className="hover:text-[#C49A3A] transition-colors w-fit">+968 9653 2326</a>
+                <a href="https://api.whatsapp.com/send?phone=96894259459" className="hover:text-[#C49A3A] transition-colors w-fit">+968 9425 9459</a>
+                <a href="mailto:authentic.tour.om@gmail.com" className="hover:text-[#C49A3A] transition-colors w-fit">authentic.tour.om@gmail.com</a>
               </div>
             </div>
           </div>

@@ -33,7 +33,8 @@ export const authOptions: NextAuthOptions = {
             where: { email: credentials.email },
           });
 
-          console.log('[AUTH DEBUG] User found:', !!user, user ? `role=${user.role} active=${user.isActive}` : 'N/A');
+          console.log('[AUTH DEBUG] User found:', !!user, user ? `id=${user.id} role=${user.role} active=${user.isActive} email=${user.email}` : 'N/A');
+          console.log('[AUTH DEBUG] Password hash prefix:', user ? user.password.substring(0, 20) : 'N/A');
 
           if (!user) return null;
           if (!user.isActive) {

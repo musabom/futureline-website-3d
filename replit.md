@@ -49,7 +49,7 @@ public/
 - **CUSTOMER**: Browse, purchase, access courses, track progress
 
 ## Seed Data Credentials
-- Admin: admin@futureline.com / admin123
+- Admin: musabalsabahi@hotmail.com / [REMOVED-ROTATE-THIS-PASSWORD]
 - Instructor: instructor@futureline.com / instructor123
 - Customer: customer@futureline.com / customer123
 

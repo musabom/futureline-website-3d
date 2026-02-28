@@ -18,13 +18,14 @@ async function requireInstructorLessonOwnership(lessonId: string) {
   return { session, lesson };
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await requireInstructorLessonOwnership(params.id);
+    const { id } = await params;
+    await requireInstructorLessonOwnership(id);
     const data = await req.json();
     delete data.courseId;
     const updated = await prisma.lesson.update({
-      where: { id: params.id },
+      where: { id: id },
       data,
     });
     return NextResponse.json(updated);
@@ -33,10 +34,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await requireInstructorLessonOwnership(params.id);
-    await prisma.lesson.delete({ where: { id: params.id } });
+    const { id } = await params;
+    await requireInstructorLessonOwnership(id);
+    await prisma.lesson.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });

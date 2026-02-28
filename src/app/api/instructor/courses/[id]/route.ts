@@ -15,23 +15,25 @@ async function requireInstructorOwnership(courseId: string) {
   return { session, course };
 }
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { course } = await requireInstructorOwnership(params.id);
+    const { id } = await params;
+    const { course } = await requireInstructorOwnership(id);
     return NextResponse.json(course);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 403 });
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await requireInstructorOwnership(params.id);
+    const { id } = await params;
+    await requireInstructorOwnership(id);
     const data = await req.json();
     delete data.instructorId;
     delete data.approvalStatus;
     const updated = await prisma.course.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { ...data, approvalStatus: 'PENDING' },
     });
     return NextResponse.json(updated);
@@ -40,10 +42,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await requireInstructorOwnership(params.id);
-    await prisma.course.delete({ where: { id: params.id } });
+    const { id } = await params;
+    await requireInstructorOwnership(id);
+    await prisma.course.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });

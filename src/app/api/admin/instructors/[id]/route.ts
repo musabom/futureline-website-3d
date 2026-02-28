@@ -11,8 +11,9 @@ async function requireAdmin() {
   return session;
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     await requireAdmin();
     const data = await req.json();
 
@@ -22,7 +23,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     if (data.bio !== undefined) updateData.bio = data.bio;
 
     const updated = await prisma.user.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
     });
 

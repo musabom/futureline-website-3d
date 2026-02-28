@@ -1,14 +1,14 @@
 # FutureLine
 
 ## Overview
-FutureLine is a production-ready full-stack web application for a professional AI, training, and digital services company. Built with Next.js 14 (App Router), TypeScript, TailwindCSS, PostgreSQL, and Prisma ORM.
+FutureLine is a production-ready full-stack web application for a professional AI, training, and digital services company. Built with Next.js 15 (App Router), TypeScript, TailwindCSS, PostgreSQL, and Prisma ORM.
 
 **Brand**: FutureLine - Design . Deploy . Evolve
 **Primary Color**: Deep Navy #0F1E3D
 **Accent Gradient**: #1B2C63 to #18A999
 
 ## Tech Stack
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15.5.12 (App Router)
 - **Language**: TypeScript
 - **Styling**: TailwindCSS 3 with custom brand theme
 - **Database**: PostgreSQL with Prisma ORM (v5.22)
@@ -161,3 +161,4 @@ public/
 - i18n Readiness: Centralized strings in src/lib/strings.ts. Header and Footer use string constants. Integration guide for next-intl documented.
 - Future-proofing guide at .local/future-proofing-guide.md with detailed next steps for all 15 areas.
 - Password Reset Flow: Complete forgot/reset password system. Forgot password page at /forgot-password, reset page at /reset-password?token=..., APIs at /api/auth/forgot-password and /api/auth/reset-password. Secure token generation (crypto.randomBytes), hashed storage (SHA-256), 1-hour expiry. Rate limited (3/min forgot, 5/min reset). Uses notification system for email delivery. Login page updated with "Forgot your password?" link. User model extended with resetToken and resetTokenExpiry fields.
+- Next.js 15 Upgrade: Upgraded from Next.js 15.0.8 to 15.5.12 to patch critical security vulnerabilities (CVEs up to 15.5.9). Updated all route handlers and page components to use async `params` and `searchParams` (Promise-based) as required by Next.js 15. Added `allowedDevOrigins` config in next.config.js for Replit dev environment.

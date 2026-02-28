@@ -8,11 +8,12 @@ import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CourseLearnPage({ params }: { params: { slug: string } }) {
+export default async function CourseLearnPage({ params }: { params: Promise<{ slug: string }> }) {
   const session = await requireAuth();
+  const { slug } = await params;
 
   const course = await prisma.course.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       lessons: { orderBy: { orderIndex: 'asc' } },
       instructor: { select: { name: true } },

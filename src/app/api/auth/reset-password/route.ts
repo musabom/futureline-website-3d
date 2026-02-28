@@ -1,0 +1,71 @@
+import { NextResponse } from 'next/server';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import { prisma } from '@/lib/prisma';
+import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
+import { z } from 'zod';
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1, 'Token is required'),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(100),
+});
+
+export async function POST(req: Request) {
+  try {
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const rl = rateLimit(`reset-password:${ip}`, 5, 60 * 1000);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: getRateLimitHeaders(rl.remaining, rl.resetIn) }
+      );
+    }
+
+    const body = await req.json();
+    const parsed = resetPasswordSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(', ') },
+        { status: 400 }
+      );
+    }
+
+    const { token, password } = parsed.data;
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: hashedToken,
+        resetTokenExpiry: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Invalid or expired reset link. Please request a new one.' },
+        { status: 400 }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null,
+      },
+    });
+
+    return NextResponse.json({
+      message: 'Your password has been reset successfully. You can now sign in.',
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    return NextResponse.json(
+      { error: 'Failed to reset password. Please try again.' },
+      { status: 500 }
+    );
+  }
+}

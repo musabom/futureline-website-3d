@@ -39,15 +39,17 @@ enum PaymentStatus {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  name           String
-  email          String   @unique
-  password       String
-  role           Role     @default(CUSTOMER)
-  bio            String?
-  commissionRate Float    @default(70)
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
+  id               String    @id @default(cuid())
+  name             String
+  email            String    @unique
+  password         String
+  role             Role      @default(CUSTOMER)
+  bio              String?
+  commissionRate   Float     @default(70)
+  isActive         Boolean   @default(true)
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
 
   courses     Course[]     @relation("InstructorCourses")
   orders      Order[]

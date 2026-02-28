@@ -160,3 +160,4 @@ public/
 - Notification Foundation: Pluggable NotificationProvider interface in src/lib/notifications.ts. Console provider for dev. Wired into lead stage changes and enrollments. Ready for SendGrid/Resend swap.
 - i18n Readiness: Centralized strings in src/lib/strings.ts. Header and Footer use string constants. Integration guide for next-intl documented.
 - Future-proofing guide at .local/future-proofing-guide.md with detailed next steps for all 15 areas.
+- Password Reset Flow: Complete forgot/reset password system. Forgot password page at /forgot-password, reset page at /reset-password?token=..., APIs at /api/auth/forgot-password and /api/auth/reset-password. Secure token generation (crypto.randomBytes), hashed storage (SHA-256), 1-hour expiry. Rate limited (3/min forgot, 5/min reset). Uses notification system for email delivery. Login page updated with "Forgot your password?" link. User model extended with resetToken and resetTokenExpiry fields.

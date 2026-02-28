@@ -2,12 +2,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { LayoutDashboard, BookOpen, FileText, LogOut, Home } from 'lucide-react';
+import { LayoutDashboard, BookOpen, FileText, DollarSign, Settings, LogOut, Home } from 'lucide-react';
 
 const links = [
   { href: '/instructor', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/instructor/courses', label: 'My Courses', icon: BookOpen },
   { href: '/instructor/lessons', label: 'Course Builder', icon: FileText },
+  { href: '/instructor/earnings', label: 'Earnings', icon: DollarSign },
+  { href: '/instructor/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function InstructorSidebar() {

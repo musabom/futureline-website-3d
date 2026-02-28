@@ -144,3 +144,8 @@ public/
 - Automation Rules: Rule engine at /admin/automation with configurable triggers (stage change, days inactive, new lead, follow-up due) and actions (change stage, send template, set priority, add tag, schedule follow-up). Delay configuration in hours. Ready for email service integration.
 - Lead Activity Logging: All interactions (stage changes, notes, emails, calls) automatically logged with timestamps. Activity API at /api/admin/leads/[id]/activity.
 - Lead capture forms now auto-create activity log entries when new leads submit.
+- Instructor Earnings Page: /instructor/earnings shows commission rate, total revenue, instructor/platform share, per-course breakdown table. Uses formatPrice (GBP) consistently. Info banner when no revenue. Earnings history from InstructorEarning model when records exist.
+- Instructor Dashboard Enhanced: Added enrollment trend bar chart (last 7 days, pure CSS), course performance cards with completion rates, approval status summary with visual bar.
+- Admin Dashboard Enhanced: Added enrollment trend and revenue trend bar charts (last 7 days), pending approvals alert banner, lead pipeline summary (counts per CRM stage), top instructors by student count.
+- Instructor Profile Settings: /instructor/settings page with editable name/bio, read-only commission rate and account status. API at /api/instructor/profile (GET/PUT) with auth and ownership checks.
+- InstructorSidebar updated with Earnings and Settings links.

@@ -17,24 +17,44 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        console.log('[AUTH DEBUG] authorize called, email:', credentials?.email);
+        console.log('[AUTH DEBUG] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
+        console.log('[AUTH DEBUG] NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET);
+        console.log('[AUTH DEBUG] SESSION_SECRET exists:', !!process.env.SESSION_SECRET);
+        console.log('[AUTH DEBUG] DATABASE_URL exists:', !!process.env.DATABASE_URL);
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        if (!credentials?.email || !credentials?.password) {
+          console.log('[AUTH DEBUG] Missing credentials');
+          return null;
+        }
 
-        if (!user) return null;
-        if (!user.isActive) return null;
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) return null;
+          console.log('[AUTH DEBUG] User found:', !!user, user ? `role=${user.role} active=${user.isActive}` : 'N/A');
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
+          if (!user) return null;
+          if (!user.isActive) {
+            console.log('[AUTH DEBUG] User not active');
+            return null;
+          }
+
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          console.log('[AUTH DEBUG] Password valid:', isValid);
+          if (!isValid) return null;
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error('[AUTH DEBUG] Error in authorize:', error);
+          return null;
+        }
       },
     }),
   ],

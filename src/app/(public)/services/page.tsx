@@ -2,20 +2,8 @@
 import Link from 'next/link';
 import {
   ArrowRight, ArrowDown, Factory, Building2, Landmark,
-  GraduationCap, Briefcase, Layers, Mail, Plus
+  GraduationCap, Briefcase, Layers, Mail, Bell, Clock, CheckCircle
 } from 'lucide-react';
-
-const services = [
-  {
-    id: 'digitalisation',
-    name: 'Digitalisation',
-    shortDescription: 'We turn scattered workflows into one structured, trackable system—improving governance, accountability, and efficiency.',
-    tags: ['Workflow', 'Governance', 'Dashboards', 'Automation'],
-    icon: Layers,
-    href: '/services/digitalisation',
-    active: true,
-  },
-];
 
 const industries = [
   { name: 'Oil & Gas', icon: Factory },
@@ -47,73 +35,73 @@ export default function ServicesPage() {
               Practical solutions that improve how organizations operate, communicate, and deliver results.
             </p>
             <p className="text-sm text-gray-400 mb-8">
-              Currently available: <span className="text-teal font-medium">Digitalisation</span> — more services coming soon.
+              Currently available: <span className="text-teal font-medium">Digitalisation</span> — more services launching soon.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="mailto:contact@futureline.com"
+                href="/services/digitalisation"
                 className="btn-primary inline-flex items-center justify-center gap-2"
               >
-                Book a Consultation <ArrowRight size={18} />
+                View Digitalisation <ArrowRight size={18} />
               </Link>
               <button
-                onClick={() => scrollTo('services-grid')}
+                onClick={() => scrollTo('coming-soon')}
                 className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
               >
-                Explore Services <ArrowDown size={18} />
+                See What's Coming <ArrowDown size={18} />
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services-grid" className="py-20 bg-white">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">What We Offer</span>
+            <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">Available Now</span>
             <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">Our Services</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-              Scalable solutions designed to transform how your organization operates.
-            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <div key={service.id} className="card p-8 flex flex-col hover:shadow-lg transition-shadow duration-300">
-                <div className="w-14 h-14 bg-brand-gradient rounded-2xl flex items-center justify-center mb-6">
-                  <service.icon className="text-white" size={24} />
+            <div className="card p-8 flex flex-col hover:shadow-lg transition-shadow duration-300 border-2 border-teal/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-14 h-14 bg-brand-gradient rounded-2xl flex items-center justify-center">
+                  <Layers className="text-white" size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-navy mb-3">{service.name}</h3>
-                <p className="text-gray-500 mb-5 flex-1 leading-relaxed">{service.shortDescription}</p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {service.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium bg-teal/10 text-teal">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <Link
-                  href={service.href}
-                  className="btn-primary inline-flex items-center justify-center gap-2 w-full"
-                >
-                  View Details <ArrowRight size={16} />
-                </Link>
+                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                  <CheckCircle size={12} /> Live
+                </span>
               </div>
-            ))}
-
-            <div className="card p-8 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 bg-gray-50/50">
-              <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mb-6">
-                <Plus className="text-gray-400" size={24} />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-400 mb-2">More Services Coming Soon</h3>
-              <p className="text-gray-400 text-sm text-center leading-relaxed">
-                We are expanding FL Services. Stay tuned.
+              <h3 className="text-xl font-bold text-navy mb-3">Digitalisation</h3>
+              <p className="text-gray-500 mb-5 flex-1 leading-relaxed">
+                We turn scattered workflows into one structured, trackable system — improving governance, accountability, and efficiency.
               </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['Workflow', 'Governance', 'Dashboards', 'Automation'].map((tag) => (
+                  <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium bg-teal/10 text-teal">{tag}</span>
+                ))}
+              </div>
+              <Link href="/services/digitalisation" className="btn-primary inline-flex items-center justify-center gap-2 w-full">
+                View Details <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="card p-8 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 bg-gray-50/50 col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="w-20 h-20 bg-navy/5 rounded-full flex items-center justify-center mb-6">
+                <Clock className="text-navy/30" size={36} />
+              </div>
+              <h3 className="text-2xl font-bold text-navy mb-3">More Services Coming Soon</h3>
+              <p className="text-gray-500 text-center max-w-md leading-relaxed mb-6">
+                We are expanding FL Services with new consulting, training delivery, and operational solutions. Stay tuned for announcements.
+              </p>
+              <Link href="mailto:contact@futureline.com?subject=FL%20Services%20Enquiry" className="btn-secondary inline-flex items-center gap-2">
+                <Mail size={16} /> Get in Touch
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section id="coming-soon" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">Industries</span>
@@ -140,14 +128,14 @@ export default function ServicesPage() {
             Want to Improve Governance and Efficiency?
           </h2>
           <p className="text-gray-300 mb-8 text-lg leading-relaxed">
-            Let&apos;s review your current workflow and recommend a clear digital approach—then build a system your teams actually use.
+            Let&apos;s review your current workflow and recommend a clear digital approach — then build a system your teams actually use.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="mailto:contact@futureline.com?subject=Strategy%20Session%20Request"
+              href="/services/digitalisation"
               className="btn-primary inline-flex items-center justify-center gap-2"
             >
-              Book a Strategy Session <ArrowRight size={18} />
+              Explore Digitalisation <ArrowRight size={18} />
             </Link>
             <Link
               href="mailto:contact@futureline.com"

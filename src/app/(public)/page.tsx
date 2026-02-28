@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { formatPrice } from '@/lib/utils';
 import { ArrowRight, Brain, Rocket, TrendingUp, Star, Users, BookOpen, Cpu, Compass, GraduationCap, Briefcase, Bot } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -70,6 +69,7 @@ export default async function HomePage() {
                 gradient: 'from-[#0F1E3D] to-[#1B4B6D]',
                 accent: 'bg-sky-400/20 text-sky-300',
                 href: '/tourism',
+                comingSoon: false,
               },
               {
                 icon: GraduationCap,
@@ -78,6 +78,7 @@ export default async function HomePage() {
                 gradient: 'from-[#1B2C63] to-[#18A999]',
                 accent: 'bg-teal/20 text-teal-300',
                 href: '/courses',
+                comingSoon: false,
               },
               {
                 icon: Briefcase,
@@ -86,6 +87,7 @@ export default async function HomePage() {
                 gradient: 'from-[#0F1E3D] to-[#2D3A6E]',
                 accent: 'bg-indigo-400/20 text-indigo-300',
                 href: '/services',
+                comingSoon: true,
               },
               {
                 icon: Bot,
@@ -94,6 +96,7 @@ export default async function HomePage() {
                 gradient: 'from-[#1B2C63] to-[#0F8B6E]',
                 accent: 'bg-emerald-400/20 text-emerald-300',
                 href: '/ai',
+                comingSoon: true,
               },
             ].map((division) => (
               <Link
@@ -103,6 +106,13 @@ export default async function HomePage() {
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${division.gradient}`} />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+                {division.comingSoon && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <span className="px-2.5 py-1 bg-amber-400/90 text-navy text-[10px] font-bold uppercase rounded-full tracking-wider">
+                      Coming Soon
+                    </span>
+                  </div>
+                )}
                 <div className="relative p-8 flex flex-col items-center text-center min-h-[280px] justify-center">
                   <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${division.accent} backdrop-blur-sm border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
                     <division.icon size={28} />
@@ -171,17 +181,8 @@ export default async function HomePage() {
                     {course.title}
                   </h3>
                   <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.shortDescription}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {course.discountPrice ? (
-                        <>
-                          <span className="font-bold text-navy">{formatPrice(course.discountPrice)}</span>
-                          <span className="text-sm text-gray-400 line-through">{formatPrice(course.price)}</span>
-                        </>
-                      ) : (
-                        <span className="font-bold text-navy">{formatPrice(course.price)}</span>
-                      )}
-                    </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <span className="font-bold text-teal text-lg">Free</span>
                     <span className="text-xs text-gray-400">{course.durationHours}h</span>
                   </div>
                 </div>

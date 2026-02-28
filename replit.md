@@ -53,16 +53,24 @@ public/
 - Instructor: instructor@futureline.com / instructor123
 - Customer: customer@futureline.com / customer123
 
+## Business Divisions
+- **FL Tourism**: Live - Standalone tourism page at /tourism
+- **FL Courses**: Live - Full course catalog, free enrollment, lesson viewer
+- **FL Services**: Coming Soon (Digitalisation service live at /services/digitalisation)
+- **FL AI & Automation**: Coming Soon - Professional landing page at /ai
+
 ## Key Features
-- Public website with hero, courses, services, AI recommendations
-- Course filtering by type, level, search
-- AI-powered course recommendation (rule-based, LLM-ready architecture)
+- Public website with hero, four division cards (with Coming Soon badges), courses
+- Course filtering by type, level, search; all courses are free
 - Customer dashboard with progress tracking
-- Online course learning area with lesson viewer
+- Online course learning area with lesson viewer (video, notes, quizzes)
 - Admin portal with full CRUD management
-- Role-based route protection
-- Stripe payment flow (with graceful fallback when no key configured)
-- CSV export for enrollments
+- CRM pipeline with 7 stages, lead detail pages, activity logging
+- Email templates with variable substitution ({{name}}, {{email}}, {{service}})
+- Automation rules engine (triggers + actions, ready for email service)
+- Role-based route protection (Admin, Instructor, Customer)
+- Instructor portal with course builder and approval workflow
+- CSV export for enrollments and leads
 
 ## Environment Variables
 - DATABASE_URL: PostgreSQL connection string

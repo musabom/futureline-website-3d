@@ -1,5 +1,6 @@
 import { requireAuth } from '@/lib/requireAuth';
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import InactivityWatcher from '@/components/InactivityWatcher';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,6 +9,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="flex min-h-screen">
+      <InactivityWatcher timeoutMinutes={30} />
       <AdminSidebar />
       <main className="flex-1 bg-gray-soft overflow-auto">
         <div className="p-8">{children}</div>

@@ -50,7 +50,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  session: { strategy: 'jwt' },
+  session: { 
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 2, // 2 hours absolute session limit
+  },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login',

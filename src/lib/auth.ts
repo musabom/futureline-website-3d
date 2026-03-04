@@ -3,9 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { prisma } from './prisma';
 
-if (!process.env.NEXTAUTH_URL && process.env.REPLIT_DOMAINS) {
-  const domain = process.env.REPLIT_DOMAINS.split(',')[0];
-  process.env.NEXTAUTH_URL = `https://${domain}`;
+if (!process.env.NEXTAUTH_URL) {
+  process.env.NEXTAUTH_URL = 'https://futureline.ai';
 }
 
 export const authOptions: NextAuthOptions = {

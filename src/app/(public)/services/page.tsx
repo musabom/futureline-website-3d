@@ -51,10 +51,10 @@ export default function ServicesPage() {
                 View Digitalisation <ArrowRight size={18} />
               </Link>
               <button
-                onClick={() => scrollTo('enquiry')}
+                onClick={() => scrollTo('industries')}
                 className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
               >
-                Get in Touch <ArrowDown size={18} />
+                Industries <ArrowDown size={18} />
               </button>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section id="coming-soon" className="py-20 bg-gray-50">
+      <section id="industries" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">Industries</span>

@@ -99,7 +99,7 @@ export default async function HomePage() {
                 gradient: 'from-[#0F1E3D] to-[#2D3A6E]',
                 accent: 'bg-indigo-400/20 text-indigo-300',
                 href: '/services',
-                comingSoon: true,
+                comingSoon: false,
               },
               {
                 icon: Bot,
@@ -108,7 +108,7 @@ export default async function HomePage() {
                 gradient: 'from-[#1B2C63] to-[#0F8B6E]',
                 accent: 'bg-emerald-400/20 text-emerald-300',
                 href: '/ai',
-                comingSoon: true,
+                comingSoon: false,
               },
             ].map((division) => (
               <Link

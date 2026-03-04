@@ -22,7 +22,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const { course } = await requireInstructorOwnership(id);
     return NextResponse.json(course);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 403 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 403 });
   }
 }
 
@@ -39,7 +39,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     });
     return NextResponse.json(updated);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }
 
@@ -63,6 +63,6 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     await prisma.course.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }

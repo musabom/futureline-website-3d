@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { lessonSchema, formatZodError } from '@/lib/validations';
 
 async function requireInstructor() {
   const session = await getServerSession(authOptions);
@@ -34,19 +35,26 @@ export async function GET(req: Request) {
     });
     return NextResponse.json(lessons);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 403 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 403 });
   }
 }
 
 export async function POST(req: Request) {
   try {
     const session = await requireInstructor();
-    const data = await req.json();
-    await verifyCourseBelongsToInstructor(data.courseId, session.user.id);
+    const body = await req.json();
+    
+    const parsed = lessonSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
+    }
 
-    const lesson = await prisma.lesson.create({ data });
+    await verifyCourseBelongsToInstructor(parsed.data.courseId, session.user.id);
+
+    const lesson = await prisma.lesson.create({ data: parsed.data });
     return NextResponse.json(lesson);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('[LESSON-CREATE] Error:', error);
+    return NextResponse.json({ error: 'Failed to create lesson' }, { status: 400 });
   }
 }

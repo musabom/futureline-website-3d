@@ -12,7 +12,7 @@ const forgotPasswordSchema = z.object({
 export async function POST(req: Request) {
   try {
     const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const rl = rateLimit(`forgot-password:${ip}`, 3, 60 * 1000);
+    const rl = await rateLimit(`forgot-password:${ip}`, 3, 60 * 1000);
     if (!rl.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

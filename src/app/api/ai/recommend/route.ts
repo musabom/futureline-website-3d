@@ -1,8 +1,19 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') || 'anonymous';
+    const rl = await rateLimit(`ai-recommend:${ip}`, 20, 60 * 1000);
+    
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: getRateLimitHeaders(rl.remaining, rl.resetIn) }
+      );
+    }
+
     const { goal, skillLevel, deliveryPref, budget } = await req.json();
 
     const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };

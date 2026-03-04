@@ -30,11 +30,11 @@ export const authOptions: NextAuthOptions = {
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
           if (!isValid) {
-            console.warn(`[AUTH] Failed login attempt for ${credentials.email}`);
+            console.warn(`[AUTH] Failed login attempt`);
             return null;
           }
 
-          console.info(`[AUTH] Successful login for ${credentials.email}`);
+          console.info(`[AUTH] Successful login`);
           return {
             id: user.id,
             email: user.email,
@@ -65,6 +65,19 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.firstName = (user as any).firstName;
         token.lastName = (user as any).lastName;
+      } else if (token.id) {
+        // C1: Re-verify role from DB on refresh to prevent stale admin sessions
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            select: { role: true },
+          });
+          if (dbUser) {
+            token.role = dbUser.role;
+          }
+        } catch (error) {
+          console.error('[AUTH] Failed to refresh token role:', error);
+        }
       }
       return token;
     },

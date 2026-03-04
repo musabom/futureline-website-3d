@@ -20,7 +20,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
     return NextResponse.json(user);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
   }
 }
 
@@ -32,9 +32,21 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    if (id === session.user.id) {
+      return NextResponse.json({ error: 'You cannot delete your own account' }, { status: 400 });
+    }
+
+    const adminCount = await prisma.user.count({ where: { role: 'ADMIN' } });
+    const userToDelete = await prisma.user.findUnique({ where: { id }, select: { role: true } });
+    
+    if (userToDelete?.role === 'ADMIN' && adminCount <= 1) {
+      return NextResponse.json({ error: 'Cannot delete the last remaining administrator' }, { status: 400 });
+    }
+
     await prisma.user.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });
+    console.error('[USER-DELETE] Error:', error);
+    return NextResponse.json({ error: 'Failed to delete user' }, { status: 400 });
   }
 }

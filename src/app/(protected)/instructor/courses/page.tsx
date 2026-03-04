@@ -19,6 +19,25 @@ export default function InstructorCoursesPage() {
     setLoading(false);
   };
 
+  const togglePublish = async (course: any) => {
+    const newStatus = course.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+    try {
+      const res = await fetch(`/api/instructor/courses/${course.id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        fetchCourses();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update status');
+      }
+    } catch {
+      alert('An unexpected error occurred');
+    }
+  };
+
   const deleteCourse = async (id: string) => {
     if (!confirm('Are you sure you want to move this course to the archive? It will be hidden from the public and your main dashboard.')) return;
     try {

@@ -107,6 +107,9 @@ export default function InstructorCoursesPage() {
                             <Eye size={16} />
                           </span>
                         )}
+                        <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal" title="Edit course">
+                          <Edit size={16} />
+                        </Link>
                         <button onClick={() => deleteCourse(course.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
                       </div>
                     </td>

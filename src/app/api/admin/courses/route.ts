@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { courseSchema, formatZodError } from '@/lib/validations';
+import { courseSchema, formatZodError, normalizeCourseData } from '@/lib/validations';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
     }
-    const course = await prisma.course.create({ data: parsed.data });
+    const course = await prisma.course.create({ data: normalizeCourseData(parsed.data) });
     return NextResponse.json(course);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });

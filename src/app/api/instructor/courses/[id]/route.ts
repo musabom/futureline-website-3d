@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { normalizeCourseData } from '@/lib/validations';
 
 async function requireInstructorOwnership(courseId: string) {
   const session = await getServerSession(authOptions);
@@ -34,7 +35,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     delete data.approvalStatus;
     const updated = await prisma.course.update({
       where: { id: id },
-      data: { ...data, approvalStatus: 'PENDING' },
+      data: { ...normalizeCourseData(data), approvalStatus: 'PENDING' },
     });
     return NextResponse.json(updated);
   } catch (error: any) {

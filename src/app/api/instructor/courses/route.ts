@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { courseSchema, formatZodError } from '@/lib/validations';
+import { courseSchema, formatZodError, normalizeCourseData } from '@/lib/validations';
 
 async function requireInstructor() {
   const session = await getServerSession(authOptions);
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     }
     const course = await prisma.course.create({
       data: {
-        ...parsed.data,
+        ...normalizeCourseData(parsed.data),
         instructorId: session.user.id,
         approvalStatus: 'PENDING',
       },

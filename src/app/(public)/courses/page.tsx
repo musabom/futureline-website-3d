@@ -4,6 +4,8 @@ import { BookOpen, Search, Clock, MapPin, Users, MessageSquare } from 'lucide-re
 import { formatPrice } from '@/lib/utils';
 import CourseEnquiryForm from '@/components/CourseEnquiryForm';
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,10 +23,22 @@ export const metadata: Metadata = {
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string; level?: string; search?: string }>;
+  searchParams: Promise<{ type?: string; level?: string; search?: string; tab?: string }>;
 }) {
+  const session = await getServerSession(authOptions);
   const resolvedParams = await searchParams;
+  const activeTab = resolvedParams.tab || 'all';
+
   const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
+  
+  if (activeTab === 'enrolled' && session?.user?.id) {
+    where.enrollments = {
+      some: {
+        userId: session.user.id
+      }
+    };
+  }
+
   if (resolvedParams.type) where.deliveryType = resolvedParams.type;
   if (resolvedParams.level) where.level = resolvedParams.level;
   if (resolvedParams.search) {
@@ -37,9 +51,16 @@ export default async function CoursesPage({
 
   const courses = await prisma.course.findMany({
     where,
-    include: { instructor: { select: { firstName: true, lastName: true } } },
+    include: { 
+      instructor: { select: { firstName: true, lastName: true } },
+      enrollments: session?.user?.id ? { where: { userId: session.user.id } } : false
+    },
     orderBy: { createdAt: 'desc' },
   });
+
+  const enrolledCount = session?.user?.id ? await prisma.enrollment.count({
+    where: { userId: session.user.id }
+  }) : 0;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -48,7 +69,38 @@ export default async function CoursesPage({
         <p className="text-gray-500">Find the perfect course to advance your career</p>
       </div>
 
+      {session?.user && (
+        <div className="flex border-b border-gray-200 mb-8">
+          <Link
+            href="/courses?tab=all"
+            className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
+              activeTab === 'all'
+                ? 'text-teal border-b-2 border-teal'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            All Courses
+          </Link>
+          <Link
+            href="/courses?tab=enrolled"
+            className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
+              activeTab === 'enrolled'
+                ? 'text-teal border-b-2 border-teal'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            My Enrolled Courses
+            {enrolledCount > 0 && (
+              <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">
+                {enrolledCount}
+              </span>
+            )}
+          </Link>
+        </div>
+      )}
+
       <form className="flex flex-col md:flex-row gap-4 mb-10">
+        <input type="hidden" name="tab" value={activeTab} />
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
@@ -77,49 +129,79 @@ export default async function CoursesPage({
       {courses.length === 0 ? (
         <div className="text-center py-20">
           <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
-          <h3 className="text-xl font-semibold text-gray-400">No courses found</h3>
-          <p className="text-gray-400 mt-2">Try adjusting your filters</p>
+          <h3 className="text-xl font-semibold text-gray-400">
+            {activeTab === 'enrolled' ? "You haven't enrolled in any courses yet" : "No courses found"}
+          </h3>
+          <p className="text-gray-400 mt-2">
+            {activeTab === 'enrolled' ? "Explore our catalogue to start learning" : "Try adjusting your filters"}
+          </p>
+          {activeTab === 'enrolled' && (
+            <Link href="/courses?tab=all" className="btn-primary inline-block mt-6">
+              Browse All Courses
+            </Link>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <Link href={`/courses/${course.slug}`} key={course.id} className="card overflow-hidden group">
-              <div className="h-44 bg-brand-gradient flex items-center justify-center">
-                <BookOpen className="text-white/50" size={40} />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-semibold px-2 py-1 bg-teal/10 text-teal rounded-full">
-                    {course.deliveryType.replace('_', ' ')}
-                  </span>
-                  <span className="text-xs text-gray-400">{course.level}</span>
-                  <span className="text-xs text-gray-400">{course.category}</span>
+          {courses.map((course) => {
+            const isEnrolled = course.enrollments && course.enrollments.length > 0;
+            return (
+              <Link 
+                href={isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`} 
+                key={course.id} 
+                className="card overflow-hidden group"
+              >
+                <div className="h-44 bg-brand-gradient flex items-center justify-center relative">
+                  <BookOpen className="text-white/50" size={40} />
+                  {isEnrolled && (
+                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-teal text-[10px] font-bold px-2 py-1 rounded-md shadow-sm border border-teal/20 flex items-center gap-1 uppercase tracking-wider">
+                      <div className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+                      Enrolled
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-lg font-bold text-navy mb-2 group-hover:text-teal transition-colors">
-                  {course.title}
-                </h3>
-                <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.shortDescription}</p>
-                <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                  <span className="flex items-center gap-1"><Clock size={14} /> {course.durationHours}h</span>
-                  {course.location && <span className="flex items-center gap-1"><MapPin size={14} /> {course.location}</span>}
-                  {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
-                </div>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <div className="flex flex-col">
-                    <span className="font-bold text-teal text-lg">
-                      {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-semibold px-2 py-1 bg-teal/10 text-teal rounded-full">
+                      {course.deliveryType.replace('_', ' ')}
                     </span>
-                    {course.discountPrice && course.discountPrice < course.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(course.price)}
-                      </span>
-                    )}
+                    <span className="text-xs text-gray-400">{course.level}</span>
+                    <span className="text-xs text-gray-400">{course.category}</span>
                   </div>
-                  <span className="text-teal font-semibold text-sm">View Details</span>
+                  <h3 className="text-lg font-bold text-navy mb-2 group-hover:text-teal transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.shortDescription}</p>
+                  <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
+                    <span className="flex items-center gap-1"><Clock size={14} /> {course.durationHours}h</span>
+                    {course.location && <span className="flex items-center gap-1"><MapPin size={14} /> {course.location}</span>}
+                    {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div className="flex flex-col">
+                      {isEnrolled ? (
+                        <span className="text-teal font-bold text-sm">Resume Learning</span>
+                      ) : (
+                        <>
+                          <span className="font-bold text-teal text-lg">
+                            {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
+                          </span>
+                          {course.discountPrice && course.discountPrice < course.price && (
+                            <span className="text-xs text-gray-400 line-through">
+                              {formatPrice(course.price)}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    <span className="text-teal font-semibold text-sm">
+                      {isEnrolled ? 'Go to Course' : 'View Details'}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       )}
 
@@ -142,3 +224,4 @@ export default async function CoursesPage({
     </div>
   );
 }
+

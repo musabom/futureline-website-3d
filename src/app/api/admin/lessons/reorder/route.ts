@@ -44,6 +44,6 @@ export async function PUT(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Reorder error:', error);
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 500 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

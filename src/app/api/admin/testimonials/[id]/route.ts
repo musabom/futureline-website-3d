@@ -13,7 +13,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     const testimonial = await prisma.testimonial.update({ where: { id: id }, data: updateData });
     return NextResponse.json(testimonial);
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }
 
@@ -25,6 +25,6 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
     await prisma.testimonial.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }

@@ -22,6 +22,6 @@ export async function POST(req: Request) {
     const testimonial = await prisma.testimonial.create({ data });
     return NextResponse.json(testimonial);
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }

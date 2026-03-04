@@ -76,6 +76,9 @@ public/
 - DATABASE_URL: PostgreSQL connection string
 - NEXTAUTH_SECRET / SESSION_SECRET: Auth session secret
 - NEXTAUTH_URL: App URL for NextAuth
+- RESEND_API_KEY: Resend email service API key
+- RESEND_FROM_EMAIL: Sender address for emails (noreply@futureline.ai)
+- APP_URL: Base URL for email links (https://futureline.ai)
 - STRIPE_SECRET_KEY: (Optional) Stripe API key
 
 ## Running
@@ -157,7 +160,7 @@ public/
 - SEO: Per-page metadata with OpenGraph on all public pages. Dynamic sitemap.xml at /sitemap.xml. robots.txt blocking admin/instructor/dashboard/api paths.
 - Error Handling: Global error boundary (error.tsx), custom 404 page (not-found.tsx), root fallback (global-error.tsx).
 - Database Indexes: @@index added to all high-traffic foreign keys (Course.instructorId, Lesson.courseId, Order.userId/courseId, Enrollment.userId/courseId, InstructorEarning, LeadActivity.leadId, LeadNote.leadId).
-- Notification Foundation: Pluggable NotificationProvider interface in src/lib/notifications.ts. Resend provider active (RESEND_API_KEY env var set). Auto-detects: if RESEND_API_KEY exists, uses Resend; otherwise falls back to console logging. Sender address configurable via RESEND_FROM_EMAIL env var (defaults to "FutureLine <onboarding@resend.dev>"). Wired into: welcome emails on registration, lead stage changes, course enrollments, password resets, and automation templates.
+- Notification Foundation: Pluggable NotificationProvider interface in src/lib/notifications.ts. Resend provider active (RESEND_API_KEY env var set). Auto-detects: if RESEND_API_KEY exists, uses Resend; otherwise falls back to console logging. Sender address configurable via RESEND_FROM_EMAIL env var (set to noreply@futureline.ai). APP_URL env var used for all email links (set to https://futureline.ai). Wired into: welcome emails on registration, lead stage changes, course enrollments, password resets, password change confirmations, and automation templates.
 - i18n Readiness: Centralized strings in src/lib/strings.ts. Header and Footer use string constants. Integration guide for next-intl documented.
 - Future-proofing guide at .local/future-proofing-guide.md with detailed next steps for all 15 areas.
 - Password Reset Flow: Complete forgot/reset password system. Forgot password page at /forgot-password, reset page at /reset-password?token=..., APIs at /api/auth/forgot-password and /api/auth/reset-password. Secure token generation (crypto.randomBytes), hashed storage (SHA-256), 1-hour expiry. Rate limited (3/min forgot, 5/min reset). Uses notification system for email delivery. Login page updated with "Forgot your password?" link. User model extended with resetToken and resetTokenExpiry fields.

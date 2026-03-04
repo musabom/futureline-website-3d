@@ -79,11 +79,22 @@ export async function sendEmail(notification: EmailNotification): Promise<boolea
 }
 
 export async function notifyWelcome(user: { name: string; email: string }) {
+  const appUrl = process.env.APP_URL || 'https://futureline.ai';
   await sendEmail({
     to: user.email,
     subject: 'Welcome to FutureLine!',
-    body: `Dear ${user.name},\n\nWelcome to FutureLine! Your account has been created successfully.\n\nYou can now sign in and explore our professional courses, digital services, and AI solutions.\n\nSign in at any time to get started:\nhttps://future-line-main-page.replit.app/login\n\nIf you have any questions, feel free to reach out to our team.\n\nBest regards,\nFutureLine Team`,
+    body: `Dear ${user.name},\n\nWelcome to FutureLine! Your account has been created successfully.\n\nYou can now sign in and explore our professional courses, digital services, and AI solutions.\n\nSign in at any time to get started:\n${appUrl}/login\n\nIf you have any questions, feel free to reach out to our team.\n\nBest regards,\nFutureLine Team`,
     metadata: { type: 'welcome' },
+  });
+}
+
+export async function notifyPasswordChanged(user: { name: string; email: string }) {
+  const appUrl = process.env.APP_URL || 'https://futureline.ai';
+  await sendEmail({
+    to: user.email,
+    subject: 'FutureLine - Your Password Has Been Changed',
+    body: `Dear ${user.name},\n\nYour password has been successfully changed.\n\nIf you did not make this change, please contact our support team immediately or reset your password here:\n${appUrl}/forgot-password\n\nBest regards,\nFutureLine Team`,
+    metadata: { type: 'password_changed' },
   });
 }
 

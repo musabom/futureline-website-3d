@@ -45,9 +45,15 @@ export async function POST(req: Request) {
         },
       });
 
-      const host = req.headers.get('host') || 'localhost:5000';
-      const protocol = req.headers.get('x-forwarded-proto') || 'http';
-      const resetUrl = `${protocol}://${host}/reset-password?token=${rawToken}`;
+      const appUrl = process.env.APP_URL;
+      let resetUrl: string;
+      if (appUrl) {
+        resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
+      } else {
+        const host = req.headers.get('host') || 'localhost:5000';
+        const protocol = req.headers.get('x-forwarded-proto') || 'http';
+        resetUrl = `${protocol}://${host}/reset-password?token=${rawToken}`;
+      }
 
       await sendEmail({
         to: user.email,

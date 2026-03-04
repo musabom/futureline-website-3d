@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { lessonSchema, formatZodError } from '@/lib/validations';
 
 async function requireInstructorLessonOwnership(lessonId: string) {
   const session = await getServerSession(authOptions);
@@ -22,15 +23,23 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   try {
     const { id } = await params;
     await requireInstructorLessonOwnership(id);
-    const data = await req.json();
-    delete data.courseId;
+    const body = await req.json();
+    
+    const parsed = lessonSchema.partial().safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
+    }
+
+    const { courseId, ...updateData } = parsed.data;
+    
     const updated = await prisma.lesson.update({
       where: { id: id },
-      data,
+      data: updateData,
     });
     return NextResponse.json(updated);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('[LESSON-UPDATE] Error:', error);
+    return NextResponse.json({ error: 'Failed to update lesson' }, { status: 400 });
   }
 }
 
@@ -41,6 +50,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     await prisma.lesson.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('[LESSON-DELETE] Error:', error);
+    return NextResponse.json({ error: 'Failed to delete lesson' }, { status: 400 });
   }
 }

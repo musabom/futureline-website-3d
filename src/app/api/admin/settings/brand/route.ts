@@ -36,6 +36,6 @@ export async function PUT(req: Request) {
     }
     return NextResponse.json(settings);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
   }
 }

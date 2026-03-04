@@ -21,6 +21,10 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const { course } = await requireInstructorOwnership(id);
     const { status } = await req.json();
 
+    if (!['DRAFT', 'PUBLISHED', 'ARCHIVED'].includes(status)) {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+    }
+
     if (status === 'PUBLISHED' && course.approvalStatus !== 'APPROVED') {
       return NextResponse.json({ error: 'Admin approval required to publish' }, { status: 403 });
     }
@@ -31,6 +35,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     });
     return NextResponse.json(updated);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error('[COURSE-STATUS] Error:', error);
+    return NextResponse.json({ error: 'Failed to update course status' }, { status: 400 });
   }
 }

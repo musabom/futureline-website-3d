@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const ip = req.headers.get('x-forwarded-for') || session.user.id;
-    const rl = rateLimit(`checkout:${ip}`, 10, 60 * 1000);
+    const rl = await rateLimit(`checkout:${ip}`, 10, 60 * 1000);
     if (!rl.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

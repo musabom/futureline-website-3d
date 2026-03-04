@@ -8,7 +8,7 @@ import { notifyWelcome } from '@/lib/notifications';
 export async function POST(req: Request) {
   try {
     const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const rl = rateLimit(`register:${ip}`, 5, 60 * 1000);
+    const rl = await rateLimit(`register:${ip}`, 5, 60 * 1000);
     if (!rl.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

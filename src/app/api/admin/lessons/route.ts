@@ -45,6 +45,6 @@ export async function POST(req: Request) {
     const lesson = await prisma.lesson.create({ data: lessonData });
     return NextResponse.json(lesson);
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }

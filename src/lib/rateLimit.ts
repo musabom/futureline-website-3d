@@ -1,46 +1,45 @@
-// C2: Database-backed rate limiting for multi-instance deployments
-import { db } from '@replit/database';
-
-async function cleanup() {
-  // Database-backed cleanup is handled by expiry/overwriting
-}
+import { prisma } from './prisma';
 
 export async function rateLimit(
   identifier: string,
   limit: number = 10,
   windowMs: number = 60 * 1000
 ): Promise<{ success: boolean; remaining: number; resetIn: number }> {
-  const now = Date.now();
-  const key = `rl:${identifier}`;
-  
+  const now = new Date();
+
   try {
-    const existing = await db.get(key) as string;
-    let data = existing ? JSON.parse(existing) : null;
+    const result = await prisma.$transaction(async (tx) => {
+      const existing = await tx.rateLimit.findUnique({
+        where: { key: identifier },
+      });
 
-    if (!data || now > data.resetTime) {
-      data = { count: 1, resetTime: now + windowMs };
-      await db.set(key, JSON.stringify(data));
-      return { success: true, remaining: limit - 1, resetIn: windowMs };
+      if (!existing || existing.resetTime < now) {
+        const resetTime = new Date(Date.now() + windowMs);
+        await tx.rateLimit.upsert({
+          where: { key: identifier },
+          create: { key: identifier, count: 1, resetTime },
+          update: { count: 1, resetTime },
+        });
+        return { count: 1, resetTime };
+      }
+
+      const updated = await tx.rateLimit.update({
+        where: { key: identifier },
+        data: { count: { increment: 1 } },
+      });
+
+      return { count: updated.count, resetTime: existing.resetTime };
+    });
+
+    const resetIn = Math.max(0, result.resetTime.getTime() - Date.now());
+
+    if (result.count > limit) {
+      return { success: false, remaining: 0, resetIn };
     }
 
-    if (data.count >= limit) {
-      return {
-        success: false,
-        remaining: 0,
-        resetIn: data.resetTime - now,
-      };
-    }
-
-    data.count++;
-    await db.set(key, JSON.stringify(data));
-    return {
-      success: true,
-      remaining: limit - data.count,
-      resetIn: data.resetTime - now,
-    };
+    return { success: true, remaining: limit - result.count, resetIn };
   } catch (error) {
     console.error('[RATE-LIMIT] DB Error:', error);
-    // Fallback to allow if DB fails
     return { success: true, remaining: 1, resetIn: windowMs };
   }
 }

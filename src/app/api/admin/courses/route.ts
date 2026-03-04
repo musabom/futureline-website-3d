@@ -36,6 +36,6 @@ export async function POST(req: Request) {
     const course = await prisma.course.create({ data: normalizeCourseData(parsed.data) });
     return NextResponse.json(course);
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" || 'Failed' }, { status: 400 });
+    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }
 }

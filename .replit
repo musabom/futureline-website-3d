@@ -10,11 +10,9 @@ packages = ["imagemagick"]
 [userenv]
 
 [userenv.shared]
-RESEND_API_KEY = "re_42y46P2T_7SEQzCME6FNxyZALXd7y7qWV"
 RESEND_FROM_EMAIL = "noreply@futureline.ai"
 APP_URL = "https://futureline.ai"
 NEXTAUTH_URL = "https://futureline.ai"
-NEXTAUTH_SECRET = "fa95192fdbc0b8c6f6365fc9d5c7abafb9ee402665b4d78f834b53aa5ab41739"
 
 [userenv.development]
 

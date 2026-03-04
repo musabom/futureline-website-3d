@@ -9,6 +9,7 @@ export default function NewCoursePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [instructors, setInstructors] = useState<any[]>([]);
+  const [isFree, setIsFree] = useState(false);
   const [form, setForm] = useState({
     title: '', slug: '', shortDescription: '', fullDescription: '',
     deliveryType: 'ONLINE', category: '', level: 'Beginner',
@@ -30,6 +31,15 @@ export default function NewCoursePage() {
     }));
   };
 
+  const handleFreeToggle = (free: boolean) => {
+    setIsFree(free);
+    if (free) {
+      setForm(prev => ({ ...prev, price: '0', discountPrice: '' }));
+    } else {
+      setForm(prev => ({ ...prev, price: '' }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -39,8 +49,8 @@ export default function NewCoursePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
-          price: parseFloat(form.price),
-          discountPrice: form.discountPrice ? parseFloat(form.discountPrice) : null,
+          price: isFree ? 0 : parseFloat(form.price),
+          discountPrice: (!isFree && form.discountPrice) ? parseFloat(form.discountPrice) : null,
           durationHours: parseInt(form.durationHours),
           seatCapacity: form.seatCapacity ? parseInt(form.seatCapacity) : null,
           startDate: form.startDate || null,
@@ -102,14 +112,77 @@ export default function NewCoursePage() {
               <option value="Advanced">Advanced</option>
             </select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
-            <input name="price" type="number" step="0.01" value={form.price} onChange={handleChange} className="input-field" required />
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Pricing</label>
+            <div className="flex gap-3 mb-4">
+              <button
+                type="button"
+                onClick={() => handleFreeToggle(true)}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+                  isFree
+                    ? 'bg-teal text-white border-teal'
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
+                }`}
+              >
+                Free
+              </button>
+              <button
+                type="button"
+                onClick={() => handleFreeToggle(false)}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+                  !isFree
+                    ? 'bg-teal text-white border-teal'
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
+                }`}
+              >
+                Paid
+              </button>
+            </div>
+
+            {isFree ? (
+              <div className="px-4 py-3 bg-green-50 text-green-700 rounded-lg text-sm font-medium">
+                This course will be available for free.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Price (OMR)</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">OMR</span>
+                    <input
+                      name="price"
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={form.price}
+                      onChange={handleChange}
+                      className="input-field !pl-14"
+                      placeholder="0.000"
+                      required={!isFree}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Discount Price (OMR) — optional</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">OMR</span>
+                    <input
+                      name="discountPrice"
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={form.discountPrice}
+                      onChange={handleChange}
+                      className="input-field !pl-14"
+                      placeholder="0.000"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Discount Price</label>
-            <input name="discountPrice" type="number" step="0.01" value={form.discountPrice} onChange={handleChange} className="input-field" />
-          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Duration (Hours)</label>
             <input name="durationHours" type="number" value={form.durationHours} onChange={handleChange} className="input-field" required />

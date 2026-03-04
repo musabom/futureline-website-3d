@@ -28,7 +28,7 @@ class ResendNotificationProvider implements NotificationProvider {
   private resend: Resend;
   private fromAddress: string;
 
-  constructor(apiKey: string, fromAddress: string = 'FutureLine <onboarding@resend.dev>') {
+  constructor(apiKey: string, fromAddress: string = process.env.RESEND_FROM_EMAIL || 'FutureLine <onboarding@resend.dev>') {
     this.resend = new Resend(apiKey);
     this.fromAddress = fromAddress;
   }
@@ -76,6 +76,15 @@ export async function sendEmail(notification: EmailNotification): Promise<boolea
     console.error('[Notification] Failed to send email:', error);
     return false;
   }
+}
+
+export async function notifyWelcome(user: { name: string; email: string }) {
+  await sendEmail({
+    to: user.email,
+    subject: 'Welcome to FutureLine!',
+    body: `Dear ${user.name},\n\nWelcome to FutureLine! Your account has been created successfully.\n\nYou can now sign in and explore our professional courses, digital services, and AI solutions.\n\nSign in at any time to get started:\nhttps://future-line-main-page.replit.app/login\n\nIf you have any questions, feel free to reach out to our team.\n\nBest regards,\nFutureLine Team`,
+    metadata: { type: 'welcome' },
+  });
 }
 
 export async function notifyLeadStageChange(lead: { name: string; email: string; stage: string }, oldStage: string, newStage: string) {

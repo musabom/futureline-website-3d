@@ -483,6 +483,13 @@ function ContactForm() {
 
 export default function TourismPage() {
   const [activeDay, setActiveDay] = useState(1);
+  const [tourismEmail, setTourismEmail] = useState('authentic.tour.om@gmail.com');
+
+  useEffect(() => {
+    fetch('/api/brand').then(r => r.json()).then(data => {
+      if (data?.tourismEmail) setTourismEmail(data.tourismEmail);
+    }).catch(() => {});
+  }, []);
 
   return (
     <>
@@ -783,7 +790,7 @@ export default function TourismPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-[#1A1A1A] text-sm">Email</h4>
-                    <a href="mailto:authentic.tour.om@gmail.com" className="text-[#666666] text-sm hover:text-[#C49A3A]">authentic.tour.om@gmail.com</a>
+                    <a href={`mailto:${tourismEmail}`} className="text-[#666666] text-sm hover:text-[#C49A3A]">{tourismEmail}</a>
                   </div>
                 </div>
               </div>
@@ -827,7 +834,7 @@ export default function TourismPage() {
                 <p>Muscat, Sultanate of Oman</p>
                 <a href="https://api.whatsapp.com/send?phone=96896532326" className="hover:text-[#C49A3A] transition-colors w-fit">+968 9653 2326</a>
                 <a href="https://api.whatsapp.com/send?phone=96894259459" className="hover:text-[#C49A3A] transition-colors w-fit">+968 9425 9459</a>
-                <a href="mailto:authentic.tour.om@gmail.com" className="hover:text-[#C49A3A] transition-colors w-fit">authentic.tour.om@gmail.com</a>
+                <a href={`mailto:${tourismEmail}`} className="hover:text-[#C49A3A] transition-colors w-fit">{tourismEmail}</a>
               </div>
             </div>
           </div>

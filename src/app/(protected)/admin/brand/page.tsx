@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Palette, Save } from 'lucide-react';
+import { Palette, Save, Mail } from 'lucide-react';
 
 export default function BrandSettingsPage() {
-  const [settings, setSettings] = useState({ companyName: '', tagline: '', primaryColor: '', accentColor: '', logo: '' });
+  const [settings, setSettings] = useState({ companyName: '', tagline: '', primaryColor: '', accentColor: '', logo: '', contactEmail: '', tourismEmail: '' });
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -25,6 +25,8 @@ export default function BrandSettingsPage() {
         primaryColor: settings.primaryColor,
         accentColor: settings.accentColor,
         logo: settings.logo,
+        contactEmail: settings.contactEmail,
+        tourismEmail: settings.tourismEmail,
       }),
     });
     setLoading(false);
@@ -72,6 +74,30 @@ export default function BrandSettingsPage() {
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL</label>
             <input value={settings.logo || ''} onChange={e => setSettings({...settings, logo: e.target.value})} className="input-field" placeholder="https://..." />
+          </div>
+        </div>
+
+        <div className="border-t border-gray-200 pt-6 mt-2">
+          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg mb-6">
+            <div className="w-12 h-12 bg-brand-gradient rounded-xl flex items-center justify-center">
+              <Mail className="text-white" size={24} />
+            </div>
+            <div>
+              <div className="font-semibold text-navy">Contact Emails</div>
+              <div className="text-sm text-gray-500">Public-facing email addresses shown on your website</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email (Services)</label>
+              <input type="email" value={settings.contactEmail} onChange={e => setSettings({...settings, contactEmail: e.target.value})} className="input-field" placeholder="contact@example.com" />
+              <p className="text-xs text-gray-400 mt-1">Used on Services and Digitalisation pages</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email (Tourism)</label>
+              <input type="email" value={settings.tourismEmail} onChange={e => setSettings({...settings, tourismEmail: e.target.value})} className="input-field" placeholder="tourism@example.com" />
+              <p className="text-xs text-gray-400 mt-1">Used on the FL Tourism page</p>
+            </div>
           </div>
         </div>
 

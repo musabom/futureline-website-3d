@@ -191,6 +191,8 @@ model BrandSettings {
   accentColor  String @default("#18A999")
   companyName  String @default("FutureLine")
   tagline      String @default("Design • Deploy • Evolve")
+  contactEmail String @default("flservices.ai@gmail.com")
+  tourismEmail String @default("authentic.tour.om@gmail.com")
 }
 
 model AISettings {

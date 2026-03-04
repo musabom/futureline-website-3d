@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight, ArrowDown, Factory, Building2, Landmark,
@@ -18,6 +19,13 @@ function scrollTo(id: string) {
 }
 
 export default function ServicesPage() {
+  const [contactEmail, setContactEmail] = useState('flservices.ai@gmail.com');
+
+  useEffect(() => {
+    fetch('/api/brand').then(r => r.json()).then(data => {
+      if (data?.contactEmail) setContactEmail(data.contactEmail);
+    }).catch(() => {});
+  }, []);
   return (
     <>
       <section className="relative bg-navy overflow-hidden">
@@ -93,7 +101,7 @@ export default function ServicesPage() {
               <p className="text-gray-500 text-center max-w-md leading-relaxed mb-6">
                 We are expanding FL Services with new consulting, training delivery, and operational solutions. Stay tuned for announcements.
               </p>
-              <Link href="mailto:contact@futureline.com?subject=FL%20Services%20Enquiry" className="btn-secondary inline-flex items-center gap-2">
+              <Link href={`mailto:${contactEmail}?subject=FL%20Services%20Enquiry`} className="btn-secondary inline-flex items-center gap-2">
                 <Mail size={16} /> Get in Touch
               </Link>
             </div>
@@ -138,7 +146,7 @@ export default function ServicesPage() {
               Explore Digitalisation <ArrowRight size={18} />
             </Link>
             <Link
-              href="mailto:contact@futureline.com"
+              href={`mailto:${contactEmail}`}
               className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
             >
               Contact Us <Mail size={18} />

@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight, ArrowLeft, CheckCircle, Workflow, Shield, BarChart3,
@@ -61,6 +62,14 @@ const outcomes = [
 ];
 
 export default function DigitalisationPage() {
+  const [contactEmail, setContactEmail] = useState('flservices.ai@gmail.com');
+
+  useEffect(() => {
+    fetch('/api/brand').then(r => r.json()).then(data => {
+      if (data?.contactEmail) setContactEmail(data.contactEmail);
+    }).catch(() => {});
+  }, []);
+
   return (
     <>
       <section className="relative bg-navy overflow-hidden">
@@ -81,7 +90,7 @@ export default function DigitalisationPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="mailto:contact@futureline.com?subject=Digitalisation%20Consultation"
+                href={`mailto:${contactEmail}?subject=Digitalisation%20Consultation`}
                 className="btn-primary inline-flex items-center justify-center gap-2"
               >
                 Book a Consultation <ArrowRight size={18} />
@@ -216,13 +225,13 @@ export default function DigitalisationPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="mailto:contact@futureline.com?subject=Digitalisation%20Strategy%20Session"
+              href={`mailto:${contactEmail}?subject=Digitalisation%20Strategy%20Session`}
               className="btn-primary inline-flex items-center justify-center gap-2"
             >
               Book a Strategy Session <ArrowRight size={18} />
             </Link>
             <Link
-              href="mailto:contact@futureline.com"
+              href={`mailto:${contactEmail}`}
               className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
             >
               Contact Us <Mail size={18} />

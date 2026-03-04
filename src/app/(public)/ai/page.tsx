@@ -31,8 +31,7 @@ export default async function AIPage() {
           <div className="max-w-3xl">
             <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-4">FL AI & Automation</span>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Intelligent Systems,{' '}
-              <span className="bg-brand-gradient bg-clip-text text-transparent">Coming Soon</span>
+              Intelligent Systems
             </h1>
             <p className="text-xl text-gray-300 mb-4 leading-relaxed">
               We are building AI-powered solutions to help businesses automate processes, gain insights, and operate smarter.
@@ -86,11 +85,6 @@ export default async function AIPage() {
               },
             ].map((item) => (
               <div key={item.title} className="card p-8 text-center relative overflow-hidden group">
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-semibold rounded-full flex items-center gap-1">
-                    <Clock size={10} /> Coming Soon
-                  </span>
-                </div>
                 <div className="w-16 h-16 bg-brand-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-teal/20 transition-all">
                   <item.icon className="text-white" size={28} />
                 </div>

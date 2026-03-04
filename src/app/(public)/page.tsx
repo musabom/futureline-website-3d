@@ -103,12 +103,12 @@ export default async function HomePage() {
               },
               {
                 icon: Bot,
-                title: 'FL AI',
+                title: 'FL AI & Automation',
                 desc: 'Artificial intelligence & automation systems',
                 gradient: 'from-[#1B2C63] to-[#0F8B6E]',
                 accent: 'bg-emerald-400/20 text-emerald-300',
                 href: '/ai',
-                comingSoon: false,
+                comingSoon: true,
               },
             ].map((division) => (
               <Link

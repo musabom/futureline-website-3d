@@ -30,6 +30,18 @@ export async function POST(req: Request) {
   try {
     const session = await requireInstructor();
     const body = await req.json();
+
+    // Check for duplicate slug (which is derived from title)
+    const existing = await prisma.course.findUnique({
+      where: { slug: body.slug }
+    });
+    if (existing) {
+      return NextResponse.json(
+        { error: 'A course with this title already exists. Please choose a different title.' },
+        { status: 400 }
+      );
+    }
+
     const parsed = courseSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });

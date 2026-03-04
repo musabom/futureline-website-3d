@@ -17,6 +17,25 @@ export default function InstructorCoursesPage() {
     setLoading(false);
   };
 
+  const togglePublish = async (course: any) => {
+    const newStatus = course.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+    try {
+      const res = await fetch(`/api/instructor/courses/${course.id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        fetchCourses();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update status');
+      }
+    } catch {
+      alert('An unexpected error occurred');
+    }
+  };
+
   const deleteCourse = async (id: string) => {
     if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) return;
     await fetch(`/api/instructor/courses/${id}`, { method: 'DELETE' });
@@ -89,11 +108,23 @@ export default function InstructorCoursesPage() {
                     <td className="px-6 py-4 text-sm text-gray-600">{course._count?.enrollments || 0}</td>
                     <td className="px-6 py-4 text-sm text-gray-600">{course._count?.lessons || 0}</td>
                     <td className="px-6 py-4">
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
-                        course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
-                        'bg-gray-100 text-gray-500'
-                      }`}>{course.status}</span>
+                      <div className="flex flex-col gap-1">
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full w-fit ${
+                          course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
+                          course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
+                          'bg-gray-100 text-gray-500'
+                        }`}>{course.status}</span>
+                        {course.approvalStatus === 'APPROVED' && (
+                          <button
+                            onClick={() => togglePublish(course)}
+                            className={`text-[10px] font-bold uppercase tracking-wider hover:underline ${
+                              course.status === 'PUBLISHED' ? 'text-orange-500' : 'text-teal'
+                            }`}
+                          >
+                            {course.status === 'PUBLISHED' ? 'Unpublish' : 'Publish Now'}
+                          </button>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4">{approvalBadge(course.approvalStatus)}</td>
                     <td className="px-6 py-4 text-right">

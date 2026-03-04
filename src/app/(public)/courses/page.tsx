@@ -105,7 +105,16 @@ export default async function CoursesPage({
                   {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <span className="font-bold text-teal text-lg">{course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}</span>
+                  <div className="flex flex-col">
+                    <span className="font-bold text-teal text-lg">
+                      {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
+                    </span>
+                    {course.discountPrice && course.discountPrice < course.price && (
+                      <span className="text-xs text-gray-400 line-through">
+                        {formatPrice(course.price)}
+                      </span>
+                    )}
+                  </div>
                   <span className="text-teal font-semibold text-sm">View Details</span>
                 </div>
               </div>

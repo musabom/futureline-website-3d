@@ -148,8 +148,8 @@ export default function NewCoursePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Price (OMR)</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">OMR</span>
+                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
+                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
                     <input
                       name="price"
                       type="number"
@@ -157,7 +157,7 @@ export default function NewCoursePage() {
                       min="0"
                       value={form.price}
                       onChange={handleChange}
-                      className="input-field !pl-14"
+                      className="flex-1 px-3 py-2 text-sm outline-none bg-white"
                       placeholder="0.000"
                       required={!isFree}
                     />
@@ -165,8 +165,8 @@ export default function NewCoursePage() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Discount Price (OMR) — optional</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">OMR</span>
+                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
+                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
                     <input
                       name="discountPrice"
                       type="number"
@@ -174,7 +174,7 @@ export default function NewCoursePage() {
                       min="0"
                       value={form.discountPrice}
                       onChange={handleChange}
-                      className="input-field !pl-14"
+                      className="flex-1 px-3 py-2 text-sm outline-none bg-white"
                       placeholder="0.000"
                     />
                   </div>

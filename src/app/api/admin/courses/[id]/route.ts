@@ -38,7 +38,16 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
   try {
     const { id } = await params;
     await requireAdmin();
-    await prisma.course.delete({ where: { id: id } });
+
+    // Delete all related records first to allow course deletion
+    await prisma.$transaction([
+      prisma.lesson.deleteMany({ where: { courseId: id } }),
+      prisma.enrollment.deleteMany({ where: { courseId: id } }),
+      prisma.order.deleteMany({ where: { courseId: id } }),
+      prisma.instructorEarning.deleteMany({ where: { courseId: id } }),
+      prisma.course.delete({ where: { id: id } }),
+    ]);
+
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });

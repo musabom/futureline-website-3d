@@ -23,9 +23,18 @@ export default function AdminCoursesPage() {
   };
 
   const deleteCourse = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) return;
-    await fetch(`/api/admin/courses/${id}`, { method: 'DELETE' });
-    fetchCourses();
+    if (!confirm('Are you sure you want to delete this course? This will also remove all associated students, orders, and lessons. This action cannot be undone.')) return;
+    try {
+      const res = await fetch(`/api/admin/courses/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        fetchCourses();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to delete course');
+      }
+    } catch {
+      alert('An unexpected error occurred');
+    }
   };
 
   const approveCourse = async (id: string) => {

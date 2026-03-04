@@ -47,7 +47,7 @@ export async function POST(req: Request) {
           data: {
             userId: session.user.id,
             courseId: course.id,
-            amount: course.price,
+            amount: course.discountPrice ?? course.price,
             paymentStatus: 'PENDING',
             paymentMethod: 'BANK_TRANSFER',
           },

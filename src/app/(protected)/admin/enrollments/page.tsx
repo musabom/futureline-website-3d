@@ -11,14 +11,14 @@ export default function AdminEnrollmentsPage() {
   }, []);
 
   const filtered = enrollments.filter(e =>
-    e.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+    `${e.user?.firstName || ''} ${e.user?.lastName || ''}`.toLowerCase().includes(search.toLowerCase()) ||
     e.course?.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   const exportCSV = () => {
     const headers = ['Student Name', 'Email', 'Course', 'Progress', 'Completed', 'Date'];
     const rows = filtered.map(e => [
-      e.user?.name, e.user?.email, e.course?.title,
+      `${e.user?.firstName || ''} ${e.user?.lastName || ''}`.trim(), e.user?.email, e.course?.title,
       `${Math.round(e.progressPercentage)}%`, e.completed ? 'Yes' : 'No',
       new Date(e.createdAt).toLocaleDateString('en-GB'),
     ]);
@@ -58,7 +58,7 @@ export default function AdminEnrollmentsPage() {
             {filtered.map(e => (
               <tr key={e.id} className="hover:bg-gray-50/50">
                 <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-navy">{e.user?.name}</div>
+                  <div className="text-sm font-medium text-navy">{e.user?.firstName} {e.user?.lastName}</div>
                   <div className="text-xs text-gray-400">{e.user?.email}</div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">{e.course?.title}</td>

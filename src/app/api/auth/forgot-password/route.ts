@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       await sendEmail({
         to: user.email,
         subject: 'FutureLine - Password Reset Request',
-        body: `Dear ${user.name},\n\nWe received a request to reset your password.\n\nClick the link below to set a new password:\n${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nFutureLine Team`,
+        body: `Dear ${user.firstName},\n\nWe received a request to reset your password.\n\nClick the link below to set a new password:\n${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nFutureLine Team`,
         metadata: { type: 'password_reset', userId: user.id },
       });
     }

@@ -35,7 +35,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const course = await prisma.course.findUnique({
     where: { slug },
     include: {
-      instructor: { select: { name: true, email: true } },
+      instructor: { select: { firstName: true, lastName: true, email: true } },
       _count: { select: { enrollments: true, lessons: true } },
     },
   });
@@ -60,7 +60,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
           <div className="flex flex-wrap gap-6 mb-8 text-sm text-gray-500">
             <span className="flex items-center gap-2"><Clock size={16} /> {course.durationHours} hours</span>
             {course.instructor && (
-              <span className="flex items-center gap-2"><Users size={16} /> {course.instructor.name}</span>
+              <span className="flex items-center gap-2"><Users size={16} /> {course.instructor.firstName} {course.instructor.lastName}</span>
             )}
             {course.location && (
               <span className="flex items-center gap-2"><MapPin size={16} /> {course.location}</span>

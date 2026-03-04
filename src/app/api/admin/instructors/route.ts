@@ -18,7 +18,8 @@ export async function GET() {
       where: { role: 'INSTRUCTOR' },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         bio: true,
         commissionRate: true,

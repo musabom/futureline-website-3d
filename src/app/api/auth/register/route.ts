@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
     }
-    const { name, email, password } = parsed.data;
+    const { firstName, lastName, email, password } = parsed.data;
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
@@ -30,10 +30,10 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword, role: 'CUSTOMER' },
+      data: { firstName, lastName, email, password: hashedPassword, role: 'CUSTOMER' },
     });
 
-    notifyWelcome({ name: user.name, email: user.email }).catch((err) =>
+    notifyWelcome({ name: `${user.firstName} ${user.lastName}`.trim(), email: user.email }).catch((err) =>
       console.error('[Register] Failed to send welcome email:', err)
     );
 

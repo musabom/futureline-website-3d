@@ -12,7 +12,7 @@ export default function AdminOrdersPage() {
   }, []);
 
   const filtered = orders.filter(o =>
-    o.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+    `${o.user?.firstName || ''} ${o.user?.lastName || ''}`.toLowerCase().includes(search.toLowerCase()) ||
     o.course?.title?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -40,7 +40,7 @@ export default function AdminOrdersPage() {
             {filtered.map(o => (
               <tr key={o.id} className="hover:bg-gray-50/50">
                 <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-navy">{o.user?.name}</div>
+                  <div className="text-sm font-medium text-navy">{o.user?.firstName} {o.user?.lastName}</div>
                   <div className="text-xs text-gray-400">{o.user?.email}</div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">{o.course?.title}</td>

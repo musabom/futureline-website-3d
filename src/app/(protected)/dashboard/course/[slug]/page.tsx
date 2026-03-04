@@ -16,7 +16,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
     where: { slug },
     include: {
       lessons: { orderBy: { orderIndex: 'asc' } },
-      instructor: { select: { name: true } },
+      instructor: { select: { firstName: true, lastName: true } },
     },
   });
 
@@ -41,7 +41,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-navy mb-2">{course.title}</h1>
           <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-            {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.name}</span>}
+            {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
             <span>{moduleCount} modules</span>
             <span>{course.lessons.length} lessons</span>
           </div>

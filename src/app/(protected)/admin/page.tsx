@@ -29,7 +29,7 @@ export default async function AdminDashboard() {
     prisma.order.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
-      include: { user: { select: { name: true } }, course: { select: { title: true } } },
+      include: { user: { select: { firstName: true, lastName: true } }, course: { select: { title: true } } },
     }),
     prisma.course.findMany({
       take: 5,
@@ -53,7 +53,8 @@ export default async function AdminDashboard() {
       where: { role: 'INSTRUCTOR' },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         courses: {
           select: {
             _count: { select: { enrollments: true } },
@@ -122,7 +123,7 @@ export default async function AdminDashboard() {
 
   const instructorPerformance = topInstructors
     .map((inst) => ({
-      name: inst.name,
+      name: `${inst.firstName} ${inst.lastName}`.trim(),
       students: inst.courses.reduce((sum, c) => sum + c._count.enrollments, 0),
       courses: inst.courses.length,
     }))
@@ -272,7 +273,7 @@ export default async function AdminDashboard() {
               {recentOrders.map((order) => (
                 <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                   <div>
-                    <div className="text-sm font-medium text-navy">{order.user.name}</div>
+                    <div className="text-sm font-medium text-navy">{order.user.firstName} {order.user.lastName}</div>
                     <div className="text-xs text-gray-400">{order.course.title}</div>
                   </div>
                   <div className="text-right">

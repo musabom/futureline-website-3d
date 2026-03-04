@@ -16,7 +16,7 @@ export async function GET() {
   try {
     await requireAdmin();
     const courses = await prisma.course.findMany({
-      include: { instructor: { select: { name: true } }, _count: { select: { enrollments: true } } },
+      include: { instructor: { select: { firstName: true, lastName: true } }, _count: { select: { enrollments: true } } },
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(courses);

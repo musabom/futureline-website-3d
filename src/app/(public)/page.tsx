@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const featuredCourses = await prisma.course.findMany({
     where: { status: 'PUBLISHED', approvalStatus: 'APPROVED' },
-    include: { instructor: { select: { name: true } } },
+    include: { instructor: { select: { firstName: true, lastName: true } } },
     take: 3,
     orderBy: { createdAt: 'desc' },
   });

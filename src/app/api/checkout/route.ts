@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { courseId } = await req.json();
+    const { courseId, paymentMethod } = await req.json();
     const course = await prisma.course.findUnique({ where: { id: courseId } });
     if (!course) {
       return NextResponse.json({ error: 'Course not found' }, { status: 404 });
@@ -35,9 +35,30 @@ export async function POST(req: Request) {
     }
 
     if (course.price > 0) {
+      if (paymentMethod === 'BANK_TRANSFER') {
+        const existingOrder = await prisma.order.findFirst({
+          where: { userId: session.user.id, courseId, paymentStatus: 'PENDING' },
+        });
+        if (existingOrder) {
+          return NextResponse.json({ pendingApproval: true });
+        }
+
+        await prisma.order.create({
+          data: {
+            userId: session.user.id,
+            courseId: course.id,
+            amount: course.price,
+            paymentStatus: 'PENDING',
+            paymentMethod: 'BANK_TRANSFER',
+          },
+        });
+
+        return NextResponse.json({ pendingApproval: true });
+      }
+
       return NextResponse.json({
         paymentRequired: true,
-        message: 'This is a paid course. Online payment will be available soon. Please contact us to enrol.',
+        message: 'A payment method is required to enrol in this course.',
       });
     }
 
@@ -63,6 +84,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ enrolled: true, slug: course.slug });
   } catch (error) {
     console.error('Enrollment error:', error);
-    return NextResponse.json({ error: 'Enrollment failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Enrolment failed' }, { status: 500 });
   }
 }

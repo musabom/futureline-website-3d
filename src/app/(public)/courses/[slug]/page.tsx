@@ -99,7 +99,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               )}
             </div>
 
-            <EnrollButton courseId={course.id} slug={course.slug} price={course.price} />
+            <EnrollButton 
+              courseId={course.id} 
+              slug={course.slug} 
+              price={course.discountPrice ?? course.price} 
+            />
 
             <div className="mt-6 space-y-3 text-sm text-gray-500">
               <div className="flex items-center gap-2"><Clock size={14} /> {course.durationHours} hours of content</div>

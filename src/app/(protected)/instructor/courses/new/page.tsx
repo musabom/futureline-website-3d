@@ -52,10 +52,14 @@ export default function NewInstructorCoursePage() {
           endDate: form.endDate || null,
         }),
       });
-      if (res.ok) router.push('/instructor/courses');
-      else alert('Failed to create course');
+      if (res.ok) {
+        router.push('/instructor/courses');
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to create course');
+      }
     } catch {
-      alert('Failed to create course');
+      alert('An unexpected error occurred');
     } finally {
       setLoading(false);
     }

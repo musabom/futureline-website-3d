@@ -61,10 +61,14 @@ export default function EditInstructorCoursePage() {
           status: form.status, // Allow saving as DRAFT or ARCHIVED
         }),
       });
-      if (res.ok) router.push('/instructor/courses');
-      else alert('Failed to update course');
+      if (res.ok) {
+        router.push('/instructor/courses');
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update course');
+      }
     } catch {
-      alert('Failed to update course');
+      alert('An unexpected error occurred');
     } finally {
       setLoading(false);
     }

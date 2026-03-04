@@ -31,7 +31,6 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">{strings.footer.services}</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link href="/services" className="hover:text-teal transition-colors">{strings.footer.allServices}</Link></li>
-              <li><Link href="/ai" className="hover:text-teal transition-colors">{strings.footer.aiSolutions}</Link></li>
             </ul>
           </div>
 

@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight, ArrowDown, Factory, Building2, Landmark,
-  GraduationCap, Briefcase, Layers, Mail, Bell, Clock, CheckCircle
+  GraduationCap, Briefcase, Layers, Mail, CheckCircle
 } from 'lucide-react';
+import ServiceEnquiryForm from '@/components/ServiceEnquiryForm';
 
 const industries = [
   { name: 'Oil & Gas', icon: Factory },
@@ -42,10 +43,7 @@ export default function ServicesPage() {
             <p className="text-xl text-gray-300 mb-4 leading-relaxed">
               Practical solutions that improve how organizations operate, communicate, and deliver results.
             </p>
-            <p className="text-sm text-gray-400 mb-8">
-              Currently available: <span className="text-teal font-medium">Digitalisation</span> — more services launching soon.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <Link
                 href="/services/digitalisation"
                 className="btn-primary inline-flex items-center justify-center gap-2"
@@ -53,10 +51,10 @@ export default function ServicesPage() {
                 View Digitalisation <ArrowRight size={18} />
               </Link>
               <button
-                onClick={() => scrollTo('coming-soon')}
+                onClick={() => scrollTo('enquiry')}
                 className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
               >
-                See What's Coming <ArrowDown size={18} />
+                Get in Touch <ArrowDown size={18} />
               </button>
             </div>
           </div>
@@ -93,18 +91,8 @@ export default function ServicesPage() {
               </Link>
             </div>
 
-            <div className="card p-8 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 bg-gray-50/50 col-span-1 md:col-span-1 lg:col-span-2">
-              <div className="w-20 h-20 bg-navy/5 rounded-full flex items-center justify-center mb-6">
-                <Clock className="text-navy/30" size={36} />
-              </div>
-              <h3 className="text-2xl font-bold text-navy mb-3">More Services Coming Soon</h3>
-              <p className="text-gray-500 text-center max-w-md leading-relaxed mb-6">
-                We are expanding FL Services with new consulting, training delivery, and operational solutions. Stay tuned for announcements.
-              </p>
-              <Link href={`mailto:${contactEmail}?subject=FL%20Services%20Enquiry`} className="btn-secondary inline-flex items-center gap-2">
-                <Mail size={16} /> Get in Touch
-              </Link>
-            </div>
+
+
           </div>
         </div>
       </section>
@@ -128,30 +116,19 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-navy relative overflow-hidden">
+      <section id="enquiry" className="py-20 bg-navy relative overflow-hidden">
         <div className="absolute top-10 right-10 w-64 h-64 bg-teal/10 rounded-full blur-3xl" />
         <div className="absolute bottom-10 left-10 w-80 h-80 bg-teal/5 rounded-full blur-3xl" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Want to Improve Governance and Efficiency?
-          </h2>
-          <p className="text-gray-300 mb-8 text-lg leading-relaxed">
-            Let&apos;s review your current workflow and recommend a clear digital approach — then build a system your teams actually use.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/services/digitalisation"
-              className="btn-primary inline-flex items-center justify-center gap-2"
-            >
-              Explore Digitalisation <ArrowRight size={18} />
-            </Link>
-            <Link
-              href={`mailto:${contactEmail}`}
-              className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2"
-            >
-              Contact Us <Mail size={18} />
-            </Link>
+        <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Get in Touch
+            </h2>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Tell us about your project or challenge and we&apos;ll recommend the right approach for your organization.
+            </p>
           </div>
+          <ServiceEnquiryForm />
         </div>
       </section>
     </>

@@ -99,10 +99,11 @@ export default function LeadDetailPage() {
     setSelectedTemplate(templateId);
     let subject = tmpl.subject;
     let body = tmpl.body;
-    subject = subject.replace(/\{\{name\}\}/g, lead.name);
+    const fullName = `${lead.firstName} ${lead.lastName}`.trim();
+    subject = subject.replace(/\{\{name\}\}/g, fullName);
     subject = subject.replace(/\{\{email\}\}/g, lead.email);
     subject = subject.replace(/\{\{service\}\}/g, lead.tourType);
-    body = body.replace(/\{\{name\}\}/g, lead.name);
+    body = body.replace(/\{\{name\}\}/g, fullName);
     body = body.replace(/\{\{email\}\}/g, lead.email);
     body = body.replace(/\{\{service\}\}/g, lead.tourType);
     setComposedSubject(subject);
@@ -143,7 +144,7 @@ export default function LeadDetailPage() {
         <div className="flex items-center gap-3">
           <Link href="/admin/leads" className="text-gray-400 hover:text-navy"><ArrowLeft size={20} /></Link>
           <div>
-            <h1 className="text-2xl font-bold text-navy">{lead.name}</h1>
+            <h1 className="text-2xl font-bold text-navy">{lead.firstName} {lead.lastName}</h1>
             <p className="text-sm text-gray-500">{lead.email} {lead.phone && `· ${lead.phone}`}</p>
           </div>
         </div>

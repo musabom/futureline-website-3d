@@ -13,7 +13,6 @@ export default function Header() {
   const navLinks = [
     { href: '/courses', label: strings.nav.courses },
     { href: '/services', label: strings.nav.services },
-    { href: '/ai', label: strings.nav.aiSolutions },
   ];
 
   return (

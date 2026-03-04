@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { BookOpen, Search, Clock, MapPin, Users } from 'lucide-react';
+import { BookOpen, Search, Clock, MapPin, Users, MessageSquare } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
+import CourseEnquiryForm from '@/components/CourseEnquiryForm';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -112,6 +113,23 @@ export default async function CoursesPage({
           ))}
         </div>
       )}
+
+      <section className="mt-20 bg-gray-50 rounded-2xl p-8 md:p-12">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-brand-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <MessageSquare className="text-white" size={24} />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-navy mb-3">
+              Can&apos;t Find What You&apos;re Looking For?
+            </h2>
+            <p className="text-gray-500 leading-relaxed">
+              We offer custom training programmes tailored to your team&apos;s needs. Tell us what you&apos;re interested in and we&apos;ll get back to you.
+            </p>
+          </div>
+          <CourseEnquiryForm />
+        </div>
+      </section>
     </div>
   );
 }

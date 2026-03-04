@@ -8,10 +8,11 @@ export const registerSchema = z.object({
 });
 
 export const leadSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(100),
+  firstName: z.string().min(1, 'First name is required').max(50),
+  lastName: z.string().min(1, 'Last name is required').max(50),
   email: z.string().email('Invalid email address'),
   phone: z.string().max(30).optional().nullable(),
-  tourType: z.string().min(1, 'Tour type is required').max(200),
+  tourType: z.string().max(200).optional().default('General Enquiry'),
   message: z.string().min(1, 'Message is required').max(5000),
   source: z.string().max(100).optional(),
 });

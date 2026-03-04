@@ -378,7 +378,7 @@ function ReviewsCarousel() {
 }
 
 function ContactForm() {
-  const [form, setForm] = useState({ name: '', email: '', tourType: '', message: '' });
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', tourType: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -392,7 +392,7 @@ function ContactForm() {
       });
       if (res.ok) {
         setStatus('sent');
-        setForm({ name: '', email: '', tourType: '', message: '' });
+        setForm({ firstName: '', lastName: '', email: '', tourType: '', message: '' });
       } else {
         setStatus('error');
       }
@@ -419,16 +419,29 @@ function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#EAEAEA] p-8 space-y-5">
-      <div>
-        <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">Name *</label>
-        <input
-          type="text"
-          required
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="w-full px-4 py-3 border border-[#EAEAEA] rounded-lg text-[#1A1A1A] focus:outline-none focus:border-[#C49A3A] focus:ring-1 focus:ring-[#C49A3A] transition-colors"
-          placeholder="Your full name"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">First Name *</label>
+          <input
+            type="text"
+            required
+            value={form.firstName}
+            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+            className="w-full px-4 py-3 border border-[#EAEAEA] rounded-lg text-[#1A1A1A] focus:outline-none focus:border-[#C49A3A] focus:ring-1 focus:ring-[#C49A3A] transition-colors"
+            placeholder="First name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">Last Name *</label>
+          <input
+            type="text"
+            required
+            value={form.lastName}
+            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+            className="w-full px-4 py-3 border border-[#EAEAEA] rounded-lg text-[#1A1A1A] focus:outline-none focus:border-[#C49A3A] focus:ring-1 focus:ring-[#C49A3A] transition-colors"
+            placeholder="Last name"
+          />
+        </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">Email *</label>

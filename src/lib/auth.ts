@@ -29,8 +29,12 @@ export const authOptions: NextAuthOptions = {
           if (!user.isActive) return null;
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
-          if (!isValid) return null;
+          if (!isValid) {
+            console.warn(`[AUTH] Failed login attempt for ${credentials.email}`);
+            return null;
+          }
 
+          console.info(`[AUTH] Successful login for ${credentials.email}`);
           return {
             id: user.id,
             email: user.email,
@@ -47,7 +51,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: { strategy: 'jwt' },
-  secret: process.env.NEXTAUTH_SECRET || process.env.SESSION_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login',
   },

@@ -66,3 +66,14 @@ export const templateSchema = z.object({
 export function formatZodError(error: z.ZodError): string {
   return error.issues.map(e => e.message).join(', ');
 }
+
+export function normalizeCourseData(data: any) {
+  const normalized = { ...data };
+  if (typeof normalized.startDate === 'string' && normalized.startDate) {
+    normalized.startDate = new Date(normalized.startDate);
+  }
+  if (typeof normalized.endDate === 'string' && normalized.endDate) {
+    normalized.endDate = new Date(normalized.endDate);
+  }
+  return normalized;
+}

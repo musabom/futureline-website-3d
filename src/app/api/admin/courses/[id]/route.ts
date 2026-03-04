@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { normalizeCourseData } from '@/lib/validations';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -27,7 +28,10 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     await requireAdmin();
     const data = await req.json();
     const { id: _id, createdAt, instructor, _count, ...updateData } = data;
-    const course = await prisma.course.update({ where: { id: id }, data: updateData });
+    const course = await prisma.course.update({ 
+      where: { id: id }, 
+      data: normalizeCourseData(updateData) 
+    });
     return NextResponse.json(course);
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed' }, { status: 400 });

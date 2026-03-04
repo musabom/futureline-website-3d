@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { notifyPasswordChanged } from '@/lib/notifications';
 import { z } from 'zod';
 
 const changePasswordSchema = z.object({
@@ -46,6 +47,10 @@ export async function POST(req: Request) {
       where: { id: user.id },
       data: { password: hashedPassword },
     });
+
+    notifyPasswordChanged({ name: user.name, email: user.email }).catch((err) =>
+      console.error('[ChangePassword] Failed to send password changed email:', err)
+    );
 
     return NextResponse.json({ message: 'Password updated successfully' });
   } catch (error) {

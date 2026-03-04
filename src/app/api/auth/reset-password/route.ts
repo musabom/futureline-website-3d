@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
+import { notifyPasswordChanged } from '@/lib/notifications';
 import { z } from 'zod';
 
 const resetPasswordSchema = z.object({
@@ -57,6 +58,10 @@ export async function POST(req: Request) {
         resetTokenExpiry: null,
       },
     });
+
+    notifyPasswordChanged({ name: user.name, email: user.email }).catch((err) =>
+      console.error('[ResetPassword] Failed to send password changed email:', err)
+    );
 
     return NextResponse.json({
       message: 'Your password has been reset successfully. You can now sign in.',

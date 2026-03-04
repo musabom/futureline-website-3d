@@ -17,14 +17,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('[AUTH DEBUG] authorize called, email:', credentials?.email);
-        console.log('[AUTH DEBUG] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
-        console.log('[AUTH DEBUG] NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET);
-        console.log('[AUTH DEBUG] SESSION_SECRET exists:', !!process.env.SESSION_SECRET);
-        console.log('[AUTH DEBUG] DATABASE_URL exists:', !!process.env.DATABASE_URL);
-
         if (!credentials?.email || !credentials?.password) {
-          console.log('[AUTH DEBUG] Missing credentials');
           return null;
         }
 
@@ -33,17 +26,10 @@ export const authOptions: NextAuthOptions = {
             where: { email: credentials.email },
           });
 
-          console.log('[AUTH DEBUG] User found:', !!user, user ? `id=${user.id} role=${user.role} active=${user.isActive} email=${user.email}` : 'N/A');
-          console.log('[AUTH DEBUG] Password hash prefix:', user ? user.password.substring(0, 20) : 'N/A');
-
           if (!user) return null;
-          if (!user.isActive) {
-            console.log('[AUTH DEBUG] User not active');
-            return null;
-          }
+          if (!user.isActive) return null;
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
-          console.log('[AUTH DEBUG] Password valid:', isValid);
           if (!isValid) return null;
 
           return {

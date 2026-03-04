@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function NewInstructorCoursePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isFree, setIsFree] = useState(true);
   const [form, setForm] = useState({
     title: '', slug: '', shortDescription: '', fullDescription: '',
     deliveryType: 'ONLINE', category: '', level: 'Beginner',
@@ -25,6 +26,15 @@ export default function NewInstructorCoursePage() {
     }));
   };
 
+  const handleFreeToggle = (free: boolean) => {
+    setIsFree(free);
+    if (free) {
+      setForm(prev => ({ ...prev, price: '0', discountPrice: '' }));
+    } else {
+      setForm(prev => ({ ...prev, price: '' }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -34,8 +44,8 @@ export default function NewInstructorCoursePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
-          price: parseFloat(form.price) || 0,
-          discountPrice: form.discountPrice ? parseFloat(form.discountPrice) : null,
+          price: isFree ? 0 : parseFloat(form.price) || 0,
+          discountPrice: (!isFree && form.discountPrice) ? parseFloat(form.discountPrice) : null,
           durationHours: parseInt(form.durationHours) || 1,
           seatCapacity: form.seatCapacity ? parseInt(form.seatCapacity) : null,
           startDate: form.startDate || null,
@@ -97,6 +107,77 @@ export default function NewInstructorCoursePage() {
               <option value="Advanced">Advanced</option>
             </select>
           </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Pricing</label>
+            <div className="flex gap-3 mb-4">
+              <button
+                type="button"
+                onClick={() => handleFreeToggle(true)}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+                  isFree
+                    ? 'bg-teal text-white border-teal'
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
+                }`}
+              >
+                Free
+              </button>
+              <button
+                type="button"
+                onClick={() => handleFreeToggle(false)}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+                  !isFree
+                    ? 'bg-teal text-white border-teal'
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
+                }`}
+              >
+                Paid
+              </button>
+            </div>
+
+            {isFree ? (
+              <div className="px-4 py-3 bg-green-50 text-green-700 rounded-lg text-sm font-medium">
+                This course will be available for free.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Price (OMR)</label>
+                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
+                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
+                    <input
+                      name="price"
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={form.price}
+                      onChange={handleChange}
+                      className="flex-1 px-3 py-2 text-sm outline-none bg-white"
+                      placeholder="0.000"
+                      required={!isFree}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Discount Price (OMR) — optional</label>
+                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
+                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
+                    <input
+                      name="discountPrice"
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      value={form.discountPrice}
+                      onChange={handleChange}
+                      className="flex-1 px-3 py-2 text-sm outline-none bg-white"
+                      placeholder="0.000"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Duration (Hours)</label>
             <input name="durationHours" type="number" value={form.durationHours} onChange={handleChange} className="input-field" required />

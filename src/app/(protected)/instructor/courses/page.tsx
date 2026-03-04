@@ -38,8 +38,17 @@ export default function InstructorCoursesPage() {
 
   const deleteCourse = async (id: string) => {
     if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) return;
-    await fetch(`/api/instructor/courses/${id}`, { method: 'DELETE' });
-    fetchCourses();
+    try {
+      const res = await fetch(`/api/instructor/courses/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        fetchCourses();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to delete course');
+      }
+    } catch {
+      alert('An unexpected error occurred');
+    }
   };
 
   const filtered = courses.filter(c =>

@@ -46,6 +46,19 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   try {
     const { id } = await params;
     await requireInstructorOwnership(id);
+
+    const [enrollmentCount, orderCount] = await Promise.all([
+      prisma.enrollment.count({ where: { courseId: id } }),
+      prisma.order.count({ where: { courseId: id } }),
+    ]);
+
+    if (enrollmentCount > 0 || orderCount > 0) {
+      return NextResponse.json(
+        { error: `Cannot delete this course — it has ${enrollmentCount} enrolled student(s) and ${orderCount} order(s). Please contact an admin to remove it.` },
+        { status: 400 }
+      );
+    }
+
     await prisma.course.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   } catch (error: any) {

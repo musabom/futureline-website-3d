@@ -8,6 +8,8 @@ export default function InstructorCoursesPage() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
+
   useEffect(() => { fetchCourses(); }, []);
 
   const fetchCourses = async () => {
@@ -17,27 +19,8 @@ export default function InstructorCoursesPage() {
     setLoading(false);
   };
 
-  const togglePublish = async (course: any) => {
-    const newStatus = course.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
-    try {
-      const res = await fetch(`/api/instructor/courses/${course.id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (res.ok) {
-        fetchCourses();
-      } else {
-        const data = await res.json();
-        alert(data.error || 'Failed to update status');
-      }
-    } catch {
-      alert('An unexpected error occurred');
-    }
-  };
-
   const deleteCourse = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) return;
+    if (!confirm('Are you sure you want to move this course to the archive? It will be hidden from the public and your main dashboard.')) return;
     try {
       const res = await fetch(`/api/instructor/courses/${id}`, { method: 'DELETE' });
       if (res.ok) {
@@ -51,10 +34,14 @@ export default function InstructorCoursesPage() {
     }
   };
 
-  const filtered = courses.filter(c =>
-    c.title.toLowerCase().includes(search.toLowerCase()) ||
-    c.category.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = courses.filter(c => {
+    const matchesSearch = c.title.toLowerCase().includes(search.toLowerCase()) ||
+                         c.category.toLowerCase().includes(search.toLowerCase());
+    if (activeTab === 'archived') return matchesSearch && c.status === 'DELETED';
+    return matchesSearch && c.status !== 'DELETED';
+  });
+
+  const archivedCount = courses.filter(c => c.status === 'DELETED').length;
 
   const approvalBadge = (status: string) => {
     switch (status) {
@@ -74,6 +61,34 @@ export default function InstructorCoursesPage() {
         <Link href="/instructor/courses/new" className="btn-primary flex items-center gap-2 text-sm">
           <Plus size={18} /> Create Course
         </Link>
+      </div>
+
+      <div className="flex border-b border-gray-200 mb-6">
+        <button
+          onClick={() => setActiveTab('active')}
+          className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
+            activeTab === 'active'
+              ? 'text-teal border-b-2 border-teal'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Active Courses
+        </button>
+        <button
+          onClick={() => setActiveTab('archived')}
+          className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
+            activeTab === 'archived'
+              ? 'text-teal border-b-2 border-teal'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Archive
+          {archivedCount > 0 && (
+            <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">
+              {archivedCount}
+            </span>
+          )}
+        </button>
       </div>
 
       <div className="card overflow-hidden">
@@ -121,9 +136,10 @@ export default function InstructorCoursesPage() {
                         <span className={`text-xs font-semibold px-2 py-1 rounded-full w-fit ${
                           course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
                           course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
+                          course.status === 'DELETED' ? 'bg-red-50 text-red-600' :
                           'bg-gray-100 text-gray-500'
                         }`}>{course.status}</span>
-                        {course.approvalStatus === 'APPROVED' && (
+                        {activeTab !== 'archived' && course.approvalStatus === 'APPROVED' && (
                           <button
                             onClick={() => togglePublish(course)}
                             className={`text-[10px] font-bold uppercase tracking-wider hover:underline ${
@@ -138,19 +154,25 @@ export default function InstructorCoursesPage() {
                     <td className="px-6 py-4">{approvalBadge(course.approvalStatus)}</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {course.status === 'PUBLISHED' ? (
-                          <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy" title="Preview course">
-                            <Eye size={16} />
-                          </Link>
+                        {activeTab === 'archived' ? (
+                          <span className="text-xs text-gray-400 italic">Hidden in archive</span>
                         ) : (
-                          <span className="p-2 text-gray-200 cursor-not-allowed" title="Publish course to preview it">
-                            <Eye size={16} />
-                          </span>
+                          <>
+                            {course.status === 'PUBLISHED' ? (
+                              <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy" title="Preview course">
+                                <Eye size={16} />
+                              </Link>
+                            ) : (
+                              <span className="p-2 text-gray-200 cursor-not-allowed" title="Publish course to preview it">
+                                <Eye size={16} />
+                              </span>
+                            )}
+                            <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal" title="Edit course">
+                              <Edit size={16} />
+                            </Link>
+                            <button onClick={() => deleteCourse(course.id)} className="p-2 text-gray-400 hover:text-red-500" title="Move to archive"><Trash2 size={16} /></button>
+                          </>
                         )}
-                        <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal" title="Edit course">
-                          <Edit size={16} />
-                        </Link>
-                        <button onClick={() => deleteCourse(course.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
                       </div>
                     </td>
                   </tr>

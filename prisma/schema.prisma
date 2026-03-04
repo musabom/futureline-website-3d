@@ -23,6 +23,7 @@ enum CourseStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+  DELETED
 }
 
 enum ApprovalStatus {

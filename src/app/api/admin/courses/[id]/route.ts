@@ -43,16 +43,28 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
     const { id } = await params;
     await requireAdmin();
 
-    // Delete all related records first to allow course deletion
-    await prisma.$transaction([
-      prisma.lesson.deleteMany({ where: { courseId: id } }),
-      prisma.enrollment.deleteMany({ where: { courseId: id } }),
-      prisma.order.deleteMany({ where: { courseId: id } }),
-      prisma.instructorEarning.deleteMany({ where: { courseId: id } }),
-      prisma.course.delete({ where: { id: id } }),
-    ]);
+    const course = await prisma.course.findUnique({ where: { id } });
+    if (!course) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-    return NextResponse.json({ success: true });
+    // If already in archive/deleted, permanent delete
+    if (course.status === 'DELETED') {
+      await prisma.$transaction([
+        prisma.lesson.deleteMany({ where: { courseId: id } }),
+        prisma.enrollment.deleteMany({ where: { courseId: id } }),
+        prisma.order.deleteMany({ where: { courseId: id } }),
+        prisma.instructorEarning.deleteMany({ where: { courseId: id } }),
+        prisma.course.delete({ where: { id: id } }),
+      ]);
+      return NextResponse.json({ success: true, permanent: true });
+    }
+
+    // Otherwise, move to archive (DELETED status)
+    await prisma.course.update({
+      where: { id },
+      data: { status: 'DELETED' },
+    });
+
+    return NextResponse.json({ success: true, archived: true });
   } catch (error: any) {
     return NextResponse.json({ error: "An error occurred" }, { status: 400 });
   }

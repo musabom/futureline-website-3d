@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Brain, Cpu, Zap, Bot, Mail, Clock, ArrowRight, Sparkles, Cog, BarChart3 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getBrandSettings } from '@/lib/brand';
 
 export const metadata: Metadata = {
   title: 'AI & Automation — FutureLine | Intelligent Business Solutions',
@@ -13,7 +14,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AIPage() {
+export default async function AIPage() {
+  const brand = await getBrandSettings();
+  const contactEmail = brand.contactEmail;
+
   return (
     <>
       <section className="relative bg-navy overflow-hidden">
@@ -36,7 +40,7 @@ export default function AIPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="mailto:contact@futureline.com?subject=FL%20AI%20Enquiry"
+                href={`mailto:${contactEmail}?subject=FL%20AI%20Enquiry`}
                 className="btn-primary inline-flex items-center justify-center gap-2"
               >
                 Get in Touch <Mail size={18} />
@@ -153,7 +157,7 @@ export default function AIPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="mailto:contact@futureline.com?subject=FL%20AI%20-%20Expression%20of%20Interest"
+              href={`mailto:${contactEmail}?subject=FL%20AI%20-%20Expression%20of%20Interest`}
               className="btn-primary inline-flex items-center justify-center gap-2"
             >
               Express Interest <Mail size={18} />

@@ -15,6 +15,7 @@ FutureLine is a production-ready full-stack web application for a professional A
 - **Auth**: NextAuth v4 with credentials provider (role-based)
 - **Icons**: Lucide React
 - **Payments**: Stripe (ready for integration)
+- **Email**: Resend (for notifications and CRM emails)
 
 ## Project Architecture
 
@@ -28,20 +29,25 @@ src/
     api/               # API routes
       auth/            # NextAuth and registration
       admin/           # Admin CRUD APIs (protected)
+      brand/           # Public brand settings API (contact emails)
       ai/              # AI recommendation
       checkout/        # Payment flow
       enrollment/      # Progress tracking
       leads/           # Tourism contact form leads API
   components/          # Reusable components
     admin/             # Admin-specific components
-  lib/                 # Utilities, Prisma client, auth config
+  lib/                 # Utilities, Prisma client, auth config, brand settings
   types/               # TypeScript type definitions
 prisma/
-  schema.prisma        # Database schema (includes Lead model)
+  schema.prisma        # Database schema
   seed.ts              # Seed data script
 public/
   images/tourism/      # Tourism gallery + hero images
 ```
+
+## User Model
+- Uses separate `firstName` and `lastName` fields (not a single `name` field)
+- Auth session provides computed `name` (firstName + lastName) for backward compatibility
 
 ## User Roles
 - **ADMIN**: Full system control, access to /admin portal
@@ -59,15 +65,22 @@ public/
 - **FL Services**: Coming Soon (Digitalisation service live at /services/digitalisation)
 - **FL AI & Automation**: Coming Soon - Professional landing page at /ai
 
+## Configurable Settings (Admin UI)
+- **Brand Settings** (/admin/brand): Company name, tagline, colors, logo, contact emails
+  - `contactEmail`: Used on Services, Digitalisation, and AI pages (default: flservices.ai@gmail.com)
+  - `tourismEmail`: Used on FL Tourism page (default: authentic.tour.om@gmail.com)
+  - Brand utility at `src/lib/brand.ts` with `getBrandSettings()` helper
+  - Public API at `/api/brand` serves contact emails (no auth required)
+
 ## Key Features
-- Public website with hero, four division cards (with Coming Soon badges), courses
+- Public website with hero, four division cards, courses
 - Course filtering by type, level, search; all courses are free
 - Customer dashboard with progress tracking
 - Online course learning area with lesson viewer (video, notes, quizzes)
 - Admin portal with full CRUD management
 - CRM pipeline with 7 stages, lead detail pages, activity logging
-- Email templates with variable substitution ({{name}}, {{email}}, {{service}})
-- Automation rules engine (triggers + actions, ready for email service)
+- Email templates with variable substitution
+- Automation rules engine (triggers + actions)
 - Role-based route protection (Admin, Instructor, Customer)
 - Instructor portal with course builder and approval workflow
 - CSV export for enrollments and leads
@@ -85,84 +98,3 @@ public/
 - Dev: `npm run dev` (port 5000)
 - Seed: `npm run seed`
 - Build: `npm run build`
-
-## FL Tourism Page
-- Standalone page at /tourism with its own route group (bypasses FutureLine header/footer)
-- Clean white/gold theme: bg #FFFFFF, accent #C49A3A, text #1A1A1A, secondary #666666
-- Brand: "Authentic Oman Tours and Adventures"
-- Sections: Hero, Featured Package (pricing), Full 6-Day Itinerary with tabbed day selector (each day has detailed stops with durations/costs), Gallery carousel (15 items), Reviews carousel (6 testimonials), Contact form (stores leads in DB), Footer
-- Contact: WhatsApp +968 9653 2326 / +968 9425 9459, Email: authentic.tour.om@gmail.com
-- TripAdvisor link integrated in hero and reviews section
-- Floating WhatsApp button (green #25D366)
-- Lead model in Prisma stores contact form submissions with source tracking
-- Gallery images stored in public/images/tourism/
-
-## Instructor Portal
-- Separate portal at `/instructor` with own layout and sidebar
-- Instructors only see and manage their own courses and lessons
-- Instructor course builder mirrors admin course builder with instructor-scoped APIs
-- Course submission: Instructors create courses with `approvalStatus: PENDING`
-- Login redirects by role: ADMIN → /admin, INSTRUCTOR → /instructor, CUSTOMER → /dashboard
-
-## Course Approval Flow
-- New courses from instructors start with `approvalStatus: PENDING`
-- Admin can approve/reject courses from the admin courses page
-- Rejected courses show reason to instructor
-- Only `APPROVED` courses appear on public pages
-
-## Revenue Split
-- Each instructor has a `commissionRate` (default 70%) - instructor's share of revenue
-- Platform keeps the remainder (e.g., 30%)
-- Admin can adjust per-instructor from the Instructors management page
-- `InstructorEarning` model ready for tracking when paid courses are enabled
-
-## API Security
-- Instructor APIs at `/api/instructor/*` verify ownership of courses/lessons
-- Admin APIs at `/api/admin/*` require ADMIN role
-- Instructors cannot modify `approvalStatus` or `instructorId` on their courses
-
-## Recent Changes
-- Initial build: Full application with all core features
-- Database seeded with courses, services, testimonials, and demo users
-- FL Tourism page rebuilt with clean tourism theme, 8 sections, gallery, reviews, contact form with lead storage
-- Lead source tracking: Added `source` field to Lead model, tourism form tags submissions as "FL Tourism"
-- Admin Leads page at /admin/leads with search, source filtering, and CSV export
-- Secured leads API: public /api/leads only accepts POST; admin reads via /api/admin/leads (auth-protected)
-- TripAdvisor floating button added to tourism page (green #34E0A1, bottom-left)
-- FL Services page rebuilt with real Digitalisation content: Hero, Services Grid, Industries, and CTA. Scalable array structure for adding future services.
-- Digitalisation details moved to dedicated page at /services/digitalisation with sections: Live Case (with Turnaround Hub demo link), What We Fix, How We Deliver, What You Get, and CTA. Back to Services navigation included.
-- Lesson video embedding: LessonViewer now embeds YouTube/Vimeo videos in a responsive 16:9 iframe player instead of exposing raw URLs. Only YouTube and Vimeo URLs are allowed (security). Admin lesson form updated with clearer placeholder text.
-- Course pricing is now admin-configurable: Admin sets price per course. Price = 0 means free enrollment. Price > 0 shows the price and blocks free enrollment (message: "Online payment coming soon, contact us to enrol"). Public course pages, detail pages, and EnrollButton all respect the price field. Discount price supported with strikethrough display.
-- Course learning page rebuilt with collapsible module accordion: Modules expand/collapse to show lesson titles. Clicking a lesson opens it inline with Video (top), Lesson Notes box (middle), and downloadable Attachments (bottom). Mark as Complete button per lesson tracks progress.
-- Enrollment redirects to course learning page directly (not dashboard). Course curriculum hidden from public course page until enrolled.
-- Admin Course Builder: Visual accordion-based lesson management. Select a course, add/delete modules, add multiple lessons per module. Two lesson types: Content (video, notes, attachments) and Quiz (multiple-choice questions with correct answer marking). Inline editing forms.
-- Student Quiz View: Quiz lessons show interactive multiple-choice questions. Students select answers, submit, see score with correct/incorrect highlighting. Perfect score auto-completes the lesson. "Try Again" option for incomplete scores.
-- Instructor Portal: Separate /instructor area with dashboard, course management, and course builder. Role-based login redirect. Instructor-scoped APIs with ownership verification.
-- Course Approval: Admin can approve/reject instructor-submitted courses. Only approved courses show publicly.
-- Instructor Management: Admin page at /admin/instructors to manage commission rates, enable/disable instructors.
-- Revenue Split: CommissionRate field on User, InstructorEarning model for future paid courses tracking.
-- CRM Pipeline: Expanded Lead model with 7 pipeline stages (NEW→CONTACTED→OFFER_SENT→FOLLOW_UP→NEGOTIATING→WON→LOST), priority levels, deal value, tags, follow-up scheduling. Pipeline and table views at /admin/leads.
-- Lead Detail Page: Individual lead view at /admin/leads/[id] with stage controls, notes, activity timeline, message composer with template integration, and deal details sidebar.
-- Email Templates: Template system at /admin/templates with WELCOME/PROPOSAL/FOLLOW_UP/CLOSING/THANK_YOU types. Supports {{name}}, {{email}}, {{service}} variables. Templates can be applied when composing messages to leads.
-- Automation Rules: Rule engine at /admin/automation with configurable triggers (stage change, days inactive, new lead, follow-up due) and actions (change stage, send template, set priority, add tag, schedule follow-up). Delay configuration in hours. Ready for email service integration.
-- Lead Activity Logging: All interactions (stage changes, notes, emails, calls) automatically logged with timestamps. Activity API at /api/admin/leads/[id]/activity.
-- Lead capture forms now auto-create activity log entries when new leads submit.
-- Instructor Earnings Page: /instructor/earnings shows commission rate, total revenue, instructor/platform share, per-course breakdown table. Uses formatPrice (GBP) consistently. Info banner when no revenue. Earnings history from InstructorEarning model when records exist.
-- Instructor Dashboard Enhanced: Added enrollment trend bar chart (last 7 days, pure CSS), course performance cards with completion rates, approval status summary with visual bar.
-- Admin Dashboard Enhanced: Added enrollment trend and revenue trend bar charts (last 7 days), pending approvals alert banner, lead pipeline summary (counts per CRM stage), top instructors by student count.
-- Instructor Profile Settings: /instructor/settings page with editable name/bio, read-only commission rate and account status. API at /api/instructor/profile (GET/PUT) with auth and ownership checks.
-- InstructorSidebar updated with Earnings and Settings links.
-- Future-Proofing Audit: Comprehensive 15-area review completed with fixes applied.
-- Input Validation: Zod schemas for all major POST/PUT endpoints (register, leads, courses, templates, profile). Prevents mass assignment.
-- Security Headers: middleware.ts adds X-Frame-Options, X-Content-Type-Options, Referrer-Policy, HSTS, XSS-Protection, Permissions-Policy to all routes.
-- Config Hardening: Tightened allowedOrigins and image remotePatterns in next.config.js (removed wildcards).
-- Rate Limiting: In-memory IP-based rate limiting on /api/auth/register (5/min), /api/leads (5/min), /api/checkout (10/min). Returns 429 with Retry-After.
-- SEO: Per-page metadata with OpenGraph on all public pages. Dynamic sitemap.xml at /sitemap.xml. robots.txt blocking admin/instructor/dashboard/api paths.
-- Error Handling: Global error boundary (error.tsx), custom 404 page (not-found.tsx), root fallback (global-error.tsx).
-- Database Indexes: @@index added to all high-traffic foreign keys (Course.instructorId, Lesson.courseId, Order.userId/courseId, Enrollment.userId/courseId, InstructorEarning, LeadActivity.leadId, LeadNote.leadId).
-- Notification Foundation: Pluggable NotificationProvider interface in src/lib/notifications.ts. Resend provider active (RESEND_API_KEY env var set). Auto-detects: if RESEND_API_KEY exists, uses Resend; otherwise falls back to console logging. Sender address configurable via RESEND_FROM_EMAIL env var (set to noreply@futureline.ai). APP_URL env var used for all email links (set to https://futureline.ai). Wired into: welcome emails on registration, lead stage changes, course enrollments, password resets, password change confirmations, and automation templates.
-- i18n Readiness: Centralized strings in src/lib/strings.ts. Header and Footer use string constants. Integration guide for next-intl documented.
-- Future-proofing guide at .local/future-proofing-guide.md with detailed next steps for all 15 areas.
-- Password Reset Flow: Complete forgot/reset password system. Forgot password page at /forgot-password, reset page at /reset-password?token=..., APIs at /api/auth/forgot-password and /api/auth/reset-password. Secure token generation (crypto.randomBytes), hashed storage (SHA-256), 1-hour expiry. Rate limited (3/min forgot, 5/min reset). Uses notification system for email delivery. Login page updated with "Forgot your password?" link. User model extended with resetToken and resetTokenExpiry fields.
-- Next.js 15 Upgrade: Upgraded from Next.js 15.0.8 to 15.5.12 to patch critical security vulnerabilities (CVEs up to 15.5.9). Updated all route handlers and page components to use async `params` and `searchParams` (Promise-based) as required by Next.js 15. Added `allowedDevOrigins` config in next.config.js for Replit dev environment.
-- Name Field Split: Replaced single `name` field on User model with separate `firstName` and `lastName` fields. Updated all Prisma queries, API routes, auth callbacks (JWT/session), registration form (two side-by-side inputs), instructor settings, admin pages (users, enrollments, orders, courses, leads, instructors), public course pages, dashboard pages, checkout, notifications, seed data. Welcome messages use firstName only. Session still provides computed `name` (firstName + lastName) for backward compatibility.

@@ -103,4 +103,4 @@ public/
 ## Running
 - Dev: `npm run dev` (port 5000)
 - Seed: `npm run seed`
-- Build: `npm run build`
+- Build: `npm run build` (Note: Database migrations are removed from the build script to prevent deployment failures. Run `npx prisma db push` manually if schema changes are needed.)

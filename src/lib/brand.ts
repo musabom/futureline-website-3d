@@ -11,9 +11,13 @@ const DEFAULTS = {
 };
 
 export async function getBrandSettings() {
-  const settings = await prisma.brandSettings.findFirst();
-  return {
-    ...DEFAULTS,
-    ...settings,
-  };
+  try {
+    const settings = await prisma.brandSettings.findFirst();
+    return {
+      ...DEFAULTS,
+      ...settings,
+    };
+  } catch {
+    return { ...DEFAULTS };
+  }
 }

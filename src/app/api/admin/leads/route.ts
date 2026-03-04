@@ -20,7 +20,8 @@ export async function GET(req: Request) {
     if (source && source !== 'all') where.source = source;
     if (search) {
       where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
+        { firstName: { contains: search, mode: 'insensitive' } },
+        { lastName: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
         { tourType: { contains: search, mode: 'insensitive' } },
       ];

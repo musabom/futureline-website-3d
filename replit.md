@@ -33,8 +33,8 @@ src/
       ai/              # AI recommendation
       checkout/        # Payment flow
       enrollment/      # Progress tracking
-      leads/           # Tourism contact form leads API
-  components/          # Reusable components
+      leads/           # Lead capture API (Tourism, Courses, Services)
+  components/          # Reusable components (CourseEnquiryForm, ServiceEnquiryForm, etc.)
     admin/             # Admin-specific components
   lib/                 # Utilities, Prisma client, auth config, brand settings
   types/               # TypeScript type definitions
@@ -59,11 +59,17 @@ public/
 - Instructor: instructor@futureline.com / instructor123
 - Customer: customer@futureline.com / customer123
 
+## Lead Model
+- Uses separate `firstName` and `lastName` fields (not a single `name` field)
+- `tourType` field serves as general "interest/topic" across all forms (optional, defaults to "General Enquiry")
+- Leads come from multiple sources: FL Tourism, FL Courses, FL Services
+- Migration script at `prisma/migrate-leads.ts` handles splitting old `name` data on deployment
+
 ## Business Divisions
-- **FL Tourism**: Live - Standalone tourism page at /tourism
-- **FL Courses**: Live - Full course catalog, free enrollment, lesson viewer
-- **FL Services**: Coming Soon (Digitalisation service live at /services/digitalisation)
-- **FL AI & Automation**: Coming Soon - Professional landing page at /ai
+- **FL Tourism**: Live - Standalone tourism page at /tourism (contact form with firstName/lastName)
+- **FL Courses**: Live - Full course catalog, free enrollment, lesson viewer, enquiry form for custom courses
+- **FL Services**: Live - Digitalisation service at /services/digitalisation, enquiry form for all services
+- **FL AI & Automation**: Hidden (Coming Soon) - Page code preserved at /ai, redirects to home, removed from nav/footer
 
 ## Configurable Settings (Admin UI)
 - **Brand Settings** (/admin/brand): Company name, tagline, colors, logo, contact emails

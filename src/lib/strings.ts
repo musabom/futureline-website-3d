@@ -34,7 +34,7 @@ export const strings = {
   nav: {
     courses: 'Courses',
     services: 'Services',
-    aiSolutions: 'AI Solutions',
+    aiSolutions: 'FL AI & Automation',
     admin: 'Admin',
     dashboard: 'Dashboard',
     signIn: 'Sign In',
@@ -49,7 +49,7 @@ export const strings = {
     inPersonTraining: 'In-Person Training',
     services: 'Services',
     allServices: 'All Services',
-    aiSolutions: 'AI Solutions',
+    aiSolutions: 'FL AI & Automation',
     company: 'Company',
     signIn: 'Sign In',
     createAccount: 'Create Account',

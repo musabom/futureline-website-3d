@@ -60,8 +60,9 @@ export default function AdminLeadsPage() {
 
   const filtered = leads.filter(l => {
     if (!search) return true;
+    const fullName = `${l.firstName || ''} ${l.lastName || ''}`.toLowerCase();
     return (
-      l.name?.toLowerCase().includes(search.toLowerCase()) ||
+      fullName.includes(search.toLowerCase()) ||
       l.email?.toLowerCase().includes(search.toLowerCase()) ||
       l.tourType?.toLowerCase().includes(search.toLowerCase())
     );
@@ -73,9 +74,9 @@ export default function AdminLeadsPage() {
   }, {} as Record<string, number>);
 
   const exportCSV = () => {
-    const headers = ['Name', 'Email', 'Phone', 'Interest', 'Source', 'Stage', 'Priority', 'Message', 'Date'];
+    const headers = ['First Name', 'Last Name', 'Email', 'Phone', 'Interest', 'Source', 'Stage', 'Priority', 'Message', 'Date'];
     const rows = filtered.map(l => [
-      l.name, l.email, l.phone || '', l.tourType,
+      l.firstName || '', l.lastName || '', l.email, l.phone || '', l.tourType,
       l.source || 'FL Tourism', l.stage, l.priority,
       `"${(l.message || '').replace(/"/g, '""')}"`,
       new Date(l.createdAt).toLocaleDateString('en-GB'),
@@ -151,7 +152,7 @@ export default function AdminLeadsPage() {
                   {stageLeads.map(lead => (
                     <Link key={lead.id} href={`/admin/leads/${lead.id}`}
                       className="block bg-white rounded-lg p-3 shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer">
-                      <div className="font-medium text-sm text-navy truncate">{lead.name}</div>
+                      <div className="font-medium text-sm text-navy truncate">{lead.firstName} {lead.lastName}</div>
                       <div className="text-xs text-gray-500 truncate mt-1">{lead.email}</div>
                       <div className="flex items-center gap-2 mt-2">
                         <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${PRIORITIES[lead.priority] || ''}`}>
@@ -196,7 +197,7 @@ export default function AdminLeadsPage() {
               ) : (
                 filtered.map(l => (
                   <tr key={l.id} className="hover:bg-gray-50/50">
-                    <td className="px-4 py-3"><span className="font-medium text-navy">{l.name}</span></td>
+                    <td className="px-4 py-3"><span className="font-medium text-navy">{l.firstName} {l.lastName}</span></td>
                     <td className="px-4 py-3 text-sm text-gray-600">{l.email}</td>
                     <td className="px-4 py-3 text-sm text-gray-600">{l.tourType}</td>
                     <td className="px-4 py-3">

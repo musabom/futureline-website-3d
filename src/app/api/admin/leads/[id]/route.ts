@@ -70,7 +70,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       });
 
       notifyLeadStageChange(
-        { name: oldLead.name, email: oldLead.email, stage },
+        { name: `${oldLead.firstName} ${oldLead.lastName}`.trim(), email: oldLead.email, stage },
         oldLead.stage,
         stage
       );

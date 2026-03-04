@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 
-const BASE_URL = process.env.NEXTAUTH_URL || 'https://futureline.replit.app';
+const BASE_URL = process.env.NEXTAUTH_URL || 'https://futureline.ai';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const publishedCourses = await prisma.course.findMany({

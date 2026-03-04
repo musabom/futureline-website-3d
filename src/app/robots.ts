@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXTAUTH_URL || 'https://futureline.replit.app';
+const BASE_URL = process.env.NEXTAUTH_URL || 'https://futureline.ai';
 
 export default function robots(): MetadataRoute.Robots {
   return {

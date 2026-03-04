@@ -14,12 +14,11 @@ NEXTAUTH_SECRET = "futureline-secret-key-2026"
 RESEND_API_KEY = "re_42y46P2T_7SEQzCME6FNxyZALXd7y7qWV"
 RESEND_FROM_EMAIL = "noreply@futureline.ai"
 APP_URL = "https://futureline.ai"
+NEXTAUTH_URL = "https://futureline.ai"
 
 [userenv.development]
-NEXTAUTH_URL = "https://e13ac66a-df68-4a97-bf78-c38e169b8e67-00-3azws8dmm1sx1.spock.replit.dev"
 
 [userenv.production]
-NEXTAUTH_URL = "https://future-line-main-page.replit.app"
 
 [workflows]
 runButton = "Project"

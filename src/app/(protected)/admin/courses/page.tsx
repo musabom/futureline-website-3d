@@ -145,7 +145,11 @@ export default function AdminCoursesPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy"><Eye size={16} /></Link>
+                      {course.status === 'PUBLISHED' ? (
+                        <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy" title="Preview course"><Eye size={16} /></Link>
+                      ) : (
+                        <span className="p-2 text-gray-200 cursor-not-allowed" title="Publish course to preview it"><Eye size={16} /></span>
+                      )}
                       <Link href={`/admin/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal"><Edit size={16} /></Link>
                       <button onClick={() => deleteCourse(course.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
                     </div>

@@ -2,10 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-function formatPriceClient(price: number): string {
-  return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(price);
-}
+import { formatPrice } from '@/lib/utils';
 
 export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: string; slug: string; price?: number }) {
   const { data: session } = useSession();
@@ -47,7 +44,7 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
     ? 'Processing...'
     : isFree
       ? 'Enroll for Free'
-      : `Enroll — ${formatPriceClient(price)}`;
+      : `Enroll — ${formatPrice(price)}`;
 
   return (
     <button

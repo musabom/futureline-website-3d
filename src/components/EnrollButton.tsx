@@ -124,18 +124,8 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
                   </button>
                 </div>
 
-                <div className="flex justify-center">
-                  <Image
-                    src="/images/bank-muscat-qr.jpg"
-                    alt="Bank Muscat QR code for payment"
-                    width={220}
-                    height={220}
-                    className="rounded-lg border border-gray-100"
-                  />
-                </div>
-
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 leading-relaxed">
-                  Scan the QR code to pay <strong>Musab Al Sabahi</strong>. You <strong>MUST</strong> send the receipt to WhatsApp with your full name. Your enrolment will be approved within 12 hours.
+                  Please make bank payment to <strong>Musab Al Sabahi, 96532326</strong>. You <strong>MUST</strong> send the receipt to WhatsApp with your full name to <strong>96532326</strong>. Your enrolment will be approved within 12 hours.
                 </div>
 
                 <button

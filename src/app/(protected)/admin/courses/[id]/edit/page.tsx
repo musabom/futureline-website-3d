@@ -201,7 +201,7 @@ export default function EditCoursePage() {
             <select name="instructorId" value={form.instructorId || ''} onChange={handleChange} className="input-field">
               <option value="">Select instructor</option>
               {instructors.map((i: any) => (
-                <option key={i.id} value={i.id}>{i.name}</option>
+                <option key={i.id} value={i.id}>{i.firstName} {i.lastName}</option>
               ))}
             </select>
           </div>

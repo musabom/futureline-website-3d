@@ -15,11 +15,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const lead = await prisma.lead.findUnique({
       where: { id: id },
       include: {
-        assignee: { select: { id: true, name: true } },
+        assignee: { select: { id: true, firstName: true, lastName: true } },
         activities: { orderBy: { createdAt: 'desc' } },
         notes: {
           orderBy: { createdAt: 'desc' },
-          include: { author: { select: { id: true, name: true } } },
+          include: { author: { select: { id: true, firstName: true, lastName: true } } },
         },
       },
     });

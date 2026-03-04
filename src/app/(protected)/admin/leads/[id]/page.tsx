@@ -251,7 +251,7 @@ export default function LeadDetailPage() {
                 <div key={note.id} className="bg-gray-50 rounded-lg p-3">
                   <p className="text-sm text-gray-700">{note.content}</p>
                   <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
-                    <span>{note.author?.name || 'System'}</span>
+                    <span>{note.author ? `${note.author.firstName} ${note.author.lastName}`.trim() : 'System'}</span>
                     <span>·</span>
                     <span>{new Date(note.createdAt).toLocaleString('en-GB')}</span>
                   </div>

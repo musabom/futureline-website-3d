@@ -4,7 +4,8 @@ import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save } from 
 
 interface Instructor {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   bio: string | null;
   commissionRate: number;
@@ -53,7 +54,7 @@ export default function AdminInstructorsPage() {
   };
 
   const filtered = instructors.filter(i =>
-    i.name.toLowerCase().includes(search.toLowerCase()) ||
+    `${i.firstName} ${i.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
     i.email.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -141,7 +142,7 @@ export default function AdminInstructorsPage() {
                 filtered.map((instructor) => (
                   <tr key={instructor.id} className="hover:bg-gray-50/50">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-navy text-sm">{instructor.name}</div>
+                      <div className="font-medium text-navy text-sm">{instructor.firstName} {instructor.lastName}</div>
                       <div className="text-xs text-gray-400">{instructor.email}</div>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-600">{instructor._count.courses}</td>

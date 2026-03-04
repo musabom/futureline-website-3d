@@ -7,7 +7,8 @@ import ChangePasswordForm from '@/components/ChangePasswordForm';
 
 export default function InstructorSettingsPage() {
   const { data: session } = useSession();
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [bio, setBio] = useState('');
   const [commissionRate, setCommissionRate] = useState(0);
   const [isActive, setIsActive] = useState(true);
@@ -21,7 +22,8 @@ export default function InstructorSettingsPage() {
         const res = await fetch('/api/instructor/profile');
         if (res.ok) {
           const data = await res.json();
-          setName(data.name || '');
+          setFirstName(data.firstName || '');
+          setLastName(data.lastName || '');
           setBio(data.bio || '');
           setCommissionRate(data.commissionRate || 0);
           setIsActive(data.isActive);
@@ -43,7 +45,7 @@ export default function InstructorSettingsPage() {
       const res = await fetch('/api/instructor/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, bio }),
+        body: JSON.stringify({ firstName, lastName, bio }),
       });
       if (res.ok) {
         setMessage({ type: 'success', text: 'Profile updated successfully' });
@@ -123,15 +125,27 @@ export default function InstructorSettingsPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal focus:border-teal"
+                />
+              </div>
             </div>
 
             <div>

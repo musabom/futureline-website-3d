@@ -19,7 +19,8 @@ export async function GET() {
       where: { id: session.user.id },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         bio: true,
         commissionRate: true,
@@ -47,12 +48,14 @@ export async function PUT(req: Request) {
     const updated = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        name: parsed.data.name.trim(),
+        firstName: parsed.data.firstName.trim(),
+        lastName: parsed.data.lastName.trim(),
         bio: parsed.data.bio?.trim() || null,
       },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         bio: true,
         commissionRate: true,

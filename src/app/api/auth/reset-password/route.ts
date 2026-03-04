@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       },
     });
 
-    notifyPasswordChanged({ name: user.name, email: user.email }).catch((err) =>
+    notifyPasswordChanged({ name: `${user.firstName} ${user.lastName}`.trim(), email: user.email }).catch((err) =>
       console.error('[ResetPassword] Failed to send password changed email:', err)
     );
 

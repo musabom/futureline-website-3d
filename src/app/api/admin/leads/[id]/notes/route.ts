@@ -22,7 +22,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         content: content.trim(),
         authorId: (session.user as any).id,
       },
-      include: { author: { select: { id: true, name: true } } },
+      include: { author: { select: { id: true, firstName: true, lastName: true } } },
     });
 
     await prisma.leadActivity.create({

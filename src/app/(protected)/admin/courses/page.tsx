@@ -104,7 +104,7 @@ export default function AdminCoursesPage() {
                     <div className="text-xs text-gray-400">{course.category}</div>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {course.instructor?.name || <span className="text-gray-300">No instructor</span>}
+                    {course.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}`.trim() : <span className="text-gray-300">No instructor</span>}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">{course.level}</td>
                   <td className="px-6 py-4">

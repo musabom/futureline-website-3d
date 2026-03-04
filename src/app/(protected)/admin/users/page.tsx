@@ -33,7 +33,7 @@ export default function AdminUsersPage() {
   };
 
   const filtered = users.filter(u =>
-    u.name.toLowerCase().includes(search.toLowerCase()) ||
+    `${u.firstName} ${u.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
     u.email.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
           <tbody className="divide-y divide-gray-100">
             {filtered.map(u => (
               <tr key={u.id} className="hover:bg-gray-50/50">
-                <td className="px-6 py-4 text-sm font-medium text-navy">{u.name}</td>
+                <td className="px-6 py-4 text-sm font-medium text-navy">{u.firstName} {u.lastName}</td>
                 <td className="px-6 py-4 text-sm text-gray-600">{u.email}</td>
                 <td className="px-6 py-4">
                   {editingId === u.id ? (

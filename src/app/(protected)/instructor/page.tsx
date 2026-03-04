@@ -89,7 +89,7 @@ export default async function InstructorDashboard() {
     take: 5,
     orderBy: { createdAt: 'desc' },
     include: {
-      user: { select: { name: true, email: true } },
+      user: { select: { firstName: true, lastName: true, email: true } },
       course: { select: { title: true } },
     },
   });
@@ -104,7 +104,7 @@ export default async function InstructorDashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-navy">Welcome, {session.user.name}</h1>
+        <h1 className="text-2xl font-bold text-navy">Welcome, {session.user.firstName}</h1>
         <p className="text-gray-500 mt-1">Your instructor dashboard</p>
       </div>
 
@@ -281,7 +281,7 @@ export default async function InstructorDashboard() {
               {recentEnrollments.map((enrollment) => (
                 <div key={enrollment.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                   <div>
-                    <div className="text-sm font-medium text-navy">{enrollment.user.name}</div>
+                    <div className="text-sm font-medium text-navy">{enrollment.user.firstName} {enrollment.user.lastName}</div>
                     <div className="text-xs text-gray-400">{enrollment.course.title}</div>
                   </div>
                   <div className="text-xs text-gray-400">

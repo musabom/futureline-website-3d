@@ -20,7 +20,8 @@ async function main() {
 
   const admin = await prisma.user.create({
     data: {
-      name: 'Admin User',
+      firstName: 'Admin',
+      lastName: 'User',
       email: 'admin@futureline.com',
       password: adminPassword,
       role: 'ADMIN',
@@ -29,7 +30,8 @@ async function main() {
 
   const instructor = await prisma.user.create({
     data: {
-      name: 'Sarah Mitchell',
+      firstName: 'Sarah',
+      lastName: 'Mitchell',
       email: 'instructor@futureline.com',
       password: instructorPassword,
       role: 'INSTRUCTOR',
@@ -38,7 +40,8 @@ async function main() {
 
   const customer = await prisma.user.create({
     data: {
-      name: 'John Customer',
+      firstName: 'John',
+      lastName: 'Customer',
       email: 'customer@futureline.com',
       password: customerPassword,
       role: 'CUSTOMER',

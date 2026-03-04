@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     const leads = await prisma.lead.findMany({
       where,
       include: {
-        assignee: { select: { id: true, name: true } },
+        assignee: { select: { id: true, firstName: true, lastName: true } },
         _count: { select: { activities: true, notes: true } },
       },
       orderBy: { createdAt: 'desc' },

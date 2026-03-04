@@ -36,7 +36,7 @@ export default async function CoursesPage({
 
   const courses = await prisma.course.findMany({
     where,
-    include: { instructor: { select: { name: true } } },
+    include: { instructor: { select: { firstName: true, lastName: true } } },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -101,7 +101,7 @@ export default async function CoursesPage({
                 <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
                   <span className="flex items-center gap-1"><Clock size={14} /> {course.durationHours}h</span>
                   {course.location && <span className="flex items-center gap-1"><MapPin size={14} /> {course.location}</span>}
-                  {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.name}</span>}
+                  {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <span className="font-bold text-teal text-lg">{course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}</span>

@@ -21,7 +21,7 @@ export default async function DashboardPage() {
       course: {
         include: {
           lessons: true,
-          instructor: { select: { name: true } },
+          instructor: { select: { firstName: true, lastName: true } },
         },
       },
     },
@@ -39,7 +39,7 @@ export default async function DashboardPage() {
       <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-navy">Welcome, {session.user.name}</h1>
+          <h1 className="text-3xl font-bold text-navy">Welcome, {session.user.firstName}</h1>
           <p className="text-gray-500 mt-1">Manage your courses and track your progress</p>
         </div>
 

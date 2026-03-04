@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     });
 
     notifyNewEnrollment(
-      { name: session.user.name || 'Student', email: session.user.email || '' },
+      { name: `${(session.user as any).firstName || ''} ${(session.user as any).lastName || ''}`.trim() || 'Student', email: session.user.email || '' },
       { title: course.title, slug: course.slug }
     );
 

@@ -39,14 +39,19 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             {session ? (
               <div className="flex items-center gap-4">
-                {session.user.role === 'ADMIN' && (
+                {session.user.role === 'ADMIN' ? (
                   <Link href="/admin" className="text-gray-600 hover:text-navy font-medium transition-colors">
                     {strings.nav.admin}
                   </Link>
+                ) : session.user.role === 'INSTRUCTOR' ? (
+                  <Link href="/instructor" className="text-gray-600 hover:text-navy font-medium transition-colors">
+                    Dashboard
+                  </Link>
+                ) : (
+                  <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium transition-colors">
+                    {strings.nav.dashboard}
+                  </Link>
                 )}
-                <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium transition-colors">
-                  {strings.nav.dashboard}
-                </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className="text-gray-500 hover:text-navy font-medium transition-colors"
@@ -89,10 +94,13 @@ export default function Header() {
               ))}
               {session ? (
                 <>
-                  {session.user.role === 'ADMIN' && (
+                  {session.user.role === 'ADMIN' ? (
                     <Link href="/admin" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.admin}</Link>
+                  ) : session.user.role === 'INSTRUCTOR' ? (
+                    <Link href="/instructor" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                  ) : (
+                    <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.dashboard}</Link>
                   )}
-                  <Link href="/dashboard" className="text-gray-600 hover:text-navy font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>{strings.nav.dashboard}</Link>
                   <button onClick={() => signOut({ callbackUrl: '/' })} className="text-left text-gray-500 hover:text-navy font-medium px-2 py-1">{strings.nav.signOut}</button>
                 </>
               ) : (

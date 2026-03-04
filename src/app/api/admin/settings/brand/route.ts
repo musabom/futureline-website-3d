@@ -8,7 +8,16 @@ export async function GET() {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     const settings = await prisma.brandSettings.findFirst();
-    return NextResponse.json(settings);
+    const defaults = {
+      companyName: 'FutureLine',
+      tagline: 'Design • Deploy • Evolve',
+      primaryColor: '#0F1E3D',
+      accentColor: '#18A999',
+      logo: '',
+      contactEmail: 'flservices.ai@gmail.com',
+      tourismEmail: 'authentic.tour.om@gmail.com',
+    };
+    return NextResponse.json({ ...defaults, ...settings });
   } catch {
     return NextResponse.json({ error: 'Failed' }, { status: 500 });
   }

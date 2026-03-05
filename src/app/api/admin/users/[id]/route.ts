@@ -14,8 +14,14 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     const data = await req.json();
     const user = await prisma.user.update({
       where: { id: id },
-      data: { firstName: data.firstName, lastName: data.lastName, email: data.email, role: data.role },
-      select: { id: true, firstName: true, lastName: true, email: true, role: true },
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        role: data.role,
+        ...(data.commissionRate !== undefined ? { commissionRate: Number(data.commissionRate) } : {}),
+      },
+      select: { id: true, firstName: true, lastName: true, email: true, role: true, commissionRate: true },
     });
 
     return NextResponse.json(user);

@@ -90,6 +90,11 @@ public/
 - Role-based route protection (Admin, Instructor, Customer)
 - Instructor portal with course builder and approval workflow
 - CSV export for enrollments and leads
+- Bank transfer payment flow (manual admin approval) with PENDING/COMPLETED/FAILED orders
+- Instructor Payouts page (/admin/payouts): per-instructor revenue breakdown, commission rate editing, payment logging via InstructorEarning model
+- Orders page now shows Instructor column and filter dropdown per instructor
+- Users page shows commission rate for instructors with inline editing
+- Vimeo unlisted video support: privacy hash extracted from URL (`vimeo.com/ID/HASH`) and appended as `?h=HASH` to embed URL; iframe embed code auto-parsed in lesson forms
 
 ## Environment Variables
 - DATABASE_URL: PostgreSQL connection string

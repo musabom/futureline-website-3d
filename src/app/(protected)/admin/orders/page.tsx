@@ -1,11 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, CheckCircle, XCircle } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [search, setSearch] = useState('');
+  const [instructorFilter, setInstructorFilter] = useState('');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   const fetchOrders = () => {
@@ -34,17 +35,31 @@ export default function AdminOrdersPage() {
     }
   };
 
-  const filtered = orders.filter(o =>
-    `${o.user?.firstName || ''} ${o.user?.lastName || ''}`.toLowerCase().includes(search.toLowerCase()) ||
-    o.course?.title?.toLowerCase().includes(search.toLowerCase())
-  );
+  const instructors = useMemo(() => {
+    const seen = new Map<string, string>();
+    orders.forEach(o => {
+      if (o.course?.instructor?.id) {
+        const name = `${o.course.instructor.firstName} ${o.course.instructor.lastName}`;
+        seen.set(o.course.instructor.id, name);
+      }
+    });
+    return Array.from(seen.entries()).map(([id, name]) => ({ id, name }));
+  }, [orders]);
+
+  const filtered = orders.filter(o => {
+    const matchesSearch =
+      `${o.user?.firstName || ''} ${o.user?.lastName || ''}`.toLowerCase().includes(search.toLowerCase()) ||
+      o.course?.title?.toLowerCase().includes(search.toLowerCase());
+    const matchesInstructor = !instructorFilter || o.course?.instructor?.id === instructorFilter;
+    return matchesSearch && matchesInstructor;
+  });
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-navy mb-8">Orders</h1>
       <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
-          <div className="relative">
+        <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
@@ -54,6 +69,18 @@ export default function AdminOrdersPage() {
               className="input-field !pl-10"
             />
           </div>
+          {instructors.length > 0 && (
+            <select
+              value={instructorFilter}
+              onChange={e => setInstructorFilter(e.target.value)}
+              className="input-field sm:w-56"
+            >
+              <option value="">All Instructors</option>
+              {instructors.map(i => (
+                <option key={i.id} value={i.id}>{i.name}</option>
+              ))}
+            </select>
+          )}
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -61,6 +88,7 @@ export default function AdminOrdersPage() {
               <tr>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Customer</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Course</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Instructor</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Amount</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Method</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
@@ -76,6 +104,11 @@ export default function AdminOrdersPage() {
                     <div className="text-xs text-gray-400">{o.user?.email}</div>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">{o.course?.title}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {o.course?.instructor
+                      ? `${o.course.instructor.firstName} ${o.course.instructor.lastName}`
+                      : <span className="text-gray-300">—</span>}
+                  </td>
                   <td className="px-6 py-4 text-sm font-medium text-navy">{formatPrice(o.amount)}</td>
                   <td className="px-6 py-4">
                     <span className="text-xs font-medium text-gray-500">
@@ -124,7 +157,7 @@ export default function AdminOrdersPage() {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-6 py-10 text-center text-sm text-gray-400">No orders found</td>
+                  <td colSpan={8} className="px-6 py-10 text-center text-sm text-gray-400">No orders found</td>
                 </tr>
               )}
             </tbody>

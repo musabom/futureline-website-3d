@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { notifyNewEnrollment, notifyOrderRejected } from '@/lib/notifications';
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -34,6 +35,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           update: {},
         }),
       ]);
+
+      const [user, course] = await Promise.all([
+        prisma.user.findUnique({ where: { id: order.userId }, select: { firstName: true, lastName: true, email: true } }),
+        prisma.course.findUnique({ where: { id: order.courseId }, select: { title: true, slug: true } }),
+      ]);
+
+      if (user && course) {
+        notifyNewEnrollment(
+          { name: `${user.firstName} ${user.lastName}`.trim(), email: user.email },
+          { title: course.title, slug: course.slug }
+        ).catch(err => console.error('[OrderApproval] Failed to send enrollment email:', err));
+      }
+
       return NextResponse.json(updatedOrder);
     }
 
@@ -41,6 +55,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       where: { id },
       data: { paymentStatus: 'FAILED' },
     });
+
+    const [user, course] = await Promise.all([
+      prisma.user.findUnique({ where: { id: order.userId }, select: { firstName: true, lastName: true, email: true } }),
+      prisma.course.findUnique({ where: { id: order.courseId }, select: { title: true } }),
+    ]);
+
+    if (user && course) {
+      notifyOrderRejected(
+        { name: `${user.firstName} ${user.lastName}`.trim(), email: user.email },
+        { title: course.title }
+      ).catch(err => console.error('[OrderRejection] Failed to send rejection email:', err));
+    }
+
     return NextResponse.json(updated);
   } catch (error) {
     console.error('[ORDER-ACTION] Error:', error);

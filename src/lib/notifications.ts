@@ -116,6 +116,24 @@ export async function notifyNewEnrollment(user: { name: string; email: string },
   });
 }
 
+export async function notifyPaymentPending(user: { name: string; email: string }, course: { title: string }) {
+  await sendEmail({
+    to: user.email,
+    subject: `FutureLine - Payment Received for "${course.title}"`,
+    body: `Dear ${user.name},\n\nThank you — we have received your payment request for "${course.title}".\n\nYour enrolment is currently pending manual verification. Please ensure you have sent your payment receipt via WhatsApp to 96532326 with your full name.\n\nYour enrolment will be approved within 12 hours of receipt confirmation.\n\nIf you have any questions, please contact us on WhatsApp at 96532326.\n\nBest regards,\nFutureLine Team`,
+    metadata: { type: 'payment_pending', courseTitle: course.title },
+  });
+}
+
+export async function notifyOrderRejected(user: { name: string; email: string }, course: { title: string }) {
+  await sendEmail({
+    to: user.email,
+    subject: `FutureLine - Payment Verification Failed for "${course.title}"`,
+    body: `Dear ${user.name},\n\nUnfortunately, we were unable to verify your payment for "${course.title}".\n\nThis may be because:\n- The payment receipt was not received\n- The receipt details did not match your registration\n\nPlease send your payment receipt via WhatsApp to 96532326 with your full name, or contact us directly for assistance.\n\nBest regards,\nFutureLine Team`,
+    metadata: { type: 'order_rejected', courseTitle: course.title },
+  });
+}
+
 export async function notifyAutomationTemplate(to: string, subject: string, body: string, metadata?: Record<string, any>) {
   await sendEmail({
     to,

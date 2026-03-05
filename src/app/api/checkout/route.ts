@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { notifyNewEnrollment } from '@/lib/notifications';
+import { notifyNewEnrollment, notifyPaymentPending } from '@/lib/notifications';
 import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
 
 export async function POST(req: Request) {
@@ -52,6 +52,14 @@ export async function POST(req: Request) {
             paymentMethod: 'BANK_TRANSFER',
           },
         });
+
+        notifyPaymentPending(
+          {
+            name: `${(session.user as any).firstName || ''} ${(session.user as any).lastName || ''}`.trim() || 'Student',
+            email: session.user.email || '',
+          },
+          { title: course.title }
+        ).catch(err => console.error('[Checkout] Failed to send payment pending email:', err));
 
         return NextResponse.json({ pendingApproval: true });
       }

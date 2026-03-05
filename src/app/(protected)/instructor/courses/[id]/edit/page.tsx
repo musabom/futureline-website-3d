@@ -47,6 +47,11 @@ export default function EditInstructorCoursePage() {
     e.preventDefault();
     setLoading(true);
     try {
+      if (form.startDate && form.endDate && new Date(form.endDate) < new Date(form.startDate)) {
+        alert('End date cannot be earlier than start date');
+        setLoading(false);
+        return;
+      }
       const res = await fetch(`/api/instructor/courses/${params.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

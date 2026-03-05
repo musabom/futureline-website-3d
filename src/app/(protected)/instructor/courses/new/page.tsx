@@ -39,6 +39,11 @@ export default function NewInstructorCoursePage() {
     e.preventDefault();
     setLoading(true);
     try {
+      if (form.startDate && form.endDate && new Date(form.endDate) < new Date(form.startDate)) {
+        alert('End date cannot be earlier than start date');
+        setLoading(false);
+        return;
+      }
       const res = await fetch('/api/instructor/courses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

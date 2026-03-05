@@ -24,10 +24,21 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
   if (!url) return null;
 
   try {
-    const parsed = new URL(url);
+    const trimmed = url.trim();
+    // Handle full iframe paste or player URL directly
+    if (trimmed.includes('player.vimeo.com/video/')) {
+      const match = trimmed.match(/https?:\/\/player\.vimeo\.com\/video\/[^\s"']+/);
+      if (match) return { embedUrl: match[0], type: 'vimeo' };
+    }
+    if (trimmed.includes('youtube.com/embed/')) {
+      const match = trimmed.match(/https?:\/\/www\.youtube\.com\/embed\/[^\s"']+/);
+      if (match) return { embedUrl: match[0], type: 'youtube' };
+    }
+
+    const parsed = new URL(trimmed);
     if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
   } catch {
-    return null;
+    // If it's not a valid URL yet, it might be an iframe snippet we can still try to parse
   }
 
   const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -35,9 +46,16 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
     return { embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`, type: 'youtube' };
   }
 
-  const vimeoMatch = url.match(/(?:vimeo\.com\/)(\d+)/);
+  // Improved Vimeo regex to capture ID and optional privacy hash (for unlisted videos)
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
   if (vimeoMatch) {
-    return { embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?title=0&byline=0&portrait=0`, type: 'vimeo' };
+    const videoId = vimeoMatch[1];
+    const hash = vimeoMatch[2];
+    let embedUrl = `https://player.vimeo.com/video/${videoId}?title=0&byline=0&portrait=0`;
+    if (hash) {
+      embedUrl += `&h=${hash}`;
+    }
+    return { embedUrl, type: 'vimeo' };
   }
 
   return null;

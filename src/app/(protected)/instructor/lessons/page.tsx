@@ -757,10 +757,20 @@ function LessonForm({
           <div className="space-y-3">
             <input
               value={lesson.videoUrl}
-              onChange={e => onChange({ ...lesson, videoUrl: e.target.value })}
+              onChange={e => {
+                let val = e.target.value;
+                if (val.includes('<iframe')) {
+                  const match = val.match(/src="([^"]+)"/);
+                  if (match) val = match[1];
+                }
+                onChange({ ...lesson, videoUrl: val });
+              }}
               placeholder="YouTube or Vimeo URL (optional)"
               className="input-field"
             />
+            <p className="text-[10px] text-gray-400 mt-1 italic">
+              Paste a Vimeo/YouTube link, player URL, or full embed code.
+            </p>
             <textarea
               value={lesson.content}
               onChange={e => onChange({ ...lesson, content: e.target.value })}

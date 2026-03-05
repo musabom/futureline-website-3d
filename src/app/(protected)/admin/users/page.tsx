@@ -1,12 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Search, Edit, Trash2 } from 'lucide-react';
+import { Search, Edit, Trash2, Check, X } from 'lucide-react';
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editRole, setEditRole] = useState('');
+  const [editingRateId, setEditingRateId] = useState<string | null>(null);
+  const [editRateValue, setEditRateValue] = useState('');
+  const [savingRate, setSavingRate] = useState(false);
 
   useEffect(() => { fetchUsers(); }, []);
 
@@ -23,6 +26,19 @@ export default function AdminUsersPage() {
       body: JSON.stringify({ ...user, role: editRole }),
     });
     setEditingId(null);
+    fetchUsers();
+  };
+
+  const updateCommissionRate = async (id: string) => {
+    setSavingRate(true);
+    const user = users.find(u => u.id === id);
+    await fetch(`/api/admin/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...user, commissionRate: parseFloat(editRateValue) }),
+    });
+    setEditingRateId(null);
+    setSavingRate(false);
     fetchUsers();
   };
 
@@ -47,49 +63,90 @@ export default function AdminUsersPage() {
             <input type="text" placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="input-field !pl-10" />
           </div>
         </div>
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Name</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Role</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Joined</th>
-              <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map(u => (
-              <tr key={u.id} className="hover:bg-gray-50/50">
-                <td className="px-6 py-4 text-sm font-medium text-navy">{u.firstName} {u.lastName}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{u.email}</td>
-                <td className="px-6 py-4">
-                  {editingId === u.id ? (
-                    <div className="flex items-center gap-2">
-                      <select value={editRole} onChange={e => setEditRole(e.target.value)} className="input-field !py-1 !px-2 text-xs w-32">
-                        <option value="CUSTOMER">Customer</option>
-                        <option value="INSTRUCTOR">Instructor</option>
-                        <option value="ADMIN">Admin</option>
-                      </select>
-                      <button onClick={() => updateRole(u.id)} className="text-xs text-teal font-semibold">Save</button>
-                      <button onClick={() => setEditingId(null)} className="text-xs text-gray-400">Cancel</button>
-                    </div>
-                  ) : (
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      u.role === 'ADMIN' ? 'bg-purple-50 text-purple-600' :
-                      u.role === 'INSTRUCTOR' ? 'bg-blue-50 text-blue-600' :
-                      'bg-green-50 text-green-600'
-                    }`}>{u.role}</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-400">{new Date(u.createdAt).toLocaleDateString('en-GB')}</td>
-                <td className="px-6 py-4 text-right">
-                  <button onClick={() => { setEditingId(u.id); setEditRole(u.role); }} className="p-2 text-gray-400 hover:text-teal"><Edit size={16} /></button>
-                  <button onClick={() => deleteUser(u.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Name</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Role</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Commission</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Joined</th>
+                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map(u => (
+                <tr key={u.id} className="hover:bg-gray-50/50">
+                  <td className="px-6 py-4 text-sm font-medium text-navy">{u.firstName} {u.lastName}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">{u.email}</td>
+                  <td className="px-6 py-4">
+                    {editingId === u.id ? (
+                      <div className="flex items-center gap-2">
+                        <select value={editRole} onChange={e => setEditRole(e.target.value)} className="input-field !py-1 !px-2 text-xs w-32">
+                          <option value="CUSTOMER">Customer</option>
+                          <option value="INSTRUCTOR">Instructor</option>
+                          <option value="ADMIN">Admin</option>
+                        </select>
+                        <button onClick={() => updateRole(u.id)} className="text-xs text-teal font-semibold">Save</button>
+                        <button onClick={() => setEditingId(null)} className="text-xs text-gray-400">Cancel</button>
+                      </div>
+                    ) : (
+                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                        u.role === 'ADMIN' ? 'bg-purple-50 text-purple-600' :
+                        u.role === 'INSTRUCTOR' ? 'bg-blue-50 text-blue-600' :
+                        'bg-green-50 text-green-600'
+                      }`}>{u.role}</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    {u.role === 'INSTRUCTOR' ? (
+                      editingRateId === u.id ? (
+                        <div className="flex items-center gap-1">
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={editRateValue}
+                            onChange={e => setEditRateValue(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') updateCommissionRate(u.id);
+                              if (e.key === 'Escape') setEditingRateId(null);
+                            }}
+                            className="input-field !py-0.5 !px-2 text-xs w-16"
+                            autoFocus
+                          />
+                          <span className="text-xs text-gray-500">%</span>
+                          <button onClick={() => updateCommissionRate(u.id)} disabled={savingRate} className="p-1 text-teal hover:bg-teal/10 rounded">
+                            <Check size={12} />
+                          </button>
+                          <button onClick={() => setEditingRateId(null)} className="p-1 text-gray-400 hover:text-gray-600 rounded">
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => { setEditingRateId(u.id); setEditRateValue(String(u.commissionRate ?? 70)); }}
+                          className="text-xs font-semibold text-teal hover:underline"
+                          title="Click to edit commission rate"
+                        >
+                          {u.commissionRate ?? 70}%
+                        </button>
+                      )
+                    ) : (
+                      <span className="text-xs text-gray-300">—</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-400">{new Date(u.createdAt).toLocaleDateString('en-GB')}</td>
+                  <td className="px-6 py-4 text-right">
+                    <button onClick={() => { setEditingId(u.id); setEditRole(u.role); }} className="p-2 text-gray-400 hover:text-teal"><Edit size={16} /></button>
+                    <button onClick={() => deleteUser(u.id)} className="p-2 text-gray-400 hover:text-red-500"><Trash2 size={16} /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

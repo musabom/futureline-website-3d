@@ -8,7 +8,15 @@ export async function GET() {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== 'ADMIN') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     const orders = await prisma.order.findMany({
-      include: { user: { select: { firstName: true, lastName: true, email: true } }, course: { select: { title: true } } },
+      include: {
+        user: { select: { firstName: true, lastName: true, email: true } },
+        course: {
+          select: {
+            title: true,
+            instructor: { select: { id: true, firstName: true, lastName: true } },
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(orders);

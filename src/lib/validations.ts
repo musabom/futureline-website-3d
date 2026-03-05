@@ -33,7 +33,15 @@ export const courseSchema = z.object({
   seatCapacity: z.coerce.number().int().min(1).optional().nullable(),
   location: z.string().max(200).optional().nullable(),
   thumbnail: z.string().url().optional().nullable().or(z.literal('')),
-  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional(),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED', 'DELETED']).optional(),
+}).refine((data) => {
+  if (data.startDate && data.endDate) {
+    return new Date(data.endDate) >= new Date(data.startDate);
+  }
+  return true;
+}, {
+  message: "End date cannot be earlier than start date",
+  path: ["endDate"],
 });
 
 export const lessonSchema = z.object({

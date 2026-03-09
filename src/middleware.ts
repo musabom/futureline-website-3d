@@ -15,6 +15,10 @@ function addSecurityHeaders(response: NextResponse) {
     'Strict-Transport-Security',
     'max-age=31536000; includeSubDomains'
   );
+  response.headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'self' https://player.vimeo.com https://www.youtube.com"
+  );
   return response;
 }
 

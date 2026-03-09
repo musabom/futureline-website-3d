@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { prisma } from './prisma';
+import { rateLimit } from './rateLimit';
 
 if (!process.env.NEXTAUTH_URL) {
   process.env.NEXTAUTH_URL = 'https://futureline.ai';
@@ -20,6 +21,12 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        const rl = await rateLimit(`login:${credentials.email}`, 5, 60 * 1000);
+        if (!rl.success) {
+          console.warn(`[AUTH] Rate limit exceeded for ${credentials.email}`);
+          return null;
+        }
+
         try {
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
@@ -30,11 +37,11 @@ export const authOptions: NextAuthOptions = {
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
           if (!isValid) {
-            console.warn(`[AUTH] Failed login attempt`);
+            console.warn(`[AUTH] Failed login attempt for ${credentials.email}`);
             return null;
           }
 
-          console.info(`[AUTH] Successful login`);
+          console.info(`[AUTH] Successful login for ${credentials.email}`);
           return {
             id: user.id,
             email: user.email,

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { leadSchema, formatZodError } from '@/lib/validations';
 import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
+import { notifyLeadConfirmation, notifyAdminNewLead } from '@/lib/notifications';
 
 export async function POST(req: Request) {
   try {
@@ -41,6 +42,20 @@ export async function POST(req: Request) {
         type: 'LEAD_CREATED',
         description: `New lead submitted via ${source || 'FL Tourism'} contact form`,
       },
+    });
+
+    notifyLeadConfirmation({
+      name: firstName,
+      email,
+    });
+
+    notifyAdminNewLead({
+      name: `${firstName} ${lastName}`,
+      email,
+      phone: phone || undefined,
+      tourType: tourType || 'General Enquiry',
+      message,
+      source: source || 'FL Tourism',
     });
 
     return NextResponse.json({ success: true, id: lead.id });

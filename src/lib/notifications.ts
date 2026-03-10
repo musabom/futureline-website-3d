@@ -134,6 +134,25 @@ export async function notifyOrderRejected(user: { name: string; email: string },
   });
 }
 
+export async function notifyLeadConfirmation(lead: { name: string; email: string }) {
+  await sendEmail({
+    to: lead.email,
+    subject: 'FutureLine - Thank You for Your Enquiry',
+    body: `Dear ${lead.name},\n\nThank you for submitting your enquiry on FutureLine!\n\nWe have received your request and will review it shortly. One of our team members will be in touch with you within 24 hours.\n\nIn the meantime, if you have any urgent questions, feel free to reach out via WhatsApp at 96532326.\n\nBest regards,\nFutureLine Team`,
+    metadata: { type: 'lead_confirmation' },
+  });
+}
+
+export async function notifyAdminNewLead(lead: { name: string; email: string; phone?: string; tourType: string; message: string; source: string }) {
+  const adminEmail = process.env.ADMIN_EMAIL || 'flservices.ai@gmail.com';
+  await sendEmail({
+    to: adminEmail,
+    subject: `New Lead Submission: ${lead.name}`,
+    body: `A new lead has been submitted.\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'Not provided'}\nEnquiry Type: ${lead.tourType}\nSource: ${lead.source}\n\nMessage:\n${lead.message}\n\nPlease review this lead in the admin panel.`,
+    metadata: { type: 'admin_new_lead', leadEmail: lead.email },
+  });
+}
+
 export async function notifyAutomationTemplate(to: string, subject: string, body: string, metadata?: Record<string, any>) {
   await sendEmail({
     to,

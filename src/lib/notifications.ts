@@ -56,7 +56,7 @@ class ResendNotificationProvider implements NotificationProvider {
   }
 }
 
-const resendApiKey = process.env.RESEND_API_KEY;
+const resendApiKey = process.env.Resend_api_key_2 || process.env.RESEND_API_KEY;
 let provider: NotificationProvider = resendApiKey
   ? new ResendNotificationProvider(resendApiKey)
   : new ConsoleNotificationProvider();

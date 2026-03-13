@@ -79,6 +79,7 @@ model Course {
   location         String?
   instructorId     String?
   thumbnail        String?
+  marketingVideoUrl String?
   status           CourseStatus    @default(DRAFT)
   approvalStatus   ApprovalStatus @default(APPROVED)
   rejectionReason  String?

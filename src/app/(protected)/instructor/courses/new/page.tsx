@@ -14,7 +14,7 @@ export default function NewInstructorCoursePage() {
     deliveryType: 'ONLINE', category: '', level: 'Beginner',
     price: '0', discountPrice: '', durationHours: '',
     startDate: '', endDate: '', seatCapacity: '', location: '',
-    status: 'DRAFT',
+    status: 'DRAFT', marketingVideoUrl: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -206,6 +206,11 @@ export default function NewInstructorCoursePage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
             <input name="location" value={form.location} onChange={handleChange} className="input-field" />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Marketing Video URL (optional)</label>
+            <input name="marketingVideoUrl" value={form.marketingVideoUrl} onChange={handleChange} className="input-field" placeholder="YouTube or Vimeo URL for course preview" />
+            <p className="text-xs text-gray-500 mt-1">Paste a Vimeo or YouTube link that will display on the course detail page</p>
           </div>
         </div>
 

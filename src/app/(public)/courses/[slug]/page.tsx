@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Clock, MapPin, Users, Calendar, BookOpen, CheckCircle } from 'lucide-react';
 import EnrollButton from '@/components/EnrollButton';
 import { formatPrice } from '@/lib/utils';
+import LessonViewer from '@/components/LessonViewer';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -73,6 +74,26 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
               </span>
             )}
           </div>
+
+          {course.marketingVideoUrl && (
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold text-navy mb-4">Preview Video</h2>
+              <div className="bg-black rounded-lg overflow-hidden aspect-video flex items-center justify-center">
+                <iframe
+                  src={course.marketingVideoUrl.includes('youtube.com') || course.marketingVideoUrl.includes('youtu.be')
+                    ? `https://www.youtube.com/embed/${new URL(course.marketingVideoUrl).searchParams.get('v') || course.marketingVideoUrl.split('/').pop()}`
+                    : course.marketingVideoUrl.includes('vimeo.com')
+                    ? `https://player.vimeo.com/video/${course.marketingVideoUrl.match(/\d+/)?.[0]}${course.marketingVideoUrl.includes('/') && course.marketingVideoUrl.split('/')[course.marketingVideoUrl.split('/').length - 1].match(/^[a-z0-9]+$/i) ? '?h=' + course.marketingVideoUrl.split('/')[course.marketingVideoUrl.split('/').length - 1] : ''}`
+                    : course.marketingVideoUrl
+                  }
+                  title="Course Preview"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
 
           <div className="mb-10">
             <h2 className="text-2xl font-bold text-navy mb-4">About This Course</h2>

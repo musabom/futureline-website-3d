@@ -31,13 +31,12 @@ export default function LoginPage() {
       const session = await sessionRes.json();
       const role = session?.user?.role;
       if (role === 'ADMIN') {
-        router.push('/admin');
+        window.location.href = '/admin';
       } else if (role === 'INSTRUCTOR') {
-        router.push('/instructor');
+        window.location.href = '/instructor';
       } else {
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       }
-      router.refresh();
     }
   };
 

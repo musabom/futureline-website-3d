@@ -4,6 +4,9 @@ import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
+const labelClass = 'block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2';
+const selectClass = 'input-field [&>option]:bg-slate-900';
+
 export default function EditInstructorCoursePage() {
   const router = useRouter();
   const params = useParams();
@@ -64,7 +67,7 @@ export default function EditInstructorCoursePage() {
           seatCapacity: form.seatCapacity ? parseInt(form.seatCapacity) : null,
           startDate: form.startDate || null,
           endDate: form.endDate || null,
-          status: form.status, // Allow saving as DRAFT or ARCHIVED
+          status: form.status,
         }),
       });
       if (res.ok) {
@@ -80,74 +83,76 @@ export default function EditInstructorCoursePage() {
     }
   };
 
-  if (fetching) return <div className="text-center py-12 text-gray-400">Loading...</div>;
+  if (fetching) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="text-slate-500 text-sm font-medium animate-pulse">Loading course…</div>
+      </div>
+    );
+  }
 
   const canPublish = form.approvalStatus === 'APPROVED';
 
   return (
     <div>
-      <Link href="/instructor/courses" className="flex items-center gap-2 text-gray-500 hover:text-navy mb-6 text-sm">
-        <ArrowLeft size={16} /> Back to My Courses
+      <Link href="/instructor/courses" className="inline-flex items-center gap-2 text-slate-500 hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
+        <ArrowLeft size={14} /> Back to My Courses
       </Link>
-      <h1 className="text-2xl font-bold text-navy mb-2">Edit Course</h1>
-      <p className="text-gray-500 text-sm mb-8">
-        {form.approvalStatus === 'PENDING' ? 'Your changes will be reviewed by an admin.' : 
-         form.approvalStatus === 'REJECTED' ? 'Please address the rejection reason before resubmitting.' :
-         'Course is approved and can be managed.'}
+      <h1 className="text-2xl font-black text-white tracking-tight mb-1">Edit Course</h1>
+      <p className="text-slate-500 text-sm mb-8">
+        {form.approvalStatus === 'PENDING'
+          ? 'Your changes will be reviewed by an admin.'
+          : form.approvalStatus === 'REJECTED'
+          ? 'Please address the rejection reason before resubmitting.'
+          : 'Course is approved and can be managed.'}
       </p>
 
-      <form onSubmit={handleSubmit} className="card p-8 max-w-4xl space-y-6">
+      <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-8 max-w-4xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className={labelClass}>Title</label>
             <input name="title" value={form.title || ''} onChange={handleChange} className="input-field" required />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
+            <label className={labelClass}>Short Description</label>
             <textarea name="shortDescription" value={form.shortDescription || ''} onChange={handleChange} className="input-field" rows={2} required />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
+            <label className={labelClass}>Full Description</label>
             <textarea name="fullDescription" value={form.fullDescription || ''} onChange={handleChange} className="input-field" rows={4} required />
           </div>
-          
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Pricing</label>
-            <div className="flex gap-3 mb-4">
-              <button
-                type="button"
-                onClick={() => handleFreeToggle(true)}
-                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
-                  isFree ? 'bg-teal text-white border-teal' : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
-                }`}
-              >
-                Free
-              </button>
-              <button
-                type="button"
-                onClick={() => handleFreeToggle(false)}
-                className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-colors ${
-                  !isFree ? 'bg-teal text-white border-teal' : 'bg-white text-gray-500 border-gray-200 hover:border-teal'
-                }`}
-              >
-                Paid
-              </button>
-            </div>
 
+          {/* Pricing */}
+          <div className="md:col-span-2">
+            <label className={labelClass}>Pricing</label>
+            <div className="flex gap-3 mb-4">
+              <button type="button" onClick={() => handleFreeToggle(true)}
+                className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
+                  isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                }`}>Free</button>
+              <button type="button" onClick={() => handleFreeToggle(false)}
+                className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
+                  !isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                }`}>Paid</button>
+            </div>
             {!isFree && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1">Price (OMR)</label>
-                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
-                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
-                    <input name="price" type="number" step="0.001" min="0" value={form.price || ''} onChange={handleChange} className="flex-1 px-3 py-2 text-sm outline-none bg-white" placeholder="0.000" required={!isFree} />
+                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Price (OMR)</label>
+                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
+                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                    <input name="price" type="number" step="0.001" min="0" value={form.price || ''} onChange={handleChange}
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      placeholder="0.000" required={!isFree} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1">Discount Price (OMR)</label>
-                  <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-teal/30 focus-within:border-teal">
-                    <span className="px-3 bg-gray-50 border-r border-gray-200 flex items-center text-sm font-semibold text-gray-500 whitespace-nowrap">OMR</span>
-                    <input name="discountPrice" type="number" step="0.001" min="0" value={form.discountPrice || ''} onChange={handleChange} className="flex-1 px-3 py-2 text-sm outline-none bg-white" placeholder="0.000" />
+                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Discount Price (OMR) — optional</label>
+                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
+                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                    <input name="discountPrice" type="number" step="0.001" min="0" value={form.discountPrice || ''} onChange={handleChange}
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      placeholder="0.000" />
                   </div>
                 </div>
               </div>
@@ -155,18 +160,20 @@ export default function EditInstructorCoursePage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select name="status" value={form.status || ''} onChange={handleChange} className="input-field">
+            <label className={labelClass}>Status</label>
+            <select name="status" value={form.status || ''} onChange={handleChange} className={selectClass}>
               <option value="DRAFT">Draft</option>
               <option value="ARCHIVED">Archived</option>
               {canPublish && <option value="PUBLISHED">Published</option>}
             </select>
-            {!canPublish && <p className="text-xs text-orange-500 mt-1">Admin approval required to publish</p>}
+            {!canPublish && (
+              <p className="text-xs text-amber-500 mt-1.5">Admin approval required to publish</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Type</label>
-            <select name="deliveryType" value={form.deliveryType || ''} onChange={handleChange} className="input-field">
+            <label className={labelClass}>Delivery Type</label>
+            <select name="deliveryType" value={form.deliveryType || ''} onChange={handleChange} className={selectClass}>
               <option value="ONLINE">Online</option>
               <option value="IN_PERSON">In-Person</option>
               <option value="HYBRID">Hybrid</option>
@@ -174,15 +181,15 @@ export default function EditInstructorCoursePage() {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Marketing Video URL (optional)</label>
+            <label className={labelClass}>Marketing Video URL (optional)</label>
             <input name="marketingVideoUrl" value={form.marketingVideoUrl || ''} onChange={handleChange} className="input-field" placeholder="YouTube or Vimeo URL for course preview" />
-            <p className="text-xs text-gray-500 mt-1">Paste a Vimeo or YouTube link that will display on the course detail page</p>
+            <p className="text-xs text-slate-600 mt-1.5">Paste a Vimeo or YouTube link that will display on the course detail page</p>
           </div>
         </div>
 
-        <div className="flex gap-4 pt-4">
+        <div className="flex gap-4 pt-4 border-t border-white/[0.06]">
           <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Saving...' : 'Save Changes'}
+            {loading ? 'Saving…' : 'Save Changes'}
           </button>
           <Link href="/instructor/courses" className="btn-secondary">Cancel</Link>
         </div>

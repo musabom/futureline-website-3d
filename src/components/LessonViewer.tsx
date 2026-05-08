@@ -25,7 +25,6 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
 
   try {
     const trimmed = url.trim();
-    // Handle full iframe paste or player URL directly
     if (trimmed.includes('player.vimeo.com/video/')) {
       const match = trimmed.match(/https?:\/\/player\.vimeo\.com\/video\/[^\s"']+/);
       if (match) return { embedUrl: match[0], type: 'vimeo' };
@@ -38,7 +37,7 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
     const parsed = new URL(trimmed);
     if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
   } catch {
-    // If it's not a valid URL yet, it might be an iframe snippet we can still try to parse
+    // may be iframe snippet
   }
 
   const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -46,15 +45,12 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
     return { embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`, type: 'youtube' };
   }
 
-  // Improved Vimeo regex to capture ID and optional privacy hash (for unlisted videos)
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
   if (vimeoMatch) {
     const videoId = vimeoMatch[1];
     const hash = vimeoMatch[2];
     let embedUrl = `https://player.vimeo.com/video/${videoId}?title=0&byline=0&portrait=0`;
-    if (hash) {
-      embedUrl += `&h=${hash}`;
-    }
+    if (hash) embedUrl += `&h=${hash}`;
     return { embedUrl, type: 'vimeo' };
   }
 
@@ -64,9 +60,7 @@ function getEmbedUrl(url: string): { embedUrl: string; type: 'youtube' | 'vimeo'
 function parseResources(resources: string): { name: string; url: string }[] {
   return resources.split('\n').filter(Boolean).map(line => {
     const parts = line.split('|');
-    if (parts.length === 2) {
-      return { name: parts[0].trim(), url: parts[1].trim() };
-    }
+    if (parts.length === 2) return { name: parts[0].trim(), url: parts[1].trim() };
     try {
       new URL(line.trim());
       const filename = line.trim().split('/').pop() || 'Download';
@@ -86,16 +80,14 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
 
   const handleSubmit = () => {
     setSubmitted(true);
-    if (score === questions.length) {
-      onComplete();
-    }
+    if (score === questions.length) onComplete();
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {questions.map((q, qi) => (
-        <div key={qi} className="bg-gray-50 rounded-xl p-5">
-          <p className="font-medium text-navy text-sm mb-3">
+        <div key={qi} className="rounded-xl border border-white/[0.07] bg-slate-900/50 p-5">
+          <p className="font-semibold text-white text-sm mb-3">
             {qi + 1}. {q.question}
           </p>
           <div className="space-y-2">
@@ -103,12 +95,13 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
               if (!opt.trim()) return null;
               const isSelected = answers[qi] === oi;
               const isCorrect = q.correctIndex === oi;
-              let optionStyle = 'border-gray-200 bg-white hover:border-teal/50';
+              let optionStyle = 'border-white/[0.08] bg-white/[0.02] hover:border-teal-500/40 text-slate-300';
               if (submitted) {
-                if (isCorrect) optionStyle = 'border-green-400 bg-green-50';
-                else if (isSelected && !isCorrect) optionStyle = 'border-red-400 bg-red-50';
+                if (isCorrect) optionStyle = 'border-green-500/40 bg-green-500/10 text-green-300';
+                else if (isSelected && !isCorrect) optionStyle = 'border-red-500/40 bg-red-500/10 text-red-300';
+                else optionStyle = 'border-white/[0.05] bg-white/[0.01] text-slate-500';
               } else if (isSelected) {
-                optionStyle = 'border-teal bg-teal/5';
+                optionStyle = 'border-teal-500/50 bg-teal-500/10 text-white';
               }
 
               return (
@@ -116,9 +109,9 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
                   key={oi}
                   onClick={() => !submitted && setAnswers(prev => ({ ...prev, [qi]: oi }))}
                   disabled={submitted}
-                  className={`w-full text-left p-3 rounded-lg border text-sm transition-colors flex items-center gap-3 ${optionStyle}`}
+                  className={`w-full text-left p-3 rounded-lg border text-sm transition-all flex items-center gap-3 ${optionStyle}`}
                 >
-                  <CircleDot size={16} className={isSelected ? 'text-teal' : 'text-gray-300'} />
+                  <CircleDot size={15} className={isSelected ? 'text-teal-400 flex-shrink-0' : 'text-slate-600 flex-shrink-0'} />
                   {opt}
                 </button>
               );
@@ -131,20 +124,22 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
         <button
           onClick={handleSubmit}
           disabled={!allAnswered}
-          className="btn-primary text-sm !px-6 !py-2 disabled:opacity-50"
+          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-40 uppercase tracking-widest"
         >
           Submit Answers
         </button>
       ) : (
-        <div className={`rounded-xl p-5 ${score === questions.length ? 'bg-green-50 border border-green-200' : 'bg-orange-50 border border-orange-200'}`}>
-          <p className={`font-semibold text-sm ${score === questions.length ? 'text-green-700' : 'text-orange-700'}`}>
-            You scored {score} out of {questions.length}
-            {score === questions.length ? ' - Perfect!' : ''}
-          </p>
+        <div className={`rounded-xl p-5 border text-sm font-semibold ${
+          score === questions.length
+            ? 'bg-green-500/10 border-green-500/20 text-green-400'
+            : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+        }`}>
+          You scored {score} out of {questions.length}
+          {score === questions.length ? ' — Perfect!' : ''}
           {score < questions.length && (
             <button
               onClick={() => { setSubmitted(false); setAnswers({}); }}
-              className="text-sm text-orange-600 hover:underline mt-2"
+              className="block mt-2 text-xs font-bold underline underline-offset-2 opacity-80 hover:opacity-100"
             >
               Try Again
             </button>
@@ -182,11 +177,8 @@ export default function LessonViewer({
   const toggleModule = (moduleName: string) => {
     setExpandedModules(prev => {
       const next = new Set(prev);
-      if (next.has(moduleName)) {
-        next.delete(moduleName);
-      } else {
-        next.add(moduleName);
-      }
+      if (next.has(moduleName)) next.delete(moduleName);
+      else next.add(moduleName);
       return next;
     });
   };
@@ -202,7 +194,6 @@ export default function LessonViewer({
     const newCompleted = new Set(completed);
     newCompleted.add(lessonId);
     setCompleted(newCompleted);
-
     const newProgress = (newCompleted.size / totalLessons) * 100;
     await fetch('/api/enrollment/progress', {
       method: 'POST',
@@ -214,40 +205,40 @@ export default function LessonViewer({
   const moduleNames = Object.keys(modules);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {moduleNames.map((moduleName, moduleIndex) => {
         const moduleLessons = modules[moduleName];
         const isExpanded = expandedModules.has(moduleName);
         const completedInModule = moduleLessons.filter(l => completed.has(l.id)).length;
+        const allDone = completedInModule === moduleLessons.length && moduleLessons.length > 0;
 
         return (
-          <div key={moduleName} className="card overflow-hidden">
+          <div key={moduleName} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm overflow-hidden">
+            {/* Module header */}
             <button
               onClick={() => toggleModule(moduleName)}
-              className="w-full flex items-center justify-between px-6 py-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+              className="w-full flex items-center justify-between px-5 py-4 bg-white/[0.02] hover:bg-white/[0.04] transition-colors text-left"
             >
               <div className="flex items-center gap-3">
-                {isExpanded ? (
-                  <ChevronDown className="text-teal flex-shrink-0" size={20} />
-                ) : (
-                  <ChevronRight className="text-gray-400 flex-shrink-0" size={20} />
-                )}
+                {isExpanded
+                  ? <ChevronDown className="text-teal-400 flex-shrink-0" size={18} />
+                  : <ChevronRight className="text-slate-500 flex-shrink-0" size={18} />
+                }
                 <div>
-                  <h3 className="font-semibold text-navy">
+                  <h3 className="font-bold text-white text-sm">
                     Module {moduleIndex + 1}: {moduleName}
                   </h3>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-[11px] text-slate-500">
                     {moduleLessons.length} lessons &middot; {completedInModule}/{moduleLessons.length} completed
                   </span>
                 </div>
               </div>
-              {completedInModule === moduleLessons.length && moduleLessons.length > 0 && (
-                <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
-              )}
+              {allDone && <CheckCircle className="text-teal-400 flex-shrink-0" size={18} />}
             </button>
 
+            {/* Lessons */}
             {isExpanded && (
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-white/[0.04]">
                 {moduleLessons.map((lesson) => {
                   const isActive = activeLesson === lesson.id;
                   const isQuiz = lesson.lessonType === 'QUIZ';
@@ -256,36 +247,39 @@ export default function LessonViewer({
                     <div key={lesson.id}>
                       <button
                         onClick={() => selectLesson(lesson.id, moduleName)}
-                        className={`w-full text-left px-6 py-3 flex items-center gap-3 transition-colors ${
+                        className={`w-full text-left px-5 py-3 flex items-center gap-3 transition-all border-l-2 ${
                           isActive
-                            ? 'bg-teal/5 border-l-4 border-l-teal'
-                            : 'hover:bg-gray-50 border-l-4 border-l-transparent'
+                            ? 'bg-teal-500/[0.06] border-l-teal-400'
+                            : 'hover:bg-white/[0.02] border-l-transparent'
                         }`}
                       >
                         {completed.has(lesson.id) ? (
-                          <CheckCircle className="text-green-500 flex-shrink-0" size={16} />
+                          <CheckCircle className="text-teal-400 flex-shrink-0" size={15} />
                         ) : isQuiz ? (
-                          <HelpCircle className="text-orange-400 flex-shrink-0" size={16} />
+                          <HelpCircle className="text-amber-400 flex-shrink-0" size={15} />
                         ) : (
-                          <Play className="text-gray-400 flex-shrink-0" size={16} />
+                          <Play className="text-slate-500 flex-shrink-0" size={15} />
                         )}
-                        <span className={`text-sm ${isActive ? 'text-teal font-semibold' : 'text-gray-600'}`}>
+                        <span className={`text-sm flex-1 ${isActive ? 'text-teal-300 font-semibold' : 'text-slate-400'}`}>
                           {lesson.lessonTitle}
                         </span>
                         {isQuiz && (
-                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-orange-50 text-orange-500 ml-auto">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 uppercase tracking-widest">
                             Quiz
                           </span>
                         )}
                       </button>
 
+                      {/* Expanded lesson content */}
                       {isActive && (
-                        <div className="px-6 py-6 bg-white border-t border-gray-100">
+                        <div className="px-5 py-6 bg-slate-900/40 border-t border-white/[0.05]">
+
+                          {/* Video */}
                           {!isQuiz && lesson.videoUrl && (() => {
                             const embed = getEmbedUrl(lesson.videoUrl);
                             if (embed) {
                               return (
-                                <div className="mb-6 rounded-xl overflow-hidden bg-black">
+                                <div className="mb-6 rounded-xl overflow-hidden bg-black border border-white/[0.06]">
                                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                                     <iframe
                                       src={embed.embedUrl}
@@ -299,29 +293,29 @@ export default function LessonViewer({
                               );
                             }
                             return (
-                              <div className="mb-6 bg-gray-50 rounded-xl p-6 flex items-center gap-3 text-gray-500">
-                                <Play size={20} />
+                              <div className="mb-6 bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex items-center gap-3 text-slate-500">
+                                <Play size={18} />
                                 <span className="text-sm">Video content is available for this lesson.</span>
                               </div>
                             );
                           })()}
 
+                          {/* Notes / instructions */}
                           {lesson.content && (
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
-                                <StickyNote className="text-teal" size={18} />
-                                <h4 className="font-semibold text-navy text-sm">
+                                <StickyNote className="text-[#18a999]" size={16} />
+                                <h4 className="font-bold text-white text-xs uppercase tracking-widest">
                                   {isQuiz ? 'Instructions' : 'Lesson Notes'}
                                 </h4>
                               </div>
-                              <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-5">
-                                <div className="text-gray-700 leading-relaxed whitespace-pre-line text-sm">
-                                  {lesson.content}
-                                </div>
+                              <div className="rounded-xl border border-blue-500/10 bg-blue-500/[0.04] p-5">
+                                <p className="text-slate-300 leading-relaxed whitespace-pre-line text-sm">{lesson.content}</p>
                               </div>
                             </div>
                           )}
 
+                          {/* Quiz */}
                           {isQuiz && lesson.questions && lesson.questions.length > 0 && (
                             <div className="mb-6">
                               <QuizView
@@ -331,28 +325,29 @@ export default function LessonViewer({
                             </div>
                           )}
 
+                          {/* Resources */}
                           {!isQuiz && lesson.resources && (
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
-                                <Download className="text-teal" size={18} />
-                                <h4 className="font-semibold text-navy text-sm">Attachments</h4>
+                                <Download className="text-[#18a999]" size={16} />
+                                <h4 className="font-bold text-white text-xs uppercase tracking-widest">Attachments</h4>
                               </div>
                               <div className="space-y-2">
                                 {parseResources(lesson.resources).map((resource, i) => (
-                                  <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
-                                    <FileText className="text-gray-400 flex-shrink-0" size={16} />
+                                  <div key={i} className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.06] rounded-lg p-3">
+                                    <FileText className="text-slate-500 flex-shrink-0" size={15} />
                                     {resource.url ? (
                                       <a
                                         href={resource.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm text-teal hover:underline font-medium"
+                                        className="text-sm text-teal-400 hover:text-teal-300 transition-colors font-medium"
                                         download
                                       >
                                         {resource.name}
                                       </a>
                                     ) : (
-                                      <span className="text-sm text-gray-600">{resource.name}</span>
+                                      <span className="text-sm text-slate-400">{resource.name}</span>
                                     )}
                                   </div>
                                 ))}
@@ -360,16 +355,17 @@ export default function LessonViewer({
                             </div>
                           )}
 
+                          {/* Mark complete / completed state */}
                           {!isQuiz && (
-                            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
                               {completed.has(lesson.id) ? (
-                                <span className="flex items-center gap-2 text-green-500 font-semibold text-sm">
-                                  <CheckCircle size={16} /> Completed
+                                <span className="flex items-center gap-2 text-teal-400 font-bold text-sm">
+                                  <CheckCircle size={15} /> Completed
                                 </span>
                               ) : (
                                 <button
                                   onClick={() => markComplete(lesson.id)}
-                                  className="btn-primary text-sm !px-5 !py-2"
+                                  className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                                 >
                                   Mark as Complete
                                 </button>
@@ -378,8 +374,8 @@ export default function LessonViewer({
                           )}
 
                           {isQuiz && completed.has(lesson.id) && (
-                            <div className="flex items-center gap-2 text-green-500 font-semibold text-sm pt-4 border-t border-gray-100">
-                              <CheckCircle size={16} /> Completed
+                            <div className="flex items-center gap-2 text-teal-400 font-bold text-sm pt-4 border-t border-white/[0.06]">
+                              <CheckCircle size={15} /> Completed
                             </div>
                           )}
                         </div>
@@ -394,9 +390,9 @@ export default function LessonViewer({
       })}
 
       {moduleNames.length === 0 && (
-        <div className="card p-12 text-center">
-          <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
-          <p className="text-gray-400">No lessons available for this course yet.</p>
+        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 p-12 text-center">
+          <BookOpen className="text-slate-700 mx-auto mb-4" size={48} />
+          <p className="text-slate-500 text-sm">No lessons available for this course yet.</p>
         </div>
       )}
     </div>

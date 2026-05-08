@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { AlertTriangle, RotateCcw, Home } from 'lucide-react';
 
 export default function Error({
   error,
@@ -14,31 +15,39 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full text-center">
-        <div className="mb-6">
-          <img src="/images/logo-icon-light.png" alt="FutureLine" className="h-16 w-auto mx-auto mb-4" />
+    <div className="min-h-screen bg-[#030d1a] flex items-center justify-center px-4 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-red-600/[0.04] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#18a999]/[0.04] rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative text-center max-w-md w-full">
+        <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <AlertTriangle className="text-red-400" size={28} />
         </div>
-        <h1 className="text-3xl font-bold text-navy mb-3">Something went wrong</h1>
-        <p className="text-gray-600 mb-8">
+
+        <h1 className="text-2xl font-black text-white tracking-tight mb-3">Something went wrong</h1>
+        <p className="text-slate-400 text-sm leading-relaxed mb-10">
           We encountered an unexpected error. Please try again or return to the home page.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={() => reset()}
-            className="btn-primary"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
           >
+            <RotateCcw size={15} />
             Try Again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-100 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-white/20 text-white text-sm font-bold hover:bg-white/[0.06] transition-colors uppercase tracking-widest"
           >
+            <Home size={15} />
             Go Home
           </a>
         </div>
+
         {error.digest && (
-          <p className="mt-6 text-xs text-gray-400">Error ID: {error.digest}</p>
+          <p className="mt-8 text-[10px] text-slate-700 font-mono">Error ID: {error.digest}</p>
         )}
       </div>
     </div>

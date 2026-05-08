@@ -69,8 +69,8 @@ export default function InactivityWatcher({ timeoutMinutes }: InactivityWatcherP
   if (!showWarning) return null;
 
   return (
-    <div className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+      <div className="bg-slate-900 border border-white/[0.1] rounded-2xl shadow-2xl shadow-black/50 max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
         <div className="bg-orange-500 p-6 text-white flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-xl">
             <Clock className="w-8 h-8" />
@@ -80,34 +80,34 @@ export default function InactivityWatcher({ timeoutMinutes }: InactivityWatcherP
             <p className="text-orange-100 text-sm">Inactive for too long</p>
           </div>
         </div>
-        
+
         <div className="p-8 text-center">
           <div className="mb-6">
-            <p className="text-gray-600 mb-2">Your session will expire in</p>
-            <div className="text-4xl font-black text-navy tabular-nums">
+            <p className="text-slate-400 mb-2">Your session will expire in</p>
+            <div className="text-4xl font-black text-white tabular-nums">
               {Math.floor(countdown / 60)}:{(countdown % 60).toString().padStart(2, '0')}
             </div>
           </div>
-          
+
           <div className="space-y-3">
             <button
               onClick={stayLoggedIn}
-              className="w-full bg-teal hover:bg-teal/90 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-teal/20"
+              className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-all hover:opacity-90"
             >
               Stay Logged In
             </button>
             <button
               onClick={() => logout()}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold py-3 px-6 rounded-xl transition-all"
+              className="w-full border border-white/[0.1] text-slate-400 hover:bg-white/[0.05] hover:text-slate-300 font-semibold py-3 px-6 rounded-xl transition-all"
             >
               Sign Out Now
             </button>
           </div>
         </div>
-        
-        <div className="bg-gray-50 px-8 py-4 border-t border-gray-100 flex items-center gap-3">
-          <AlertCircle size={16} className="text-gray-400" />
-          <p className="text-xs text-gray-400">
+
+        <div className="bg-white/[0.02] px-8 py-4 border-t border-white/[0.06] flex items-center gap-3">
+          <AlertCircle size={16} className="text-slate-500" />
+          <p className="text-xs text-slate-500">
             For your security, we automatically sign out inactive sessions.
           </p>
         </div>

@@ -1,28 +1,39 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Search, Download, Filter, Eye, ChevronRight, Phone, Mail, Clock, Tag, ArrowUpDown } from 'lucide-react';
+import { Search, Download, Eye, Clock } from 'lucide-react';
 import Link from 'next/link';
 
 const STAGES = [
-  { value: 'all', label: 'All Stages', color: 'bg-gray-100 text-gray-700' },
-  { value: 'NEW', label: 'New', color: 'bg-blue-100 text-blue-700' },
-  { value: 'CONTACTED', label: 'Contacted', color: 'bg-indigo-100 text-indigo-700' },
-  { value: 'OFFER_SENT', label: 'Offer Sent', color: 'bg-purple-100 text-purple-700' },
-  { value: 'FOLLOW_UP', label: 'Follow Up', color: 'bg-yellow-100 text-yellow-700' },
-  { value: 'NEGOTIATING', label: 'Negotiating', color: 'bg-orange-100 text-orange-700' },
-  { value: 'WON', label: 'Won', color: 'bg-green-100 text-green-700' },
-  { value: 'LOST', label: 'Lost', color: 'bg-red-100 text-red-700' },
+  { value: 'all', label: 'All Stages' },
+  { value: 'NEW', label: 'New' },
+  { value: 'CONTACTED', label: 'Contacted' },
+  { value: 'OFFER_SENT', label: 'Offer Sent' },
+  { value: 'FOLLOW_UP', label: 'Follow Up' },
+  { value: 'NEGOTIATING', label: 'Negotiating' },
+  { value: 'WON', label: 'Won' },
+  { value: 'LOST', label: 'Lost' },
 ];
 
-const PRIORITIES: Record<string, string> = {
-  LOW: 'bg-gray-100 text-gray-600',
-  MEDIUM: 'bg-blue-100 text-blue-600',
-  HIGH: 'bg-orange-100 text-orange-600',
-  URGENT: 'bg-red-100 text-red-600',
+const STAGE_DARK: Record<string, string> = {
+  NEW: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+  CONTACTED: 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20',
+  OFFER_SENT: 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
+  FOLLOW_UP: 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20',
+  NEGOTIATING: 'bg-orange-500/10 text-orange-400 border border-orange-500/20',
+  WON: 'bg-teal-500/10 text-teal-400 border border-teal-500/20',
+  LOST: 'bg-red-500/10 text-red-400 border border-red-500/20',
 };
 
+const PRIORITY_DARK: Record<string, string> = {
+  LOW: 'bg-white/5 text-slate-400 border border-white/10',
+  MEDIUM: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+  HIGH: 'bg-orange-500/10 text-orange-400 border border-orange-500/20',
+  URGENT: 'bg-red-500/10 text-red-400 border border-red-500/20',
+};
+
+
 function getStageColor(stage: string) {
-  return STAGES.find(s => s.value === stage)?.color || 'bg-gray-100 text-gray-700';
+  return STAGE_DARK[stage] || 'bg-white/5 text-slate-400 border border-white/10';
 }
 
 function getStageLabel(stage: string) {
@@ -101,17 +112,27 @@ export default function AdminLeadsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-navy">CRM Pipeline</h1>
-          <p className="text-sm text-gray-500 mt-1">{leads.length} total leads</p>
+          <h1 className="text-2xl font-black text-white tracking-tight">CRM Pipeline</h1>
+          <p className="text-slate-400 text-sm mt-1">{leads.length} total leads</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex border border-gray-200 rounded-lg overflow-hidden">
-            <button onClick={() => setView('pipeline')} className={`px-3 py-1.5 text-sm ${view === 'pipeline' ? 'bg-navy text-white' : 'bg-white text-gray-600'}`}>Pipeline</button>
-            <button onClick={() => setView('table')} className={`px-3 py-1.5 text-sm ${view === 'table' ? 'bg-navy text-white' : 'bg-white text-gray-600'}`}>Table</button>
+          <div className="flex border border-white/10 rounded-lg overflow-hidden">
+            <button
+              onClick={() => setView('pipeline')}
+              className={`px-3 py-1.5 text-sm font-medium transition-colors ${view === 'pipeline' ? 'bg-white/10 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+            >
+              Pipeline
+            </button>
+            <button
+              onClick={() => setView('table')}
+              className={`px-3 py-1.5 text-sm font-medium transition-colors ${view === 'table' ? 'bg-white/10 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+            >
+              Table
+            </button>
           </div>
-          <Link href="/admin/templates" className="btn-secondary text-sm">Templates</Link>
-          <Link href="/admin/automation" className="btn-secondary text-sm">Automation</Link>
-          <button onClick={exportCSV} className="btn-secondary flex items-center gap-2 text-sm">
+          <Link href="/admin/templates" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">Templates</Link>
+          <Link href="/admin/automation" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">Automation</Link>
+          <button onClick={exportCSV} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">
             <Download size={16} /> Export
           </button>
         </div>
@@ -119,20 +140,37 @@ export default function AdminLeadsPage() {
 
       <div className="grid grid-cols-7 gap-3 mb-6">
         {STAGES.filter(s => s.value !== 'all').map(s => (
-          <button key={s.value} onClick={() => setStageFilter(stageFilter === s.value ? 'all' : s.value)}
-            className={`rounded-lg p-3 text-center transition border-2 ${stageFilter === s.value ? 'border-navy' : 'border-transparent'} ${s.color}`}>
-            <div className="text-2xl font-bold">{stageCounts[s.value] || 0}</div>
-            <div className="text-xs font-medium mt-1">{s.label}</div>
+          <button
+            key={s.value}
+            onClick={() => setStageFilter(stageFilter === s.value ? 'all' : s.value)}
+            className={`rounded-xl p-3 text-center transition border ${
+              stageFilter === s.value
+                ? 'border-teal-500/40 bg-teal-500/10'
+                : 'border-white/[0.07] bg-slate-950/40 hover:bg-white/[0.04]'
+            }`}
+          >
+            <div className="text-2xl font-black text-white">{stageCounts[s.value] || 0}</div>
+            <div className="text-xs font-medium mt-1 text-slate-400">{s.label}</div>
           </button>
         ))}
       </div>
 
       <div className="flex gap-3 mb-6">
         <form onSubmit={handleSearch} className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input type="text" placeholder="Search leads..." value={search} onChange={e => setSearch(e.target.value)} className="input-field !pl-10" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+          <input
+            type="text"
+            placeholder="Search leads..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
+          />
         </form>
-        <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="input-field min-w-[180px]">
+        <select
+          value={sourceFilter}
+          onChange={e => setSourceFilter(e.target.value)}
+          className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50 min-w-[180px]"
+        >
           {SOURCES.map(s => (
             <option key={s} value={s}>{s === 'all' ? 'All Sources' : s}</option>
           ))}
@@ -144,24 +182,27 @@ export default function AdminLeadsPage() {
           {STAGES.filter(s => s.value !== 'all').map(stage => {
             const stageLeads = filtered.filter(l => l.stage === stage.value);
             return (
-              <div key={stage.value} className="bg-gray-50 rounded-lg p-3 min-h-[300px]">
-                <div className={`text-xs font-semibold uppercase px-2 py-1 rounded mb-3 text-center ${stage.color}`}>
+              <div key={stage.value} className="rounded-xl border border-white/[0.07] bg-slate-950/40 p-3 min-h-[300px]">
+                <div className={`text-xs font-bold uppercase px-2 py-1 rounded-lg mb-3 text-center ${STAGE_DARK[stage.value] || 'bg-white/5 text-slate-400 border border-white/10'}`}>
                   {stage.label} ({stageLeads.length})
                 </div>
                 <div className="space-y-2">
                   {stageLeads.map(lead => (
-                    <Link key={lead.id} href={`/admin/leads/${lead.id}`}
-                      className="block bg-white rounded-lg p-3 shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer">
-                      <div className="font-medium text-sm text-navy truncate">{lead.firstName} {lead.lastName}</div>
-                      <div className="text-xs text-gray-500 truncate mt-1">{lead.email}</div>
+                    <Link
+                      key={lead.id}
+                      href={`/admin/leads/${lead.id}`}
+                      className="block rounded-lg p-3 border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-colors cursor-pointer"
+                    >
+                      <div className="font-medium text-sm text-slate-200 truncate">{lead.firstName} {lead.lastName}</div>
+                      <div className="text-xs text-slate-500 truncate mt-1">{lead.email}</div>
                       <div className="flex items-center gap-2 mt-2">
-                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${PRIORITIES[lead.priority] || ''}`}>
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${PRIORITY_DARK[lead.priority] || ''}`}>
                           {lead.priority}
                         </span>
-                        <span className="text-[10px] text-gray-400">{lead.tourType}</span>
+                        <span className="text-[10px] text-slate-500">{lead.tourType}</span>
                       </div>
                       {lead.nextFollowUpAt && (
-                        <div className="flex items-center gap-1 mt-2 text-[10px] text-orange-600">
+                        <div className="flex items-center gap-1 mt-2 text-[10px] text-orange-400">
                           <Clock size={10} />
                           Follow up: {new Date(lead.nextFollowUpAt).toLocaleDateString('en-GB')}
                         </div>
@@ -169,7 +210,7 @@ export default function AdminLeadsPage() {
                     </Link>
                   ))}
                   {stageLeads.length === 0 && (
-                    <div className="text-xs text-gray-400 text-center py-4">No leads</div>
+                    <div className="text-xs text-slate-600 text-center py-4">No leads</div>
                   )}
                 </div>
               </div>
@@ -177,46 +218,49 @@ export default function AdminLeadsPage() {
           })}
         </div>
       ) : (
-        <div className="card overflow-hidden">
+        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Name</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Interest</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Source</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Stage</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Priority</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Date</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase"></th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Name</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Email</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Interest</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Source</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Stage</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Priority</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="px-4 py-12 text-center text-gray-400">No leads found</td></tr>
+                <tr><td colSpan={8} className="px-4 py-12 text-center text-slate-600">No leads found</td></tr>
               ) : (
                 filtered.map(l => (
-                  <tr key={l.id} className="hover:bg-gray-50/50">
-                    <td className="px-4 py-3"><span className="font-medium text-navy">{l.firstName} {l.lastName}</span></td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{l.email}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">{l.tourType}</td>
+                  <tr key={l.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                    <td className="px-4 py-3"><span className="font-medium text-slate-200">{l.firstName} {l.lastName}</span></td>
+                    <td className="px-4 py-3 text-sm text-slate-300">{l.email}</td>
+                    <td className="px-4 py-3 text-sm text-slate-300">{l.tourType}</td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-teal/10 text-teal">{l.source}</span>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-teal-500/10 text-teal-400 border border-teal-500/20">{l.source}</span>
                     </td>
                     <td className="px-4 py-3">
-                      <select value={l.stage} onChange={e => updateLeadStage(l.id, e.target.value)}
-                        className={`text-xs font-medium px-2 py-1 rounded border-0 cursor-pointer ${getStageColor(l.stage)}`}>
+                      <select
+                        value={l.stage}
+                        onChange={e => updateLeadStage(l.id, e.target.value)}
+                        className={`text-xs font-medium px-2 py-1 rounded border-0 cursor-pointer ${getStageColor(l.stage)}`}
+                      >
                         {STAGES.filter(s => s.value !== 'all').map(s => (
                           <option key={s.value} value={s.value}>{s.label}</option>
                         ))}
                       </select>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${PRIORITIES[l.priority] || ''}`}>{l.priority}</span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${PRIORITY_DARK[l.priority] || 'bg-white/5 text-slate-400 border-white/10'}`}>{l.priority}</span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{new Date(l.createdAt).toLocaleDateString('en-GB')}</td>
+                    <td className="px-4 py-3 text-sm text-slate-500">{new Date(l.createdAt).toLocaleDateString('en-GB')}</td>
                     <td className="px-4 py-3">
-                      <Link href={`/admin/leads/${l.id}`} className="text-teal hover:text-navy">
+                      <Link href={`/admin/leads/${l.id}`} className="text-slate-500 hover:text-teal-400 transition-colors">
                         <Eye size={16} />
                       </Link>
                     </td>

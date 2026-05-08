@@ -4,39 +4,79 @@
 
 @layer base {
   body {
-    @apply bg-gray-soft text-navy antialiased;
+    @apply bg-[#030d1a] text-white antialiased;
   }
 }
 
 @layer components {
+  /* Dark glassmorphic design system — updated for v2 */
   .btn-primary {
-    @apply bg-brand-gradient text-white px-6 py-3 rounded-lg font-semibold
-           transition-all duration-300 hover:shadow-lg hover:shadow-teal/20
-           hover:scale-[1.02] active:scale-[0.98];
+    @apply bg-gradient-to-r from-teal-500 to-blue-600 text-white px-6 py-3 rounded-lg font-bold
+           transition-all duration-300 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply border-2 border-navy text-navy px-6 py-3 rounded-lg font-semibold
-           transition-all duration-300 hover:bg-navy hover:text-white;
+    @apply border border-white/20 text-white px-6 py-3 rounded-lg font-bold
+           transition-all duration-300 hover:bg-white/10;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100
-           transition-all duration-300 hover:shadow-md hover:border-teal/20;
+    @apply rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm
+           transition-all duration-300 hover:border-teal-500/20;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-lg
-           focus:outline-none focus:ring-2 focus:ring-teal/50 focus:border-teal
-           transition-all duration-200;
+    @apply w-full px-4 py-3 bg-white/[0.04] border border-white/[0.1] rounded-lg
+           text-white placeholder:text-slate-600
+           focus:outline-none focus:ring-1 focus:ring-teal-500/20 focus:border-teal-500/50
+           transition-all duration-200 text-sm;
   }
 
   .admin-sidebar-item {
-    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300
-           transition-all duration-200 hover:bg-navy-light hover:text-white;
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400
+           transition-all duration-200 hover:bg-white/[0.05] hover:text-white;
   }
 
   .admin-sidebar-item.active {
-    @apply bg-teal/20 text-teal border-l-4 border-teal;
+    @apply bg-teal-500/10 text-teal-400 border-l-2 border-teal-400;
   }
+}
+
+@keyframes wordBounce {
+  0%   { opacity: 0; transform: translateY(-80px); }
+  55%  { opacity: 1; transform: translateY(16px); }
+  72%  { transform: translateY(-9px); }
+  87%  { transform: translateY(5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wordApartLeft {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(-130px); }
+  65%  { transform: translateX(-130px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes wordApartRight {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(130px); }
+  65%  { transform: translateX(130px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes deployJump {
+  0%   { transform: translateY(0); }
+  18%  { transform: translateY(-45px); }
+  32%  { transform: translateY(8px); }
+  46%  { transform: translateY(-28px); }
+  60%  { transform: translateY(5px); }
+  74%  { transform: translateY(-14px); }
+  86%  { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }

@@ -26,13 +26,21 @@ export default function CourseEnquiryForm() {
     }
   };
 
+  const inputClass =
+    'w-full px-4 py-3 bg-white/[0.04] border border-white/[0.1] rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-teal-500/20 focus:border-teal-500/50 transition-colors text-sm';
+
   if (status === 'sent') {
     return (
-      <div className="text-center py-8">
-        <CheckCircle size={48} className="text-green-500 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-navy mb-2">Request Submitted!</h3>
-        <p className="text-gray-500 mb-6">Our team will review your request and get back to you shortly.</p>
-        <button onClick={() => setStatus('idle')} className="text-teal font-semibold hover:underline">
+      <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 p-10 text-center">
+        <div className="w-14 h-14 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <CheckCircle size={28} className="text-teal-400" />
+        </div>
+        <h3 className="text-xl font-black text-white mb-2 tracking-tight">Request Submitted!</h3>
+        <p className="text-slate-400 text-sm mb-6">Our team will review your request and get back to you shortly.</p>
+        <button
+          onClick={() => setStatus('idle')}
+          className="text-teal-400 text-sm font-bold hover:text-teal-300 transition-colors uppercase tracking-widest"
+        >
           Submit another request
         </button>
       </div>
@@ -40,74 +48,79 @@ export default function CourseEnquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name *</label>
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">First Name *</label>
           <input
             type="text"
             required
             value={form.firstName}
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-            className="input-field"
+            className={inputClass}
             placeholder="First name"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name *</label>
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Last Name *</label>
           <input
             type="text"
             required
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-            className="input-field"
+            className={inputClass}
             placeholder="Last name"
           />
         </div>
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Email *</label>
         <input
           type="email"
           required
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="input-field"
+          className={inputClass}
           placeholder="your@email.com"
         />
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Topic / Area of Interest *</label>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Topic / Area of Interest *</label>
         <input
           type="text"
           required
           value={form.tourType}
           onChange={(e) => setForm({ ...form, tourType: e.target.value })}
-          className="input-field"
+          className={inputClass}
           placeholder="e.g. Project Management, Data Analytics, Leadership..."
         />
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Message *</label>
+        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Message *</label>
         <textarea
           required
           rows={4}
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
-          className="input-field resize-none"
+          className={`${inputClass} resize-none`}
           placeholder="Tell us what you're looking for — preferred format, group size, timeline, etc."
         />
       </div>
+
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-60"
+        className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:opacity-90 text-white py-3.5 rounded-lg font-bold transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 text-sm uppercase tracking-widest"
       >
-        <Send size={16} />
-        {status === 'sending' ? 'Submitting...' : 'Submit Request'}
+        <Send size={15} />
+        {status === 'sending' ? 'Submitting…' : 'Submit Request'}
       </button>
+
       {status === 'error' && (
-        <p className="text-red-500 text-sm text-center">Something went wrong. Please try again.</p>
+        <p className="text-red-400 text-xs text-center">Something went wrong. Please try again.</p>
       )}
     </form>
   );

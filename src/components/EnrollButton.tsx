@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { formatPrice } from '@/lib/utils';
-import Image from 'next/image';
+import { CheckCircle, X, CreditCard } from 'lucide-react';
 
 export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: string; slug: string; price?: number }) {
   const { data: session } = useSession();
@@ -67,9 +67,9 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
       <button
         onClick={handleFreeEnroll}
         disabled={loading}
-        className="btn-primary w-full text-center disabled:opacity-50"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
       >
-        {loading ? 'Processing...' : 'Enrol for Free'}
+        {loading ? 'Processing…' : 'Enrol for Free'}
       </button>
     );
   }
@@ -78,36 +78,35 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
     <div className="space-y-3">
       <button
         onClick={handleBankTransferOpen}
-        className="btn-primary w-full text-center"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
       >
         Pay via Bank Transfer
       </button>
 
       <button
         disabled
-        className="w-full py-2.5 px-4 rounded-lg border-2 border-gray-200 text-gray-400 text-sm font-semibold cursor-not-allowed bg-gray-50 flex items-center justify-center gap-2"
+        className="w-full py-2.5 px-4 rounded-lg border border-white/[0.08] text-slate-600 text-sm font-semibold cursor-not-allowed bg-white/[0.02] flex items-center justify-center gap-2"
       >
+        <CreditCard size={14} />
         <span>Credit Card</span>
-        <span className="text-xs bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full">Coming Soon</span>
+        <span className="text-[10px] bg-slate-800 text-slate-500 px-2 py-0.5 rounded-full uppercase tracking-widest">Coming Soon</span>
       </button>
 
       {showQR && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+          <div className="rounded-2xl border border-white/[0.07] bg-slate-950/90 backdrop-blur-xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
             {submitted ? (
-              <div className="text-center space-y-3 py-4">
-                <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto">
-                  <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+              <div className="text-center space-y-4 py-4">
+                <div className="w-14 h-14 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mx-auto">
+                  <CheckCircle className="text-teal-400" size={28} />
                 </div>
-                <h3 className="text-lg font-bold text-navy">Request Submitted</h3>
-                <p className="text-sm text-gray-600">
-                  Your enrolment request has been submitted and is pending admin approval. You will receive access within 12 hours.
+                <h3 className="text-lg font-black text-white tracking-tight">Request Submitted</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Your enrolment request is pending admin approval. You will receive access within 12 hours.
                 </p>
                 <button
                   onClick={() => { setShowQR(false); setSubmitted(false); }}
-                  className="btn-primary w-full"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                 >
                   Close
                 </button>
@@ -115,25 +114,25 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
             ) : (
               <>
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-navy">Bank Transfer Payment</h3>
+                  <h3 className="text-base font-black text-white tracking-tight">Bank Transfer Payment</h3>
                   <button
                     onClick={() => setShowQR(false)}
-                    className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-white/[0.08] text-slate-500 hover:text-white hover:border-white/20 transition-colors"
                   >
-                    &times;
+                    <X size={14} />
                   </button>
                 </div>
 
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 leading-relaxed">
-                  Please make bank payment to <strong>Musab Al Sabahi, 96532326</strong>. You <strong>MUST</strong> send the receipt to WhatsApp with your full name to <strong>96532326</strong>. Your enrolment will be approved within 12 hours.
+                <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-xs text-amber-300 leading-relaxed">
+                  Please make bank payment to <strong className="text-amber-200">Musab Al Sabahi, 96532326</strong>. You <strong className="text-amber-200">MUST</strong> send the receipt to WhatsApp with your full name to <strong className="text-amber-200">96532326</strong>. Your enrolment will be approved within 12 hours.
                 </div>
 
                 <button
                   onClick={handleSubmitBankTransfer}
                   disabled={loading}
-                  className="btn-primary w-full disabled:opacity-50"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
                 >
-                  {loading ? 'Submitting...' : "I Have Paid — Submit My Request"}
+                  {loading ? 'Submitting…' : 'I Have Paid — Submit My Request'}
                 </button>
               </>
             )}

@@ -55,8 +55,8 @@ export default function Header() {
               aria-hidden="true"
               className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_12px_2px_rgba(24,169,153,0.55)] transition-shadow group-hover:shadow-[0_0_16px_3px_rgba(24,169,153,0.75)]"
             />
-            <span className="text-sm font-semibold tracking-[0.08em] text-white">
-              FUTURELINE
+            <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent">
+              {strings.brand.name}
             </span>
           </Link>
 

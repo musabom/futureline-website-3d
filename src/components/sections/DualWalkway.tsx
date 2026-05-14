@@ -1,10 +1,12 @@
 /**
  * DualWalkway — scroll-driven twin-ribbon corridor (FL Lab + FL Academy).
  *
- * Verbatim port from muayadkhamis96-sudo/futureline-3d. Only the beat copy
- * (LAB_BEATS / ACADEMY_BEATS) has been adapted to FutureLine content. The 3D
- * scene — shaders, geometry, camera rig, particle counts, scroll lengths, and
- * hardcoded pole colors (#7dd3fc cyan / #fbbf24 amber) — is unchanged.
+ * Verbatim port from muayadkhamis96-sudo/futureline-3d. The 3D scene —
+ * shaders, geometry, camera rig, particle counts, scroll lengths — is
+ * unchanged from the reference. Pole colors have been swapped from the
+ * reference's cyan + yellow to FutureLine brand teal (#18A999) + amber
+ * (#F5A623), aligning the corridor with the rest of the site's two-pole
+ * accent system. Beat copy is adapted to FutureLine content.
  */
 'use client'
 
@@ -222,8 +224,8 @@ export default function DualWalkway() {
           <color attach="background" args={['#000000']} />
           <ambientLight intensity={0.05} />
           <CameraRig progressRef={progressRef} />
-          <RibbonWall side="left" color="#7dd3fc" />
-          <RibbonWall side="right" color="#fbbf24" />
+          <RibbonWall side="left" color="#18A999" />
+          <RibbonWall side="right" color="#F5A623" />
           <Particles />
           <EffectComposer multisampling={0}>
             <Bloom
@@ -256,7 +258,7 @@ export default function DualWalkway() {
             >
               <p
                 className="mb-3 font-mono text-xs uppercase tracking-[0.4em]"
-                style={{ color: '#7dd3fc' }}
+                style={{ color: '#18A999' }}
               >
                 {b.eyebrow}
               </p>
@@ -283,7 +285,7 @@ export default function DualWalkway() {
             >
               <p
                 className="mb-3 font-mono text-xs uppercase tracking-[0.4em]"
-                style={{ color: '#fbbf24' }}
+                style={{ color: '#F5A623' }}
               >
                 {b.eyebrow}
               </p>

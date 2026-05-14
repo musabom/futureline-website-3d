@@ -23,10 +23,6 @@ function addSecurityHeaders(response: NextResponse) {
 }
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/ai') {
-    return addSecurityHeaders(NextResponse.redirect(new URL('/', request.url)));
-  }
-
   if (request.nextUrl.pathname.startsWith('/admin')) {
     const token = await getToken({
       req: request,

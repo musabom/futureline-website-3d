@@ -81,6 +81,51 @@
   .admin-sidebar-item.active {
     @apply bg-teal-500/10 text-teal-400 border-l-2 border-teal-400;
   }
+
+  /* Form primitives for the 3D-redesigned public surfaces.
+     Kept separate from .input-field / .btn-primary so admin/instructor
+     pages keep their existing chrome. */
+  .fl-label {
+    @apply mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-white/45;
+  }
+
+  .fl-input {
+    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
+           text-sm text-white placeholder:text-white/30
+           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+  }
+
+  .fl-textarea {
+    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
+           text-sm text-white placeholder:text-white/30 resize-none
+           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+  }
+
+  .fl-select {
+    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
+           text-sm text-white placeholder:text-white/30
+           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+  }
+
+  .fl-submit {
+    @apply flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5
+           text-sm font-medium text-black transition-colors
+           hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .fl-submit-ghost {
+    @apply flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5
+           text-sm font-medium text-white/85 transition-colors
+           hover:border-white/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+/* Ensure native select <option> elements use the dark background. The arbitrary
+   variant version is incompatible with @apply, so we use a plain selector. */
+.fl-select > option,
+select.fl-input > option {
+  background: #000;
+  color: #fff;
 }
 
 @keyframes wordBounce {

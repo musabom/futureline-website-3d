@@ -3,7 +3,13 @@ import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 
 export default function ServiceEnquiryForm() {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', tourType: '', message: '' });
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    tourType: '',
+    message: '',
+  });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,107 +32,117 @@ export default function ServiceEnquiryForm() {
     }
   };
 
-  const inputClass =
-    'w-full px-4 py-3 bg-white/[0.04] border border-white/[0.1] rounded-lg text-white placeholder-slate-600 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 transition-colors text-sm';
-
   if (status === 'sent') {
     return (
-      <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 p-10 text-center">
-        <div className="w-14 h-14 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <CheckCircle size={28} className="text-teal-400" />
+      <div className="rounded-md border border-lab/30 bg-lab/[0.04] p-10 text-center">
+        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-lab/30 bg-lab/10">
+          <CheckCircle size={24} className="text-lab" />
         </div>
-        <h3 className="text-xl font-black text-white mb-2 tracking-tight">Enquiry Submitted!</h3>
-        <p className="text-slate-400 text-sm mb-6">Our team will review your request and be in touch soon.</p>
+        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
+          Enquiry submitted.
+        </h3>
+        <p className="mb-8 text-sm leading-relaxed text-white/55">
+          Our team will review your request and be in touch within one business day.
+        </p>
         <button
           onClick={() => setStatus('idle')}
-          className="text-teal-400 text-sm font-bold hover:text-teal-300 transition-colors uppercase tracking-widest"
+          className="font-mono text-[11px] uppercase tracking-[0.3em] text-lab transition-colors hover:text-lab-light"
+          data-cursor="hover"
         >
-          Submit another enquiry
+          Submit another →
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">First Name *</label>
+          <label className="fl-label" htmlFor="se-firstName">First name *</label>
           <input
+            id="se-firstName"
             type="text"
             required
             value={form.firstName}
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-            className={inputClass}
+            className="fl-input"
             placeholder="First name"
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Last Name *</label>
+          <label className="fl-label" htmlFor="se-lastName">Last name *</label>
           <input
+            id="se-lastName"
             type="text"
             required
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-            className={inputClass}
+            className="fl-input"
             placeholder="Last name"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Email *</label>
+        <label className="fl-label" htmlFor="se-email">Email *</label>
         <input
+          id="se-email"
           type="email"
           required
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className={inputClass}
-          placeholder="your@email.com"
+          className="fl-input"
+          placeholder="you@example.com"
         />
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Service Interest *</label>
+        <label className="fl-label" htmlFor="se-service">Service interest *</label>
         <select
+          id="se-service"
           required
           value={form.tourType}
           onChange={(e) => setForm({ ...form, tourType: e.target.value })}
-          className={`${inputClass} [&>option]:bg-slate-900 [&>option]:text-white`}
+          className="fl-select"
         >
           <option value="">Select a service</option>
           <option value="Digitalisation">Digitalisation</option>
-          <option value="Workflow & Governance">Workflow &amp; Governance</option>
-          <option value="Custom Dashboards">Custom Dashboards</option>
-          <option value="Process Automation">Process Automation</option>
-          <option value="Consulting">Consulting</option>
+          <option value="Custom Software">Custom Software</option>
+          <option value="Automations">Automations</option>
+          <option value="Consultation">Consultation</option>
           <option value="Other">Other</option>
         </select>
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Message *</label>
+        <label className="fl-label" htmlFor="se-message">Message *</label>
         <textarea
+          id="se-message"
           required
           rows={4}
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
-          className={`${inputClass} resize-none`}
-          placeholder="Tell us about your project or challenge..."
+          className="fl-textarea"
+          placeholder="Tell us what's slowing you down."
         />
       </div>
 
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:opacity-90 text-white py-3.5 rounded-lg font-bold transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 text-sm uppercase tracking-widest"
+        className="fl-submit"
+        data-cursor="magnetic"
+        data-cursor-strength="20"
       >
         <Send size={15} />
-        {status === 'sending' ? 'Submitting…' : 'Submit Enquiry'}
+        {status === 'sending' ? 'Submitting…' : 'Submit enquiry'}
       </button>
 
       {status === 'error' && (
-        <p className="text-red-400 text-xs text-center pt-1">Something went wrong. Please try again.</p>
+        <p className="pt-1 text-center text-xs text-red-400/90">
+          Something went wrong. Please try again.
+        </p>
       )}
     </form>
   );

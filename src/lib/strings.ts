@@ -26,7 +26,7 @@
 export const strings = {
   brand: {
     name: 'FutureLine',
-    tagline: 'Design \u2022 Deploy \u2022 Evolve',
+    tagline: 'Systems Built for Scale',
     description: 'AI-driven solutions, professional training, and intelligent digital services.',
     copyright: (year: number) => `\u00A9 ${year} FutureLine. All rights reserved.`,
   },

@@ -32,13 +32,22 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-navy text-white flex flex-col min-h-screen sticky top-0">
-      <div className="p-6 border-b border-white/10">
+    <aside className="w-64 bg-slate-950/80 backdrop-blur-2xl border-r border-white/[0.06] flex flex-col min-h-screen sticky top-0">
+      <div className="p-6 border-b border-white/[0.06]">
         <Link href="/admin" className="flex items-center gap-2">
-          <img src="/images/logo-icon-dark.png" alt="FutureLine" className="h-9 w-auto" />
           <div>
-            <span className="text-lg font-bold block">FutureLine</span>
-            <span className="text-xs text-gray-400">Admin Portal</span>
+            <span
+              className="text-lg font-bold block text-transparent bg-clip-text"
+              style={{
+                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              FutureLine
+            </span>
+            <span className="text-[10px] text-slate-500 uppercase tracking-widest">Admin Portal</span>
           </div>
         </Link>
       </div>
@@ -50,7 +59,11 @@ export default function AdminSidebar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`admin-sidebar-item ${isActive ? 'active' : ''}`}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 ${
+                isActive
+                  ? 'bg-teal-500/10 text-teal-400 border-teal-400'
+                  : 'text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent'
+              }`}
             >
               <link.icon size={18} />
               <span className="text-sm">{link.label}</span>
@@ -59,12 +72,18 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/10 space-y-1">
-        <Link href="/" className="admin-sidebar-item">
+      <div className="p-4 border-t border-white/[0.06] space-y-1">
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent"
+        >
           <Home size={18} />
           <span className="text-sm">View Site</span>
         </Link>
-        <button onClick={() => signOut({ callbackUrl: '/' })} className="admin-sidebar-item w-full">
+        <button
+          onClick={() => signOut({ callbackUrl: '/' })}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent w-full"
+        >
           <LogOut size={18} />
           <span className="text-sm">Sign Out</span>
         </button>

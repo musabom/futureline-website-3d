@@ -35,50 +35,80 @@ export default function AdminTestimonialsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-navy">Manage Testimonials</h1>
-        <button onClick={() => { setShowForm(true); setEditing(null); setForm({ name: '', role: '', content: '', rating: 5, featured: false }); }} className="btn-primary flex items-center gap-2 text-sm">
+        <h1 className="text-2xl font-black text-white tracking-tight">Manage Testimonials</h1>
+        <button
+          onClick={() => { setShowForm(true); setEditing(null); setForm({ name: '', role: '', content: '', rating: 5, featured: false }); }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity"
+        >
           <Plus size={18} /> Add Testimonial
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="card p-6 mb-8 space-y-4">
-          <h2 className="font-bold text-navy">{editing ? 'Edit' : 'New'} Testimonial</h2>
+        <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6 mb-8 space-y-4">
+          <h2 className="font-bold text-white">{editing ? 'Edit' : 'New'} Testimonial</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input placeholder="Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="input-field" required />
-            <input placeholder="Role/Title" value={form.role} onChange={e => setForm({...form, role: e.target.value})} className="input-field" required />
-            <textarea placeholder="Content" value={form.content} onChange={e => setForm({...form, content: e.target.value})} className="input-field md:col-span-2" rows={3} required />
-            <select value={form.rating} onChange={e => setForm({...form, rating: Number(e.target.value)})} className="input-field">
+            <input
+              placeholder="Name"
+              value={form.name}
+              onChange={e => setForm({...form, name: e.target.value})}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+              required
+            />
+            <input
+              placeholder="Role/Title"
+              value={form.role}
+              onChange={e => setForm({...form, role: e.target.value})}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+              required
+            />
+            <textarea
+              placeholder="Content"
+              value={form.content}
+              onChange={e => setForm({...form, content: e.target.value})}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 md:col-span-2"
+              rows={3}
+              required
+            />
+            <select
+              value={form.rating}
+              onChange={e => setForm({...form, rating: Number(e.target.value)})}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50"
+            >
               {[1,2,3,4,5].map(n => <option key={n} value={n}>{n} Stars</option>)}
             </select>
           </div>
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} /> Featured
+          <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+            <input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} className="accent-teal-500" /> Featured
           </label>
           <div className="flex gap-4">
-            <button type="submit" className="btn-primary text-sm">{editing ? 'Save' : 'Create'}</button>
-            <button type="button" onClick={() => setShowForm(false)} className="btn-secondary text-sm">Cancel</button>
+            <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
+              {editing ? 'Save' : 'Create'}
+            </button>
+            <button type="button" onClick={() => setShowForm(false)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">
+              Cancel
+            </button>
           </div>
         </form>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {testimonials.map(t => (
-          <div key={t.id} className="card p-6">
+          <div key={t.id} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
             <div className="flex gap-1 mb-3">
               {Array.from({ length: t.rating }).map((_, i) => (
                 <Star key={i} className="text-yellow-400 fill-yellow-400" size={14} />
               ))}
             </div>
-            <p className="text-sm text-gray-600 mb-4">&ldquo;{t.content}&rdquo;</p>
+            <p className="text-sm text-slate-400 mb-4">&ldquo;{t.content}&rdquo;</p>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-sm font-semibold text-navy">{t.name}</div>
-                <div className="text-xs text-gray-400">{t.role}</div>
+                <div className="text-sm font-semibold text-white">{t.name}</div>
+                <div className="text-xs text-slate-500">{t.role}</div>
               </div>
               <div className="flex gap-1">
-                <button onClick={() => { setEditing(t); setForm(t); setShowForm(true); }} className="p-1 text-gray-400 hover:text-teal"><Edit size={14} /></button>
-                <button onClick={() => deleteTestimonial(t.id)} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+                <button onClick={() => { setEditing(t); setForm(t); setShowForm(true); }} className="p-1 text-slate-500 hover:text-teal-400 transition-colors"><Edit size={14} /></button>
+                <button onClick={() => deleteTestimonial(t.id)} className="p-1 text-slate-500 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
               </div>
             </div>
           </div>

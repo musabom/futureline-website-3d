@@ -58,28 +58,28 @@ export default async function InstructorEarningsPage() {
   const hasRevenue = totalRevenue > 0;
 
   const stats = [
-    { label: 'Total Revenue', value: formatPrice(totalRevenue), icon: DollarSign, color: 'bg-blue-50 text-blue-600' },
-    { label: 'Your Share', value: formatPrice(instructorShare), icon: TrendingUp, color: 'bg-green-50 text-green-600' },
-    { label: 'Platform Share', value: formatPrice(platformShare), icon: PieChart, color: 'bg-purple-50 text-purple-600' },
-    { label: 'Commission Rate', value: `${commissionRate}%`, icon: Users, color: 'bg-orange-50 text-orange-600' },
+    { label: 'Total Revenue', value: formatPrice(totalRevenue), icon: DollarSign, iconBg: 'bg-blue-500/10', iconColor: 'text-blue-400' },
+    { label: 'Your Share', value: formatPrice(instructorShare), icon: TrendingUp, iconBg: 'bg-teal-500/10', iconColor: 'text-teal-400' },
+    { label: 'Platform Share', value: formatPrice(platformShare), icon: PieChart, iconBg: 'bg-purple-500/10', iconColor: 'text-purple-400' },
+    { label: 'Commission Rate', value: `${commissionRate}%`, icon: Users, iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400' },
   ];
 
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-navy">Earnings</h1>
-        <p className="text-gray-500 mt-1">Track your revenue and commission breakdown</p>
+        <h1 className="text-2xl font-black text-white tracking-tight">Earnings</h1>
+        <p className="text-slate-400 mt-1 text-sm">Track your revenue and commission breakdown</p>
       </div>
 
       {!hasRevenue && (
-        <div className="card p-5 mb-8 border-l-4 border-l-teal bg-teal/5">
+        <div className="rounded-xl border border-teal-500/20 bg-teal-500/10 p-5 mb-8">
           <div className="flex items-start gap-3">
-            <Info size={20} className="text-teal mt-0.5 shrink-0" />
+            <Info size={18} className="text-teal-400 mt-0.5 shrink-0" />
             <div>
-              <p className="text-sm font-semibold text-navy">No earnings yet</p>
-              <p className="text-sm text-gray-500 mt-1">
-                Earnings tracking will activate when paid courses are enabled and students make purchases. 
-                Your commission rate is set to <strong>{commissionRate}%</strong> — you&apos;ll receive this percentage of every sale.
+              <p className="text-sm font-semibold text-white">No earnings yet</p>
+              <p className="text-sm text-slate-400 mt-1">
+                Earnings tracking will activate when paid courses are enabled and students make purchases.
+                Your commission rate is set to <strong className="text-white">{commissionRate}%</strong> — you&apos;ll receive this percentage of every sale.
               </p>
             </div>
           </div>
@@ -88,71 +88,75 @@ export default async function InstructorEarningsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {stats.map((stat) => (
-          <div key={stat.label} className="card p-6">
+          <div key={stat.label} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.color}`}>
-                <stat.icon size={24} />
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.iconBg}`}>
+                <stat.icon size={22} className={stat.iconColor} />
               </div>
               <div>
-                <div className="text-2xl font-bold text-navy">{stat.value}</div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+                <div className="text-3xl font-black text-white">{stat.value}</div>
+                <div className="text-sm text-slate-400">{stat.label}</div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="card p-6 mb-8">
-        <h2 className="text-lg font-bold text-navy mb-1">Commission Structure</h2>
-        <p className="text-sm text-gray-500 mb-4">Your earnings split for each course sale</p>
-        <div className="flex items-center gap-2 mb-2">
-          <div className="h-4 rounded-full bg-teal" style={{ width: `${commissionRate}%` }} />
-          <div className="h-4 rounded-full bg-navy/20" style={{ width: `${platformRate}%` }} />
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6 mb-8">
+        <h2 className="text-2xl font-black text-white tracking-tight mb-1">Commission Structure</h2>
+        <p className="text-sm text-slate-500 mb-4">Your earnings split for each course sale</p>
+        <div className="flex items-center gap-2 mb-2 rounded-full overflow-hidden h-4">
+          <div className="h-4 rounded-l-full bg-teal-500" style={{ width: `${commissionRate}%` }} />
+          <div className="h-4 rounded-r-full bg-white/10" style={{ width: `${platformRate}%` }} />
         </div>
-        <div className="flex justify-between text-xs text-gray-500">
+        <div className="flex justify-between text-xs text-slate-500">
           <span>Your share: {commissionRate}%</span>
           <span>Platform: {platformRate}%</span>
         </div>
       </div>
 
-      <div className="card p-6">
-        <h2 className="text-lg font-bold text-navy mb-4">Earnings by Course</h2>
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
+        <div className="p-6 border-b border-white/[0.06]">
+          <h2 className="text-2xl font-black text-white tracking-tight">Earnings by Course</h2>
+        </div>
         {courseBreakdown.length === 0 ? (
-          <p className="text-gray-400 text-sm">No courses yet. Create your first course to start earning!</p>
+          <div className="p-6">
+            <p className="text-slate-500 text-sm">No courses yet. Create your first course to start earning!</p>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-gray-500 border-b border-gray-100">
-                  <th className="pb-3 font-medium">Course</th>
-                  <th className="pb-3 font-medium text-center">Price</th>
-                  <th className="pb-3 font-medium text-center">Students</th>
-                  <th className="pb-3 font-medium text-right">Revenue</th>
-                  <th className="pb-3 font-medium text-right">Your Earnings</th>
+              <thead className="border-b border-white/[0.06] bg-white/[0.02]">
+                <tr>
+                  <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Course</th>
+                  <th className="text-center px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Price</th>
+                  <th className="text-center px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Students</th>
+                  <th className="text-right px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Revenue</th>
+                  <th className="text-right px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Your Earnings</th>
                 </tr>
               </thead>
               <tbody>
                 {courseBreakdown.map((course) => (
-                  <tr key={course.id} className="border-b border-gray-50 last:border-0">
-                    <td className="py-3 font-medium text-navy">{course.title}</td>
-                    <td className="py-3 text-center text-gray-600">
+                  <tr key={course.id} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
+                    <td className="px-6 py-4 font-medium text-white">{course.title}</td>
+                    <td className="px-6 py-4 text-center text-slate-300">
                       {course.price > 0 ? formatPrice(course.price) : 'Free'}
                     </td>
-                    <td className="py-3 text-center text-gray-600">{course.students}</td>
-                    <td className="py-3 text-right text-gray-600">{formatPrice(course.revenue)}</td>
-                    <td className="py-3 text-right font-semibold text-teal">{formatPrice(course.instructorEarnings)}</td>
+                    <td className="px-6 py-4 text-center text-slate-300">{course.students}</td>
+                    <td className="px-6 py-4 text-right text-slate-300">{formatPrice(course.revenue)}</td>
+                    <td className="px-6 py-4 text-right font-semibold text-teal-400">{formatPrice(course.instructorEarnings)}</td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t-2 border-gray-200">
-                  <td className="pt-3 font-bold text-navy">Total</td>
-                  <td className="pt-3"></td>
-                  <td className="pt-3 text-center font-medium text-gray-600">
+                <tr className="border-t border-white/[0.06] bg-white/[0.02]">
+                  <td className="px-6 pt-3 pb-4 font-bold text-white">Total</td>
+                  <td className="px-6 pt-3 pb-4"></td>
+                  <td className="px-6 pt-3 pb-4 text-center font-medium text-slate-300">
                     {courseBreakdown.reduce((s, c) => s + c.students, 0)}
                   </td>
-                  <td className="pt-3 text-right font-medium text-gray-600">{formatPrice(totalRevenue)}</td>
-                  <td className="pt-3 text-right font-bold text-teal">{formatPrice(instructorShare)}</td>
+                  <td className="px-6 pt-3 pb-4 text-right font-medium text-slate-300">{formatPrice(totalRevenue)}</td>
+                  <td className="px-6 pt-3 pb-4 text-right font-bold text-teal-400">{formatPrice(instructorShare)}</td>
                 </tr>
               </tfoot>
             </table>
@@ -161,18 +165,18 @@ export default async function InstructorEarningsPage() {
       </div>
 
       {earnings.length > 0 && (
-        <div className="card p-6 mt-8">
-          <h2 className="text-lg font-bold text-navy mb-4">Earnings History</h2>
+        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6 mt-8">
+          <h2 className="text-2xl font-black text-white tracking-tight mb-4">Earnings History</h2>
           <div className="space-y-3">
             {earnings.map((earning) => (
-              <div key={earning.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+              <div key={earning.id} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
                 <div>
-                  <div className="text-sm font-medium text-navy">{earning.course.title}</div>
-                  <div className="text-xs text-gray-400">{earning.period}</div>
+                  <div className="text-sm font-medium text-white">{earning.course.title}</div>
+                  <div className="text-xs text-slate-500">{earning.period}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-semibold text-teal">{formatPrice(earning.instructorCut)}</div>
-                  <div className="text-xs text-gray-400">of {formatPrice(earning.amount)}</div>
+                  <div className="text-sm font-semibold text-teal-400">{formatPrice(earning.instructorCut)}</div>
+                  <div className="text-xs text-slate-500">of {formatPrice(earning.amount)}</div>
                 </div>
               </div>
             ))}

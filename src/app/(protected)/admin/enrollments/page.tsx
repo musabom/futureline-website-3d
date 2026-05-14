@@ -32,50 +32,60 @@ export default function AdminEnrollmentsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-navy">Enrollments</h1>
-        <button onClick={exportCSV} className="btn-secondary flex items-center gap-2 text-sm">
+        <h1 className="text-2xl font-black text-white tracking-tight">Enrollments</h1>
+        <button onClick={exportCSV} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">
           <Download size={18} /> Export CSV
         </button>
       </div>
-      <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
+        <div className="p-4 border-b border-white/[0.06]">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} className="input-field !pl-10" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
+            />
           </div>
         </div>
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="border-b border-white/[0.06] bg-white/[0.02]">
             <tr>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Student</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Course</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Progress</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Date</th>
+              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Student</th>
+              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Course</th>
+              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Progress</th>
+              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
+              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody>
             {filtered.map(e => (
-              <tr key={e.id} className="hover:bg-gray-50/50">
+              <tr key={e.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                 <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-navy">{e.user?.firstName} {e.user?.lastName}</div>
-                  <div className="text-xs text-gray-400">{e.user?.email}</div>
+                  <div className="text-sm font-medium text-slate-200">{e.user?.firstName} {e.user?.lastName}</div>
+                  <div className="text-xs text-slate-500">{e.user?.email}</div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">{e.course?.title}</td>
+                <td className="px-6 py-4 text-sm text-slate-300">{e.course?.title}</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
-                      <div className="bg-teal rounded-full h-2" style={{ width: `${e.progressPercentage}%` }} />
+                    <div className="w-20 bg-white/10 rounded-full h-2">
+                      <div className="bg-teal-500 rounded-full h-2" style={{ width: `${e.progressPercentage}%` }} />
                     </div>
-                    <span className="text-xs text-gray-500">{Math.round(e.progressPercentage)}%</span>
+                    <span className="text-xs text-slate-500">{Math.round(e.progressPercentage)}%</span>
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${e.completed ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                    e.completed
+                      ? 'bg-teal-500/10 text-teal-400 border-teal-500/20'
+                      : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                  }`}>
                     {e.completed ? 'Completed' : 'In Progress'}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-400">{new Date(e.createdAt).toLocaleDateString('en-GB')}</td>
+                <td className="px-6 py-4 text-sm text-slate-500">{new Date(e.createdAt).toLocaleDateString('en-GB')}</td>
               </tr>
             ))}
           </tbody>

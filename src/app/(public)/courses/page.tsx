@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { BookOpen, Search, Clock, MapPin, Users, MessageSquare } from 'lucide-react';
+import { BookOpen, Search, MessageSquare, SlidersHorizontal } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import CourseEnquiryForm from '@/components/CourseEnquiryForm';
+import CourseCard from '@/components/ui/course-card';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -10,218 +11,227 @@ import { authOptions } from '@/lib/auth';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Courses — FutureLine | Professional & Technical Training',
-  description: 'Browse our catalogue of professional and technical courses. Filter by delivery type, level, and category. Online, in-person, and hybrid options available.',
+  title: 'Course Explorer — FL Academy | FutureLine',
+  description: 'Browse our catalogue of professional and technical courses. Filter by level and category.',
   openGraph: {
-    title: 'Courses — FutureLine',
-    description: 'Browse our catalogue of professional and technical courses. Online, in-person, and hybrid options available.',
+    title: 'Course Explorer — FL Academy',
+    description: 'Browse our catalogue of professional and technical courses.',
     type: 'website',
     url: '/courses',
   },
 };
 
+const LEVEL_COLORS: Record<string, string> = {
+  Beginner:     'bg-teal-500/20 border-teal-500/30 text-teal-400',
+  Intermediate: 'bg-blue-500/20 border-blue-500/30 text-blue-400',
+  Advanced:     'bg-purple-500/20 border-purple-500/30 text-purple-400',
+};
+
+const CARD_GRADIENTS = [
+  'from-teal-900/80 via-slate-900 to-slate-950',
+  'from-blue-900/80 via-slate-900 to-slate-950',
+  'from-purple-900/80 via-slate-900 to-slate-950',
+  'from-emerald-900/80 via-slate-900 to-slate-950',
+  'from-cyan-900/80 via-slate-900 to-slate-950',
+  'from-indigo-900/80 via-slate-900 to-slate-950',
+];
+
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string; level?: string; search?: string; tab?: string }>;
+  searchParams: Promise<{ level?: string; category?: string; search?: string; tab?: string }>;
 }) {
   const session = await getServerSession(authOptions);
-  const resolvedParams = await searchParams;
-  const activeTab = resolvedParams.tab || 'all';
+  const params  = await searchParams;
+  const activeTab = params.tab || 'all';
 
   const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
-  
-  if (activeTab === 'enrolled' && session?.user?.id) {
-    where.enrollments = {
-      some: {
-        userId: session.user.id
-      }
-    };
-  }
 
-  if (resolvedParams.type) where.deliveryType = resolvedParams.type;
-  if (resolvedParams.level) where.level = resolvedParams.level;
-  if (resolvedParams.search) {
+  if (activeTab === 'enrolled' && session?.user?.id) {
+    where.enrollments = { some: { userId: session.user.id } };
+  }
+  if (params.level)    where.level    = params.level;
+  if (params.category) where.category = params.category;
+  if (params.search) {
     where.OR = [
-      { title: { contains: resolvedParams.search, mode: 'insensitive' } },
-      { shortDescription: { contains: resolvedParams.search, mode: 'insensitive' } },
-      { category: { contains: resolvedParams.search, mode: 'insensitive' } },
+      { title:            { contains: params.search, mode: 'insensitive' } },
+      { shortDescription: { contains: params.search, mode: 'insensitive' } },
+      { category:         { contains: params.search, mode: 'insensitive' } },
     ];
   }
 
-  const courses = await prisma.course.findMany({
-    where,
-    include: { 
-      instructor: { select: { firstName: true, lastName: true } },
-      enrollments: session?.user?.id ? { where: { userId: session.user.id } } : false
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+  const [courses, categoryRows] = await Promise.all([
+    prisma.course.findMany({
+      where,
+      include: {
+        instructor:  { select: { firstName: true, lastName: true } },
+        enrollments: session?.user?.id ? { where: { userId: session.user.id } } : false,
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.course.findMany({
+      where:    { status: 'PUBLISHED', approvalStatus: 'APPROVED' },
+      select:   { category: true },
+      distinct: ['category'],
+    }),
+  ]);
 
-  const enrolledCount = session?.user?.id ? await prisma.enrollment.count({
-    where: { userId: session.user.id }
-  }) : 0;
+  const categories = categoryRows.map((r) => r.category).filter(Boolean) as string[];
+  const totalCount = await prisma.course.count({ where: { status: 'PUBLISHED', approvalStatus: 'APPROVED' } });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-navy mb-2">Our Courses</h1>
-        <p className="text-gray-500">Find the perfect course to advance your career</p>
-      </div>
+    <div className="flex h-[calc(100vh-64px)] bg-[#030d1a] overflow-hidden">
 
-      {session?.user && (
-        <div className="flex border-b border-gray-200 mb-8">
-          <Link
-            href="/courses?tab=all"
-            className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
-              activeTab === 'all'
-                ? 'text-teal border-b-2 border-teal'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            All Courses
-          </Link>
-          <Link
-            href="/courses?tab=enrolled"
-            className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
-              activeTab === 'enrolled'
-                ? 'text-teal border-b-2 border-teal'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            My Enrolled Courses
-            {enrolledCount > 0 && (
-              <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">
-                {enrolledCount}
-              </span>
-            )}
-          </Link>
-        </div>
-      )}
-
-      <form className="flex flex-col md:flex-row gap-4 mb-10">
-        <input type="hidden" name="tab" value={activeTab} />
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text"
-            name="search"
-            defaultValue={resolvedParams.search}
-            placeholder="Search courses..."
-            className="input-field !pl-10"
-          />
-        </div>
-        <select name="type" defaultValue={resolvedParams.type || ''} className="input-field md:w-48">
-          <option value="">All Types</option>
-          <option value="ONLINE">Online</option>
-          <option value="IN_PERSON">In-Person</option>
-          <option value="HYBRID">Hybrid</option>
-        </select>
-        <select name="level" defaultValue={resolvedParams.level || ''} className="input-field md:w-48">
-          <option value="">All Levels</option>
-          <option value="Beginner">Beginner</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
-        </select>
-        <button type="submit" className="btn-primary">Filter</button>
-      </form>
-
-      {courses.length === 0 ? (
-        <div className="text-center py-20">
-          <BookOpen className="text-gray-300 mx-auto mb-4" size={48} />
-          <h3 className="text-xl font-semibold text-gray-400">
-            {activeTab === 'enrolled' ? "You haven't enrolled in any courses yet" : "No courses found"}
-          </h3>
-          <p className="text-gray-400 mt-2">
-            {activeTab === 'enrolled' ? "Explore our catalogue to start learning" : "Try adjusting your filters"}
-          </p>
-          {activeTab === 'enrolled' && (
-            <Link href="/courses?tab=all" className="btn-primary inline-block mt-6">
-              Browse All Courses
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => {
-            const isEnrolled = course.enrollments && course.enrollments.length > 0;
-            return (
-              <Link 
-                href={isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`} 
-                key={course.id} 
-                className="card overflow-hidden group"
-              >
-                <div className="h-44 bg-brand-gradient flex items-center justify-center relative">
-                  <BookOpen className="text-white/50" size={40} />
-                  {isEnrolled && (
-                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-teal text-[10px] font-bold px-2 py-1 rounded-md shadow-sm border border-teal/20 flex items-center gap-1 uppercase tracking-wider">
-                      <div className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
-                      Enrolled
-                    </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-semibold px-2 py-1 bg-teal/10 text-teal rounded-full">
-                      {course.deliveryType.replace('_', ' ')}
-                    </span>
-                    <span className="text-xs text-gray-400">{course.level}</span>
-                    <span className="text-xs text-gray-400">{course.category}</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-navy mb-2 group-hover:text-teal transition-colors">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.shortDescription}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                    <span className="flex items-center gap-1"><Clock size={14} /> {course.durationHours}h</span>
-                    {course.location && <span className="flex items-center gap-1"><MapPin size={14} /> {course.location}</span>}
-                    {course.instructor && <span className="flex items-center gap-1"><Users size={14} /> {course.instructor.firstName} {course.instructor.lastName}</span>}
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <div className="flex flex-col">
-                      {isEnrolled ? (
-                        <span className="text-teal font-bold text-sm">Resume Learning</span>
-                      ) : (
-                        <>
-                          <span className="font-bold text-teal text-lg">
-                            {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
-                          </span>
-                          {course.discountPrice && course.discountPrice < course.price && (
-                            <span className="text-xs text-gray-400 line-through">
-                              {formatPrice(course.price)}
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </div>
-                    <span className="text-teal font-semibold text-sm">
-                      {isEnrolled ? 'Go to Course' : 'View Details'}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-
-      <section className="mt-20 bg-gray-50 rounded-2xl p-8 md:p-12">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-brand-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <MessageSquare className="text-white" size={24} />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-navy mb-3">
-              Can&apos;t Find What You&apos;re Looking For?
-            </h2>
-            <p className="text-gray-500 leading-relaxed">
-              We offer custom training programmes tailored to your team&apos;s needs. Tell us what you&apos;re interested in and we&apos;ll get back to you.
-            </p>
+      {/* ── Filter Panel ── */}
+      <aside className="w-64 flex-shrink-0 border-r border-white/[0.06] bg-slate-950/40 backdrop-blur-xl overflow-y-auto">
+        <form method="GET" action="/courses" className="p-6 space-y-8">
+          {/* search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
+            <input
+              name="search"
+              defaultValue={params.search}
+              placeholder="Search courses…"
+              className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2.5 text-xs text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+            />
           </div>
-          <CourseEnquiryForm />
+
+          {/* Category */}
+          {categories.length > 0 && (
+            <div>
+              <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white mb-4">
+                <SlidersHorizontal size={13} className="text-teal-400" /> Category
+              </h3>
+              <div className="space-y-1">
+                <Link
+                  replace
+                  href={`/courses?${new URLSearchParams({ ...(params.level ? { level: params.level } : {}), ...(params.search ? { search: params.search } : {}) }).toString()}`}
+                  className={`block w-full text-left px-3 py-2 rounded text-xs transition-all ${!params.category ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20' : 'text-slate-500 hover:bg-white/5 hover:text-slate-300 border border-transparent'}`}
+                >
+                  All Categories
+                </Link>
+                {categories.map((cat) => (
+                  <Link
+                    replace
+                    key={cat}
+                    href={`/courses?${new URLSearchParams({ category: cat, ...(params.level ? { level: params.level } : {}), ...(params.search ? { search: params.search } : {}) }).toString()}`}
+                    className={`block w-full text-left px-3 py-2 rounded text-xs transition-all ${params.category === cat ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20' : 'text-slate-500 hover:bg-white/5 hover:text-slate-300 border border-transparent'}`}
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Difficulty */}
+          <div>
+            <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white mb-4">
+              <SlidersHorizontal size={13} className="text-teal-400" /> Difficulty
+            </h3>
+            <div className="space-y-1">
+              {['', 'Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+                <Link
+                  replace
+                  key={lvl || 'all'}
+                  href={`/courses?${new URLSearchParams({ ...(lvl ? { level: lvl } : {}), ...(params.category ? { category: params.category } : {}), ...(params.search ? { search: params.search } : {}) }).toString()}`}
+                  className={`block w-full text-left px-3 py-2 rounded text-xs transition-all ${params.level === lvl || (!lvl && !params.level) ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20' : 'text-slate-500 hover:bg-white/5 hover:text-slate-300 border border-transparent'}`}
+                >
+                  {lvl || 'All Skill Levels'}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </form>
+      </aside>
+
+      {/* ── Main Content ── */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-8">
+
+          {/* Header */}
+          <div className="flex items-start justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-black text-white tracking-tight mb-1">Course Explorer</h1>
+              <p className="text-sm text-slate-400">
+                Browse our catalogue of professional and technical courses.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+              <span className="text-[11px] font-bold text-teal-400 uppercase tracking-widest">{totalCount} Courses</span>
+            </div>
+          </div>
+
+          {/* Tabs (enrolled / all) */}
+          {session?.user && (
+            <div className="flex gap-1 mb-8 border-b border-white/[0.06] pb-0">
+              {[{ key: 'all', label: 'All Courses' }, { key: 'enrolled', label: 'My Courses' }].map(({ key, label }) => (
+                <Link
+                  key={key}
+                  href={`/courses?tab=${key}`}
+                  className={`px-4 py-2.5 text-xs font-bold uppercase tracking-widest border-b-2 transition-colors ${
+                    activeTab === key
+                      ? 'text-teal-400 border-teal-400'
+                      : 'text-slate-500 border-transparent hover:text-slate-300'
+                  }`}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Course Grid */}
+          {courses.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <BookOpen className="text-slate-700 mb-4" size={48} />
+              <p className="text-slate-400 font-semibold">No courses found</p>
+              <p className="text-slate-600 text-sm mt-1">Try adjusting your filters</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {courses.map((course, idx) => {
+                const isEnrolled = course.enrollments && course.enrollments.length > 0;
+                const ctaLabel   = isEnrolled ? 'Continue Learning' : (course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Enroll Now');
+
+                return (
+                  <CourseCard
+                    key={course.id}
+                    href={isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`}
+                    gradient={CARD_GRADIENTS[idx % CARD_GRADIENTS.length]}
+                    levelColor={LEVEL_COLORS[course.level] ?? LEVEL_COLORS.Beginner}
+                    level={course.level}
+                    durationHours={course.durationHours}
+                    isEnrolled={!!isEnrolled}
+                    title={course.title}
+                    shortDescription={course.shortDescription}
+                    instructorName={course.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}` : null}
+                    location={course.location}
+                    ctaLabel={ctaLabel}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {/* Enquiry section */}
+          <section className="mt-16 rounded-2xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-8 md:p-12">
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="text-white" size={24} />
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-3">Can&apos;t Find What You&apos;re Looking For?</h2>
+                <p className="text-slate-400 leading-relaxed">
+                  We offer custom training programmes tailored to your team&apos;s needs.
+                </p>
+              </div>
+              <CourseEnquiryForm />
+            </div>
+          </section>
         </div>
-      </section>
+      </main>
     </div>
   );
 }
-

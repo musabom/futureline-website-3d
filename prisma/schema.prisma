@@ -7,6 +7,240 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id               String              @id @default(cuid())
+  firstName        String              @default("")
+  lastName         String              @default("")
+  email            String              @unique
+  password         String
+  role             Role                @default(CUSTOMER)
+  bio              String?
+  commissionRate   Float               @default(70)
+  isActive         Boolean             @default(true)
+  resetToken       String?             @unique
+  resetTokenExpiry DateTime?
+  createdAt        DateTime            @default(now())
+  courses          Course[]            @relation("InstructorCourses")
+  enrollments      Enrollment[]
+  earnings         InstructorEarning[]
+  assignedLeads    Lead[]              @relation("AssignedLeads")
+  leadNotes        LeadNote[]          @relation("LeadNotes")
+  orders           Order[]
+}
+
+model Course {
+  id                String              @id @default(cuid())
+  title             String
+  slug              String              @unique
+  shortDescription  String
+  fullDescription   String
+  deliveryType      DeliveryType
+  category          String
+  level             String
+  price             Float
+  discountPrice     Float?
+  durationHours     Int
+  startDate         DateTime?
+  endDate           DateTime?
+  seatCapacity      Int?
+  location          String?
+  instructorId      String?
+  thumbnail         String?
+  marketingVideoUrl String?
+  status            CourseStatus        @default(DRAFT)
+  approvalStatus    ApprovalStatus      @default(APPROVED)
+  rejectionReason   String?
+  createdAt         DateTime            @default(now())
+  instructor        User?               @relation("InstructorCourses", fields: [instructorId], references: [id])
+  enrollments       Enrollment[]
+  earnings          InstructorEarning[]
+  lessons           Lesson[]
+  orders            Order[]
+
+  @@index([instructorId])
+}
+
+model Lesson {
+  id          String     @id @default(cuid())
+  courseId    String
+  moduleTitle String
+  lessonTitle String
+  lessonType  LessonType @default(CONTENT)
+  videoUrl    String?
+  content     String?
+  resources   String?
+  questions   Json?
+  orderIndex  Int
+  course      Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+}
+
+model Service {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  category     String
+  pricingModel String?
+  featured     Boolean  @default(false)
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  userId          String
+  courseId        String
+  amount          Float
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentMethod   String        @default("BANK_TRANSFER")
+  stripeSessionId String?
+  createdAt       DateTime      @default(now())
+  course          Course        @relation(fields: [courseId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([courseId])
+}
+
+model Enrollment {
+  id                 String   @id @default(cuid())
+  userId             String
+  courseId           String
+  progressPercentage Float    @default(0)
+  completed          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  course             Course   @relation(fields: [courseId], references: [id])
+  user               User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model InstructorEarning {
+  id            String   @id @default(cuid())
+  instructorId  String
+  courseId      String
+  amount        Float
+  platformCut   Float
+  instructorCut Float
+  period        String
+  createdAt     DateTime @default(now())
+  course        Course   @relation(fields: [courseId], references: [id])
+  instructor    User     @relation(fields: [instructorId], references: [id])
+
+  @@index([instructorId])
+  @@index([courseId])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  content   String
+  rating    Int      @default(5)
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model BrandSettings {
+  id           String  @id @default(cuid())
+  logo         String?
+  primaryColor String  @default("#0F1E3D")
+  accentColor  String  @default("#18A999")
+  companyName  String  @default("FutureLine")
+  tagline      String  @default("Design • Deploy • Evolve")
+  contactEmail String  @default("flservices.ai@gmail.com")
+  tourismEmail String  @default("authentic.tour.om@gmail.com")
+}
+
+model AISettings {
+  id             String  @id @default(cuid())
+  enabled        Boolean @default(true)
+  welcomeMessage String  @default("Let our AI help you find the perfect course")
+}
+
+model Lead {
+  id              String         @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String
+  phone           String?
+  tourType        String
+  message         String
+  source          String         @default("FL Tourism")
+  stage           LeadStage      @default(NEW)
+  priority        LeadPriority   @default(MEDIUM)
+  assignedTo      String?
+  tags            String?
+  value           Float?
+  lastContactedAt DateTime?
+  nextFollowUpAt  DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
+  assignee        User?          @relation("AssignedLeads", fields: [assignedTo], references: [id])
+  activities      LeadActivity[]
+  notes           LeadNote[]
+}
+
+model LeadActivity {
+  id          String   @id @default(cuid())
+  leadId      String
+  type        String
+  description String
+  metadata    Json?
+  performedBy String?
+  createdAt   DateTime @default(now())
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+}
+
+model LeadNote {
+  id        String   @id @default(cuid())
+  leadId    String
+  content   String
+  authorId  String?
+  createdAt DateTime @default(now())
+  author    User?    @relation("LeadNotes", fields: [authorId], references: [id])
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  type      String
+  subject   String
+  body      String
+  variables String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AutomationRule {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  triggerType   String
+  triggerConfig Json
+  actionType    String
+  actionConfig  Json
+  delayHours    Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model RateLimit {
+  key       String   @id
+  count     Int      @default(1)
+  resetTime DateTime
+}
+
 enum Role {
   ADMIN
   INSTRUCTOR
@@ -39,169 +273,9 @@ enum PaymentStatus {
   REFUNDED
 }
 
-model User {
-  id               String    @id @default(cuid())
-  firstName        String    @default("")
-  lastName         String    @default("")
-  email            String    @unique
-  password         String
-  role             Role      @default(CUSTOMER)
-  bio              String?
-  commissionRate   Float     @default(70)
-  isActive         Boolean   @default(true)
-  resetToken       String?   @unique
-  resetTokenExpiry DateTime?
-  createdAt        DateTime  @default(now())
-
-  courses     Course[]     @relation("InstructorCourses")
-  orders      Order[]
-  enrollments Enrollment[]
-  earnings    InstructorEarning[]
-  assignedLeads Lead[]     @relation("AssignedLeads")
-  leadNotes   LeadNote[]   @relation("LeadNotes")
-}
-
-model Course {
-  id               String         @id @default(cuid())
-  title            String
-  slug             String         @unique
-  shortDescription String
-  fullDescription  String
-  deliveryType     DeliveryType
-  category         String
-  level            String
-  price            Float
-  discountPrice    Float?
-  durationHours    Int
-  startDate        DateTime?
-  endDate          DateTime?
-  seatCapacity     Int?
-  location         String?
-  instructorId     String?
-  thumbnail        String?
-  marketingVideoUrl String?
-  status           CourseStatus    @default(DRAFT)
-  approvalStatus   ApprovalStatus @default(APPROVED)
-  rejectionReason  String?
-  createdAt        DateTime       @default(now())
-
-  instructor  User?              @relation("InstructorCourses", fields: [instructorId], references: [id])
-  lessons     Lesson[]
-  orders      Order[]
-  enrollments Enrollment[]
-  earnings    InstructorEarning[]
-
-  @@index([instructorId])
-}
-
 enum LessonType {
   CONTENT
   QUIZ
-}
-
-model Lesson {
-  id          String     @id @default(cuid())
-  courseId     String
-  moduleTitle  String
-  lessonTitle  String
-  lessonType   LessonType @default(CONTENT)
-  videoUrl     String?
-  content      String?
-  resources    String?
-  questions    Json?
-  orderIndex   Int
-
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  @@index([courseId])
-}
-
-model Service {
-  id           String  @id @default(cuid())
-  title        String
-  description  String
-  category     String
-  pricingModel String?
-  featured     Boolean @default(false)
-  status       String  @default("ACTIVE")
-  createdAt    DateTime @default(now())
-}
-
-model Order {
-  id              String        @id @default(cuid())
-  userId          String
-  courseId         String
-  amount           Float
-  paymentStatus    PaymentStatus @default(PENDING)
-  paymentMethod    String        @default("BANK_TRANSFER")
-  stripeSessionId  String?
-  createdAt        DateTime      @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-
-  @@index([userId])
-  @@index([courseId])
-}
-
-model Enrollment {
-  id                 String  @id @default(cuid())
-  userId             String
-  courseId            String
-  progressPercentage Float   @default(0)
-  completed          Boolean @default(false)
-  createdAt          DateTime @default(now())
-
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-
-  @@unique([userId, courseId])
-  @@index([userId])
-  @@index([courseId])
-}
-
-model InstructorEarning {
-  id             String   @id @default(cuid())
-  instructorId   String
-  courseId        String
-  amount         Float
-  platformCut    Float
-  instructorCut  Float
-  period         String
-  createdAt      DateTime @default(now())
-
-  instructor User   @relation(fields: [instructorId], references: [id])
-  course     Course @relation(fields: [courseId], references: [id])
-
-  @@index([instructorId])
-  @@index([courseId])
-}
-
-model Testimonial {
-  id        String   @id @default(cuid())
-  name      String
-  role      String
-  content   String
-  rating    Int      @default(5)
-  featured  Boolean  @default(false)
-  createdAt DateTime @default(now())
-}
-
-model BrandSettings {
-  id           String @id @default(cuid())
-  logo         String?
-  primaryColor String @default("#0F1E3D")
-  accentColor  String @default("#18A999")
-  companyName  String @default("FutureLine")
-  tagline      String @default("Design • Deploy • Evolve")
-  contactEmail String @default("flservices.ai@gmail.com")
-  tourismEmail String @default("authentic.tour.om@gmail.com")
-}
-
-model AISettings {
-  id             String  @id @default(cuid())
-  enabled        Boolean @default(true)
-  welcomeMessage String  @default("Let our AI help you find the perfect course")
 }
 
 enum LeadStage {
@@ -219,87 +293,4 @@ enum LeadPriority {
   MEDIUM
   HIGH
   URGENT
-}
-
-model Lead {
-  id          String       @id @default(cuid())
-  firstName   String
-  lastName    String
-  email       String
-  phone       String?
-  tourType    String
-  message     String
-  source      String       @default("FL Tourism")
-  stage       LeadStage    @default(NEW)
-  priority    LeadPriority @default(MEDIUM)
-  assignedTo  String?
-  tags        String?
-  value       Float?
-  lastContactedAt DateTime?
-  nextFollowUpAt  DateTime?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now()) @updatedAt
-
-  assignee    User?        @relation("AssignedLeads", fields: [assignedTo], references: [id])
-  activities  LeadActivity[]
-  notes       LeadNote[]
-}
-
-model LeadActivity {
-  id          String   @id @default(cuid())
-  leadId      String
-  type        String
-  description String
-  metadata    Json?
-  performedBy String?
-  createdAt   DateTime @default(now())
-
-  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
-
-  @@index([leadId])
-}
-
-model LeadNote {
-  id        String   @id @default(cuid())
-  leadId    String
-  content   String
-  authorId  String?
-  createdAt DateTime @default(now())
-
-  lead   Lead  @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  author User? @relation("LeadNotes", fields: [authorId], references: [id])
-
-  @@index([leadId])
-}
-
-model EmailTemplate {
-  id        String   @id @default(cuid())
-  name      String
-  type      String
-  subject   String
-  body      String
-  variables String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model AutomationRule {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  triggerType String
-  triggerConfig Json
-  actionType  String
-  actionConfig Json
-  delayHours  Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model RateLimit {
-  key       String   @id
-  count     Int      @default(1)
-  resetTime DateTime
 }

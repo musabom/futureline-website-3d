@@ -56,24 +56,24 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy mb-8">Orders</h1>
-      <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-3">
+      <h1 className="text-2xl font-black text-white tracking-tight mb-8">Orders</h1>
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
+        <div className="p-4 border-b border-white/[0.06] flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
             <input
               type="text"
               placeholder="Search orders..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="input-field !pl-10"
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
             />
           </div>
           {instructors.length > 0 && (
             <select
               value={instructorFilter}
               onChange={e => setInstructorFilter(e.target.value)}
-              className="input-field sm:w-56"
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50 sm:w-56"
             >
               <option value="">All Instructors</option>
               {instructors.map(i => (
@@ -84,47 +84,47 @@ export default function AdminOrdersPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Customer</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Course</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Instructor</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Amount</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Method</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Date</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Customer</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Course</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Instructor</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Amount</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Method</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {filtered.map(o => (
-                <tr key={o.id} className="hover:bg-gray-50/50">
+                <tr key={o.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-navy">{o.user?.firstName} {o.user?.lastName}</div>
-                    <div className="text-xs text-gray-400">{o.user?.email}</div>
+                    <div className="text-sm font-medium text-slate-200">{o.user?.firstName} {o.user?.lastName}</div>
+                    <div className="text-xs text-slate-500">{o.user?.email}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{o.course?.title}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
+                  <td className="px-6 py-4 text-sm text-slate-300">{o.course?.title}</td>
+                  <td className="px-6 py-4 text-sm text-slate-300">
                     {o.course?.instructor
                       ? `${o.course.instructor.firstName} ${o.course.instructor.lastName}`
-                      : <span className="text-gray-300">—</span>}
+                      : <span className="text-slate-600">—</span>}
                   </td>
-                  <td className="px-6 py-4 text-sm font-medium text-navy">{formatPrice(o.amount)}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-white">{formatPrice(o.amount)}</td>
                   <td className="px-6 py-4">
-                    <span className="text-xs font-medium text-gray-500">
+                    <span className="text-xs font-medium text-slate-400">
                       {o.paymentMethod === 'BANK_TRANSFER' ? 'Bank Transfer' : o.paymentMethod || '—'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      o.paymentStatus === 'COMPLETED' ? 'bg-green-50 text-green-600' :
-                      o.paymentStatus === 'PENDING'   ? 'bg-yellow-50 text-yellow-600' :
-                                                        'bg-red-50 text-red-600'
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                      o.paymentStatus === 'COMPLETED' ? 'bg-teal-500/10 text-teal-400 border-teal-500/20' :
+                      o.paymentStatus === 'PENDING'   ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                                        'bg-red-500/10 text-red-400 border-red-500/20'
                     }`}>
                       {o.paymentStatus}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-400">
+                  <td className="px-6 py-4 text-sm text-slate-500">
                     {new Date(o.createdAt).toLocaleDateString('en-GB')}
                   </td>
                   <td className="px-6 py-4">
@@ -134,7 +134,7 @@ export default function AdminOrdersPage() {
                           onClick={() => handleAction(o.id, 'approve')}
                           disabled={actionLoading !== null}
                           title="Approve enrolment"
-                          className="flex items-center gap-1 text-xs font-semibold text-green-600 hover:text-green-700 disabled:opacity-40"
+                          className="flex items-center gap-1 text-xs font-semibold text-teal-400 hover:text-teal-300 disabled:opacity-40"
                         >
                           <CheckCircle size={15} />
                           {actionLoading === `${o.id}-approve` ? 'Approving...' : 'Approve'}
@@ -143,21 +143,21 @@ export default function AdminOrdersPage() {
                           onClick={() => handleAction(o.id, 'reject')}
                           disabled={actionLoading !== null}
                           title="Reject enrolment"
-                          className="flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-600 disabled:opacity-40"
+                          className="flex items-center gap-1 text-xs font-semibold text-red-400 hover:text-red-300 disabled:opacity-40"
                         >
                           <XCircle size={15} />
                           {actionLoading === `${o.id}-reject` ? 'Rejecting...' : 'Reject'}
                         </button>
                       </div>
                     ) : (
-                      <span className="text-xs text-gray-300">—</span>
+                      <span className="text-xs text-slate-600">—</span>
                     )}
                   </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-6 py-10 text-center text-sm text-gray-400">No orders found</td>
+                  <td colSpan={8} className="px-6 py-12 text-center text-slate-600">No orders found</td>
                 </tr>
               )}
             </tbody>

@@ -26,10 +26,8 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* Editorial dive into the four services — directly below the hero. */}
-      <FeaturesGrid />
-
-      {/* Quick-scan marketing cards. */}
+      {/* Marketing cards directly below the hero — first thing visitors see
+          on scroll: the four services FutureLine offers. */}
       <ServiceCards />
 
       <MarqueeStrip
@@ -42,6 +40,9 @@ export default function Home() {
         ]}
         speed={30}
       />
+
+      {/* Editorial deep dive into each service. */}
+      <FeaturesGrid />
 
       <CaseStudy />
 

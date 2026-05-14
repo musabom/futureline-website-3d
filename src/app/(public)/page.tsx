@@ -26,7 +26,10 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* What we offer — quick-scan marketing cards directly after the hero. */}
+      {/* Editorial dive into the four services — directly below the hero. */}
+      <FeaturesGrid />
+
+      {/* Quick-scan marketing cards. */}
       <ServiceCards />
 
       <MarqueeStrip
@@ -39,9 +42,6 @@ export default function Home() {
         ]}
         speed={30}
       />
-
-      {/* Deeper editorial dive into each service. */}
-      <FeaturesGrid />
 
       <CaseStudy />
 

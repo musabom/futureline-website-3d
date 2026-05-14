@@ -24,7 +24,14 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import {
+  ArrowRight,
+  Layers,
+  Code2,
+  Zap,
+  Compass,
+  type LucideIcon,
+} from 'lucide-react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import {
   EffectComposer,
@@ -260,13 +267,13 @@ function SceneRig({
 type ServiceCardData = {
   num: string
   name: string
+  // Brand gradient stop for the service name — keeps headline white but
+  // makes the service label visually distinct + catchy.
+  Icon: LucideIcon
   headline: string
   body: string
   href: string
   side: CardSide
-  // Side rails. pitch renders left (marketing tagline that closes the
-  // sale). cta renders right (action button — usually routes to the
-  // consultation / audit page for conversion).
   pitch: { tagline: string; caption: string }
   cta: { label: string; href: string; hint: string }
 }
@@ -275,6 +282,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
   {
     num: '01',
     name: 'Digitalisation',
+    Icon: Layers,
     headline: 'Paper out. Systems in.',
     body:
       'Replace paper trails and disconnected spreadsheets with unified digital workflows. One source of truth. Live in weeks.',
@@ -293,6 +301,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
   {
     num: '02',
     name: 'Custom Software',
+    Icon: Code2,
     headline: 'Software that fits.',
     body:
       'Purpose-built platforms shaped around your team — no recurring licence fees, no workarounds, no vendor lock-in.',
@@ -311,6 +320,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
   {
     num: '03',
     name: 'Automations',
+    Icon: Zap,
     headline: 'Robots do the boring.',
     body:
       'AI-powered workflows that route approvals, sync data, and write reports — freeing your team for work that matters.',
@@ -329,6 +339,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
   {
     num: '04',
     name: 'Consultation',
+    Icon: Compass,
     headline: 'Honest second opinion.',
     body:
       'A plain-English audit of your systems. No commission, no vendor bias — just an evidence-based read on what to fix first.',
@@ -616,7 +627,9 @@ export default function DualWalkway() {
         </div>
       </div>
 
-      {/* Centered marketing card overlay */}
+      {/* Centered marketing card overlay — each card is a clickable Link
+          to the service detail page. Service name uses brand-gradient
+          text + lucide icon for visual catchiness. */}
       <div
         className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-4"
         style={{ perspective: '1400px' }}
@@ -625,6 +638,8 @@ export default function DualWalkway() {
           {SERVICE_CARDS.map((card, i) => {
             const state: 'active' | 'incoming' | 'outgoing' =
               activeCard === i ? 'active' : activeCard > i ? 'outgoing' : 'incoming'
+
+            const Icon = card.Icon
 
             return (
               <article
@@ -639,53 +654,87 @@ export default function DualWalkway() {
                   ['--card-rotate' as string]: rotationForCard(state, card.side),
                 }}
               >
-                <div
-                  className="flex h-full flex-col justify-center rounded-2xl border border-white/[0.12] bg-black/55 p-8 backdrop-blur-md md:p-10"
+                <Link
+                  href={card.href}
+                  data-cursor="magnetic"
+                  data-cursor-strength="14"
+                  tabIndex={state === 'active' ? 0 : -1}
+                  className={[
+                    'group relative flex h-full flex-col justify-center overflow-hidden rounded-2xl p-8 backdrop-blur-md md:p-10',
+                    'transition-all duration-500',
+                    state === 'active' ? 'pointer-events-auto' : 'pointer-events-none',
+                    'hover:scale-[1.015]',
+                  ].join(' ')}
                   style={{
                     transform: `var(--card-rotate)`,
                     transformOrigin: 'center center',
-                    transition: 'transform 800ms cubic-bezier(0.22, 1, 0.36, 1)',
+                    transition: 'transform 800ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms ease, scale 400ms ease',
+                    background:
+                      'linear-gradient(140deg, rgba(0,0,0,0.62) 0%, rgba(3, 13, 26, 0.55) 100%)',
+                    border: '1px solid rgba(24, 169, 153, 0.18)',
                     boxShadow:
                       state === 'active'
-                        ? '0 30px 80px -20px rgba(24, 169, 153, 0.25), 0 0 0 1px rgba(24, 169, 153, 0.08)'
+                        ? '0 30px 80px -20px rgba(24, 169, 153, 0.35), 0 0 0 1px rgba(24, 169, 153, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.04)'
                         : 'none',
                   }}
                 >
-                  <div className="mb-8 flex items-center justify-between">
-                    <span className="font-mono text-xs tracking-[0.3em] text-lab">
+                  {/* Top accent line — brand gradient on the top edge of the card */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background:
+                        'linear-gradient(90deg, transparent 0%, rgba(24, 169, 153, 0.75) 35%, rgba(94, 218, 200, 0.5) 65%, transparent 100%)',
+                    }}
+                  />
+                  {/* Top-right glow on hover */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute right-0 top-0 h-32 w-32 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{
+                      background:
+                        'radial-gradient(circle at top right, rgba(24, 169, 153, 0.18), transparent 70%)',
+                    }}
+                  />
+
+                  {/* Top row: service name (brand gradient + icon) on left, number on right */}
+                  <div className="relative mb-8 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-lab/35 bg-lab/[0.08] text-lab transition-all duration-300 group-hover:border-lab/60 group-hover:bg-lab/[0.14] group-hover:shadow-[0_0_18px_rgba(24,169,153,0.35)]">
+                        <Icon size={16} strokeWidth={1.75} />
+                      </span>
+                      <span
+                        className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent md:text-xl"
+                      >
+                        {card.name}
+                      </span>
+                    </div>
+                    <span className="font-mono text-xs tracking-[0.3em] text-lab/80">
                       {card.num}
-                    </span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/55">
-                      {card.name}
                     </span>
                   </div>
 
-                  <h3 className="text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-white md:text-[clamp(2rem,3.4vw,3.25rem)]">
+                  <h3 className="relative text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-white md:text-[clamp(2rem,3.4vw,3.25rem)]">
                     {card.headline}
                   </h3>
 
-                  <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
+                  <p className="relative mt-6 text-base leading-relaxed text-white/70 md:text-lg">
                     {card.body}
                   </p>
 
-                  <div className="mt-10 flex items-center justify-between border-t border-white/[0.1] pt-5">
+                  <div className="relative mt-10 flex items-center justify-between border-t border-white/[0.08] pt-5">
                     <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
-                      Learn more
+                      Tap to explore
                     </span>
-                    <Link
-                      href={card.href}
-                      data-cursor="magnetic"
-                      data-cursor-strength="18"
-                      className="pointer-events-auto group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white transition-colors hover:border-lab/60 hover:bg-lab/10 hover:text-lab"
-                    >
-                      Explore {card.name.toLowerCase()}
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-lab transition-colors duration-300 group-hover:text-lab-light">
+                      Read more
                       <ArrowRight
-                        size={13}
-                        className="transition-transform duration-300 group-hover:translate-x-0.5"
+                        size={15}
+                        className="transition-transform duration-300 group-hover:translate-x-1"
                       />
-                    </Link>
+                    </span>
                   </div>
-                </div>
+                </Link>
               </article>
             )
           })}

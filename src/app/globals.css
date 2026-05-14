@@ -6,6 +6,46 @@
   body {
     @apply bg-[#030d1a] text-white antialiased;
   }
+
+  /* Lenis baseline — disable native smooth scroll, allow Lenis to take over */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Hide native cursor when CustomCursor is active (only on fine pointers + no reduced motion) */
+  @media (pointer: fine) {
+    html.cursor-custom,
+    html.cursor-custom body,
+    html.cursor-custom a,
+    html.cursor-custom button,
+    html.cursor-custom [role='button'] {
+      cursor: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html.cursor-custom,
+      html.cursor-custom body,
+      html.cursor-custom a,
+      html.cursor-custom button {
+        cursor: auto;
+      }
+    }
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(24, 169, 153, 0.35);
+    color: #fff;
+  }
 }
 
 @layer components {

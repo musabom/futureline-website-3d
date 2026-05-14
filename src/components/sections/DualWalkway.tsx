@@ -7,14 +7,19 @@
  *
  * Overlay enhancements (May 2026):
  *   • 4 marketing cards (Digitalisation, Custom Software, Automations,
- *     Consultation) appear sequentially as user scrolls through the
- *     pinned 320vh section
+ *     Consultation) appear sequentially as the user scrolls
  *   • Each card enters from a different direction (left / right /
- *     bottom / top) with a 6° Y-axis 3D tilt that settles flat
- *   • Camera counter-tilts toward the opposite side as the active
- *     card enters, creating spatial parallax
- *   • Huge faded number watermark (01-04) sits behind the corridor,
- *     reinforcing the editorial card numbering
+ *     bottom / top) with a 6° 3D tilt that settles flat
+ *   • Camera counter-tilts toward the opposite side of the active
+ *     card, creating spatial parallax (#5)
+ *   • Huge faded number watermark behind the corridor (#8)
+ *   • Per-card pole bias: when a card enters from the left, the
+ *     left (teal) wall brightens; from the right, the right (amber)
+ *     wall brightens. Driven by a `wallBoostRef` lerped each frame
+ *     into the ribbon shader's uBoost uniform. (#6)
+ *   • Scene flash on card transition: a global `pulseRef` spikes to
+ *     1.0 every time activeCard changes, decaying exponentially via
+ *     useFrame and amplifying the wall shader's uPulse uniform. (#7)
  */
 'use client'
 
@@ -34,12 +39,20 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Wall side encoded as a sign (-1 for left, +1 for right). When uBoost
+// has the matching sign, this wall brightens; otherwise it stays at
+// baseline. Lets one uniform drive bias for BOTH walls from a single
+// source-of-truth ref in the parent.
 function RibbonWall({
   side,
   color,
+  boostRef,
+  pulseRef,
 }: {
   side: 'left' | 'right'
   color: string
+  boostRef: React.MutableRefObject<number>
+  pulseRef: React.MutableRefObject<number>
 }) {
   const matRef = useRef<ShaderMaterial>(null)
   const sign = side === 'left' ? -1 : 1
@@ -50,12 +63,20 @@ function RibbonWall({
     () => ({
       uTime: { value: 0 },
       uColor: { value: colorVec },
+      uWallSign: { value: sign },
+      uBoost: { value: 0 },
+      uPulse: { value: 0 },
     }),
-    [colorVec],
+    [colorVec, sign],
   )
 
   useFrame((_, delta) => {
-    if (matRef.current) matRef.current.uniforms.uTime.value += delta
+    if (!matRef.current) return
+    matRef.current.uniforms.uTime.value += delta
+    // Mirror the ref values into shader uniforms each frame. Refs are
+    // updated by the parent based on activeCard transitions.
+    matRef.current.uniforms.uBoost.value = boostRef.current
+    matRef.current.uniforms.uPulse.value = pulseRef.current
   })
 
   return (
@@ -81,6 +102,9 @@ function RibbonWall({
           precision highp float;
           uniform float uTime;
           uniform vec3 uColor;
+          uniform float uWallSign; // -1 left, +1 right
+          uniform float uBoost;    // -1..+1, matches wall when same sign
+          uniform float uPulse;    // 0..1, global transition flash
           varying vec2 vUv;
 
           float bands(vec2 uv, float t) {
@@ -95,8 +119,15 @@ function RibbonWall({
             float baseGlow = horiz * vert * (0.4 + scroll * 0.6);
             float pulse = 0.85 + 0.15 * sin(uTime * 0.8);
 
-            vec3 col = uColor * baseGlow * pulse * 1.4;
-            gl_FragColor = vec4(col, baseGlow * 0.9);
+            // Pole bias: this wall brightens only when uBoost has the
+            // same sign as this wall (i.e. the active card is on our side)
+            float thisWallBoost = max(0.0, uBoost * uWallSign);
+
+            // Multiplier stack: base × breath × pole bias × transition flash
+            float boostFactor = 1.0 + thisWallBoost * 0.55 + uPulse * 0.35;
+
+            vec3 col = uColor * baseGlow * pulse * 1.4 * boostFactor;
+            gl_FragColor = vec4(col, baseGlow * 0.9 * (1.0 + uPulse * 0.25));
           }
         `}
       />
@@ -105,7 +136,11 @@ function RibbonWall({
 }
 
 const PARTICLE_COUNT = 240
-function Particles() {
+function Particles({
+  pulseRef,
+}: {
+  pulseRef: React.MutableRefObject<number>
+}) {
   const meshRef = useRef<InstancedMesh>(null)
   const matrix = useMemo(() => new Matrix4(), [])
   const dots = useMemo(() => {
@@ -133,11 +168,15 @@ function Particles() {
   useFrame(({ clock }) => {
     if (!meshRef.current) return
     const t = clock.elapsedTime
+    // Pulse boost: scales every particle slightly larger on transition
+    const pulse = pulseRef.current
+    const scaleBoost = 1 + pulse * 0.6
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const d = dots[i]
       const dy = Math.sin(t * d.speed + d.phase) * 0.18
       const dx = Math.cos(t * d.speed * 0.6 + d.phase) * 0.08
-      matrix.makeScale(d.size, d.size, d.size)
+      const s = d.size * scaleBoost
+      matrix.makeScale(s, s, s)
       matrix.setPosition(d.x + dx, d.y + dy, d.z)
       meshRef.current.setMatrixAt(i, matrix)
     }
@@ -158,46 +197,60 @@ function Particles() {
 // Each card has an entry "side" — the camera counter-tilts the opposite way.
 type CardSide = 'left' | 'right' | 'bottom' | 'top'
 
-// CameraRig now also smoothly counter-tilts toward the OPPOSITE side
-// of where the active card is entering, creating spatial parallax.
-function CameraRig({
+// Reusable single useFrame that runs ALL inter-frame logic that needs
+// to read multiple refs and decay the pulse. Avoids per-component
+// re-binding when components mount in different orders.
+function SceneRig({
   progressRef,
   cardSideRef,
+  wallBoostRef,
+  pulseRef,
 }: {
   progressRef: React.MutableRefObject<number>
   cardSideRef: React.MutableRefObject<CardSide>
+  wallBoostRef: React.MutableRefObject<number>
+  pulseRef: React.MutableRefObject<number>
 }) {
-  // Eased tilt value — lerped each frame toward target
+  // Eased camera lookAt — lerped each frame toward target
   const tiltX = useRef(0)
   const tiltY = useRef(0)
 
-  useFrame(({ camera, clock }) => {
+  // Lerped target for wallBoost — lets us smoothly transition between
+  // -1 (left wall) and +1 (right wall) for bias.
+  const targetBoost = useRef(0)
+
+  useFrame(({ camera, clock }, delta) => {
     const p = progressRef.current
 
-    // Base camera path — unchanged from the verbatim reference scene
+    // ── Camera path (verbatim from reference) ─────────────────────────
     camera.position.z = 5 + (-35) * p
     camera.position.x = Math.sin(clock.elapsedTime * 0.18) * 0.12
     camera.position.y = 0.35 + p * 0.1
 
-    // Target lookAt offset based on which side the active card entered.
-    // The camera tilts AWAY from the card, so the card itself appears to
-    // settle into the foreground while the corridor counter-shifts.
+    // ── Camera counter-tilt based on active card side ────────────────
     const side = cardSideRef.current
-    const targetX =
-      side === 'left' ? 0.6 : side === 'right' ? -0.6 : 0
-    const targetY =
-      side === 'top' ? -0.35 : side === 'bottom' ? 0.35 : 0
-
-    // Lerp toward target — ~250ms ease-out
+    const targetX = side === 'left' ? 0.6 : side === 'right' ? -0.6 : 0
+    const targetY = side === 'top' ? -0.35 : side === 'bottom' ? 0.35 : 0
     tiltX.current += (targetX - tiltX.current) * 0.05
     tiltY.current += (targetY - tiltY.current) * 0.05
+    camera.lookAt(tiltX.current, 0.45 + tiltY.current, camera.position.z - 8)
 
-    camera.lookAt(
-      tiltX.current,
-      0.45 + tiltY.current,
-      camera.position.z - 8,
-    )
+    // ── Wall pole bias: target wallBoost from active card side ──────
+    // left entry → -1 (left wall brightens)
+    // right entry → +1 (right wall brightens)
+    // top/bottom entries → 0 (both equal; the pulse covers transition)
+    const tgt =
+      side === 'left' ? -1 : side === 'right' ? 1 : 0
+    targetBoost.current = tgt
+    wallBoostRef.current += (targetBoost.current - wallBoostRef.current) * 0.04
+
+    // ── Pulse decay: exponential drop toward 0 per frame ────────────
+    // Pulse is set to 1.0 by the parent onUpdate callback when activeCard
+    // changes; here we decay it. Half-life ~250ms.
+    pulseRef.current *= Math.pow(0.06, delta)
+    if (pulseRef.current < 0.001) pulseRef.current = 0
   })
+
   return null
 }
 
@@ -252,44 +305,32 @@ const SERVICE_CARDS: ServiceCardData[] = [
   },
 ]
 
-// Per-side transform classes — used for off-screen (enter from / exit to)
-// and the resting active state. Includes a 3D Y-rotation tilt that
-// settles to 0 when the card is active.
 function transformForCard(state: 'active' | 'incoming' | 'outgoing', side: CardSide): string {
   if (state === 'active') {
-    return 'translate-x-0 translate-y-0 rotate-y-0 opacity-100 scale-100'
+    return 'translate-x-0 translate-y-0 opacity-100 scale-100'
   }
-  // From the side the card was assigned: it ENTERS from that direction
-  // and EXITS in the opposite (slightly upward-out) direction.
-  const enter = state === 'incoming'
-  const sign = enter ? 1 : -1
   switch (side) {
     case 'left':
-      return enter
+      return state === 'incoming'
         ? '-translate-x-24 translate-y-0 opacity-0 scale-[0.96]'
         : 'translate-x-24 -translate-y-4 opacity-0 scale-[1.04]'
     case 'right':
-      return enter
+      return state === 'incoming'
         ? 'translate-x-24 translate-y-0 opacity-0 scale-[0.96]'
         : '-translate-x-24 -translate-y-4 opacity-0 scale-[1.04]'
     case 'bottom':
-      return enter
+      return state === 'incoming'
         ? 'translate-x-0 translate-y-24 opacity-0 scale-[0.96]'
         : 'translate-x-0 -translate-y-24 opacity-0 scale-[1.04]'
     case 'top':
-      return enter
+      return state === 'incoming'
         ? 'translate-x-0 -translate-y-24 opacity-0 scale-[0.96]'
         : 'translate-x-0 translate-y-24 opacity-0 scale-[1.04]'
   }
 }
 
-// Inline 3D Y-rotation per side — Tailwind doesn't ship rotateY by
-// default, so we use inline style and let the active state animate
-// back to 0deg.
 function rotationForCard(state: 'active' | 'incoming' | 'outgoing', side: CardSide): string {
-  if (state === 'active') return 'rotateY(0deg) rotateX(0deg)'
-  if (state === 'outgoing') return 'rotateY(0deg) rotateX(0deg)'
-  // incoming — tilt away from entry direction
+  if (state === 'active' || state === 'outgoing') return 'rotateY(0deg) rotateX(0deg)'
   switch (side) {
     case 'left':
       return 'rotateY(-8deg) rotateX(0deg)'
@@ -306,6 +347,8 @@ export default function DualWalkway() {
   const sectionRef = useRef<HTMLElement>(null)
   const progressRef = useRef(0)
   const cardSideRef = useRef<CardSide>(SERVICE_CARDS[0].side)
+  const wallBoostRef = useRef(0) // -1..+1, lerped in SceneRig
+  const pulseRef = useRef(0) // 0..1, set to 1 on transition, decayed in SceneRig
   const [activeCard, setActiveCard] = useState(0)
   const reduced = usePrefersReducedMotion()
 
@@ -327,6 +370,8 @@ export default function DualWalkway() {
         setActiveCard((prev) => {
           if (prev === idx) return prev
           cardSideRef.current = SERVICE_CARDS[idx].side
+          // Fire scene-wide pulse on every card change — decays in SceneRig.
+          pulseRef.current = 1
           return idx
         })
       },
@@ -353,10 +398,25 @@ export default function DualWalkway() {
         >
           <color attach="background" args={['#000000']} />
           <ambientLight intensity={0.05} />
-          <CameraRig progressRef={progressRef} cardSideRef={cardSideRef} />
-          <RibbonWall side="left" color="#18A999" />
-          <RibbonWall side="right" color="#F5A623" />
-          <Particles />
+          <SceneRig
+            progressRef={progressRef}
+            cardSideRef={cardSideRef}
+            wallBoostRef={wallBoostRef}
+            pulseRef={pulseRef}
+          />
+          <RibbonWall
+            side="left"
+            color="#18A999"
+            boostRef={wallBoostRef}
+            pulseRef={pulseRef}
+          />
+          <RibbonWall
+            side="right"
+            color="#F5A623"
+            boostRef={wallBoostRef}
+            pulseRef={pulseRef}
+          />
+          <Particles pulseRef={pulseRef} />
           <EffectComposer multisampling={0}>
             <Bloom
               intensity={0.85}
@@ -420,8 +480,7 @@ export default function DualWalkway() {
         </span>
       </div>
 
-      {/* Centered marketing card overlay — each card enters from a
-          different direction with a 3D tilt. Camera counter-tilts. */}
+      {/* Centered marketing card overlay */}
       <div
         className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-4"
         style={{ perspective: '1400px' }}
@@ -441,11 +500,6 @@ export default function DualWalkway() {
                 ].join(' ')}
                 style={{
                   transformStyle: 'preserve-3d',
-                  // 3D rotation tilts in on entry, settles flat when active
-                  transform: undefined,
-                  // The Tailwind classes set translate + scale + opacity;
-                  // we layer the rotation as an additional inline transform
-                  // by appending it via CSS variable below.
                   ['--card-rotate' as string]: rotationForCard(state, card.side),
                 }}
               >

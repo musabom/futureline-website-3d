@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ParticleHero } from '@/components/sections/ParticleHero';
+import { ServiceCards } from '@/components/sections/ServiceCards';
 import DualWalkway from '@/components/sections/DualWalkwayLazy';
-import { FeaturesGrid } from '@/components/sections/FeaturesGrid';
 import { CaseStudy } from '@/components/sections/CaseStudy';
 import { Records } from '@/components/sections/Records';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -25,18 +25,9 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* Twin abstract corridor — FL Lab (cyan) left, FL Academy (gold) right.
-          3D scene ported verbatim from futureline-3d. */}
-      <DualWalkway />
-
-      <MarqueeStrip
-        items={['FL Lab', 'FL Academy', 'Build', 'Teach', 'Ship', 'Repeat']}
-        speed={32}
-      />
-
-      <FeaturesGrid />
-
-      <CaseStudy />
+      {/* What we offer — first thing after the hero, so visitors see services
+          immediately instead of being pulled into a 3D experience. */}
+      <ServiceCards />
 
       <MarqueeStrip
         items={[
@@ -46,7 +37,18 @@ export default function Home() {
           'Consultation',
           'Systems Built for Scale',
         ]}
-        speed={26}
+        speed={30}
+      />
+
+      <CaseStudy />
+
+      {/* Brand experience moment — the 3D corridor, now mid-page rather than
+          being the first thing on scroll. */}
+      <DualWalkway />
+
+      <MarqueeStrip
+        items={['FL Lab', 'FL Academy', 'Build', 'Teach', 'Ship', 'Repeat']}
+        speed={28}
         direction="right"
       />
 

@@ -1,20 +1,28 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Clock, MapPin, Users, Calendar, BookOpen, CheckCircle, ChevronLeft, GraduationCap } from 'lucide-react';
+import {
+  Clock,
+  MapPin,
+  Users,
+  Calendar,
+  BookOpen,
+  CheckCircle,
+  ChevronLeft,
+} from 'lucide-react';
 import EnrollButton from '@/components/EnrollButton';
 import { formatPrice } from '@/lib/utils';
+import { AnimatedText } from '@/components/ui/AnimatedText';
+import { FadeUp } from '@/components/motion/FadeUp';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-const LEVEL_COLORS: Record<string, string> = {
-  Beginner:     'bg-teal-500/20 border-teal-500/30 text-teal-400',
-  Intermediate: 'bg-blue-500/20 border-blue-500/30 text-blue-400',
-  Advanced:     'bg-purple-500/20 border-purple-500/30 text-purple-400',
-};
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const course = await prisma.course.findUnique({
     where: { slug },
@@ -33,7 +41,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function CourseDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const course = await prisma.course.findUnique({
     where: { slug },
@@ -45,160 +57,214 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
 
   if (!course || course.status !== 'PUBLISHED') return notFound();
 
-  const levelColor = LEVEL_COLORS[course.level] ?? LEVEL_COLORS.Beginner;
   const priceLabel = course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
 
   return (
-    <div className="min-h-screen bg-[#030d1a]">
-
-      {/* ── Hero banner ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-teal-900/40 via-slate-900 to-[#030d1a] border-b border-white/[0.06]">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#030d1a]/80 pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-          {/* Breadcrumb */}
+    <main className="bg-brand-bg">
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden border-b border-white/[0.06]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-academy-glow opacity-60"
+        />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
           <Link
             href="/courses"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-teal-400 transition-colors mb-6 uppercase tracking-widest font-bold"
+            data-cursor="hover"
+            className="mb-10 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45 transition-colors hover:text-academy"
           >
-            <ChevronLeft size={13} /> Course Explorer
+            <ChevronLeft size={13} /> Course catalog
           </Link>
 
-          {/* Badges */}
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className={`px-2.5 py-0.5 rounded border text-[10px] font-bold uppercase tracking-widest ${levelColor}`}>
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            <span className="rounded-full border border-academy/30 bg-academy/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-academy">
               {course.level}
             </span>
             {course.category && (
-              <span className="px-2.5 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              <span className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/65">
                 {course.category}
               </span>
             )}
-            <span className="px-2.5 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/65">
               {course.deliveryType.replace('_', ' ')}
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-4 max-w-3xl">
+          <AnimatedText
+            as="h1"
+            variant="chars"
+            className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,6vw,5.5rem)]"
+          >
             {course.title}
-          </h1>
-          <p className="text-slate-400 text-base leading-relaxed max-w-2xl mb-6">
-            {course.shortDescription}
-          </p>
+          </AnimatedText>
 
-          {/* Meta row */}
-          <div className="flex flex-wrap gap-5 text-xs text-slate-500">
-            <span className="flex items-center gap-1.5"><Clock size={13} /> {course.durationHours}h of content</span>
-            {course.instructor && (
-              <span className="flex items-center gap-1.5"><Users size={13} /> {course.instructor.firstName} {course.instructor.lastName}</span>
-            )}
-            {course.location && (
-              <span className="flex items-center gap-1.5"><MapPin size={13} /> {course.location}</span>
-            )}
-            {course.startDate && (
-              <span className="flex items-center gap-1.5">
-                <Calendar size={13} />
-                {new Date(course.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                {course.endDate && ` – ${new Date(course.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`}
+          <AnimatedText
+            as="p"
+            variant="words"
+            className="mt-8 max-w-2xl text-lg leading-relaxed text-white/65 md:text-xl"
+            delay={0.15}
+          >
+            {course.shortDescription || `Learn ${course.title} with FutureLine.`}
+          </AnimatedText>
+
+          <FadeUp delay={0.3}>
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+              <span className="flex items-center gap-2">
+                <Clock size={13} /> {course.durationHours}h of content
               </span>
-            )}
-            <span className="flex items-center gap-1.5"><Users size={13} /> {course._count.enrollments} enrolled</span>
-          </div>
+              {course.instructor && (
+                <span className="flex items-center gap-2">
+                  <Users size={13} /> {course.instructor.firstName} {course.instructor.lastName}
+                </span>
+              )}
+              {course.location && (
+                <span className="flex items-center gap-2">
+                  <MapPin size={13} /> {course.location}
+                </span>
+              )}
+              {course.startDate && (
+                <span className="flex items-center gap-2">
+                  <Calendar size={13} />
+                  {new Date(course.startDate).toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  })}
+                  {course.endDate &&
+                    ` – ${new Date(course.endDate).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    })}`}
+                </span>
+              )}
+              <span className="flex items-center gap-2">
+                <Users size={13} /> {course._count.enrollments} enrolled
+              </span>
+            </div>
+          </FadeUp>
         </div>
-      </div>
+      </section>
 
       {/* ── Body ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
-          {/* ── Left: course content ── */}
-          <div className="lg:col-span-2 space-y-10">
-
-            {/* Preview video */}
-            {course.marketingVideoUrl && (
-              <section>
-                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="w-1 h-4 rounded bg-teal-400 inline-block" /> Preview Video
-                </h2>
-                <div className="rounded-xl overflow-hidden border border-white/[0.07] bg-slate-950/40 aspect-video">
-                  <iframe
-                    src={
-                      course.marketingVideoUrl.includes('youtube.com') || course.marketingVideoUrl.includes('youtu.be')
-                        ? `https://www.youtube.com/embed/${new URL(course.marketingVideoUrl).searchParams.get('v') || course.marketingVideoUrl.split('/').pop()}`
-                        : course.marketingVideoUrl.includes('vimeo.com')
-                        ? `https://player.vimeo.com/video/${course.marketingVideoUrl.match(/\d+/)?.[0]}`
-                        : course.marketingVideoUrl
-                    }
-                    title="Course Preview"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </section>
-            )}
-
-            {/* About */}
-            {course.fullDescription && (
-              <section>
-                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="w-1 h-4 rounded bg-teal-400 inline-block" /> About This Course
-                </h2>
-                <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
-                  <p className="text-slate-400 leading-relaxed whitespace-pre-line text-sm">{course.fullDescription}</p>
-                </div>
-              </section>
-            )}
-          </div>
-
-          {/* ── Right: enrolment card ── */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl overflow-hidden">
-
-              {/* Thumbnail */}
-              <div className="h-44 relative bg-gradient-to-br from-teal-900/80 via-slate-900 to-slate-950 flex items-center justify-center">
-                <GraduationCap className="text-white/10" size={52} />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
-                <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded border text-[10px] font-bold uppercase tracking-widest backdrop-blur-md ${levelColor}`}>
-                    {course.level}
-                  </span>
-                  <span className="px-2 py-0.5 rounded bg-slate-950/50 border border-white/10 text-[10px] font-bold text-white uppercase tracking-widest backdrop-blur-md">
-                    {course.durationHours}h
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-6 space-y-5">
-                {/* Price */}
-                <div>
-                  <span className="text-3xl font-black text-white">{priceLabel}</span>
-                  {course.discountPrice && course.discountPrice < course.price && (
-                    <span className="text-sm text-slate-500 line-through ml-2">{formatPrice(course.price)}</span>
-                  )}
-                </div>
-
-                {/* Enroll */}
-                <EnrollButton courseId={course.id} slug={course.slug} price={course.discountPrice ?? course.price} />
-
-                {/* Stats */}
-                <div className="pt-4 border-t border-white/[0.06] space-y-2.5 text-xs text-slate-500">
-                  <div className="flex items-center gap-2"><Clock size={13} /> {course.durationHours} hours of content</div>
-                  <div className="flex items-center gap-2"><BookOpen size={13} /> {course._count.lessons} lessons</div>
-                  <div className="flex items-center gap-2"><Users size={13} /> {course._count.enrollments} students enrolled</div>
-                  {course.seatCapacity && (
-                    <div className="flex items-center gap-2">
-                      <CheckCircle size={13} className="text-teal-500" />
-                      {Math.max(0, course.seatCapacity - course._count.enrollments)} seats remaining
+      <section className="px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-16">
+            {/* ── Left: course content ── */}
+            <div className="space-y-16 lg:col-span-2">
+              {course.marketingVideoUrl && (
+                <FadeUp>
+                  <div>
+                    <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
+                      Preview
+                    </p>
+                    <div className="aspect-video overflow-hidden rounded-md border border-white/[0.08] bg-black">
+                      <iframe
+                        src={
+                          course.marketingVideoUrl.includes('youtube.com') ||
+                          course.marketingVideoUrl.includes('youtu.be')
+                            ? `https://www.youtube.com/embed/${
+                                new URL(course.marketingVideoUrl).searchParams.get('v') ||
+                                course.marketingVideoUrl.split('/').pop()
+                              }`
+                            : course.marketingVideoUrl.includes('vimeo.com')
+                            ? `https://player.vimeo.com/video/${
+                                course.marketingVideoUrl.match(/\d+/)?.[0]
+                              }`
+                            : course.marketingVideoUrl
+                        }
+                        title="Course preview"
+                        className="h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
-                  )}
+                  </div>
+                </FadeUp>
+              )}
+
+              {course.fullDescription && (
+                <FadeUp>
+                  <div>
+                    <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
+                      About this course
+                    </p>
+                    <AnimatedText
+                      as="h2"
+                      variant="chars"
+                      className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl"
+                    >
+                      What you&apos;ll learn.
+                    </AnimatedText>
+                    <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-white/70 md:text-lg">
+                      {course.fullDescription}
+                    </p>
+                  </div>
+                </FadeUp>
+              )}
+            </div>
+
+            {/* ── Right: enrolment card ── */}
+            <aside className="lg:col-span-1">
+              <div className="sticky top-24 overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm">
+                <div className="relative flex h-40 items-center justify-center border-b border-white/[0.06] bg-gradient-to-br from-academy/15 via-black to-black">
+                  <BookOpen className="text-white/15" size={36} />
+                  <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                    <span className="rounded-full border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-academy">
+                      {course.level}
+                    </span>
+                    <span className="rounded-full border border-white/15 bg-black/50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/75 backdrop-blur-md">
+                      {course.durationHours}h
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-6 p-6">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                      Price
+                    </p>
+                    <div className="mt-2 flex items-baseline gap-3">
+                      <span className="text-4xl font-semibold tracking-tight text-white">
+                        {priceLabel}
+                      </span>
+                      {course.discountPrice && course.discountPrice < course.price && (
+                        <span className="text-sm text-white/35 line-through">
+                          {formatPrice(course.price)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <EnrollButton
+                    courseId={course.id}
+                    slug={course.slug}
+                    price={course.discountPrice ?? course.price}
+                  />
+
+                  <div className="space-y-2.5 border-t border-white/[0.06] pt-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+                    <div className="flex items-center gap-2">
+                      <Clock size={12} /> {course.durationHours} hours of content
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <BookOpen size={12} /> {course._count.lessons} lessons
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users size={12} /> {course._count.enrollments} students enrolled
+                    </div>
+                    {course.seatCapacity && (
+                      <div className="flex items-center gap-2 text-academy">
+                        <CheckCircle size={12} />
+                        {Math.max(0, course.seatCapacity - course._count.enrollments)} seats left
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            </aside>
           </div>
-
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

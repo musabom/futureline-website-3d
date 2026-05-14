@@ -24,10 +24,10 @@ export default function AdminCoursesPage() {
   };
 
   const deleteCourse = async (id: string, isPermanent: boolean) => {
-    const msg = isPermanent 
+    const msg = isPermanent
       ? 'Are you sure you want to PERMANENTLY delete this course? This will also remove all associated students, orders, and lessons. This action cannot be undone.'
       : 'Are you sure you want to move this course to the archive? It will disappear from the user and instructor interfaces.';
-    
+
     if (!confirm(msg)) return;
     try {
       const res = await fetch(`/api/admin/courses/${id}`, { method: 'DELETE' });
@@ -91,24 +91,24 @@ export default function AdminCoursesPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-navy">Manage Courses</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-2xl font-black text-white tracking-tight">Manage Courses</h1>
+          <p className="text-slate-400 text-sm mt-1">
             {courses.filter(c => c.status !== 'DELETED').length} active courses total
-            {pendingCount > 0 && <span className="text-orange-500 font-medium ml-2">({pendingCount} pending approval)</span>}
+            {pendingCount > 0 && <span className="text-yellow-400 font-medium ml-2">({pendingCount} pending approval)</span>}
           </p>
         </div>
-        <Link href="/admin/courses/new" className="btn-primary flex items-center gap-2 text-sm">
+        <Link href="/admin/courses/new" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
           <Plus size={18} /> Add Course
         </Link>
       </div>
 
-      <div className="flex border-b border-gray-200 mb-6">
+      <div className="flex border-b border-white/[0.06] mb-6">
         <button
           onClick={() => setActiveTab('active')}
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'active'
-              ? 'text-teal border-b-2 border-teal'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'text-teal-400 border-b-2 border-teal-400'
+              : 'text-slate-500 hover:text-slate-300'
           }`}
         >
           Active Courses
@@ -117,62 +117,62 @@ export default function AdminCoursesPage() {
           onClick={() => setActiveTab('archived')}
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'archived'
-              ? 'text-teal border-b-2 border-teal'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'text-teal-400 border-b-2 border-teal-400'
+              : 'text-slate-500 hover:text-slate-300'
           }`}
         >
           Archive
           {archivedCount > 0 && (
-            <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">
+            <span className="ml-2 bg-white/10 text-slate-400 px-2 py-0.5 rounded-full text-xs">
               {archivedCount}
             </span>
           )}
         </button>
       </div>
 
-      <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
+        <div className="p-4 border-b border-white/[0.06]">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
             <input
               type="text"
               placeholder="Search courses..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input-field !pl-10"
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Title</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Instructor</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Level</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Approval</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Title</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Instructor</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Level</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Approval</th>
+                <th className="px-6 py-3 text-right text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {filtered.map((course) => (
-                <tr key={course.id} className={`hover:bg-gray-50/50 ${course.approvalStatus === 'PENDING' && course.status !== 'DELETED' ? 'bg-yellow-50/30' : ''}`}>
+                <tr key={course.id} className={`border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors ${course.approvalStatus === 'PENDING' && course.status !== 'DELETED' ? 'bg-yellow-500/[0.03]' : ''}`}>
                   <td className="px-6 py-4">
-                    <div className="font-medium text-navy text-sm">{course.title}</div>
-                    <div className="text-xs text-gray-400">{course.category}</div>
+                    <div className="font-medium text-slate-200 text-sm">{course.title}</div>
+                    <div className="text-xs text-slate-500">{course.category}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {course.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}`.trim() : <span className="text-gray-300">No instructor</span>}
+                  <td className="px-6 py-4 text-sm text-slate-300">
+                    {course.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}`.trim() : <span className="text-slate-600">No instructor</span>}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{course.level}</td>
+                  <td className="px-6 py-4 text-sm text-slate-300">{course.level}</td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                      course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
-                      course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
-                      course.status === 'DELETED' ? 'bg-red-50 text-red-600' :
-                      'bg-gray-100 text-gray-500'
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                      course.status === 'PUBLISHED' ? 'bg-teal-500/10 text-teal-400 border-teal-500/20' :
+                      course.status === 'DRAFT' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                      course.status === 'DELETED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                      'bg-white/5 text-slate-500 border-white/10'
                     }`}>{course.status}</span>
                   </td>
                   <td className="px-6 py-4">
@@ -180,27 +180,27 @@ export default function AdminCoursesPage() {
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => approveCourse(course.id)}
-                          className="p-1.5 text-green-500 hover:bg-green-50 rounded-lg"
+                          className="p-1.5 text-teal-400 hover:bg-teal-500/10 rounded-lg"
                           title="Approve"
                         >
                           <CheckCircle size={16} />
                         </button>
                         <button
                           onClick={() => setRejectingId(course.id)}
-                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg"
+                          className="p-1.5 text-red-400 hover:bg-red-500/10 rounded-lg"
                           title="Reject"
                         >
                           <XCircle size={16} />
                         </button>
-                        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600 ml-1">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 ml-1">
                           <Clock size={10} className="inline mr-1" />Pending
                         </span>
                       </div>
                     ) : (
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        course.approvalStatus === 'APPROVED' ? 'bg-green-50 text-green-600' :
-                        course.approvalStatus === 'REJECTED' ? 'bg-red-50 text-red-600' :
-                        'bg-gray-100 text-gray-500'
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                        course.approvalStatus === 'APPROVED' ? 'bg-teal-500/10 text-teal-400 border-teal-500/20' :
+                        course.approvalStatus === 'REJECTED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                        'bg-white/5 text-slate-500 border-white/10'
                       }`}>{course.approvalStatus || 'APPROVED'}</span>
                     )}
                   </td>
@@ -208,16 +208,16 @@ export default function AdminCoursesPage() {
                     <div className="flex items-center justify-end gap-2">
                       {course.status === 'DELETED' ? (
                         <>
-                          <button 
-                            onClick={() => restoreCourse(course.id)} 
-                            className="p-2 text-gray-400 hover:text-teal" 
+                          <button
+                            onClick={() => restoreCourse(course.id)}
+                            className="p-2 text-slate-500 hover:text-teal-400 transition-colors"
                             title="Restore course"
                           >
                             <RotateCcw size={16} />
                           </button>
-                          <button 
-                            onClick={() => deleteCourse(course.id, true)} 
-                            className="p-2 text-gray-400 hover:text-red-500" 
+                          <button
+                            onClick={() => deleteCourse(course.id, true)}
+                            className="p-2 text-slate-500 hover:text-red-400 transition-colors"
                             title="Delete permanently"
                           >
                             <Trash2 size={16} />
@@ -226,12 +226,12 @@ export default function AdminCoursesPage() {
                       ) : (
                         <>
                           {course.status === 'PUBLISHED' ? (
-                            <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy" title="Preview course"><Eye size={16} /></Link>
+                            <Link href={`/courses/${course.slug}`} className="p-2 text-slate-500 hover:text-slate-200 transition-colors" title="Preview course"><Eye size={16} /></Link>
                           ) : (
-                            <span className="p-2 text-gray-200 cursor-not-allowed" title="Publish course to preview it"><Eye size={16} /></span>
+                            <span className="p-2 text-slate-700 cursor-not-allowed" title="Publish course to preview it"><Eye size={16} /></span>
                           )}
-                          <Link href={`/admin/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal"><Edit size={16} /></Link>
-                          <button onClick={() => deleteCourse(course.id, false)} className="p-2 text-gray-400 hover:text-red-500" title="Move to archive"><Trash2 size={16} /></button>
+                          <Link href={`/admin/courses/${course.id}/edit`} className="p-2 text-slate-500 hover:text-teal-400 transition-colors"><Edit size={16} /></Link>
+                          <button onClick={() => deleteCourse(course.id, false)} className="p-2 text-slate-500 hover:text-red-400 transition-colors" title="Move to archive"><Trash2 size={16} /></button>
                         </>
                       )}
                     </div>
@@ -240,7 +240,7 @@ export default function AdminCoursesPage() {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-600">
                     No {activeTab === 'archived' ? 'archived' : 'active'} courses found
                   </td>
                 </tr>
@@ -251,19 +251,19 @@ export default function AdminCoursesPage() {
       </div>
 
       {rejectingId && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
-            <h3 className="text-lg font-bold text-navy mb-4">Reject Course</h3>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="rounded-xl border border-white/[0.07] bg-slate-900 p-6 w-full max-w-md mx-4">
+            <h3 className="text-lg font-bold text-white mb-4">Reject Course</h3>
             <textarea
               value={rejectReason}
               onChange={e => setRejectReason(e.target.value)}
               placeholder="Reason for rejection (optional, will be visible to instructor)"
-              className="input-field mb-4"
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full mb-4 resize-none"
               rows={3}
             />
             <div className="flex gap-3 justify-end">
-              <button onClick={() => { setRejectingId(null); setRejectReason(''); }} className="btn-secondary text-sm">Cancel</button>
-              <button onClick={() => rejectCourse(rejectingId)} className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600">Reject</button>
+              <button onClick={() => { setRejectingId(null); setRejectReason(''); }} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">Cancel</button>
+              <button onClick={() => rejectCourse(rejectingId)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/10 transition-colors">Reject</button>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { Providers } from '@/components/Providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'FutureLine - Design • Deploy • Evolve',
+  title: 'FutureLine — Systems Built for Scale',
   description: 'AI-driven solutions, professional training, and intelligent digital services.',
 };
 

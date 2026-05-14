@@ -36,76 +36,78 @@ export default function BrandSettingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-navy mb-8">Brand Settings</h1>
-      <form onSubmit={handleSubmit} className="card p-8 max-w-2xl space-y-6">
-        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg mb-4">
-          <div className="w-12 h-12 bg-brand-gradient rounded-xl flex items-center justify-center">
-            <Palette className="text-white" size={24} />
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-black text-white tracking-tight">Brand Settings</h1>
+      </div>
+      <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-8 max-w-2xl space-y-6">
+        <div className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl mb-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center">
+            <Palette className="text-white" size={22} />
           </div>
           <div>
-            <div className="font-semibold text-navy">Brand Identity</div>
-            <div className="text-sm text-gray-500">Customize your platform appearance</div>
+            <div className="font-semibold text-white">Brand Identity</div>
+            <div className="text-sm text-slate-400">Customize your platform appearance</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-            <input value={settings.companyName} onChange={e => setSettings({...settings, companyName: e.target.value})} className="input-field" />
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Company Name</label>
+            <input value={settings.companyName} onChange={e => setSettings({...settings, companyName: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
-            <input value={settings.tagline} onChange={e => setSettings({...settings, tagline: e.target.value})} className="input-field" />
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Tagline</label>
+            <input value={settings.tagline} onChange={e => setSettings({...settings, tagline: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Primary Color</label>
             <div className="flex items-center gap-3">
-              <input type="color" value={settings.primaryColor} onChange={e => setSettings({...settings, primaryColor: e.target.value})} className="w-10 h-10 rounded cursor-pointer" />
-              <input value={settings.primaryColor} onChange={e => setSettings({...settings, primaryColor: e.target.value})} className="input-field" />
+              <input type="color" value={settings.primaryColor} onChange={e => setSettings({...settings, primaryColor: e.target.value})} className="w-10 h-10 rounded-lg cursor-pointer bg-white/5 border border-white/10" />
+              <input value={settings.primaryColor} onChange={e => setSettings({...settings, primaryColor: e.target.value})} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Accent Color</label>
             <div className="flex items-center gap-3">
-              <input type="color" value={settings.accentColor} onChange={e => setSettings({...settings, accentColor: e.target.value})} className="w-10 h-10 rounded cursor-pointer" />
-              <input value={settings.accentColor} onChange={e => setSettings({...settings, accentColor: e.target.value})} className="input-field" />
+              <input type="color" value={settings.accentColor} onChange={e => setSettings({...settings, accentColor: e.target.value})} className="w-10 h-10 rounded-lg cursor-pointer bg-white/5 border border-white/10" />
+              <input value={settings.accentColor} onChange={e => setSettings({...settings, accentColor: e.target.value})} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" />
             </div>
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL</label>
-            <input value={settings.logo || ''} onChange={e => setSettings({...settings, logo: e.target.value})} className="input-field" placeholder="https://..." />
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Logo URL</label>
+            <input value={settings.logo || ''} onChange={e => setSettings({...settings, logo: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" placeholder="https://..." />
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-6 mt-2">
-          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg mb-6">
-            <div className="w-12 h-12 bg-brand-gradient rounded-xl flex items-center justify-center">
-              <Mail className="text-white" size={24} />
+        <div className="border-t border-white/[0.06] pt-6 mt-2">
+          <div className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <Mail className="text-white" size={22} />
             </div>
             <div>
-              <div className="font-semibold text-navy">Contact Emails</div>
-              <div className="text-sm text-gray-500">Public-facing email addresses shown on your website</div>
+              <div className="font-semibold text-white">Contact Emails</div>
+              <div className="text-sm text-slate-400">Public-facing email addresses shown on your website</div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email (Services)</label>
-              <input type="email" value={settings.contactEmail} onChange={e => setSettings({...settings, contactEmail: e.target.value})} className="input-field" placeholder="contact@example.com" />
-              <p className="text-xs text-gray-400 mt-1">Used on Services and Digitalisation pages</p>
+              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Contact Email (Services)</label>
+              <input type="email" value={settings.contactEmail} onChange={e => setSettings({...settings, contactEmail: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" placeholder="contact@example.com" />
+              <p className="text-xs text-slate-500 mt-1">Used on Services and Digitalisation pages</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email (Tourism)</label>
-              <input type="email" value={settings.tourismEmail} onChange={e => setSettings({...settings, tourismEmail: e.target.value})} className="input-field" placeholder="tourism@example.com" />
-              <p className="text-xs text-gray-400 mt-1">Used on the FL Tourism page</p>
+              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Contact Email (Tourism)</label>
+              <input type="email" value={settings.tourismEmail} onChange={e => setSettings({...settings, tourismEmail: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" placeholder="tourism@example.com" />
+              <p className="text-xs text-slate-500 mt-1">Used on the FL Tourism page</p>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <button type="submit" disabled={loading} className="btn-primary flex items-center gap-2">
-            <Save size={18} /> {loading ? 'Saving...' : 'Save Settings'}
+          <button type="submit" disabled={loading} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50">
+            <Save size={16} /> {loading ? 'Saving...' : 'Save Settings'}
           </button>
-          {saved && <span className="text-sm text-green-600 font-semibold">Settings saved!</span>}
+          {saved && <span className="text-sm text-teal-400 font-semibold">Settings saved!</span>}
         </div>
       </form>
     </div>

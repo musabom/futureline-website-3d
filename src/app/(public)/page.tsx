@@ -1,20 +1,88 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { ArrowRight, Brain, Rocket, TrendingUp, Star, Users, BookOpen, Cpu, Compass, GraduationCap, Briefcase, Bot } from 'lucide-react';
+import { formatPrice } from '@/lib/utils';
+import {
+  ArrowRight, BookOpen, Clock, FlaskConical,
+  Layers, Code2, Zap, MessageSquare, AlertTriangle,
+} from 'lucide-react';
+import ShaderBackground from '@/components/ui/shader-background';
+import DivisionsBackground from '@/components/ui/divisions-background-loader';
+import DivisionCard from '@/components/ui/division-card';
+import ParallaxLayer from '@/components/ui/parallax-layer';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'FutureLine — Design. Deploy. Evolve. | AI Solutions & Professional Training',
-  description: 'AI-driven solutions, professional training, and intelligent digital services that empower your business to thrive in the modern era. Explore courses, services, tourism, and AI.',
+  title: 'FutureLine — Systems Built for Scale | Digital Transformation & Custom Software',
+  description:
+    'FutureLine builds the digital systems your business needs to scale: digitalisation, custom software, intelligent automations, and expert consultation. No jargon. No lock-in. Just results.',
   openGraph: {
-    title: 'FutureLine — Design. Deploy. Evolve.',
-    description: 'AI-driven solutions, professional training, and intelligent digital services that empower your business to thrive in the modern era.',
+    title: 'FutureLine — Systems Built for Scale',
+    description:
+      'FutureLine builds the digital systems your business needs to scale: digitalisation, custom software, intelligent automations, and expert consultation.',
     type: 'website',
     url: '/',
   },
 };
+
+const CORE_SERVICES = [
+  {
+    title: 'Digitalisation',
+    href: '/services/digitalisation',
+    pain: 'Disconnected tools eating your team alive?',
+    description:
+      'Replace paper trails and siloed spreadsheets with unified digital systems. One source of truth. Zero manual reconciliation.',
+    textClass:   'text-teal-400',
+    borderClass: 'border-teal-500/20',
+    bgClass:     'bg-teal-500/10',
+    hoverClass:  'hover:border-teal-500/30 hover:shadow-teal-500/[0.08]',
+    Icon: Layers,
+  },
+  {
+    title: 'Custom Software',
+    href: '/services/custom-software',
+    pain: 'Paying for software that only half-fits?',
+    description:
+      'Purpose-built platforms that do exactly what your business needs — no bloat, no recurring licence fees, no workarounds.',
+    textClass:   'text-blue-400',
+    borderClass: 'border-blue-500/20',
+    bgClass:     'bg-blue-500/10',
+    hoverClass:  'hover:border-blue-500/30 hover:shadow-blue-500/[0.08]',
+    Icon: Code2,
+  },
+  {
+    title: 'Automations',
+    href: '/services/automations',
+    pain: 'Wasting 11+ hours a week on repetitive tasks?',
+    description:
+      'AI-powered workflows that eliminate manual work, cut errors, and free your team to focus on what actually grows the business.',
+    textClass:   'text-purple-400',
+    borderClass: 'border-purple-500/20',
+    bgClass:     'bg-purple-500/10',
+    hoverClass:  'hover:border-purple-500/30 hover:shadow-purple-500/[0.08]',
+    Icon: Zap,
+  },
+  {
+    title: 'Consultation',
+    href: '/services/consultation',
+    pain: "Not sure where to start?",
+    description:
+      'A plain-English audit of your current systems — what is slowing you down, what to fix first, and a roadmap that makes sense.',
+    textClass:   'text-amber-400',
+    borderClass: 'border-amber-500/20',
+    bgClass:     'bg-amber-500/10',
+    hoverClass:  'hover:border-amber-500/30 hover:shadow-amber-500/[0.08]',
+    Icon: MessageSquare,
+  },
+];
+
+const STATS = [
+  { value: '5 Weeks',  label: 'Avg. delivery time' },
+  { value: '11 hrs',   label: 'Saved per client, per week' },
+  { value: '$0',       label: 'Recurring licence fees' },
+  { value: '$47k',     label: 'Average cost of getting it wrong' },
+];
 
 export default async function HomePage() {
   const featuredCourses = await prisma.course.findMany({
@@ -24,296 +92,319 @@ export default async function HomePage() {
     orderBy: { createdAt: 'desc' },
   });
 
-  const services = await prisma.service.findMany({
-    where: { featured: true, status: 'ACTIVE' },
-    take: 3,
-  });
-
-  const testimonials = await prisma.testimonial.findMany({
-    where: { featured: true },
-    take: 3,
-  });
-
   return (
-    <>
-      <section className="relative bg-navy overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-90" />
-        <div className="absolute top-20 right-20 w-72 h-72 bg-teal/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-teal/5 rounded-full blur-3xl" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Design. Deploy.{' '}
-              <span className="bg-brand-gradient bg-clip-text text-transparent">Evolve.</span>
+    <div className="bg-surface text-on-surface">
+
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden">
+        {/* Background moves at 60% scroll speed */}
+        <ParallaxLayer speed={0.6} className="absolute -top-32 left-0 right-0 bottom-0">
+          <ShaderBackground className="absolute inset-0 w-full h-full" />
+          <div className="absolute inset-0 bg-surface/40 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0b1a39] pointer-events-none" />
+        </ParallaxLayer>
+
+        {/* Text layer */}
+        <ParallaxLayer speed={-0.15} className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-10 md:pb-14 flex flex-col items-center text-center">
+
+            {/* Pain-stat badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/25 mb-6">
+              <AlertTriangle size={11} className="text-red-400" />
+              <span className="text-xs font-semibold text-red-300 tracking-wide">
+                47% of digital transformation projects fail. Yours won&apos;t.
+              </span>
+            </div>
+
+            {/* Headline — block spans force two clean lines at every viewport width */}
+            <h1 className="text-5xl md:text-[68px] font-black leading-[1.1] tracking-tight mb-5 text-white max-w-4xl">
+              <span className="block">Your Business Is Scaling.</span>
+              <span className="block bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+                Your Systems Aren&apos;t.
+              </span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              AI-driven solutions, professional training, and intelligent digital services
-              that empower your business to thrive in the modern era.
+
+            {/* Subheadline — immediate, no delay */}
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+              We build the digital infrastructure that lets you grow without breaking things —
+              custom software, intelligent automations, and full digitalisation.
+              Done in weeks, not years.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/courses" className="btn-primary inline-flex items-center justify-center gap-2">
-                Explore Courses <ArrowRight size={18} />
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/services/consultation"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white font-bold text-base hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] transition-all duration-300"
+              >
+                Get a Free Systems Audit <ArrowRight size={18} />
               </Link>
-              <Link href="/services" className="btn-secondary !border-white !text-white hover:!bg-white hover:!text-navy inline-flex items-center justify-center gap-2">
-                Explore Services
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border border-white/20 text-white font-semibold text-base hover:bg-white/[0.05] transition-all duration-300"
+              >
+                See Our Services
               </Link>
             </div>
+
+            {/* Academy prompt */}
+            <div className="mt-6 flex items-center gap-3">
+              <div className="h-px w-8 bg-white/10" />
+              <Link
+                href="/courses"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] text-sm text-slate-400 hover:border-teal-500/30 hover:text-slate-200 hover:bg-white/[0.06] transition-all duration-200"
+              >
+                <BookOpen size={13} className="text-teal-400" />
+                <span>Want to upskill? <span className="text-teal-400 font-semibold">Explore FL Academy</span> — AI, systems & tech courses</span>
+                <ArrowRight size={12} className="text-slate-500" />
+              </Link>
+              <div className="h-px w-8 bg-white/10" />
+            </div>
+
           </div>
-        </div>
+        </ParallaxLayer>
       </section>
 
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal/5 rounded-full blur-3xl -translate-y-1/2" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="inline-block text-sm font-semibold text-teal tracking-wider uppercase mb-3">Our Divisions</span>
-            <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">Business Divisions</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-              Four specialised divisions delivering excellence across industries
-            </p>
+      {/* ── FL Lab Services ── */}
+      <section className="py-24 bg-[#030d1a] border-t border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Header */}
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-0.5 bg-[#18a999]" />
+                <span className="text-sm font-semibold text-[#18a999] tracking-widest uppercase flex items-center gap-2">
+                  <FlaskConical size={13} /> FL Lab
+                </span>
+              </div>
+              <h2 className="text-4xl font-black text-white tracking-tight">What We Fix</h2>
+              <p className="text-slate-400 text-sm mt-2">Four problems. Four solutions. Real results in weeks.</p>
+            </div>
+            <Link
+              href="/services"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#18a999]/30 text-[#18a999] text-sm font-bold hover:bg-[#18a999]/10 transition-colors uppercase tracking-widest"
+            >
+              All Services <ArrowRight size={14} />
+            </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Compass,
-                title: 'FL Tourism',
-                desc: 'Authentic tours & destination experiences',
-                gradient: 'from-[#0F1E3D] to-[#1B4B6D]',
-                accent: 'bg-sky-400/20 text-sky-300',
-                href: '/tourism',
-                comingSoon: false,
-              },
-              {
-                icon: GraduationCap,
-                title: 'FL Courses',
-                desc: 'Professional & technical education',
-                gradient: 'from-[#1B2C63] to-[#18A999]',
-                accent: 'bg-teal/20 text-teal-300',
-                href: '/courses',
-                comingSoon: false,
-              },
-              {
-                icon: Briefcase,
-                title: 'FL Services',
-                desc: 'Consulting & operational solutions',
-                gradient: 'from-[#0F1E3D] to-[#2D3A6E]',
-                accent: 'bg-indigo-400/20 text-indigo-300',
-                href: '/services',
-                comingSoon: false,
-              },
-              {
-                icon: Bot,
-                title: 'FL AI & Automation',
-                desc: 'Artificial intelligence & automation systems',
-                gradient: 'from-[#1B2C63] to-[#0F8B6E]',
-                accent: 'bg-emerald-400/20 text-emerald-300',
-                href: '/ai',
-                comingSoon: true,
-              },
-            ].map((division) => (
+
+          {/* Service cards — 2-col grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {CORE_SERVICES.map((service) => (
               <Link
-                key={division.title}
-                href={division.href}
-                className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                key={service.href}
+                href={service.href}
+                className={`group rounded-xl border ${service.borderClass} bg-slate-950/40 backdrop-blur-sm ${service.hoverClass} hover:shadow-xl transition-all duration-300 p-6 flex flex-col`}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${division.gradient}`} />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
-                {division.comingSoon && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <span className="px-2.5 py-1 bg-amber-400/90 text-navy text-[10px] font-bold uppercase rounded-full tracking-wider">
-                      Coming Soon
-                    </span>
-                  </div>
-                )}
-                <div className="relative p-8 flex flex-col items-center text-center min-h-[280px] justify-center">
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${division.accent} backdrop-blur-sm border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
-                    <division.icon size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{division.title}</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">{division.desc}</p>
-                  <div className="mt-6 w-12 h-0.5 bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:w-20 transition-all duration-500" />
+                {/* Icon */}
+                <div className={`w-10 h-10 rounded-lg ${service.bgClass} border ${service.borderClass} flex items-center justify-center mb-4`}>
+                  <service.Icon size={18} className={service.textClass} />
+                </div>
+
+                {/* Pain hook */}
+                <span className={`text-[11px] font-bold uppercase tracking-widest ${service.textClass} mb-1.5`}>
+                  {service.pain}
+                </span>
+
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-teal-300 transition-colors leading-snug">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-slate-400 leading-relaxed flex-1">
+                  {service.description}
+                </p>
+
+                <div className="mt-5 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+                  <span className={`text-xs font-bold ${service.textClass}`}>Learn more</span>
+                  <ArrowRight size={14} className={`${service.textClass} group-hover:translate-x-1 transition-transform`} />
                 </div>
               </Link>
             ))}
           </div>
+
+          {/* Mobile view all */}
+          <div className="mt-8 text-center sm:hidden">
+            <Link href="/services" className="inline-flex items-center gap-2 text-[#18a999] text-sm font-bold">
+              View All Services <ArrowRight size={14} />
+            </Link>
+          </div>
+
         </div>
       </section>
 
-      <section className="py-20 bg-gray-soft">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">What We Do</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">
-              Comprehensive solutions across three pillars of digital excellence
-            </p>
+      {/* ── Our Divisions ── */}
+      <section id="divisions" className="relative pt-10 pb-20 bg-surface-container-low overflow-hidden">
+        <DivisionsBackground />
+        <div className="absolute inset-0 bg-surface-container-low/70 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#0b1a39] to-transparent pointer-events-none z-10" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2
+              className="text-4xl font-black tracking-tight"
+              style={{
+                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Our Divisions
+            </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: Brain, title: 'Design', desc: 'We craft intelligent AI solutions and custom software tailored to your unique business challenges and goals.' },
-              { icon: Rocket, title: 'Deploy', desc: 'From cloud infrastructure to training delivery, we bring solutions to life with precision and reliability.' },
-              { icon: TrendingUp, title: 'Evolve', desc: 'Continuous improvement through data-driven insights, upskilling, and adaptive technology strategies.' },
-            ].map((item) => (
-              <div key={item.title} className="card p-8 text-center group hover:-translate-y-1">
-                <div className="w-16 h-16 bg-brand-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-teal/20 transition-all">
-                  <item.icon className="text-white" size={28} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <DivisionCard variant="lab"     direction="left"  />
+            <DivisionCard variant="academy" direction="right" />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats ── */}
+      <section className="py-16 bg-surface-container-low border-y border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x lg:divide-white/[0.08]">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="text-center lg:px-8">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                  {stat.value}
                 </div>
-                <h3 className="text-xl font-bold text-navy mb-3">{item.title}</h3>
-                <p className="text-gray-500 leading-relaxed">{item.desc}</p>
+                <div className="text-sm text-slate-400 font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20">
+      {/* ── Featured Courses ── */}
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex items-end justify-between mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-2">Featured Courses</h2>
-              <p className="text-gray-500">Start your learning journey today</p>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-0.5 bg-primary-container" />
+                <span className="text-sm font-semibold text-primary tracking-widest uppercase">Featured Courses</span>
+              </div>
+              <h2 className="text-4xl font-bold text-white tracking-tight">Start Learning Today</h2>
             </div>
-            <Link href="/courses" className="hidden sm:flex items-center gap-2 text-teal font-semibold hover:gap-3 transition-all">
-              View All <ArrowRight size={18} />
+            <Link
+              href="/courses"
+              className="hidden sm:flex items-center gap-2 text-primary text-sm font-semibold hover:gap-3 transition-all duration-300"
+            >
+              View All Courses <ArrowRight size={16} />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredCourses.map((course) => (
-              <Link href={`/courses/${course.slug}`} key={course.id} className="card overflow-hidden group">
-                <div className="h-48 bg-brand-gradient flex items-center justify-center">
-                  <BookOpen className="text-white/50" size={48} />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-semibold px-2 py-1 bg-teal/10 text-teal rounded-full">
-                      {course.deliveryType.replace('_', ' ')}
-                    </span>
-                    <span className="text-xs text-gray-400">{course.level}</span>
+
+          {featuredCourses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {featuredCourses.map((course) => (
+                <Link
+                  href={`/courses/${course.slug}`}
+                  key={course.id}
+                  className="group rounded-2xl overflow-hidden border border-white/[0.07] bg-surface-container hover:border-primary-container/30 hover:shadow-xl hover:shadow-primary-container/[0.08] transition-all duration-500"
+                >
+                  <div className="h-44 bg-gradient-to-br from-navy-light to-primary-container flex items-center justify-center relative overflow-hidden">
+                    <BookOpen className="text-white/25" size={56} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface-container/70 to-transparent" />
                   </div>
-                  <h3 className="text-lg font-bold text-navy mb-2 group-hover:text-teal transition-colors">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.shortDescription}</p>
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <span className="font-bold text-teal text-lg">Free</span>
-                    <span className="text-xs text-gray-400">{course.durationHours}h</span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xs font-semibold px-2.5 py-1 bg-primary-container/10 text-primary rounded-full border border-primary-container/20">
+                        {course.deliveryType.replace('_', ' ')}
+                      </span>
+                      <span className="text-xs text-on-surface-variant font-medium">{course.level}</span>
+                    </div>
+                    <h3 className="text-base font-bold text-white mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {course.title}
+                    </h3>
+                    <p className="text-sm text-on-surface-variant mb-4 line-clamp-2 leading-relaxed">
+                      {course.shortDescription}
+                    </p>
+                    <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary">
+                          {formatPrice(course.discountPrice ?? course.price)}
+                        </span>
+                        {course.discountPrice && (
+                          <span className="text-xs text-slate-600 line-through">
+                            {formatPrice(course.price)}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-on-surface-variant flex items-center gap-1">
+                        <Clock size={12} /> {course.durationHours}h
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 rounded-2xl border border-white/[0.07] bg-surface-container">
+              <BookOpen className="mx-auto mb-4 text-primary/30" size={48} />
+              <p className="text-on-surface-variant">Courses coming soon. Check back shortly.</p>
+            </div>
+          )}
+
           <div className="sm:hidden text-center mt-8">
-            <Link href="/courses" className="btn-primary inline-flex items-center gap-2">View All Courses <ArrowRight size={18} /></Link>
+            <Link
+              href="/courses"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-navy-light to-primary-container text-white font-semibold"
+            >
+              View All Courses <ArrowRight size={17} />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-navy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                AI-Powered Solutions for Your Business
-              </h2>
-              <p className="text-gray-300 mb-8 leading-relaxed">
-                Leverage cutting-edge artificial intelligence to automate processes, gain insights,
-                and stay ahead of the competition. Our AI recommendation engine can help you find
-                the perfect training path for your goals.
-              </p>
-              <Link href="/ai" className="btn-primary inline-flex items-center gap-2">
-                Explore AI Solutions <Cpu size={18} />
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { num: '50+', label: 'AI Projects Delivered' },
-                { num: '98%', label: 'Client Satisfaction' },
-                { num: '200+', label: 'Students Trained' },
-                { num: '15+', label: 'Industry Partners' },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
-                  <div className="text-3xl font-bold bg-brand-gradient bg-clip-text text-transparent mb-2">
-                    {stat.num}
-                  </div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── CTA ── */}
+      <section className="py-28 bg-[#030d1a] relative overflow-hidden border-t border-white/[0.06]">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-teal-500/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
-      {services.length > 0 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Our Services</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">Professional solutions tailored to your needs</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {services.map((service) => (
-                <div key={service.id} className="card p-8">
-                  <div className="w-12 h-12 bg-teal/10 rounded-xl flex items-center justify-center mb-4">
-                    <Cpu className="text-teal" size={24} />
-                  </div>
-                  <h3 className="text-lg font-bold text-navy mb-3">{service.title}</h3>
-                  <p className="text-sm text-gray-500 mb-4 line-clamp-3">{service.description}</p>
-                  <span className="text-xs font-semibold text-teal">{service.pricingModel}</span>
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <Link href="/services" className="btn-secondary inline-flex items-center gap-2">
-                View All Services <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-      {testimonials.length > 0 && (
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">What Our Clients Say</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((t) => (
-                <div key={t.id} className="card p-8">
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="text-yellow-400 fill-yellow-400" size={16} />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-6 leading-relaxed">&ldquo;{t.content}&rdquo;</p>
-                  <div>
-                    <div className="font-semibold text-navy">{t.name}</div>
-                    <div className="text-sm text-gray-400">{t.role}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/25 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+            <span className="text-xs font-semibold text-teal-300 tracking-widest uppercase">Don&apos;t Wait</span>
           </div>
-        </section>
-      )}
 
-      <section className="py-20 bg-brand-gradient">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Transform Your Future?
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+            The Longer You Wait,{' '}
+            <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+              The More It Costs.
+            </span>
           </h2>
-          <p className="text-xl text-white/80 mb-8">
-            Join hundreds of professionals who have upskilled with FutureLine.
-          </p>
+
+          <div className="space-y-2 mb-10 max-w-2xl mx-auto">
+            <p className="text-base text-slate-400 leading-relaxed">
+              Every week of manual processes is hours your team can&apos;t get back.
+            </p>
+            <p className="text-base text-slate-400 leading-relaxed">
+              Every failed project costs an average of $47,000.
+            </p>
+            <p className="text-base text-slate-200 leading-relaxed font-semibold">
+              Every delay is a window for your competitors to gain ground.
+            </p>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/courses" className="bg-white text-navy px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all inline-flex items-center justify-center gap-2">
-              Browse Courses <ArrowRight size={18} />
+            <Link
+              href="/services/consultation"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white font-bold text-base hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] transition-all duration-300"
+            >
+              Start with a Free Audit <ArrowRight size={18} />
             </Link>
-            <Link href="/register" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-all inline-flex items-center justify-center gap-2">
-              Create Free Account
+            <Link
+              href="/services"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border border-white/20 text-white font-semibold text-base hover:bg-white/[0.05] transition-all duration-300"
+            >
+              Browse Our Services
             </Link>
           </div>
+
         </div>
       </section>
-    </>
+
+    </div>
   );
 }

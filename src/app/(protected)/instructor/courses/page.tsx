@@ -64,9 +64,21 @@ export default function InstructorCoursesPage() {
 
   const approvalBadge = (status: string) => {
     switch (status) {
-      case 'APPROVED': return <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-600 flex items-center gap-1"><CheckCircle size={12} /> Approved</span>;
-      case 'REJECTED': return <span className="text-xs font-semibold px-2 py-1 rounded-full bg-red-50 text-red-600 flex items-center gap-1"><XCircle size={12} /> Rejected</span>;
-      default: return <span className="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-50 text-yellow-600 flex items-center gap-1"><Clock size={12} /> Pending</span>;
+      case 'APPROVED': return (
+        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center gap-1">
+          <CheckCircle size={12} /> Approved
+        </span>
+      );
+      case 'REJECTED': return (
+        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-1">
+          <XCircle size={12} /> Rejected
+        </span>
+      );
+      default: return (
+        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 flex items-center gap-1">
+          <Clock size={12} /> Pending
+        </span>
+      );
     }
   };
 
@@ -74,21 +86,21 @@ export default function InstructorCoursesPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-navy">My Courses</h1>
-          <p className="text-gray-500 mt-1">{courses.length} courses</p>
+          <h1 className="text-2xl font-black text-white tracking-tight">My Courses</h1>
+          <p className="text-slate-400 mt-1 text-sm">{courses.length} courses</p>
         </div>
-        <Link href="/instructor/courses/new" className="btn-primary flex items-center gap-2 text-sm">
+        <Link href="/instructor/courses/new" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
           <Plus size={18} /> Create Course
         </Link>
       </div>
 
-      <div className="flex border-b border-gray-200 mb-6">
+      <div className="flex border-b border-white/[0.06] mb-6">
         <button
           onClick={() => setActiveTab('active')}
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'active'
-              ? 'text-teal border-b-2 border-teal'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'text-teal-400 border-b-2 border-teal-400'
+              : 'text-slate-500 hover:text-slate-300'
           }`}
         >
           Active Courses
@@ -97,72 +109,72 @@ export default function InstructorCoursesPage() {
           onClick={() => setActiveTab('archived')}
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'archived'
-              ? 'text-teal border-b-2 border-teal'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'text-teal-400 border-b-2 border-teal-400'
+              : 'text-slate-500 hover:text-slate-300'
           }`}
         >
           Archive
           {archivedCount > 0 && (
-            <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs">
+            <span className="ml-2 bg-white/10 text-slate-400 px-2 py-0.5 rounded-full text-xs">
               {archivedCount}
             </span>
           )}
         </button>
       </div>
 
-      <div className="card overflow-hidden">
-        <div className="p-4 border-b border-gray-100">
+      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
+        <div className="p-4 border-b border-white/[0.06]">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
             <input
               type="text"
               placeholder="Search your courses..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input-field !pl-10"
+              className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Title</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Students</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Lessons</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Approval</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Title</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Students</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Lessons</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Approval</th>
+                <th className="text-right px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody>
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-gray-400">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500 text-sm">Loading...</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-gray-400">No courses found</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500 text-sm">No courses found</td></tr>
               ) : (
                 filtered.map((course) => (
-                  <tr key={course.id} className="hover:bg-gray-50/50">
+                  <tr key={course.id} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-navy text-sm">{course.title}</div>
-                      <div className="text-xs text-gray-400">{course.category}</div>
+                      <div className="font-medium text-white text-sm">{course.title}</div>
+                      <div className="text-xs text-slate-500">{course.category}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{course._count?.enrollments || 0}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{course._count?.lessons || 0}</td>
+                    <td className="px-6 py-4 text-sm text-slate-300">{course._count?.enrollments || 0}</td>
+                    <td className="px-6 py-4 text-sm text-slate-300">{course._count?.lessons || 0}</td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded-full w-fit ${
-                          course.status === 'PUBLISHED' ? 'bg-green-50 text-green-600' :
-                          course.status === 'DRAFT' ? 'bg-yellow-50 text-yellow-600' :
-                          course.status === 'DELETED' ? 'bg-red-50 text-red-600' :
-                          'bg-gray-100 text-gray-500'
+                        <span className={`text-xs font-semibold px-2 py-1 rounded-full w-fit border ${
+                          course.status === 'PUBLISHED' ? 'bg-teal-500/10 border-teal-500/20 text-teal-400' :
+                          course.status === 'DRAFT' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
+                          course.status === 'DELETED' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
+                          'bg-white/5 border-white/10 text-slate-400'
                         }`}>{course.status}</span>
                         {activeTab !== 'archived' && course.approvalStatus === 'APPROVED' && (
                           <button
                             onClick={() => togglePublish(course)}
                             className={`text-[10px] font-bold uppercase tracking-wider hover:underline ${
-                              course.status === 'PUBLISHED' ? 'text-orange-500' : 'text-teal'
+                              course.status === 'PUBLISHED' ? 'text-yellow-400' : 'text-teal-400'
                             }`}
                           >
                             {course.status === 'PUBLISHED' ? 'Unpublish' : 'Publish Now'}
@@ -174,22 +186,22 @@ export default function InstructorCoursesPage() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {activeTab === 'archived' ? (
-                          <span className="text-xs text-gray-400 italic">Hidden in archive</span>
+                          <span className="text-xs text-slate-500 italic">Hidden in archive</span>
                         ) : (
                           <>
                             {course.status === 'PUBLISHED' ? (
-                              <Link href={`/courses/${course.slug}`} className="p-2 text-gray-400 hover:text-navy" title="Preview course">
+                              <Link href={`/courses/${course.slug}`} className="p-2 text-slate-500 hover:text-white transition-colors" title="Preview course">
                                 <Eye size={16} />
                               </Link>
                             ) : (
-                              <span className="p-2 text-gray-200 cursor-not-allowed" title="Publish course to preview it">
+                              <span className="p-2 text-slate-700 cursor-not-allowed" title="Publish course to preview it">
                                 <Eye size={16} />
                               </span>
                             )}
-                            <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-gray-400 hover:text-teal" title="Edit course">
+                            <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-slate-500 hover:text-teal-400 transition-colors" title="Edit course">
                               <Edit size={16} />
                             </Link>
-                            <button onClick={() => deleteCourse(course.id)} className="p-2 text-gray-400 hover:text-red-500" title="Move to archive"><Trash2 size={16} /></button>
+                            <button onClick={() => deleteCourse(course.id)} className="p-2 text-slate-500 hover:text-red-400 transition-colors" title="Move to archive"><Trash2 size={16} /></button>
                           </>
                         )}
                       </div>
@@ -203,12 +215,12 @@ export default function InstructorCoursesPage() {
       </div>
 
       {courses.some(c => c.approvalStatus === 'REJECTED') && (
-        <div className="mt-6 card p-4 bg-red-50 border-red-100">
-          <h3 className="text-sm font-semibold text-red-700 mb-2">Rejected Courses</h3>
+        <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+          <h3 className="text-sm font-semibold text-red-400 mb-2">Rejected Courses</h3>
           {courses.filter(c => c.approvalStatus === 'REJECTED').map(c => (
-            <div key={c.id} className="text-sm text-red-600 mb-1">
+            <div key={c.id} className="text-sm text-red-400 mb-1">
               <strong>{c.title}</strong>
-              {c.rejectionReason && <span className="text-red-500"> - {c.rejectionReason}</span>}
+              {c.rejectionReason && <span className="text-red-400/70"> - {c.rejectionReason}</span>}
             </div>
           ))}
         </div>

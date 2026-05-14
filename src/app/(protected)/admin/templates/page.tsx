@@ -76,56 +76,56 @@ export default function TemplatesPage() {
   };
 
   const typeColors: Record<string, string> = {
-    WELCOME: 'bg-green-100 text-green-700',
-    PROPOSAL: 'bg-purple-100 text-purple-700',
-    FOLLOW_UP: 'bg-yellow-100 text-yellow-700',
-    CLOSING: 'bg-blue-100 text-blue-700',
-    THANK_YOU: 'bg-teal-100 text-teal-700',
-    CUSTOM: 'bg-gray-100 text-gray-700',
+    WELCOME: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
+    PROPOSAL: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
+    FOLLOW_UP: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
+    CLOSING: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
+    THANK_YOU: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
+    CUSTOM: 'bg-white/5 border-white/10 text-slate-400',
   };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <Link href="/admin/leads" className="text-gray-400 hover:text-navy"><ArrowLeft size={20} /></Link>
+          <Link href="/admin/leads" className="text-slate-500 hover:text-white transition-colors"><ArrowLeft size={20} /></Link>
           <div>
-            <h1 className="text-2xl font-bold text-navy">Email Templates</h1>
-            <p className="text-sm text-gray-500 mt-1">Create reusable message templates for your funnel</p>
+            <h1 className="text-2xl font-black text-white tracking-tight">Email Templates</h1>
+            <p className="text-sm text-slate-500 mt-1">Create reusable message templates for your funnel</p>
           </div>
         </div>
-        <button onClick={openCreate} className="btn-primary flex items-center gap-2 text-sm">
+        <button onClick={openCreate} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
           <Plus size={16} /> New Template
         </button>
       </div>
 
-      <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-blue-800 mb-2">Available Variables</h4>
+      <div className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
+        <h4 className="text-sm font-semibold text-blue-400 mb-2">Available Variables</h4>
         <div className="flex flex-wrap gap-3">
           {AVAILABLE_VARS.map(v => (
-            <div key={v.key} className="bg-white rounded px-3 py-1.5 text-sm border border-blue-100">
-              <code className="text-blue-600 font-mono text-xs">{v.key}</code>
-              <span className="text-gray-500 ml-2 text-xs">{v.desc}</span>
+            <div key={v.key} className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-1.5 text-sm">
+              <code className="text-teal-400 font-mono text-xs">{v.key}</code>
+              <span className="text-slate-500 ml-2 text-xs">{v.desc}</span>
             </div>
           ))}
         </div>
       </div>
 
       {showForm && (
-        <div className="card p-5 mb-6">
+        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-navy">{editing ? 'Edit Template' : 'New Template'}</h3>
-            <button onClick={() => setShowForm(false)} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
+            <h3 className="font-semibold text-white">{editing ? 'Edit Template' : 'New Template'}</h3>
+            <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-white transition-colors"><X size={18} /></button>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Template Name</label>
-                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="input-field" placeholder="e.g. Welcome Email" required />
+                <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Template Name</label>
+                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" placeholder="e.g. Welcome Email" required />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Type</label>
-                <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="input-field">
+                <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Type</label>
+                <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50">
                   {TEMPLATE_TYPES.map(t => (
                     <option key={t} value={t}>{t.replace('_', ' ')}</option>
                   ))}
@@ -133,17 +133,17 @@ export default function TemplatesPage() {
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Subject Line</label>
-              <input type="text" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} className="input-field" placeholder="e.g. Hi {{name}}, here's your personalised offer" required />
+              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Subject Line</label>
+              <input type="text" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" placeholder="e.g. Hi {{name}}, here's your personalised offer" required />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Message Body</label>
-              <textarea value={form.body} onChange={e => setForm({ ...form, body: e.target.value })} className="input-field" rows={8}
+              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Message Body</label>
+              <textarea value={form.body} onChange={e => setForm({ ...form, body: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50" rows={8}
                 placeholder="Dear {{name}},&#10;&#10;Thank you for your interest in {{service}}...&#10;&#10;Best regards,&#10;FutureLine Team" required />
             </div>
             <div className="flex justify-end gap-2">
-              <button type="button" onClick={() => setShowForm(false)} className="btn-secondary text-sm">Cancel</button>
-              <button type="submit" className="btn-primary text-sm">{editing ? 'Update' : 'Create'} Template</button>
+              <button type="button" onClick={() => setShowForm(false)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/5 transition-colors">Cancel</button>
+              <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">{editing ? 'Update' : 'Create'} Template</button>
             </div>
           </form>
         </div>
@@ -151,32 +151,32 @@ export default function TemplatesPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {templates.map(t => (
-          <div key={t.id} className={`card p-5 ${!t.isActive ? 'opacity-60' : ''}`}>
+          <div key={t.id} className={`rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-5 ${!t.isActive ? 'opacity-50' : ''}`}>
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold text-navy">{t.name}</h3>
-                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${typeColors[t.type] || typeColors.CUSTOM}`}>
+                  <h3 className="font-semibold text-white">{t.name}</h3>
+                  <span className={`px-2 py-0.5 rounded-lg border text-xs font-medium ${typeColors[t.type] || typeColors.CUSTOM}`}>
                     {t.type.replace('_', ' ')}
                   </span>
-                  {!t.isActive && <span className="px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-500">Inactive</span>}
+                  {!t.isActive && <span className="px-2 py-0.5 rounded-lg border border-white/10 text-xs bg-white/5 text-slate-500">Inactive</span>}
                 </div>
-                <p className="text-sm text-gray-600 mb-1"><strong>Subject:</strong> {t.subject}</p>
-                <p className="text-sm text-gray-500 line-clamp-2">{t.body}</p>
+                <p className="text-sm text-slate-400 mb-1"><strong className="text-slate-300">Subject:</strong> {t.subject}</p>
+                <p className="text-sm text-slate-500 line-clamp-2">{t.body}</p>
               </div>
               <div className="flex items-center gap-2 ml-4">
-                <button onClick={() => toggleActive(t)} className={`p-1.5 rounded ${t.isActive ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-50'}`} title={t.isActive ? 'Deactivate' : 'Activate'}>
+                <button onClick={() => toggleActive(t)} className={`p-1.5 rounded-lg transition-colors ${t.isActive ? 'text-teal-400 hover:bg-teal-500/10' : 'text-slate-500 hover:bg-white/5'}`} title={t.isActive ? 'Deactivate' : 'Activate'}>
                   <Check size={16} />
                 </button>
-                <button onClick={() => openEdit(t)} className="p-1.5 rounded text-gray-400 hover:bg-gray-50 hover:text-navy"><Edit2 size={16} /></button>
-                <button onClick={() => deleteTemplate(t.id)} className="p-1.5 rounded text-gray-400 hover:bg-red-50 hover:text-red-600"><Trash2 size={16} /></button>
+                <button onClick={() => openEdit(t)} className="p-1.5 rounded-lg text-slate-500 hover:bg-white/5 hover:text-white transition-colors"><Edit2 size={16} /></button>
+                <button onClick={() => deleteTemplate(t.id)} className="p-1.5 rounded-lg text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition-colors"><Trash2 size={16} /></button>
               </div>
             </div>
           </div>
         ))}
         {templates.length === 0 && !loading && (
-          <div className="text-center py-12 text-gray-400">
-            <FileText size={48} className="mx-auto mb-3 opacity-50" />
+          <div className="text-center py-12 text-slate-500">
+            <FileText size={48} className="mx-auto mb-3 opacity-30" />
             <p>No templates yet. Create your first template to get started.</p>
           </div>
         )}

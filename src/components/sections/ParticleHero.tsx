@@ -1,15 +1,15 @@
 /**
- * ParticleHero — video-backed cinematic hero.
+ * ParticleHero — video-backed cinematic hero with FutureLine brand wordmark.
  *
- * Verbatim port from muayadkhamis96-sudo/futureline-3d. Structure, animation,
- * RGB-split glitch keyframes — all unchanged. Only the visible copy (wordmark
- * caps, subhead, eyebrow stat, CTAs) is FutureLine content.
- *
- * Asset: /hero.mp4 (~218KB looping video from the reference repo).
+ * The video is the verbatim Kling asset from the reference repo, but tinted
+ * heavily with navy + teal so it reads as FutureLine atmosphere rather than
+ * borrowed sci-fi. The wordmark uses the original FutureLine brand
+ * treatment — "FutureLine" mixed case, teal→blue gradient text — not the
+ * reference's all-caps glitching white wordmark.
  */
-'use client'
+'use client';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
 export function ParticleHero() {
   return (
@@ -18,6 +18,7 @@ export function ParticleHero() {
       aria-labelledby="hero-heading"
       className="relative h-screen w-full overflow-hidden bg-black"
     >
+      {/* Verbatim video asset, kept as the visual base */}
       <video
         aria-hidden="true"
         autoPlay
@@ -27,32 +28,70 @@ export function ParticleHero() {
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover"
         onError={(e) => {
-          ;(e.currentTarget as HTMLVideoElement).style.display = 'none'
+          ;(e.currentTarget as HTMLVideoElement).style.display = 'none';
         }}
       >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
 
+      {/* Brand color-grade — strong navy base + teal wash so the video reads
+          as FutureLine atmosphere, not generic sci-fi */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.6) 100%)',
+            'linear-gradient(135deg, rgba(15, 30, 61, 0.65), rgba(10, 20, 40, 0.78))',
+          mixBlendMode: 'multiply',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at 30% 70%, rgba(24, 169, 153, 0.28), transparent 55%),' +
+            'radial-gradient(ellipse at 70% 30%, rgba(27, 44, 99, 0.5), transparent 60%)',
+          mixBlendMode: 'screen',
+        }}
+      />
+      {/* Center vignette — keeps the wordmark legible */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(3, 13, 26, 0.75) 100%)',
         }}
       />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-        <p className="hero-eyebrow mb-8 font-mono text-xs uppercase tracking-[0.4em] text-white/55">
+        <p className="hero-eyebrow mb-8 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-white/70">
+          <span
+            aria-hidden
+            className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]"
+          />
           Design · Deploy · Evolve
         </p>
         <h1
           id="hero-heading"
-          className="hero-wordmark text-5xl font-semibold leading-[0.95] tracking-[-0.04em] text-white md:text-[clamp(4rem,12vw,12rem)]"
+          className="hero-wordmark text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-[clamp(4rem,12vw,12rem)]"
         >
-          FUTURELINE
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #20C5B3 0%, #18A999 35%, #5edac8 55%, #b6c4ff 80%, #36467e 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter:
+                'drop-shadow(0 0 24px rgba(24, 169, 153, 0.18)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4))',
+            }}
+          >
+            FutureLine
+          </span>
         </h1>
-        <p className="hero-sub mt-10 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+        <p className="hero-sub mt-10 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
           Your business is scaling. Your systems aren&apos;t.
           <br className="hidden md:inline" />
           We build the digital infrastructure that lets you grow without breaking things.
@@ -69,7 +108,7 @@ export function ParticleHero() {
           <Link
             href="/services"
             data-cursor="hover"
-            className="ml-2 px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
+            className="ml-2 px-3 py-3 text-sm text-white/80 transition-colors hover:text-white"
           >
             See our services →
           </Link>
@@ -78,7 +117,7 @@ export function ParticleHero() {
 
       <div
         aria-hidden="true"
-        className="hero-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.3em] text-white/40"
+        className="hero-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-white/45"
       >
         ↓ scroll
       </div>
@@ -92,12 +131,7 @@ export function ParticleHero() {
         .hero-wordmark {
           opacity: 0;
           transform: scale(0.97);
-          text-shadow:
-            -2px 0 0 rgba(244, 114, 182, 0),
-            2px 0 0 rgba(125, 211, 252, 0);
-          animation:
-            heroWordmark 1500ms cubic-bezier(0.16, 1, 0.3, 1) 800ms forwards,
-            heroGlitch 7s infinite 4s;
+          animation: heroWordmark 1500ms cubic-bezier(0.16, 1, 0.3, 1) 800ms forwards;
         }
         .hero-sub {
           opacity: 0;
@@ -122,40 +156,8 @@ export function ParticleHero() {
         }
         @keyframes heroWordmark {
           to {
-            opacity: 0.97;
+            opacity: 1;
             transform: scale(1);
-            text-shadow:
-              -2px 0 0 rgba(244, 114, 182, 0.55),
-              2px 0 0 rgba(125, 211, 252, 0.55);
-          }
-        }
-        @keyframes heroGlitch {
-          0%, 88%, 100% {
-            transform: translate(0);
-            text-shadow:
-              -2px 0 0 rgba(244, 114, 182, 0.55),
-              2px 0 0 rgba(125, 211, 252, 0.55);
-          }
-          89% {
-            transform: translate(-3px, 0);
-            text-shadow:
-              -6px 0 0 rgba(244, 114, 182, 0.85),
-              6px 0 0 rgba(125, 211, 252, 0.85);
-          }
-          90.5% {
-            transform: translate(2px, -1px);
-            text-shadow:
-              4px 0 0 rgba(244, 114, 182, 0.9),
-              -4px 0 0 rgba(125, 211, 252, 0.8);
-          }
-          92% {
-            transform: translate(-1px, 1px);
-            text-shadow:
-              -5px 0 0 rgba(244, 114, 182, 0.7),
-              5px 0 0 rgba(125, 211, 252, 0.7);
-          }
-          93.5% {
-            transform: translate(0);
           }
         }
         @keyframes scrollBob {
@@ -180,5 +182,5 @@ export function ParticleHero() {
         }
       `}</style>
     </section>
-  )
+  );
 }

@@ -55,8 +55,8 @@ export default function Footer() {
                 aria-hidden="true"
                 className="h-2 w-2 rounded-full bg-lab shadow-[0_0_12px_2px_rgba(24,169,153,0.55)]"
               />
-              <span className="text-sm font-semibold tracking-[0.08em] text-white">
-                FUTURELINE
+              <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent">
+                {strings.brand.name}
               </span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">

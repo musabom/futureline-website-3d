@@ -264,10 +264,11 @@ type ServiceCardData = {
   body: string
   href: string
   side: CardSide
-  // Side-rail stats. painStat renders left (faded white, "the world
-  // without us"). outcomeStat renders right (brand teal, "with us").
-  painStat: { value: string; label: string }
-  outcomeStat: { value: string; label: string }
+  // Side rails. pitch renders left (marketing tagline that closes the
+  // sale). cta renders right (action button — usually routes to the
+  // consultation / audit page for conversion).
+  pitch: { tagline: string; caption: string }
+  cta: { label: string; href: string; hint: string }
 }
 
 const SERVICE_CARDS: ServiceCardData[] = [
@@ -279,8 +280,15 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'Replace paper trails and disconnected spreadsheets with unified digital workflows. One source of truth. Live in weeks.',
     href: '/services/digitalisation',
     side: 'left',
-    painStat: { value: '11 hrs/wk', label: 'Wasted on manual work' },
-    outcomeStat: { value: '5 wks', label: 'To live system' },
+    pitch: {
+      tagline: 'Live in weeks.',
+      caption: 'Not years. One source of truth, your team will actually use.',
+    },
+    cta: {
+      label: 'Get a free audit',
+      href: '/services/consultation',
+      hint: 'No commitment · 30-min call',
+    },
   },
   {
     num: '02',
@@ -290,8 +298,15 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'Purpose-built platforms shaped around your team — no recurring licence fees, no workarounds, no vendor lock-in.',
     href: '/services/custom-software',
     side: 'right',
-    painStat: { value: '$12k/yr', label: 'SaaS licences' },
-    outcomeStat: { value: '$0', label: 'Ongoing cost' },
+    pitch: {
+      tagline: 'Own it forever.',
+      caption: 'No licence tax. No vendor lock-in. Just software that fits.',
+    },
+    cta: {
+      label: 'Design my system',
+      href: '/services/consultation',
+      hint: 'Free scoping call · No deck',
+    },
   },
   {
     num: '03',
@@ -301,8 +316,15 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'AI-powered workflows that route approvals, sync data, and write reports — freeing your team for work that matters.',
     href: '/services/automations',
     side: 'bottom',
-    painStat: { value: '19 hrs/wk', label: 'On manual tasks' },
-    outcomeStat: { value: 'Error-free', label: 'Routing & reports' },
+    pitch: {
+      tagline: 'Free your team.',
+      caption: 'Approvals routed. Reports written. Days back in everyone’s week.',
+    },
+    cta: {
+      label: 'Map my workflow',
+      href: '/services/consultation',
+      hint: 'Free workflow audit · Top 3 wins',
+    },
   },
   {
     num: '04',
@@ -312,8 +334,15 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'A plain-English audit of your systems. No commission, no vendor bias — just an evidence-based read on what to fix first.',
     href: '/services/consultation',
     side: 'top',
-    painStat: { value: '47%', label: 'Of projects fail' },
-    outcomeStat: { value: 'Free', label: 'First audit' },
+    pitch: {
+      tagline: 'No commission. Ever.',
+      caption: 'Independent advice. Plain English. We tell you what to fix first.',
+    },
+    cta: {
+      label: 'Book free session',
+      href: '/services/consultation',
+      hint: 'No pitch deck · No hard sell',
+    },
   },
 ]
 
@@ -492,19 +521,18 @@ export default function DualWalkway() {
         </span>
       </div>
 
-      {/* Side-rail floating stats — pain (left, faded) + outcome (right, teal).
-          Hidden on small screens (under md) so they don't compete with the
-          centered card. Crossfade as activeCard changes. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[8] hidden md:block"
-      >
-        {/* Left: pain stat — faded white, off-axis tilt */}
+      {/* Side rails — marketing pitch (left) + action CTA (right). The
+          right column is interactive: pointer-events enabled on the CTA
+          itself so users can click through to consultation. Hidden under
+          md so they don't crowd mobile. */}
+      <div className="pointer-events-none absolute inset-0 z-[8] hidden md:block">
+        {/* Left: marketing pitch — big tagline + caption */}
         <div className="absolute inset-y-0 left-[4%] flex flex-col justify-center xl:left-[8%]">
-          <div className="relative h-44 w-56 lg:w-64">
+          <div className="relative h-44 w-60 lg:w-72">
             {SERVICE_CARDS.map((card, i) => (
               <div
                 key={card.num}
+                aria-hidden={activeCard !== i}
                 className={[
                   'absolute inset-0 flex flex-col justify-center transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
                   activeCard === i
@@ -515,26 +543,32 @@ export default function DualWalkway() {
                 ].join(' ')}
                 style={{ transform: `rotate(-2deg)` }}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30">
-                  Without us
+                <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-lab/85">
+                  FL · Lab
                 </p>
-                <p className="mt-3 font-semibold leading-[0.95] tracking-[-0.02em] text-white/40 [font-size:clamp(2.5rem,4.5vw,4.5rem)]">
-                  {card.painStat.value}
+                <p
+                  className="mt-3 font-semibold leading-[0.95] tracking-[-0.02em] text-white [font-size:clamp(2rem,3.6vw,3.5rem)]"
+                  style={{
+                    textShadow: '0 2px 16px rgba(0, 0, 0, 0.6)',
+                  }}
+                >
+                  {card.pitch.tagline}
                 </p>
-                <p className="mt-2 max-w-[14ch] text-xs leading-relaxed text-white/35 lg:text-sm">
-                  {card.painStat.label}
+                <p className="mt-3 max-w-[24ch] text-sm leading-relaxed text-white/65">
+                  {card.pitch.caption}
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right: outcome stat — brand teal, opposite tilt */}
+        {/* Right: action CTA — pill button + hint underneath */}
         <div className="absolute inset-y-0 right-[4%] flex flex-col justify-center xl:right-[8%]">
-          <div className="relative h-44 w-56 text-right lg:w-64">
+          <div className="relative h-44 w-60 text-right lg:w-72">
             {SERVICE_CARDS.map((card, i) => (
               <div
                 key={card.num}
+                aria-hidden={activeCard !== i}
                 className={[
                   'absolute inset-0 flex flex-col items-end justify-center transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
                   activeCard === i
@@ -545,19 +579,36 @@ export default function DualWalkway() {
                 ].join(' ')}
                 style={{ transform: `rotate(2deg)` }}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lab/85">
-                  With us
+                <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-lab/85">
+                  Start here
                 </p>
-                <p
-                  className="mt-3 font-semibold leading-[0.95] tracking-[-0.02em] text-lab [font-size:clamp(2.5rem,4.5vw,4.5rem)]"
+                <Link
+                  href={card.cta.href}
+                  data-cursor="magnetic"
+                  data-cursor-strength="24"
+                  className={[
+                    'pointer-events-auto group mt-4 inline-flex items-center gap-2.5 rounded-full bg-lab px-7 py-4 font-semibold text-black transition-all duration-300',
+                    'hover:bg-lab-light hover:shadow-[0_0_36px_rgba(24,169,153,0.5)]',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-lab/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+                    activeCard === i ? '' : 'pointer-events-none',
+                  ].join(' ')}
                   style={{
-                    textShadow: '0 0 28px rgba(24, 169, 153, 0.35)',
+                    boxShadow:
+                      activeCard === i
+                        ? '0 14px 40px -10px rgba(24, 169, 153, 0.55)'
+                        : 'none',
+                    fontSize: 'clamp(0.95rem, 1.1vw, 1.1rem)',
                   }}
+                  tabIndex={activeCard === i ? 0 : -1}
                 >
-                  {card.outcomeStat.value}
-                </p>
-                <p className="mt-2 max-w-[14ch] text-xs leading-relaxed text-white/55 lg:text-sm">
-                  {card.outcomeStat.label}
+                  {card.cta.label}
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+                <p className="mt-3 max-w-[24ch] text-xs leading-relaxed text-white/55">
+                  {card.cta.hint}
                 </p>
               </div>
             ))}

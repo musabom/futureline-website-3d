@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ParticleHero } from '@/components/sections/ParticleHero';
-import { ServiceCards } from '@/components/sections/ServiceCards';
 import DualWalkway from '@/components/sections/DualWalkwayLazy';
+import { ServiceCards } from '@/components/sections/ServiceCards';
 import { FeaturesGrid } from '@/components/sections/FeaturesGrid';
 import { CaseStudy } from '@/components/sections/CaseStudy';
 import { Records } from '@/components/sections/Records';
@@ -26,8 +26,11 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* Marketing cards directly below the hero — first thing visitors see
-          on scroll: the four services FutureLine offers. */}
+      {/* The twin-corridor brand moment — directly below the hero.
+          FL Lab (teal) + FL Academy (amber). */}
+      <DualWalkway />
+
+      {/* Quick-scan marketing cards for the four services. */}
       <ServiceCards />
 
       <MarqueeStrip
@@ -45,10 +48,6 @@ export default function Home() {
       <FeaturesGrid />
 
       <CaseStudy />
-
-      {/* Brand experience moment — the 3D corridor, mid-page rather than
-          being the first thing on scroll. */}
-      <DualWalkway />
 
       <MarqueeStrip
         items={['FL Lab', 'FL Academy', 'Build', 'Teach', 'Ship', 'Repeat']}

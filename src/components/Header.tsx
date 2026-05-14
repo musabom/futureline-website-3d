@@ -1,72 +1,112 @@
 'use client';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { strings } from '@/lib/strings';
 
 export default function Header() {
   const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Transparent over hero, glass + hairline once scrolled past the fold.
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 32));
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const navLinks = [
+    { href: '/services', label: 'Services' },
     { href: '/courses', label: strings.nav.courses },
-    { href: '/services', label: 'Solutions' },
-    { href: '/#divisions', label: 'Divisions' },
     { href: '/ai', label: 'AI' },
   ];
 
+  const headerClass = [
+    'sticky top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500',
+    scrolled || mobileOpen
+      ? 'bg-black/65 backdrop-blur-md border-b border-white/[0.06]'
+      : 'bg-transparent border-b border-transparent',
+  ].join(' ');
+
+  const linkClass =
+    'text-[13px] font-medium text-white/70 transition-colors hover:text-white';
+
   return (
-    <header className="bg-surface/80 backdrop-blur-md border-b border-white/[0.08] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center">
-            <span className="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">{strings.brand.name}</span>
+    <header className={headerClass} aria-label="Primary">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5"
+            aria-label="FutureLine home"
+            data-cursor="hover"
+          >
+            <span
+              aria-hidden="true"
+              className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_12px_2px_rgba(24,169,153,0.55)] transition-shadow group-hover:shadow-[0_0_16px_3px_rgba(24,169,153,0.75)]"
+            />
+            <span className="text-sm font-semibold tracking-[0.08em] text-white">
+              FUTURELINE
+            </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-on-surface-variant hover:text-white text-sm font-medium transition-colors duration-200"
+                className={linkClass}
+                data-cursor="hover"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden items-center gap-3 md:flex">
             {session ? (
-              <div className="flex items-center gap-4">
+              <>
                 {session.user.role === 'ADMIN' ? (
-                  <Link href="/admin" className="text-on-surface-variant hover:text-white text-sm font-medium transition-colors">
+                  <Link href="/admin" className={linkClass} data-cursor="hover">
                     {strings.nav.admin}
                   </Link>
                 ) : session.user.role === 'INSTRUCTOR' ? (
-                  <Link href="/instructor" className="text-on-surface-variant hover:text-white text-sm font-medium transition-colors">
+                  <Link href="/instructor" className={linkClass} data-cursor="hover">
                     Dashboard
                   </Link>
                 ) : (
-                  <Link href="/dashboard" className="text-on-surface-variant hover:text-white text-sm font-medium transition-colors">
+                  <Link href="/dashboard" className={linkClass} data-cursor="hover">
                     {strings.nav.dashboard}
                   </Link>
                 )}
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="text-sm text-on-surface-variant hover:text-white font-medium transition-colors"
+                  className={linkClass}
+                  data-cursor="hover"
                 >
                   {strings.nav.signOut}
                 </button>
-              </div>
+              </>
             ) : (
               <>
-                <Link href="/login" className="text-on-surface-variant hover:text-white text-sm font-medium transition-colors">
+                <Link href="/login" className={linkClass} data-cursor="hover">
                   {strings.nav.signIn}
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2 rounded-lg bg-primary-container text-[#003731] text-sm font-semibold hover:bg-primary hover:shadow-lg hover:shadow-teal/20 transition-all duration-300"
+                  data-cursor="magnetic"
+                  data-cursor-strength="18"
+                  className="rounded-full bg-white px-4 py-2 text-[13px] font-medium text-black transition-colors hover:bg-white/90"
                 >
                   {strings.nav.getStarted}
                 </Link>
@@ -75,49 +115,62 @@ export default function Header() {
           </div>
 
           <button
-            className="md:hidden p-2 text-white"
+            className="p-2 text-white/80 transition-colors hover:text-white md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
         {mobileOpen && (
-          <div className="md:hidden pb-4 border-t border-white/[0.08] mt-2 pt-4 flex flex-col gap-3">
+          <div className="flex flex-col gap-1 border-t border-white/[0.06] py-3 md:hidden">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-on-surface-variant hover:text-white text-sm font-medium px-2 py-1 transition-colors"
+                className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
+            <div className="my-2 h-px bg-white/[0.06]" />
             {session ? (
               <>
                 <Link
-                  href={session.user.role === 'ADMIN' ? '/admin' : session.user.role === 'INSTRUCTOR' ? '/instructor' : '/dashboard'}
-                  className="text-on-surface-variant hover:text-white text-sm font-medium px-2 py-1"
+                  href={
+                    session.user.role === 'ADMIN'
+                      ? '/admin'
+                      : session.user.role === 'INSTRUCTOR'
+                      ? '/instructor'
+                      : '/dashboard'
+                  }
+                  className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
                   onClick={() => setMobileOpen(false)}
                 >
                   {strings.nav.dashboard}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="text-left text-on-surface-variant hover:text-white text-sm font-medium px-2 py-1"
+                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
                 >
                   {strings.nav.signOut}
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="text-on-surface-variant hover:text-white text-sm font-medium px-2 py-1" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/login"
+                  className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
+                  onClick={() => setMobileOpen(false)}
+                >
                   {strings.nav.signIn}
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2.5 rounded-lg bg-primary-container text-[#003731] text-sm font-semibold text-center"
+                  className="mt-1 rounded-full bg-white px-4 py-2.5 text-center text-sm font-medium text-black transition-colors hover:bg-white/90"
                   onClick={() => setMobileOpen(false)}
                 >
                   {strings.nav.getStarted}

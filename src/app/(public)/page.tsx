@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ParticleHero } from '@/components/sections/ParticleHero';
 import { ServiceCards } from '@/components/sections/ServiceCards';
 import DualWalkway from '@/components/sections/DualWalkwayLazy';
+import { FeaturesGrid } from '@/components/sections/FeaturesGrid';
 import { CaseStudy } from '@/components/sections/CaseStudy';
 import { Records } from '@/components/sections/Records';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -25,8 +26,7 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* What we offer — first thing after the hero, so visitors see services
-          immediately instead of being pulled into a 3D experience. */}
+      {/* What we offer — quick-scan marketing cards directly after the hero. */}
       <ServiceCards />
 
       <MarqueeStrip
@@ -40,9 +40,12 @@ export default function Home() {
         speed={30}
       />
 
+      {/* Deeper editorial dive into each service. */}
+      <FeaturesGrid />
+
       <CaseStudy />
 
-      {/* Brand experience moment — the 3D corridor, now mid-page rather than
+      {/* Brand experience moment — the 3D corridor, mid-page rather than
           being the first thing on scroll. */}
       <DualWalkway />
 

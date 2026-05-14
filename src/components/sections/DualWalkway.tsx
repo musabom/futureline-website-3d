@@ -264,6 +264,10 @@ type ServiceCardData = {
   body: string
   href: string
   side: CardSide
+  // Side-rail stats. painStat renders left (faded white, "the world
+  // without us"). outcomeStat renders right (brand teal, "with us").
+  painStat: { value: string; label: string }
+  outcomeStat: { value: string; label: string }
 }
 
 const SERVICE_CARDS: ServiceCardData[] = [
@@ -275,6 +279,8 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'Replace paper trails and disconnected spreadsheets with unified digital workflows. One source of truth. Live in weeks.',
     href: '/services/digitalisation',
     side: 'left',
+    painStat: { value: '11 hrs/wk', label: 'Wasted on manual work' },
+    outcomeStat: { value: '5 wks', label: 'To live system' },
   },
   {
     num: '02',
@@ -284,6 +290,8 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'Purpose-built platforms shaped around your team — no recurring licence fees, no workarounds, no vendor lock-in.',
     href: '/services/custom-software',
     side: 'right',
+    painStat: { value: '$12k/yr', label: 'SaaS licences' },
+    outcomeStat: { value: '$0', label: 'Ongoing cost' },
   },
   {
     num: '03',
@@ -293,6 +301,8 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'AI-powered workflows that route approvals, sync data, and write reports — freeing your team for work that matters.',
     href: '/services/automations',
     side: 'bottom',
+    painStat: { value: '19 hrs/wk', label: 'On manual tasks' },
+    outcomeStat: { value: 'Error-free', label: 'Routing & reports' },
   },
   {
     num: '04',
@@ -302,6 +312,8 @@ const SERVICE_CARDS: ServiceCardData[] = [
       'A plain-English audit of your systems. No commission, no vendor bias — just an evidence-based read on what to fix first.',
     href: '/services/consultation',
     side: 'top',
+    painStat: { value: '47%', label: 'Of projects fail' },
+    outcomeStat: { value: 'Free', label: 'First audit' },
   },
 ]
 
@@ -478,6 +490,79 @@ export default function DualWalkway() {
         >
           {activeCardNum}
         </span>
+      </div>
+
+      {/* Side-rail floating stats — pain (left, faded) + outcome (right, teal).
+          Hidden on small screens (under md) so they don't compete with the
+          centered card. Crossfade as activeCard changes. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[8] hidden md:block"
+      >
+        {/* Left: pain stat — faded white, off-axis tilt */}
+        <div className="absolute inset-y-0 left-[4%] flex flex-col justify-center xl:left-[8%]">
+          <div className="relative h-44 w-56 lg:w-64">
+            {SERVICE_CARDS.map((card, i) => (
+              <div
+                key={card.num}
+                className={[
+                  'absolute inset-0 flex flex-col justify-center transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                  activeCard === i
+                    ? 'opacity-100 translate-y-0'
+                    : activeCard > i
+                    ? 'opacity-0 -translate-y-6'
+                    : 'opacity-0 translate-y-6',
+                ].join(' ')}
+                style={{ transform: `rotate(-2deg)` }}
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30">
+                  Without us
+                </p>
+                <p className="mt-3 font-semibold leading-[0.95] tracking-[-0.02em] text-white/40 [font-size:clamp(2.5rem,4.5vw,4.5rem)]">
+                  {card.painStat.value}
+                </p>
+                <p className="mt-2 max-w-[14ch] text-xs leading-relaxed text-white/35 lg:text-sm">
+                  {card.painStat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: outcome stat — brand teal, opposite tilt */}
+        <div className="absolute inset-y-0 right-[4%] flex flex-col justify-center xl:right-[8%]">
+          <div className="relative h-44 w-56 text-right lg:w-64">
+            {SERVICE_CARDS.map((card, i) => (
+              <div
+                key={card.num}
+                className={[
+                  'absolute inset-0 flex flex-col items-end justify-center transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                  activeCard === i
+                    ? 'opacity-100 translate-y-0'
+                    : activeCard > i
+                    ? 'opacity-0 -translate-y-6'
+                    : 'opacity-0 translate-y-6',
+                ].join(' ')}
+                style={{ transform: `rotate(2deg)` }}
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lab/85">
+                  With us
+                </p>
+                <p
+                  className="mt-3 font-semibold leading-[0.95] tracking-[-0.02em] text-lab [font-size:clamp(2.5rem,4.5vw,4.5rem)]"
+                  style={{
+                    textShadow: '0 0 28px rgba(24, 169, 153, 0.35)',
+                  }}
+                >
+                  {card.outcomeStat.value}
+                </p>
+                <p className="mt-2 max-w-[14ch] text-xs leading-relaxed text-white/55 lg:text-sm">
+                  {card.outcomeStat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Centered marketing card overlay */}

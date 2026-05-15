@@ -720,10 +720,10 @@ export default function NeuralPathway() {
           className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-3xl font-black tracking-tight text-transparent md:text-5xl"
           style={{ letterSpacing: '-0.02em' }}
         >
-          Connect the dots.
+          Turn AI into income.
         </h3>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-white/60 md:text-base">
-          Four learning tracks. One operator&apos;s stack. Tap any node to start.
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-white/65 md:text-base">
+          Stop consuming AI content. Start building with it — and getting paid. Tap any track to start your run.
         </p>
       </div>
 

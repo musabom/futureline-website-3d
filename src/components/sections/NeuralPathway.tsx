@@ -53,6 +53,14 @@ type TopicData = {
   href: string;
   icon: LucideIcon;
   position: [number, number, number];
+  // cardSide drives the zig-zag layout: card on this side, highlights
+  // on the opposite. Card is anchored on the OPPOSITE side from where
+  // the 3D node sits, so the user's eye flows card → 3D node → highlights.
+  cardSide: 'left' | 'right';
+  highlights: {
+    stat: { value: string; label: string };
+    bullets: string[];
+  };
 };
 
 const TOPICS: TopicData[] = [
@@ -63,7 +71,17 @@ const TOPICS: TopicData[] = [
       'From neural-network foundations to production models. Learn how to think with AI — and ship it.',
     href: '/courses/ai-fundamentals-machine-learning',
     icon: Brain,
-    position: [3.6, 2.2, 0.6],
+    position: [3.6, 2.2, 0.6], // 3D node sits on the right
+    cardSide: 'left',          // card anchors left, highlights right
+    highlights: {
+      stat: { value: '8+ wks', label: 'Cohort length' },
+      bullets: [
+        'Neural-network foundations',
+        'Production ML, not toy notebooks',
+        'Real datasets · real outputs',
+        'Ship models that pay their way',
+      ],
+    },
   },
   {
     id: 'cyber',
@@ -72,7 +90,17 @@ const TOPICS: TopicData[] = [
       'Threat models, defence patterns, and compliance — taught by operators who break and build systems.',
     href: '/courses/cybersecurity-essentials',
     icon: Shield,
-    position: [-3.6, 2.2, -0.4],
+    position: [-3.6, 2.2, -0.4], // 3D node sits on the left
+    cardSide: 'right',           // card anchors right, highlights left
+    highlights: {
+      stat: { value: 'Live', label: 'Hands-on labs' },
+      bullets: [
+        'Threat models for operators',
+        'Defence patterns by domain',
+        'Compliance without the boredom',
+        'Red team / blue team thinking',
+      ],
+    },
   },
   {
     id: 'cloud',
@@ -81,7 +109,17 @@ const TOPICS: TopicData[] = [
       'Scalable infrastructure on AWS, GCP, and Azure. Patterns for systems that grow without breaking.',
     href: '/courses',
     icon: Cloud,
-    position: [3.6, -2.0, -0.4],
+    position: [3.6, -2.0, -0.4], // right
+    cardSide: 'left',            // card left, highlights right
+    highlights: {
+      stat: { value: 'Multi-cloud', label: 'AWS · GCP · Azure' },
+      bullets: [
+        'Scalable infrastructure patterns',
+        'Cost-aware architecture',
+        'Disaster recovery fundamentals',
+        'Infrastructure as code',
+      ],
+    },
   },
   {
     id: 'data',
@@ -90,7 +128,17 @@ const TOPICS: TopicData[] = [
       'From messy data to dashboards your leadership can act on. SQL, pandas, plotly — the operator stack.',
     href: '/courses/data-analytics-python',
     icon: BarChart3,
-    position: [-3.6, -2.0, 0.6],
+    position: [-3.6, -2.0, 0.6], // left
+    cardSide: 'right',           // card right, highlights left
+    highlights: {
+      stat: { value: 'Operator', label: 'First, not academic' },
+      bullets: [
+        'SQL for everyday operators',
+        'Pandas + numpy fundamentals',
+        'Plotly dashboards leadership uses',
+        'From messy query to clear insight',
+      ],
+    },
   },
 ];
 
@@ -404,6 +452,124 @@ function CameraRig({
   return null;
 }
 
+// ── Card + Highlights blocks (reused on either side per topic) ────────
+
+function TopicCard({
+  topic,
+  index,
+  isActive,
+}: {
+  topic: TopicData;
+  index: number;
+  isActive: boolean;
+}) {
+  const Icon = topic.icon;
+  return (
+    <Link
+      href={topic.href}
+      data-cursor="magnetic"
+      data-cursor-strength="16"
+      tabIndex={isActive ? 0 : -1}
+      className={[
+        'pointer-events-auto group block h-full rounded-2xl border border-academy/25 bg-black/55 p-7 backdrop-blur-md transition-all duration-500',
+        'hover:border-academy/60 hover:shadow-[0_30px_80px_-20px_rgba(245,166,35,0.45)]',
+        isActive ? 'pointer-events-auto' : 'pointer-events-none',
+      ].join(' ')}
+      style={{
+        boxShadow: isActive
+          ? '0 30px 80px -20px rgba(245, 166, 35, 0.35), 0 0 0 1px rgba(245, 166, 35, 0.18)'
+          : 'none',
+      }}
+    >
+      {/* Top accent line */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(245, 166, 35, 0.85) 35%, rgba(255, 184, 77, 0.6) 65%, transparent 100%)',
+        }}
+      />
+
+      <div className="mb-6 flex items-center gap-3">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-academy/40 bg-academy/10 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/20 group-hover:shadow-[0_0_18px_rgba(245,166,35,0.4)]">
+          <Icon size={16} strokeWidth={1.75} />
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy/85">
+          0{index + 1} · Track
+        </span>
+      </div>
+
+      <h4 className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-2xl font-black leading-tight tracking-tight text-transparent md:text-3xl">
+        {topic.label}
+      </h4>
+
+      <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+        {topic.description}
+      </p>
+
+      <div className="mt-7 flex items-center justify-between border-t border-white/[0.08] pt-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+          Tap to explore
+        </span>
+        <span className="inline-flex items-center gap-2 text-sm font-medium text-academy transition-colors duration-300 group-hover:text-academy-light">
+          Open track
+          <ArrowRight
+            size={14}
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function TopicHighlights({ topic }: { topic: TopicData }) {
+  const { stat, bullets } = topic.highlights;
+  return (
+    <div className="flex h-full flex-col justify-center">
+      {/* Stat */}
+      <div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy/85">
+          What you&apos;ll learn
+        </p>
+        <div className="mt-3 flex items-baseline gap-3">
+          <span
+            className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-5xl font-black leading-none tracking-tight text-transparent md:text-6xl"
+            style={{
+              textShadow: '0 0 28px rgba(245, 166, 35, 0.25)',
+            }}
+          >
+            {stat.value}
+          </span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+            {stat.label}
+          </span>
+        </div>
+      </div>
+
+      {/* Bullets */}
+      <ul className="mt-8 space-y-3">
+        {bullets.map((b, i) => (
+          <li
+            key={i}
+            className="flex items-start gap-3 text-sm leading-relaxed text-white/75 md:text-base"
+          >
+            <span
+              aria-hidden
+              className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-academy"
+              style={{
+                boxShadow: '0 0 8px rgba(245, 166, 35, 0.55)',
+              }}
+            />
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 // ── Section component ─────────────────────────────────────────────────
 
 export default function NeuralPathway() {
@@ -561,84 +727,73 @@ export default function NeuralPathway() {
         </p>
       </div>
 
-      {/* Left-side floating topic card — appears for the active topic */}
+      {/* Zig-zag overlay — two columns, left and right. For each topic,
+          ONE column shows the marketing card and the OTHER shows
+          curriculum highlights. cardSide on each topic drives which
+          column gets which content. Cards alternate left/right per
+          topic as the user scrolls, filling the dead space on both
+          sides of the 3D network. */}
+
+      {/* LEFT column */}
       <div className="pointer-events-none absolute inset-y-0 left-[4%] z-20 hidden flex-col justify-center md:flex xl:left-[8%]">
-        <div className="relative h-72 w-80 lg:w-96">
+        <div className="relative h-[24rem] w-80 lg:w-96">
           {TOPICS.map((t, i) => {
-            const Icon = t.icon;
             const isActive = activeTopic === i;
+            // Slide-in direction: cards slide from their cardSide,
+            // highlights from the opposite side
+            const slideClass = isActive
+              ? 'opacity-100 translate-x-0 translate-y-0'
+              : activeTopic > i
+              ? 'opacity-0 -translate-y-6'
+              : t.cardSide === 'left'
+              ? 'opacity-0 -translate-x-10' // card incoming from left
+              : 'opacity-0 -translate-x-10'; // highlights incoming from left
             return (
               <div
                 key={t.id}
                 aria-hidden={!isActive}
                 className={[
                   'absolute inset-0 transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
-                  isActive
-                    ? 'opacity-100 translate-y-0'
-                    : activeTopic > i
-                    ? 'opacity-0 -translate-y-6'
-                    : 'opacity-0 translate-y-6',
+                  slideClass,
                 ].join(' ')}
                 style={{ transform: `rotate(-1.5deg)` }}
               >
-                <Link
-                  href={t.href}
-                  data-cursor="magnetic"
-                  data-cursor-strength="16"
-                  tabIndex={isActive ? 0 : -1}
-                  className={[
-                    'pointer-events-auto group block h-full rounded-2xl border border-academy/25 bg-black/55 p-7 backdrop-blur-md transition-all duration-500',
-                    'hover:border-academy/60 hover:shadow-[0_30px_80px_-20px_rgba(245,166,35,0.45)]',
-                    isActive ? 'pointer-events-auto' : 'pointer-events-none',
-                  ].join(' ')}
-                  style={{
-                    boxShadow: isActive
-                      ? '0 30px 80px -20px rgba(245, 166, 35, 0.35), 0 0 0 1px rgba(245, 166, 35, 0.18)'
-                      : 'none',
-                  }}
-                >
-                  {/* Top accent line */}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl"
-                    style={{
-                      background:
-                        'linear-gradient(90deg, transparent 0%, rgba(245, 166, 35, 0.85) 35%, rgba(255, 184, 77, 0.6) 65%, transparent 100%)',
-                    }}
-                  />
+                {t.cardSide === 'left' ? (
+                  <TopicCard topic={t} index={i} isActive={isActive} />
+                ) : (
+                  <TopicHighlights topic={t} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
-                  <div className="mb-6 flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-academy/40 bg-academy/10 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/20 group-hover:shadow-[0_0_18px_rgba(245,166,35,0.4)]">
-                      <Icon size={16} strokeWidth={1.75} />
-                    </span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy/85">
-                      0{i + 1} · Track
-                    </span>
-                  </div>
-
-                  <h4
-                    className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-2xl font-black leading-tight tracking-tight text-transparent md:text-3xl"
-                  >
-                    {t.label}
-                  </h4>
-
-                  <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-                    {t.description}
-                  </p>
-
-                  <div className="mt-7 flex items-center justify-between border-t border-white/[0.08] pt-4">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
-                      Tap to explore
-                    </span>
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-academy transition-colors duration-300 group-hover:text-academy-light">
-                      Open track
-                      <ArrowRight
-                        size={14}
-                        className="transition-transform duration-300 group-hover:translate-x-1"
-                      />
-                    </span>
-                  </div>
-                </Link>
+      {/* RIGHT column */}
+      <div className="pointer-events-none absolute inset-y-0 right-[4%] z-20 hidden flex-col justify-center md:flex xl:right-[8%]">
+        <div className="relative h-[24rem] w-80 lg:w-96">
+          {TOPICS.map((t, i) => {
+            const isActive = activeTopic === i;
+            const slideClass = isActive
+              ? 'opacity-100 translate-x-0 translate-y-0'
+              : activeTopic > i
+              ? 'opacity-0 -translate-y-6'
+              : 'opacity-0 translate-x-10';
+            return (
+              <div
+                key={t.id}
+                aria-hidden={!isActive}
+                className={[
+                  'absolute inset-0 transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                  slideClass,
+                ].join(' ')}
+                style={{ transform: `rotate(1.5deg)` }}
+              >
+                {t.cardSide === 'right' ? (
+                  <TopicCard topic={t} index={i} isActive={isActive} />
+                ) : (
+                  <TopicHighlights topic={t} />
+                )}
               </div>
             );
           })}

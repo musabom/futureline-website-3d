@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ParticleHero } from '@/components/sections/ParticleHero';
 import DualWalkway from '@/components/sections/DualWalkwayLazy';
+import NeuralPathway from '@/components/sections/NeuralPathwayLazy';
 import { ServiceCards } from '@/components/sections/ServiceCards';
 import { FeaturesGrid } from '@/components/sections/FeaturesGrid';
 import { CaseStudy } from '@/components/sections/CaseStudy';
@@ -26,9 +27,12 @@ export default function Home() {
     <main className="bg-brand-bg">
       <ParticleHero />
 
-      {/* The twin-corridor brand moment — directly below the hero.
-          FL Lab (teal) + FL Academy (amber). */}
+      {/* FL Lab — twin-corridor brand moment with 4 service cards. */}
       <DualWalkway />
+
+      {/* FL Academy — neural-pathway learning network with 4 course tracks.
+          Amber-themed counterpart to the Lab corridor. */}
+      <NeuralPathway />
 
       {/* Quick-scan marketing cards for the four services. */}
       <ServiceCards />

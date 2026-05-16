@@ -68,6 +68,7 @@ export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const blobRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
+  const phraseRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)').matches
@@ -77,11 +78,12 @@ export function CustomCursor() {
     const dot = dotRef.current
     const blob = blobRef.current
     const label = labelRef.current
-    if (!dot || !blob || !label) return
+    const phraseEl = phraseRef.current
+    if (!dot || !blob || !label || !phraseEl) return
 
     dot.style.display = 'block'
     blob.style.display = 'block'
-    label.style.display = 'block'
+    label.style.display = 'flex'
     document.documentElement.classList.add('cursor-hidden')
 
     const setDotX = gsap.quickTo(dot, 'x', { duration: 0.08, ease: 'power3.out' })
@@ -101,7 +103,7 @@ export function CustomCursor() {
     let hovering = false
     const IDLE_MS = 2000
     const MAX_GAP_MS = 20000
-    const BURST_HOLD_MS = 2800
+    const BURST_HOLD_MS = 3400
 
     const fireBurst = () => {
       if (burstActive) return
@@ -111,7 +113,7 @@ export function CustomCursor() {
         deckIndex = 0
       }
       const phrase = deck[deckIndex++]
-      label.textContent = phrase
+      phraseEl.textContent = phrase
       burstActive = true
       lastBurstAt = performance.now()
 
@@ -120,8 +122,8 @@ export function CustomCursor() {
       gsap.to(blob, { opacity: 0, scale: 0.6, duration: 0.25, ease: 'power3.out' })
       gsap.fromTo(
         label,
-        { opacity: 0, scale: 0.85, y: '+=4' },
-        { opacity: 1, scale: 1, y: '-=4', duration: 0.32, ease: 'power3.out' },
+        { opacity: 0, scale: 0.7, y: '+=8' },
+        { opacity: 1, scale: 1, y: '-=8', duration: 0.42, ease: 'back.out(1.6)' },
       )
 
       window.setTimeout(() => {
@@ -169,8 +171,8 @@ export function CustomCursor() {
       setBlobX(e.clientX)
       setBlobY(e.clientY)
       // Offset the label so it doesn't sit on top of the pointer.
-      setLabelX(e.clientX + 18)
-      setLabelY(e.clientY + 18)
+      setLabelX(e.clientX + 26)
+      setLabelY(e.clientY + 26)
       lastMoveAt = performance.now()
     }
     document.addEventListener('mousemove', onMove, { passive: true })
@@ -277,9 +279,27 @@ export function CustomCursor() {
       <div
         ref={labelRef}
         aria-hidden="true"
-        className="custom-cursor-label pointer-events-none fixed left-0 top-0 z-[10001] hidden -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-lab/40 bg-black/70 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_0_20px_2px_rgba(24,169,153,0.25)] backdrop-blur-md"
+        className="custom-cursor-label pointer-events-none fixed left-0 top-0 z-[10001] hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 whitespace-nowrap rounded-full border border-lab/60 bg-black/85 py-3.5 pl-5 pr-7 opacity-0 shadow-[0_0_50px_-2px_rgba(24,169,153,0.55),inset_0_0_0_1px_rgba(24,169,153,0.18)] backdrop-blur-xl"
         style={{ willChange: 'transform, opacity' }}
-      />
+      >
+        <span
+          aria-hidden="true"
+          className="flex items-center gap-2.5 border-r border-white/15 pr-4 font-mono text-[10px] uppercase tracking-[0.32em] text-lab"
+        >
+          <span
+            aria-hidden="true"
+            className="block h-1.5 w-1.5 rounded-full bg-lab"
+            style={{ boxShadow: '0 0 10px 2px rgba(24, 169, 153, 0.7)' }}
+          />
+          FL · Lab
+        </span>
+        <span
+          ref={phraseRef}
+          className="text-[15px] font-medium leading-none tracking-[-0.005em] text-white md:text-base"
+        >
+          &nbsp;
+        </span>
+      </div>
       <style jsx global>{`
         html.cursor-hidden,
         html.cursor-hidden * {

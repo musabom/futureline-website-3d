@@ -164,9 +164,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <MarqueeStrip items={data.marqueeItems} speed={30} />
 
       {/* ── Pain points (numbered editorial rows) ── */}
-      <section className="px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <section className="px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 md:mb-24">
+          <div className="mb-10 md:mb-14">
             <SectionEyebrow>Why it matters</SectionEyebrow>
             <AnimatedText
               as="h2"
@@ -181,7 +181,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             {data.painPoints.map((p, i) => (
               <article
                 key={i}
-                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-12 md:gap-12 md:py-16"
+                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-9 md:gap-12 md:py-12"
               >
                 <div className="col-span-12 md:col-span-3">
                   <p className="font-mono text-sm tracking-[0.3em] text-lab">
@@ -215,9 +215,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Process / how we work ── */}
-      <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 md:mb-24">
+          <div className="mb-10 md:mb-14">
             <SectionEyebrow>How we work</SectionEyebrow>
             <AnimatedText
               as="h2"
@@ -247,9 +247,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Deliverables ── */}
-      <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
               <SectionEyebrow>What you get</SectionEyebrow>
               <AnimatedText
@@ -285,9 +285,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Compare (optional): "Off-the-shelf vs. built for you" ── */}
       {data.compare && data.compare.rows.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-16 max-w-3xl md:mb-20">
+            <div className="mb-10 max-w-3xl md:mb-14">
               <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
               <AnimatedText
                 as="h2"
@@ -362,7 +362,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Stats (optional) ── */}
       {data.stats && data.stats.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>By the numbers</SectionEyebrow>
             <AnimatedText
@@ -372,7 +372,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             >
               What clients gain.
             </AnimatedText>
-            <div className="mt-20 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+            <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
               {data.stats.map((s, i) => (
                 <FadeUp key={i} delay={i * 0.08}>
                   <div className="border-t border-white/[0.12] pt-6">
@@ -393,7 +393,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Industries (optional) ── */}
       {data.industries && data.industries.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Where it fits</SectionEyebrow>
             <AnimatedText
@@ -407,7 +407,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 give the substantial pain copy room to breathe. For an
                 odd card count (5, 7, 9...), the last card spans both
                 columns and centers, avoiding the empty-cell look. */}
-            <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {data.industries.map((ind, i) => {
                 const isLastOdd =
                   data.industries!.length % 2 === 1 &&
@@ -437,7 +437,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── FAQ (optional) ── */}
       {data.faqs && data.faqs.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <SectionEyebrow>Common questions</SectionEyebrow>
             <AnimatedText
@@ -447,7 +447,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             >
               Things we hear.
             </AnimatedText>
-            <div className="mt-14">
+            <div className="mt-10">
               {data.faqs.map((f, i) => (
                 <FaqItem key={i} q={f.q} a={f.a} />
               ))}
@@ -458,7 +458,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       )}
 
       {/* ── Closing CTA ── */}
-      <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <section className="border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">

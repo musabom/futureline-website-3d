@@ -37,6 +37,18 @@ export interface ServiceDetailData {
     name: string;
     pain: string;
   }[];
+  /**
+   * Optional "Off-the-shelf vs. built for you" comparison block.
+   * Renders between the deliverables and stats sections.
+   */
+  compare?: {
+    eyebrow?: string;
+    headline: string;
+    intro?: string;
+    leftHeader?: string;  // defaults to "Off-the-shelf SaaS"
+    rightHeader?: string; // defaults to "FutureLine custom build"
+    rows: { label: string; saas: string; futureline: string }[];
+  };
   stats?: {
     value: string;
     label: string;
@@ -275,6 +287,85 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           </div>
         </div>
       </section>
+
+      {/* ── Compare (optional): "Off-the-shelf vs. built for you" ── */}
+      {data.compare && data.compare.rows.length > 0 && (
+        <section className="border-t border-white/[0.06] px-4 py-32 sm:px-6 md:py-44 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-16 max-w-3xl md:mb-20">
+              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
+                {data.compare.eyebrow ?? 'Why not just buy SaaS?'}
+              </p>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                {data.compare.headline}
+              </AnimatedText>
+              {data.compare.intro && (
+                <AnimatedText
+                  as="p"
+                  variant="words"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  delay={0.15}
+                >
+                  {data.compare.intro}
+                </AnimatedText>
+              )}
+            </div>
+
+            {/* Compare grid — each row is a category, with the SaaS reality
+                on the left (faded white, ❌) and the FutureLine outcome on
+                the right (brand teal, ✓). */}
+            <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+              {/* Column headers */}
+              <div className="grid grid-cols-12 gap-4 border-b border-white/[0.08] px-6 py-5 md:px-10">
+                <div className="col-span-12 md:col-span-3" />
+                <div className="col-span-6 md:col-span-4">
+                  <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/25" />
+                    {data.compare.leftHeader ?? 'Off-the-shelf SaaS'}
+                  </p>
+                </div>
+                <div className="col-span-6 md:col-span-5">
+                  <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
+                    <span
+                      aria-hidden
+                      className="inline-block h-1.5 w-1.5 rounded-full bg-lab"
+                      style={{ boxShadow: '0 0 8px rgba(24, 169, 153, 0.55)' }}
+                    />
+                    {data.compare.rightHeader ?? 'FutureLine custom build'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Rows */}
+              {data.compare.rows.map((row, i) => (
+                <FadeUp key={i} delay={i * 0.05}>
+                  <div className="grid grid-cols-12 gap-4 border-b border-white/[0.04] px-6 py-7 last:border-b-0 md:px-10 md:py-9">
+                    <div className="col-span-12 md:col-span-3">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+                        {row.label}
+                      </p>
+                    </div>
+                    <div className="col-span-6 md:col-span-4">
+                      <p className="text-sm leading-relaxed text-white/45 md:text-base">
+                        {row.saas}
+                      </p>
+                    </div>
+                    <div className="col-span-6 md:col-span-5">
+                      <p className="text-sm font-medium leading-relaxed text-white md:text-base">
+                        {row.futureline}
+                      </p>
+                    </div>
+                  </div>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Stats (optional) ── */}
       {data.stats && data.stats.length > 0 && (

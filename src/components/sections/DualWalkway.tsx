@@ -716,7 +716,11 @@ export default function DualWalkway() {
                     <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-lab/40 bg-lab/[0.1] text-lab transition-all duration-300 group-hover:border-lab/65 group-hover:bg-lab/[0.16] group-hover:shadow-[0_0_24px_rgba(24,169,153,0.45)] md:h-16 md:w-16">
                       <Icon size={26} strokeWidth={1.75} />
                     </span>
-                    <h3 className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-4xl font-black tracking-tight text-transparent md:text-[clamp(3rem,5.4vw,5.5rem)]">
+                    {/* leading + padding give bg-clip-text room for
+                        ascenders/descenders at large font-black sizes —
+                        without this Chrome clips the gradient to a tight
+                        bbox and the "g/i/t" get cut top and bottom. */}
+                    <h3 className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text py-2 text-4xl font-black leading-[1.1] tracking-tight text-transparent md:text-[clamp(3rem,5.4vw,5.5rem)]">
                       {card.name}
                     </h3>
                   </div>

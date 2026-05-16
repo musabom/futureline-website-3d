@@ -10,6 +10,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { AnimatedText } from '@/components/ui/AnimatedText'
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 const FEATURES = [
   {
@@ -143,9 +144,7 @@ export function FeaturesGrid() {
       className="relative bg-brand-bg px-6 py-32 md:px-12 md:py-48"
     >
       <div className="mx-auto max-w-7xl">
-        <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-brand-accent">
-          Our services
-        </p>
+        <SectionEyebrow>Our services</SectionEyebrow>
         <AnimatedText
           as="h2"
           variant="chars"

@@ -6,6 +6,7 @@ import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { FadeUp } from '@/components/motion/FadeUp';
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,9 +99,7 @@ export default async function ServicesPage() {
       <section id="services-grid" className="px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              Available now
-            </p>
+            <SectionEyebrow>Available now</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -180,9 +179,7 @@ export default async function ServicesPage() {
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <div className="mb-12 text-center">
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-                Get in touch
-              </p>
+              <SectionEyebrow>Get in touch</SectionEyebrow>
               <h2 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]">
                 Tell us what&apos;s slowing you down.
               </h2>

@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 
 interface ServiceCardData {
@@ -110,13 +111,7 @@ export function ServiceCards() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="mb-14 md:mb-20">
-          <p className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-            <span
-              aria-hidden
-              className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]"
-            />
-            What we do
-          </p>
+          <SectionEyebrow>What we do</SectionEyebrow>
           <AnimatedText
             as="h2"
             variant="chars"

@@ -8,6 +8,7 @@
 'use client'
 
 import { AnimatedText } from '@/components/ui/AnimatedText'
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
@@ -67,9 +68,7 @@ export function CaseStudy() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
         <aside className="md:col-span-5">
           <div className="md:sticky md:top-32">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-brand-accent">
-              By the numbers
-            </p>
+            <SectionEyebrow>By the numbers</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -130,9 +129,7 @@ export function CaseStudy() {
           </dl>
 
           <div className="mt-32">
-            <p className="font-mono text-xs uppercase tracking-[0.4em] text-brand-accent">
-              Why this works
-            </p>
+            <SectionEyebrow className="mb-0">Why this works</SectionEyebrow>
             <AnimatedText
               as="p"
               variant="words"

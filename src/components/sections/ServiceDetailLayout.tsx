@@ -13,6 +13,7 @@ import { useState, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import HeroRibbon3D from './HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 
@@ -62,31 +63,6 @@ export interface ServiceDetailData {
     primary: { label: string; href: string };
     secondary?: { label: string; href: string };
   };
-}
-
-/**
- * SectionEyebrow — the small label above each section heading
- * ('Why it matters', 'How we work', etc.).
- *
- * Was 12px mono with no anchor — easy to miss. Now it's a branded
- * inline-flex chip: glowing teal dot, larger 14px mono caps, slightly
- * looser tracking, and a trailing teal hairline that gives it presence
- * and tells the user this is a NEW section, not body text.
- */
-function SectionEyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-8 inline-flex items-center gap-3 font-mono text-[13px] font-semibold uppercase tracking-[0.32em] text-lab md:text-sm">
-      <span
-        aria-hidden="true"
-        className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]"
-      />
-      {children}
-      <span
-        aria-hidden="true"
-        className="ml-2 hidden h-px w-12 bg-gradient-to-r from-lab/60 to-transparent md:block"
-      />
-    </p>
-  );
 }
 
 function FaqItem({ q, a }: { q: string; a: string }) {

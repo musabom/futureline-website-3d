@@ -139,13 +139,48 @@ export default function HeroRibbon3D({
   bloom = 0.7,
   className = 'absolute inset-0',
 }: HeroRibbon3DProps) {
+  // Convert hex → rgba so the CSS-gradient fallback matches the canvas tint
+  // even when WebGL is unavailable. Real users with old GPUs / blocked
+  // hardware acceleration / low-power mode see a brand-aligned gradient
+  // instead of empty space.
+  const rgba = (alpha: number) => {
+    const hex = color.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
   return (
     <div aria-hidden="true" className={`${className} pointer-events-none`}>
+      {/* CSS-gradient fallback — always rendered behind the canvas. If
+          WebGL initialises, the canvas covers it. If WebGL fails, this
+          shows through so the right side of the hero is never empty. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(ellipse 60% 80% at 50% 50%, ${rgba(0.22)} 0%, transparent 65%),
+            radial-gradient(ellipse 40% 100% at 50% 40%, ${rgba(0.12)} 0%, transparent 70%),
+            radial-gradient(ellipse 20% 60% at 50% 50%, ${rgba(0.4)} 0%, transparent 60%),
+            #000000
+          `,
+        }}
+      />
       <Canvas
         dpr={[1, 2]}
         frameloop="always"
         camera={{ position: [0, 0, 5], fov: 50 }}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
+        // If WebGL context creation fails, canvas silently doesn't mount;
+        // the fallback gradient behind us stays visible. No crash.
+        onCreated={(state) => {
+          // Defensive: if the GL context is lost (browser tab backgrounded
+          // for a long time, GPU throttled), the fallback still shows.
+          state.gl.domElement.addEventListener('webglcontextlost', (e) => {
+            e.preventDefault();
+          });
+        }}
       >
         <color attach="background" args={['#000000']} />
         <ambientLight intensity={0.05} />

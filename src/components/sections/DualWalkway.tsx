@@ -634,7 +634,7 @@ export default function DualWalkway() {
         className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-4"
         style={{ perspective: '1400px' }}
       >
-        <div className="relative h-[30rem] w-full max-w-xl md:h-[28rem]">
+        <div className="relative h-[30rem] w-full max-w-xl md:h-[34rem] md:max-w-3xl">
           {SERVICE_CARDS.map((card, i) => {
             const state: 'active' | 'incoming' | 'outgoing' =
               activeCard === i ? 'active' : activeCard > i ? 'outgoing' : 'incoming'
@@ -660,7 +660,7 @@ export default function DualWalkway() {
                   data-cursor-strength="14"
                   tabIndex={state === 'active' ? 0 : -1}
                   className={[
-                    'group relative flex h-full flex-col justify-center overflow-hidden rounded-2xl p-8 backdrop-blur-md md:p-10',
+                    'group relative flex h-full flex-col justify-center overflow-hidden rounded-2xl p-8 backdrop-blur-md md:p-14',
                     'transition-all duration-500',
                     state === 'active' ? 'pointer-events-auto' : 'pointer-events-none',
                     'hover:scale-[1.015]',
@@ -674,7 +674,7 @@ export default function DualWalkway() {
                     border: '1px solid rgba(24, 169, 153, 0.18)',
                     boxShadow:
                       state === 'active'
-                        ? '0 30px 80px -20px rgba(24, 169, 153, 0.35), 0 0 0 1px rgba(24, 169, 153, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.04)'
+                        ? '0 50px 140px -20px rgba(24, 169, 153, 0.55), 0 0 0 1px rgba(24, 169, 153, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06)'
                         : 'none',
                   }}
                 >
@@ -698,13 +698,13 @@ export default function DualWalkway() {
                   />
 
                   {/* Top row: service name (brand gradient + icon) on left, number on right */}
-                  <div className="relative mb-8 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-lab/35 bg-lab/[0.08] text-lab transition-all duration-300 group-hover:border-lab/60 group-hover:bg-lab/[0.14] group-hover:shadow-[0_0_18px_rgba(24,169,153,0.35)]">
-                        <Icon size={16} strokeWidth={1.75} />
+                  <div className="relative mb-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3.5">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-lab/35 bg-lab/[0.08] text-lab transition-all duration-300 group-hover:border-lab/60 group-hover:bg-lab/[0.14] group-hover:shadow-[0_0_18px_rgba(24,169,153,0.35)]">
+                        <Icon size={19} strokeWidth={1.75} />
                       </span>
                       <span
-                        className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent md:text-xl"
+                        className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-xl font-black tracking-tight text-transparent md:text-2xl"
                       >
                         {card.name}
                       </span>
@@ -714,11 +714,11 @@ export default function DualWalkway() {
                     </span>
                   </div>
 
-                  <h3 className="relative text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-white md:text-[clamp(2rem,3.4vw,3.25rem)]">
+                  <h3 className="relative text-3xl font-semibold leading-[1.02] tracking-[-0.02em] text-white md:text-[clamp(2.75rem,4.6vw,4.75rem)]">
                     {card.headline}
                   </h3>
 
-                  <p className="relative mt-6 text-base leading-relaxed text-white/70 md:text-lg">
+                  <p className="relative mt-7 max-w-[42ch] text-base leading-relaxed text-white/75 md:text-xl">
                     {card.body}
                   </p>
 

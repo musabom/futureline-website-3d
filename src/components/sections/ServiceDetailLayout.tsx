@@ -10,7 +10,7 @@
 
 import Link from 'next/link';
 import { useState, useRef } from 'react';
-import { ChevronDown, Check, X } from 'lucide-react';
+import { ChevronDown, Check, X, Layers } from 'lucide-react';
 import HeroRibbon3D from './HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
@@ -316,9 +316,17 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   knows which column is which while reading rows. */}
               <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-white/[0.12] bg-black/90 px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
                 <div className="col-span-12 md:col-span-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/45">
-                    Category
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55"
+                    >
+                      <Layers size={15} strokeWidth={2} />
+                    </span>
+                    <p className="text-base font-semibold tracking-tight text-white/75 md:text-xl">
+                      Category
+                    </p>
+                  </div>
                 </div>
                 <div className="col-span-6 md:col-span-4">
                   <div className="flex items-center gap-3">

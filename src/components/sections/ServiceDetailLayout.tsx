@@ -64,6 +64,31 @@ export interface ServiceDetailData {
   };
 }
 
+/**
+ * SectionEyebrow — the small label above each section heading
+ * ('Why it matters', 'How we work', etc.).
+ *
+ * Was 12px mono with no anchor — easy to miss. Now it's a branded
+ * inline-flex chip: glowing teal dot, larger 14px mono caps, slightly
+ * looser tracking, and a trailing teal hairline that gives it presence
+ * and tells the user this is a NEW section, not body text.
+ */
+function SectionEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-8 inline-flex items-center gap-3 font-mono text-[13px] font-semibold uppercase tracking-[0.32em] text-lab md:text-sm">
+      <span
+        aria-hidden="true"
+        className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]"
+      />
+      {children}
+      <span
+        aria-hidden="true"
+        className="ml-2 hidden h-px w-12 bg-gradient-to-r from-lab/60 to-transparent md:block"
+      />
+    </p>
+  );
+}
+
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -166,9 +191,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <section className="px-4 py-24 sm:px-6 md:py-32 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              Why it matters
-            </p>
+            <SectionEyebrow>Why it matters</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -219,9 +242,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              How we work
-            </p>
+            <SectionEyebrow>How we work</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -254,9 +275,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-                What you get
-              </p>
+              <SectionEyebrow>What you get</SectionEyebrow>
               <AnimatedText
                 as="h2"
                 variant="chars"
@@ -293,9 +312,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-16 max-w-3xl md:mb-20">
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-                {data.compare.eyebrow ?? 'Why not just buy SaaS?'}
-              </p>
+              <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
               <AnimatedText
                 as="h2"
                 variant="chars"
@@ -371,9 +388,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.stats && data.stats.length > 0 && (
         <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              By the numbers
-            </p>
+            <SectionEyebrow>By the numbers</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -404,9 +419,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.industries && data.industries.length > 0 && (
         <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              Where it fits
-            </p>
+            <SectionEyebrow>Where it fits</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -450,9 +463,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.faqs && data.faqs.length > 0 && (
         <section className="border-t border-white/[0.06] px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              Common questions
-            </p>
+            <SectionEyebrow>Common questions</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"

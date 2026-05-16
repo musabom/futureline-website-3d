@@ -112,16 +112,35 @@ export function AnimatedText({
   // browser only breaks lines at whitespace — never inside a word.
   const words = useMemo(() => children.split(/(\s+)/), [children])
 
+  // Descender buffer: glyphs like y, g, p, j, q extend below the
+  // baseline. With tight headings (leading-[0.95]), the mask's
+  // line-box clips that overhang. We add 0.18em of padding-bottom to
+  // the mask to give descenders room, and a corresponding negative
+  // margin-bottom so the overall layout/vertical-rhythm is unchanged.
+  // The initial transform also accounts for the buffer, so the inner
+  // span is still fully hidden before the reveal fires.
+  const BUFFER = '0.18em';
+  const maskStyle: React.CSSProperties = {
+    lineHeight: 'inherit',
+    paddingBottom: BUFFER,
+    marginBottom: `-${BUFFER}`,
+    boxSizing: 'content-box',
+  };
+  const initialInnerStyle: React.CSSProperties = {
+    transform: `translateY(calc(100% + ${BUFFER}))`,
+  };
+
   const charMask = (key: string | number, char: string) => (
     <span
       key={key}
       className="inline-block overflow-hidden align-bottom"
-      style={{ lineHeight: 'inherit' }}
+      style={maskStyle}
       aria-hidden="true"
     >
       <span
         data-atxt-inner
-        className="inline-block translate-y-full will-change-transform"
+        className="inline-block will-change-transform"
+        style={initialInnerStyle}
       >
         {char}
       </span>
@@ -132,12 +151,13 @@ export function AnimatedText({
     <span
       key={key}
       className="inline-block overflow-hidden align-bottom"
-      style={{ lineHeight: 'inherit' }}
+      style={maskStyle}
       aria-hidden="true"
     >
       <span
         data-atxt-inner
-        className="inline-block translate-y-full will-change-transform"
+        className="inline-block will-change-transform"
+        style={initialInnerStyle}
       >
         {word}
       </span>

@@ -697,28 +697,31 @@ export default function DualWalkway() {
                     }}
                   />
 
-                  {/* Top row: service name (brand gradient + icon) on left, number on right */}
-                  <div className="relative mb-10 flex items-center justify-between">
-                    <div className="flex items-center gap-3.5">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-lab/35 bg-lab/[0.08] text-lab transition-all duration-300 group-hover:border-lab/60 group-hover:bg-lab/[0.14] group-hover:shadow-[0_0_18px_rgba(24,169,153,0.35)]">
-                        <Icon size={19} strokeWidth={1.75} />
-                      </span>
-                      <span
-                        className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-xl font-black tracking-tight text-transparent md:text-2xl"
-                      >
-                        {card.name}
-                      </span>
-                    </div>
+                  {/* Top row: tagline as a small eyebrow on the left, page
+                      number on the right. The service NAME is the hero
+                      below, not the tagline. */}
+                  <div className="relative mb-8 flex items-baseline justify-between gap-6">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-lab/75 md:text-xs">
+                      {card.headline}
+                    </p>
                     <span className="font-mono text-xs tracking-[0.3em] text-lab/80">
                       {card.num}
                     </span>
                   </div>
 
-                  <h3 className="relative text-3xl font-semibold leading-[1.02] tracking-[-0.02em] text-white md:text-[clamp(2.75rem,4.6vw,4.75rem)]">
-                    {card.headline}
-                  </h3>
+                  {/* Service name — the hero of the card. Big icon pill +
+                      brand-gradient name, large enough to dominate the 3D
+                      scene behind it. */}
+                  <div className="relative flex items-center gap-5">
+                    <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl border border-lab/40 bg-lab/[0.1] text-lab transition-all duration-300 group-hover:border-lab/65 group-hover:bg-lab/[0.16] group-hover:shadow-[0_0_24px_rgba(24,169,153,0.45)] md:h-16 md:w-16">
+                      <Icon size={26} strokeWidth={1.75} />
+                    </span>
+                    <h3 className="bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-4xl font-black tracking-tight text-transparent md:text-[clamp(3rem,5.4vw,5.5rem)]">
+                      {card.name}
+                    </h3>
+                  </div>
 
-                  <p className="relative mt-7 max-w-[42ch] text-base leading-relaxed text-white/75 md:text-xl">
+                  <p className="relative mt-8 max-w-[44ch] text-base leading-relaxed text-white/75 md:text-lg">
                     {card.body}
                   </p>
 

@@ -10,7 +10,7 @@
 
 import Link from 'next/link';
 import { useState, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Check, X } from 'lucide-react';
 import HeroRibbon3D from './HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
@@ -312,24 +312,36 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 on the left (faded white, ❌) and the FutureLine outcome on
                 the right (brand teal, ✓). */}
             <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
-              {/* Column headers */}
-              <div className="grid grid-cols-12 gap-4 border-b border-white/[0.08] px-6 py-5 md:px-10">
+              {/* Column headers — sticky on tall screens so the user always
+                  knows which column is which while reading rows. */}
+              <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-white/[0.1] bg-black/85 px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
                 <div className="col-span-12 md:col-span-3" />
                 <div className="col-span-6 md:col-span-4">
-                  <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
-                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/25" />
-                    {data.compare.leftHeader ?? 'Off-the-shelf SaaS'}
-                  </p>
-                </div>
-                <div className="col-span-6 md:col-span-5">
-                  <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
+                  <div className="flex items-center gap-3">
                     <span
                       aria-hidden
-                      className="inline-block h-1.5 w-1.5 rounded-full bg-lab"
-                      style={{ boxShadow: '0 0 8px rgba(24, 169, 153, 0.55)' }}
-                    />
-                    {data.compare.rightHeader ?? 'FutureLine custom build'}
-                  </p>
+                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/55"
+                    >
+                      <X size={16} strokeWidth={2.5} />
+                    </span>
+                    <p className="text-base font-semibold tracking-tight text-white/70 md:text-xl">
+                      {data.compare.leftHeader ?? 'Off-the-shelf SaaS'}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-6 md:col-span-5">
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-lab/40 bg-lab/15 text-lab"
+                      style={{ boxShadow: '0 0 18px rgba(24, 169, 153, 0.4)' }}
+                    >
+                      <Check size={16} strokeWidth={2.5} />
+                    </span>
+                    <p className="text-base font-semibold tracking-tight text-white md:text-xl">
+                      {data.compare.rightHeader ?? 'FutureLine custom build'}
+                    </p>
+                  </div>
                 </div>
               </div>
 

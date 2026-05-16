@@ -53,9 +53,9 @@ const data: ServiceDetailData = {
       body: 'The average failed digital project costs SMEs $47,000 in licences, build time, and rollback — before they decide to abandon it. We start with a free audit so you build the right thing the first time.',
     },
     {
-      stat: '2.3 days',
+      stat: '2–3 days',
       headline: 'Approvals that crawl.',
-      body: 'The average sign-off chain takes 2.3 days of email tag. Digital workflows route, notify, and close in minutes. Days back in everyone’s week — every week.',
+      body: 'A typical sign-off chain takes 2 to 3 days of email tag. Digital workflows route, notify, and close in minutes. Days back in everyone’s week — every week.',
     },
   ],
   process: [

@@ -40,9 +40,9 @@ const data: ServiceDetailData = {
       body: '40% of most job roles involve tasks that could be fully automated today. Your best people are spending their day on tasks that add zero unique value.',
     },
     {
-      stat: '2.3 days',
+      stat: '2–3 days',
       headline: 'Approval bottlenecks.',
-      body: 'The average business approval takes 2.3 days of back-and-forth. Automation routes, notifies, and closes in minutes.',
+      body: 'A typical business approval takes 2 to 3 days of back-and-forth. Automation routes, notifies, and closes in minutes.',
     },
     {
       stat: '10× harder',

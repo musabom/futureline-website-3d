@@ -10,6 +10,7 @@ import { FadeUp } from '@/components/motion/FadeUp';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 export const dynamic = 'force-dynamic';
 
@@ -177,7 +178,7 @@ export default async function CoursesPage({
           <div className="mb-10 flex flex-col gap-6 md:mb-14">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="mb-3 font-mono text-xs uppercase tracking-[0.4em] text-academy">Catalog</p>
+                <SectionEyebrow accent="academy" className="mb-3">Catalog</SectionEyebrow>
                 <h2 className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl">
                   {courses.length} of {totalCount} courses
                 </h2>
@@ -335,9 +336,7 @@ export default async function CoursesPage({
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <div className="mb-12 text-center">
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-academy">
-                Custom training
-              </p>
+              <SectionEyebrow accent="academy">Custom training</SectionEyebrow>
               <h2 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]">
                 Can&apos;t find what you need?
               </h2>

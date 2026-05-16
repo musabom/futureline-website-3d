@@ -12,6 +12,7 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 type Stat = {
   value: number
@@ -163,9 +164,7 @@ export function Records() {
       />
 
       <div className="relative mx-auto max-w-7xl">
-        <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-brand-accent">
-          The record
-        </p>
+        <SectionEyebrow>The record</SectionEyebrow>
         <h2
           id="records-heading"
           className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] md:text-[clamp(3.5rem,8vw,8rem)]"

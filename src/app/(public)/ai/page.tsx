@@ -6,6 +6,7 @@ import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { FadeUp } from '@/components/motion/FadeUp';
+import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 export const dynamic = 'force-dynamic';
 
@@ -140,9 +141,7 @@ export default async function AIPage() {
       <section className="px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
-            <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-              What we&apos;re building
-            </p>
+            <SectionEyebrow>What we&apos;re building</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
@@ -200,9 +199,7 @@ export default async function AIPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.4em] text-lab">
-                The vision
-              </p>
+              <SectionEyebrow>The vision</SectionEyebrow>
               <AnimatedText
                 as="h2"
                 variant="chars"

@@ -314,8 +314,12 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
               {/* Column headers — sticky on tall screens so the user always
                   knows which column is which while reading rows. */}
-              <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-white/[0.1] bg-black/85 px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
-                <div className="col-span-12 md:col-span-3" />
+              <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-white/[0.12] bg-black/90 px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
+                <div className="col-span-12 md:col-span-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/45">
+                    Category
+                  </p>
+                </div>
                 <div className="col-span-6 md:col-span-4">
                   <div className="flex items-center gap-3">
                     <span
@@ -345,21 +349,35 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 </div>
               </div>
 
-              {/* Rows */}
+              {/* Rows — category label is now prominent, numbered prefix
+                  anchors the eye, FutureLine column gets a left teal hairline
+                  so the "answer" column reads as the highlighted one. */}
               {data.compare.rows.map((row, i) => (
                 <FadeUp key={i} delay={i * 0.05}>
-                  <div className="grid grid-cols-12 gap-4 border-b border-white/[0.04] px-6 py-7 last:border-b-0 md:px-10 md:py-9">
+                  <div className="grid grid-cols-12 items-start gap-4 border-b border-white/[0.06] px-6 py-7 last:border-b-0 md:px-10 md:py-9">
                     <div className="col-span-12 md:col-span-3">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
-                        {row.label}
-                      </p>
+                      <div className="flex items-baseline gap-3">
+                        <span
+                          aria-hidden
+                          className="font-mono text-[11px] tracking-[0.25em] text-lab/70"
+                        >
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">
+                          {row.label}
+                        </h4>
+                      </div>
                     </div>
                     <div className="col-span-6 md:col-span-4">
-                      <p className="text-sm leading-relaxed text-white/45 md:text-base">
+                      <p className="text-sm leading-relaxed text-white/55 md:text-base">
                         {row.saas}
                       </p>
                     </div>
-                    <div className="col-span-6 md:col-span-5">
+                    <div className="relative col-span-6 md:col-span-5">
+                      <span
+                        aria-hidden
+                        className="absolute -left-4 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-lab/40 via-lab/15 to-transparent md:block"
+                      />
                       <p className="text-sm font-medium leading-relaxed text-white md:text-base">
                         {row.futureline}
                       </p>

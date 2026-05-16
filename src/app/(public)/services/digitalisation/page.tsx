@@ -100,7 +100,7 @@ const data: ServiceDetailData = {
     rightHeader: 'FutureLine custom build',
     rows: [
       {
-        label: '5-year cost',
+        label: '5-Year Cost',
         saas: '$12k+ per year. $60k+ over 5 years — and rising every renewal.',
         futureline: 'One build. Zero ongoing licences. Pays itself back inside year one.',
       },
@@ -120,12 +120,12 @@ const data: ServiceDetailData = {
         futureline: 'Your team uses it because it matches how they actually work.',
       },
       {
-        label: 'Lock-in',
+        label: 'Lock-In',
         saas: 'When the vendor raises prices, kills features, or shuts down — you’re stuck.',
         futureline: 'No vendor. No lock-in. You decide what changes and when.',
       },
       {
-        label: 'AI readiness',
+        label: 'AI Readiness',
         saas: 'Limited to whatever AI features the vendor decides to bolt on.',
         futureline: 'Your data, your structure, AI-ready from day one. Plug in any model.',
       },

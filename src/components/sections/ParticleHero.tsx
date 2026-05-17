@@ -103,9 +103,9 @@ export function ParticleHero() {
         </p>
 
         <p className="hero-sub mt-8 max-w-2xl text-base leading-relaxed text-white/75 md:mt-10 md:text-lg">
-          Your business is scaling. Your systems aren&apos;t.
+          We build the systems your team will actually use.
           <br className="hidden md:inline" />
-          We build the digital infrastructure that lets you grow without breaking things.
+          Live in weeks. Owned forever. No licence tax.
         </p>
         <div className="hero-cta mt-12 flex items-center gap-2">
           <Link

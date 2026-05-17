@@ -5,7 +5,7 @@
  * unchanged. Two changes from reference:
  *   1) LAB_STATS + ACADEMY_STATS swapped to FutureLine numbers.
  *   2) Pole accent hexes swapped from cyan/yellow (reference) to brand teal
- *      (#18A999) / amber (#F5A623). This is an editorial section, not the 3D
+ *      (#18A999) / blue (#6B7CC3 — wordmark's blue end). Editorial section,
  *      scene — brand colors apply here.
  */
 'use client'
@@ -149,7 +149,7 @@ function StatBlock({
 }
 
 const LAB_COLOR = '#18A999'
-const ACADEMY_COLOR = '#F5A623'
+const ACADEMY_COLOR = '#6B7CC3'
 
 export function Records() {
   return (

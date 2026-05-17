@@ -35,7 +35,7 @@ const PALETTE: Record<Accent, {
   academy: {
     text: 'text-academy',
     dot: 'bg-academy',
-    dotGlow: '0 0 10px 2px rgba(245, 166, 35, 0.55)',
+    dotGlow: '0 0 10px 2px rgba(107, 124, 195, 0.55)',
     hairline: 'from-academy/60',
   },
 };

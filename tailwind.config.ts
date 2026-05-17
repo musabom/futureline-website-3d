@@ -23,10 +23,13 @@ const config: Config = {
           light: '#20C5B3',
           dark: '#148F82',
         },
+        // Academy pole — wordmark's blue end (lavender → deep navy).
+        // Replaces the off-brand amber so Academy and Lab read as the
+        // two poles already present in the FutureLine wordmark.
         academy: {
-          DEFAULT: '#F5A623',
-          light: '#FFB84D',
-          dark: '#C97F0E',
+          DEFAULT: '#6B7CC3',
+          light: '#b6c4ff',
+          dark: '#36467e',
         },
         // Mirrors the reference repo's brand.* namespace so verbatim section
         // components compile. bg/fg/muted use the reference's black canvas;
@@ -74,7 +77,7 @@ const config: Config = {
         'brand-gradient': 'linear-gradient(135deg, #1B2C63, #18A999)',
         'brand-gradient-hover': 'linear-gradient(135deg, #0F1E3D, #148F82)',
         'lab-glow': 'radial-gradient(ellipse at center, rgba(24, 169, 153, 0.25), transparent 70%)',
-        'academy-glow': 'radial-gradient(ellipse at center, rgba(245, 166, 35, 0.22), transparent 70%)',
+        'academy-glow': 'radial-gradient(ellipse at center, rgba(107, 124, 195, 0.28), transparent 70%)',
       },
       animation: {
         spotlight: 'spotlight 2s ease .75s 1 forwards',

@@ -115,7 +115,7 @@ export function FinalCTA() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-2">
             <Link
-              href="/services/consultation"
+              href="/audit"
               data-cursor="magnetic"
               data-cursor-strength="28"
               className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-white/90"

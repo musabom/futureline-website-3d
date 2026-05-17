@@ -204,7 +204,7 @@ const data: ServiceDetailData = {
     eyebrow: '07 — Start',
     headline: 'Stop paying for paper. Start owning your systems.',
     sub: 'A free systems audit. We map every manual touchpoint, show you exactly what to fix first, and give you the numbers to justify the build. No commitment, no jargon, no pitch deck.',
-    primary: { label: 'Get a free audit', href: '/services/consultation' },
+    primary: { label: 'Get a free audit', href: '/audit' },
     secondary: { label: 'All services', href: '/services' },
   },
 };

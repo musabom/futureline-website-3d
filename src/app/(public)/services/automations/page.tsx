@@ -135,7 +135,7 @@ const data: ServiceDetailData = {
     eyebrow: '06 — Start',
     headline: 'Give your team their day back.',
     sub: 'Get a free audit. We find the three highest-impact automations in your operation — and tell you what each would save in time and money.',
-    primary: { label: 'Get a free audit', href: '/services/consultation' },
+    primary: { label: 'Get a free audit', href: '/audit' },
     secondary: { label: 'All services', href: '/services' },
   },
 };

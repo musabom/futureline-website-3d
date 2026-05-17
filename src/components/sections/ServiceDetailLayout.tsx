@@ -140,7 +140,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               <FadeUp delay={0.4}>
                 <div className="mt-12 flex flex-wrap items-center gap-3">
                   <Link
-                    href="/services/consultation"
+                    href="/audit"
                     data-cursor="magnetic"
                     data-cursor-strength="22"
                     className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
@@ -510,7 +510,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
               <Link
-                href={data.cta?.primary.href ?? '/services/consultation'}
+                href={data.cta?.primary.href ?? '/audit'}
                 data-cursor="magnetic"
                 data-cursor-strength="28"
                 className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-white/90"

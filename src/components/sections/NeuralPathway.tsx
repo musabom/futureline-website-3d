@@ -471,13 +471,15 @@ function TopicCard({
       data-cursor-strength="16"
       tabIndex={isActive ? 0 : -1}
       className={[
-        'pointer-events-auto group block h-full rounded-2xl border border-academy/30 bg-black/75 p-9 backdrop-blur-xl transition-all duration-500 md:p-10',
-        'hover:border-academy/65 hover:shadow-[0_40px_120px_-20px_rgba(245,166,35,0.5)]',
+        'pointer-events-auto group block h-full rounded-2xl border border-academy/30 bg-black/88 p-9 backdrop-blur-xl transition-all duration-500 md:p-10',
+        'hover:border-academy/55 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]',
         isActive ? 'pointer-events-auto' : 'pointer-events-none',
       ].join(' ')}
       style={{
+        // Halo is mostly black with a small amber edge — restores figure/
+        // ground separation against the amber nebula behind the card.
         boxShadow: isActive
-          ? '0 50px 140px -20px rgba(245, 166, 35, 0.5), 0 0 0 1px rgba(245, 166, 35, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06)'
+          ? '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(245, 166, 35, 0.18), 0 0 0 1px rgba(245, 166, 35, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
           : 'none',
       }}
     >
@@ -500,7 +502,10 @@ function TopicCard({
         </span>
       </div>
 
-      <h4 className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text py-1 text-3xl font-black leading-[1.1] tracking-tight text-transparent md:text-4xl">
+      {/* Title in white — the card's primary visual anchor must contrast
+          against the amber nebula, not echo it. Amber lives only in the
+          icon pill, eyebrow, and bullets — accents, not the dish. */}
+      <h4 className="py-1 text-3xl font-black leading-[1.1] tracking-tight text-white md:text-4xl">
         {topic.label}
       </h4>
 
@@ -528,9 +533,10 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
   const { stat, bullets } = topic.highlights;
   return (
     <div
-      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/65 p-9 backdrop-blur-xl md:p-10"
+      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/88 p-9 backdrop-blur-xl md:p-10"
       style={{
-        boxShadow: '0 40px 120px -20px rgba(245, 166, 35, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+        boxShadow:
+          '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(245, 166, 35, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
       {/* Top accent line — matches the card's amber top-edge gradient so

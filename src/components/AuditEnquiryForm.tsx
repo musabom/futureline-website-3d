@@ -146,7 +146,7 @@ export default function AuditEnquiryForm() {
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             className="fl-input"
-            placeholder="+44 7700 900000"
+            placeholder="+968 9765 3461"
           />
         </div>
       </div>

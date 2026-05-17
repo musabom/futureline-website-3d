@@ -149,6 +149,7 @@ export default function LeadDetailPage() {
           <Link href="/admin/leads" className="text-slate-500 hover:text-white transition-colors"><ArrowLeft size={20} /></Link>
           <div>
             <h1 className="text-2xl font-black text-white tracking-tight">{lead.firstName} {lead.lastName}</h1>
+            {lead.company && <p className="text-sm text-slate-300">{lead.company}</p>}
             <p className="text-sm text-slate-500">{lead.email} {lead.phone && `· ${lead.phone}`}</p>
           </div>
         </div>

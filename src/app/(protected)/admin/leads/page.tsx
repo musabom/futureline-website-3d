@@ -85,9 +85,9 @@ export default function AdminLeadsPage() {
   }, {} as Record<string, number>);
 
   const exportCSV = () => {
-    const headers = ['First Name', 'Last Name', 'Email', 'Phone', 'Interest', 'Source', 'Stage', 'Priority', 'Message', 'Date'];
+    const headers = ['First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Interest', 'Source', 'Stage', 'Priority', 'Message', 'Date'];
     const rows = filtered.map(l => [
-      l.firstName || '', l.lastName || '', l.email, l.phone || '', l.tourType,
+      l.firstName || '', l.lastName || '', l.email, l.phone || '', l.company || '', l.tourType,
       l.source || 'FL Tourism', l.stage, l.priority,
       `"${(l.message || '').replace(/"/g, '""')}"`,
       new Date(l.createdAt).toLocaleDateString('en-GB'),
@@ -194,6 +194,9 @@ export default function AdminLeadsPage() {
                       className="block rounded-lg p-3 border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-colors cursor-pointer"
                     >
                       <div className="font-medium text-sm text-slate-200 truncate">{lead.firstName} {lead.lastName}</div>
+                      {lead.company && (
+                        <div className="text-xs text-slate-400 truncate mt-0.5">{lead.company}</div>
+                      )}
                       <div className="text-xs text-slate-500 truncate mt-1">{lead.email}</div>
                       <div className="flex items-center gap-2 mt-2">
                         <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${PRIORITY_DARK[lead.priority] || ''}`}>
@@ -223,6 +226,7 @@ export default function AdminLeadsPage() {
             <thead className="border-b border-white/[0.06] bg-white/[0.02]">
               <tr>
                 <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Name</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Company</th>
                 <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Email</th>
                 <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Interest</th>
                 <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Source</th>
@@ -234,11 +238,12 @@ export default function AdminLeadsPage() {
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="px-4 py-12 text-center text-slate-600">No leads found</td></tr>
+                <tr><td colSpan={9} className="px-4 py-12 text-center text-slate-600">No leads found</td></tr>
               ) : (
                 filtered.map(l => (
                   <tr key={l.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                     <td className="px-4 py-3"><span className="font-medium text-slate-200">{l.firstName} {l.lastName}</span></td>
+                    <td className="px-4 py-3 text-sm text-slate-300">{l.company || <span className="text-slate-600">—</span>}</td>
                     <td className="px-4 py-3 text-sm text-slate-300">{l.email}</td>
                     <td className="px-4 py-3 text-sm text-slate-300">{l.tourType}</td>
                     <td className="px-4 py-3">

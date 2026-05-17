@@ -17,6 +17,8 @@ export default function AuditEnquiryForm() {
     firstName: '',
     lastName: '',
     email: '',
+    company: '',
+    phone: '',
     message: '',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -37,7 +39,14 @@ export default function AuditEnquiryForm() {
       });
       if (res.ok) {
         setStatus('sent');
-        setForm({ firstName: '', lastName: '', email: '', message: '' });
+        setForm({
+          firstName: '',
+          lastName: '',
+          email: '',
+          company: '',
+          phone: '',
+          message: '',
+        });
       } else {
         setStatus('error');
       }
@@ -109,6 +118,37 @@ export default function AuditEnquiryForm() {
           className="fl-input"
           placeholder="you@example.com"
         />
+      </div>
+
+      {/* Company + Phone — both optional. Help the sales team qualify the
+          lead but don't gate the submission on them. */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div>
+          <label className="fl-label" htmlFor="ae-company">
+            Company <span className="text-white/40">(optional)</span>
+          </label>
+          <input
+            id="ae-company"
+            type="text"
+            value={form.company}
+            onChange={(e) => setForm({ ...form, company: e.target.value })}
+            className="fl-input"
+            placeholder="Acme Co."
+          />
+        </div>
+        <div>
+          <label className="fl-label" htmlFor="ae-phone">
+            Phone <span className="text-white/40">(optional)</span>
+          </label>
+          <input
+            id="ae-phone"
+            type="tel"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            className="fl-input"
+            placeholder="+44 7700 900000"
+          />
+        </div>
       </div>
 
       <div>

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: formatZodError(parsed.error) }, { status: 400 });
     }
-    const { firstName, lastName, email, phone, tourType, message, source } = parsed.data;
+    const { firstName, lastName, email, phone, company, tourType, message, source } = parsed.data;
 
     const lead = await prisma.lead.create({
       data: {
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         lastName,
         email,
         phone: phone || null,
+        company: company || null,
         tourType: tourType || 'General Enquiry',
         message,
         source: source || 'FL Tourism',

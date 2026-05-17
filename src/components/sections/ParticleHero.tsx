@@ -86,20 +86,54 @@ export function ParticleHero() {
         </h1>
 
         {/* Strapline directly under the wordmark — three pillars of what
-            FutureLine does, with glowing lab-teal dots as separators.
-            Bigger and branded vs. the old tiny eyebrow that lived above. */}
-        <p className="hero-eyebrow mt-8 flex items-center justify-center gap-4 font-mono text-base font-medium uppercase tracking-[0.32em] text-white md:mt-10 md:gap-7 md:text-2xl">
-          <span>Design</span>
+            FutureLine does. Each word carries the lab-teal gradient so
+            it reads as a brand stamp echoing the wordmark above, with
+            glowing teal dot separators and a subtle drop-shadow glow. */}
+        <p
+          className="hero-eyebrow mt-8 flex items-center justify-center gap-4 font-mono text-base font-bold uppercase tracking-[0.32em] md:mt-10 md:gap-7 md:text-2xl"
+          style={{ filter: 'drop-shadow(0 0 18px rgba(24, 169, 153, 0.3))' }}
+        >
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Design
+          </span>
           <span
             aria-hidden
-            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.7)]"
+            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.75)]"
           />
-          <span>Deploy</span>
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Deploy
+          </span>
           <span
             aria-hidden
-            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.7)]"
+            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.75)]"
           />
-          <span>Evolve</span>
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Evolve
+          </span>
         </p>
 
         <p className="hero-sub mt-8 max-w-2xl text-base leading-relaxed text-white/75 md:mt-10 md:text-lg">

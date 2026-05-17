@@ -12,7 +12,7 @@ function FooterCol({ title, links, accent }: FooterColProps) {
     accent === 'lab'
       ? 'bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]'
       : accent === 'academy'
-      ? 'bg-academy shadow-[0_0_10px_2px_rgba(245,166,35,0.55)]'
+      ? 'bg-academy shadow-[0_0_10px_2px_rgba(107,124,195,0.55)]'
       : null;
 
   return (

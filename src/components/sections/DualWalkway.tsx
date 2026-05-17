@@ -2,8 +2,8 @@
  * DualWalkway — scroll-driven twin-ribbon corridor with marketing cards.
  *
  * 3D scene: two RibbonWall planes flanking a corridor, 240 instanced
- * particles, scroll-coupled camera flying forward. Pole colors swapped
- * to brand teal (Lab) + amber (Academy).
+ * particles, scroll-coupled camera flying forward. Pole colors are the
+ * brand's two ends: teal (Lab) + wordmark blue (Academy).
  *
  * Overlay enhancements (May 2026):
  *   • 4 marketing cards (Digitalisation, Custom Software, Automations,
@@ -14,7 +14,7 @@
  *     card, creating spatial parallax (#5)
  *   • Huge faded number watermark behind the corridor (#8)
  *   • Per-card pole bias: when a card enters from the left, the
- *     left (teal) wall brightens; from the right, the right (amber)
+ *     left (teal) wall brightens; from the right, the right (blue)
  *     wall brightens. Driven by a `wallBoostRef` lerped each frame
  *     into the ribbon shader's uBoost uniform. (#6)
  *   • Scene flash on card transition: a global `pulseRef` spikes to
@@ -464,7 +464,7 @@ export default function DualWalkway() {
           />
           <RibbonWall
             side="right"
-            color="#F5A623"
+            color="#6B7CC3"
             boostRef={wallBoostRef}
             pulseRef={pulseRef}
           />
@@ -503,12 +503,12 @@ export default function DualWalkway() {
         aria-hidden="true"
         className="pointer-events-none absolute right-6 top-8 z-10 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] md:right-16"
       >
-        <span style={{ color: '#F5A623' }}>FL · Academy</span>
+        <span style={{ color: '#6B7CC3' }}>FL · Academy</span>
         <span
           className="block h-1.5 w-1.5 rounded-full"
           style={{
-            background: '#F5A623',
-            boxShadow: '0 0 10px 2px rgba(245, 166, 35, 0.55)',
+            background: '#6B7CC3',
+            boxShadow: '0 0 10px 2px rgba(107, 124, 195, 0.55)',
           }}
         />
       </div>

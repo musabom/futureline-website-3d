@@ -66,13 +66,6 @@ export function ParticleHero() {
       />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-        <p className="hero-eyebrow mb-8 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-white/70">
-          <span
-            aria-hidden
-            className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]"
-          />
-          Design · Deploy · Evolve
-        </p>
         <h1
           id="hero-heading"
           className="hero-wordmark text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-[clamp(4rem,12vw,12rem)]"
@@ -91,7 +84,25 @@ export function ParticleHero() {
             FutureLine
           </span>
         </h1>
-        <p className="hero-sub mt-10 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
+
+        {/* Strapline directly under the wordmark — three pillars of what
+            FutureLine does, with glowing lab-teal dots as separators.
+            Bigger and branded vs. the old tiny eyebrow that lived above. */}
+        <p className="hero-eyebrow mt-8 flex items-center justify-center gap-4 font-mono text-base font-medium uppercase tracking-[0.32em] text-white md:mt-10 md:gap-7 md:text-2xl">
+          <span>Design</span>
+          <span
+            aria-hidden
+            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.7)]"
+          />
+          <span>Deploy</span>
+          <span
+            aria-hidden
+            className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_14px_3px_rgba(24,169,153,0.7)]"
+          />
+          <span>Evolve</span>
+        </p>
+
+        <p className="hero-sub mt-8 max-w-2xl text-base leading-relaxed text-white/75 md:mt-10 md:text-lg">
           Your business is scaling. Your systems aren&apos;t.
           <br className="hidden md:inline" />
           We build the digital infrastructure that lets you grow without breaking things.

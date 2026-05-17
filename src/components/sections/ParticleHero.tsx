@@ -146,7 +146,7 @@ export function ParticleHero() {
         </p>
         <div className="hero-cta mt-12 flex items-center gap-2">
           <Link
-            href="/services/consultation"
+            href="/audit"
             data-cursor="magnetic"
             data-cursor-strength="22"
             className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"

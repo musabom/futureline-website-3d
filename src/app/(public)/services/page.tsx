@@ -71,7 +71,7 @@ export default async function ServicesPage() {
                     Browse services
                   </Link>
                   <Link
-                    href="/services/consultation"
+                    href="/audit"
                     data-cursor="hover"
                     className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
                   >

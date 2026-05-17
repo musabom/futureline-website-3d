@@ -294,7 +294,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
     },
     cta: {
       label: 'Get a free audit',
-      href: '/services/consultation',
+      href: '/audit',
       hint: 'No commitment · 30-min call',
     },
   },
@@ -313,7 +313,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
     },
     cta: {
       label: 'Design my system',
-      href: '/services/consultation',
+      href: '/audit',
       hint: 'Free scoping call · No deck',
     },
   },
@@ -332,7 +332,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
     },
     cta: {
       label: 'Map my workflow',
-      href: '/services/consultation',
+      href: '/audit',
       hint: 'Free workflow audit · Top 3 wins',
     },
   },
@@ -351,7 +351,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
     },
     cta: {
       label: 'Book free session',
-      href: '/services/consultation',
+      href: '/audit',
       hint: 'No pitch deck · No hard sell',
     },
   },

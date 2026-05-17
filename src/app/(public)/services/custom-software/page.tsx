@@ -135,7 +135,7 @@ const data: ServiceDetailData = {
     eyebrow: '06 — Start',
     headline: 'Stop renting. Own.',
     sub: 'Get a free systems audit. We map your stack, find what’s costing you most, and show you exactly what’s worth building yourself.',
-    primary: { label: 'Get a free audit', href: '/services/consultation' },
+    primary: { label: 'Get a free audit', href: '/audit' },
     secondary: { label: 'All services', href: '/services' },
   },
 };

@@ -697,14 +697,15 @@ export default function DualWalkway() {
                     }}
                   />
 
-                  {/* Top row: tagline as a small eyebrow on the left, page
-                      number on the right. The service NAME is the hero
-                      below, not the tagline. */}
+                  {/* Top row: tagline as a manifesto-style sentence on the
+                      left, page number on the right. Sentence-case italic
+                      in lab teal makes the line read as a quoted punch
+                      rather than a metadata label. */}
                   <div className="relative mb-8 flex items-baseline justify-between gap-6">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-lab/75 md:text-xs">
-                      {card.headline}
+                    <p className="text-base font-medium italic leading-snug text-lab/85 md:text-lg">
+                      &ldquo;{card.headline}&rdquo;
                     </p>
-                    <span className="font-mono text-xs tracking-[0.3em] text-lab/80">
+                    <span className="flex-shrink-0 font-mono text-xs tracking-[0.3em] text-lab/80">
                       {card.num}
                     </span>
                   </div>

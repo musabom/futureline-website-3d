@@ -16,6 +16,7 @@ export const leadSchema = z.object({
   lastName: z.string().min(1, 'Last name is required').max(50),
   email: z.string().email('Invalid email address'),
   phone: z.string().max(30).optional().nullable(),
+  company: z.string().max(120).optional().nullable(),
   tourType: z.string().max(200).optional().default('General Enquiry'),
   message: z.string().min(1, 'Message is required').max(5000),
   source: z.string().max(100).optional(),

@@ -93,11 +93,14 @@ export function ParticleHero() {
           className="hero-eyebrow mt-8 flex items-center justify-center gap-4 font-mono text-base font-bold uppercase tracking-[0.32em] md:mt-10 md:gap-7 md:text-2xl"
           style={{ filter: 'drop-shadow(0 0 18px rgba(24, 169, 153, 0.3))' }}
         >
+          {/* Each word steps through the FutureLine wordmark's gradient:
+              Design (deep teal) → Deploy (mint) → Evolve (blue). Reads
+              as the same color journey as the wordmark above. */}
           <span
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage:
-                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+                'linear-gradient(135deg, #20C5B3 0%, #18A999 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -112,7 +115,7 @@ export function ParticleHero() {
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage:
-                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+                'linear-gradient(135deg, #5edac8 0%, #20C5B3 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -127,7 +130,7 @@ export function ParticleHero() {
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage:
-                'linear-gradient(135deg, #5edac8 0%, #20C5B3 45%, #18A999 100%)',
+                'linear-gradient(135deg, #b6c4ff 0%, #6b7cc3 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}

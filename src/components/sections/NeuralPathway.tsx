@@ -471,13 +471,13 @@ function TopicCard({
       data-cursor-strength="16"
       tabIndex={isActive ? 0 : -1}
       className={[
-        'pointer-events-auto group block h-full rounded-2xl border border-academy/25 bg-black/55 p-7 backdrop-blur-md transition-all duration-500',
-        'hover:border-academy/60 hover:shadow-[0_30px_80px_-20px_rgba(245,166,35,0.45)]',
+        'pointer-events-auto group block h-full rounded-2xl border border-academy/30 bg-black/75 p-9 backdrop-blur-xl transition-all duration-500 md:p-10',
+        'hover:border-academy/65 hover:shadow-[0_40px_120px_-20px_rgba(245,166,35,0.5)]',
         isActive ? 'pointer-events-auto' : 'pointer-events-none',
       ].join(' ')}
       style={{
         boxShadow: isActive
-          ? '0 30px 80px -20px rgba(245, 166, 35, 0.35), 0 0 0 1px rgba(245, 166, 35, 0.18)'
+          ? '0 50px 140px -20px rgba(245, 166, 35, 0.5), 0 0 0 1px rgba(245, 166, 35, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06)'
           : 'none',
       }}
     >
@@ -491,31 +491,31 @@ function TopicCard({
         }}
       />
 
-      <div className="mb-6 flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-academy/40 bg-academy/10 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/20 group-hover:shadow-[0_0_18px_rgba(245,166,35,0.4)]">
-          <Icon size={16} strokeWidth={1.75} />
+      <div className="mb-7 flex items-center gap-3.5">
+        <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-academy/45 bg-academy/15 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/25 group-hover:shadow-[0_0_20px_rgba(245,166,35,0.5)]">
+          <Icon size={19} strokeWidth={1.75} />
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy/85">
+        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
           0{index + 1} · Track
         </span>
       </div>
 
-      <h4 className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-2xl font-black leading-tight tracking-tight text-transparent md:text-3xl">
+      <h4 className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text py-1 text-3xl font-black leading-[1.1] tracking-tight text-transparent md:text-4xl">
         {topic.label}
       </h4>
 
-      <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+      <p className="mt-5 text-base leading-relaxed text-white/80 md:text-lg">
         {topic.description}
       </p>
 
-      <div className="mt-7 flex items-center justify-between border-t border-white/[0.08] pt-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+      <div className="mt-9 flex items-center justify-between border-t border-white/[0.1] pt-5">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/55">
           Tap to explore
         </span>
         <span className="inline-flex items-center gap-2 text-sm font-medium text-academy transition-colors duration-300 group-hover:text-academy-light">
           Open track
           <ArrowRight
-            size={14}
+            size={15}
             className="transition-transform duration-300 group-hover:translate-x-1"
           />
         </span>
@@ -527,39 +527,55 @@ function TopicCard({
 function TopicHighlights({ topic }: { topic: TopicData }) {
   const { stat, bullets } = topic.highlights;
   return (
-    <div className="flex h-full flex-col justify-center">
+    <div
+      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/65 p-9 backdrop-blur-xl md:p-10"
+      style={{
+        boxShadow: '0 40px 120px -20px rgba(245, 166, 35, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+      }}
+    >
+      {/* Top accent line — matches the card's amber top-edge gradient so
+          both columns feel like a paired set, not card + bare text. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(245, 166, 35, 0.65) 35%, rgba(255, 184, 77, 0.45) 65%, transparent 100%)',
+        }}
+      />
+
       {/* Stat */}
       <div>
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy/85">
+        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-academy">
           What you&apos;ll learn
         </p>
-        <div className="mt-3 flex items-baseline gap-3">
+        <div className="mt-4 flex items-baseline gap-4">
           <span
-            className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-5xl font-black leading-none tracking-tight text-transparent md:text-6xl"
+            className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text py-1 text-6xl font-black leading-[1.05] tracking-tight text-transparent md:text-7xl"
             style={{
-              textShadow: '0 0 28px rgba(245, 166, 35, 0.25)',
+              textShadow: '0 0 36px rgba(245, 166, 35, 0.3)',
             }}
           >
             {stat.value}
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/70">
             {stat.label}
           </span>
         </div>
       </div>
 
       {/* Bullets */}
-      <ul className="mt-8 space-y-3">
+      <ul className="mt-9 space-y-4">
         {bullets.map((b, i) => (
           <li
             key={i}
-            className="flex items-start gap-3 text-sm leading-relaxed text-white/75 md:text-base"
+            className="flex items-start gap-3.5 text-base leading-relaxed text-white/90 md:text-lg"
           >
             <span
               aria-hidden
-              className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-academy"
+              className="mt-2.5 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-academy"
               style={{
-                boxShadow: '0 0 8px rgba(245, 166, 35, 0.55)',
+                boxShadow: '0 0 10px rgba(245, 166, 35, 0.65)',
               }}
             />
             <span>{b}</span>
@@ -714,15 +730,27 @@ export default function NeuralPathway() {
         How to learn AI
       </div>
 
-      {/* Centered title (top of section) */}
+      {/* Centered title (top of section) — subtle radial scrim behind so
+          the gradient text reads cleanly above the busy 3D nebula. */}
       <div className="pointer-events-none absolute left-1/2 top-24 z-10 -translate-x-1/2 text-center md:top-32">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-72 w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 45%, transparent 75%)',
+          }}
+        />
         <h3
-          className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text text-3xl font-black tracking-tight text-transparent md:text-5xl"
-          style={{ letterSpacing: '-0.02em' }}
+          className="bg-gradient-to-r from-academy-light via-academy to-amber-300 bg-clip-text py-2 text-4xl font-black leading-[1.05] tracking-tight text-transparent md:text-[clamp(3rem,5.5vw,5.5rem)]"
+          style={{
+            letterSpacing: '-0.02em',
+            textShadow: '0 0 40px rgba(245, 166, 35, 0.35)',
+          }}
         >
           Turn AI into income.
         </h3>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-white/65 md:text-base">
+        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
           Stop consuming AI content. Start building with it — and getting paid. Tap any track to start your run.
         </p>
       </div>
@@ -736,7 +764,7 @@ export default function NeuralPathway() {
 
       {/* LEFT column */}
       <div className="pointer-events-none absolute inset-y-0 left-[4%] z-20 hidden flex-col justify-center md:flex xl:left-[8%]">
-        <div className="relative h-[24rem] w-80 lg:w-96">
+        <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
           {TOPICS.map((t, i) => {
             const isActive = activeTopic === i;
             // Slide-in direction: cards slide from their cardSide,
@@ -771,7 +799,7 @@ export default function NeuralPathway() {
 
       {/* RIGHT column */}
       <div className="pointer-events-none absolute inset-y-0 right-[4%] z-20 hidden flex-col justify-center md:flex xl:right-[8%]">
-        <div className="relative h-[24rem] w-80 lg:w-96">
+        <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
           {TOPICS.map((t, i) => {
             const isActive = activeTopic === i;
             const slideClass = isActive

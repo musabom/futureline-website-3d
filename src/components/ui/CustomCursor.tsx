@@ -12,9 +12,11 @@
  *     pill ("FutureLine — your Digitalisation partner", etc.) that
  *     tracks the cursor for ~2.8s, then collapses back to the dot.
  *
- * Burst cadence (hybrid):
- *   - Fires when the cursor has been still for ≥ 2s, OR
- *   - Force-fires after 20s if the user has been moving continuously.
+ * Burst cadence:
+ *   - Unpredictable. Each burst picks a random next-fire delay in
+ *     [12s, 35s] when it dismisses, so the rhythm never feels scheduled.
+ *   - Only enabled on the home page (pathname === '/'). Other pages
+ *     keep the dot + blob cursor but skip the marketing-phrase bursts.
  *   - Suppressed while hovering an interactive element (so it never
  *     interferes with intent to click).
  *
@@ -29,6 +31,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 
 const BRAND_PHRASES = [
@@ -64,11 +67,19 @@ function shuffled<T>(arr: readonly T[]): T[] {
   return a
 }
 
+// Random delay in [12s, 35s] before the next burst — chosen fresh after
+// every dismiss so the cadence never feels scheduled.
+const BURST_DELAY_MIN_MS = 12_000
+const BURST_DELAY_MAX_MS = 35_000
+const randomBurstDelay = () =>
+  BURST_DELAY_MIN_MS + Math.random() * (BURST_DELAY_MAX_MS - BURST_DELAY_MIN_MS)
+
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const blobRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
   const phraseRef = useRef<HTMLSpanElement>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)').matches
@@ -94,16 +105,19 @@ export function CustomCursor() {
     const setLabelX = gsap.quickTo(label, 'x', { duration: 0.22, ease: 'power3.out' })
     const setLabelY = gsap.quickTo(label, 'y', { duration: 0.22, ease: 'power3.out' })
 
-    // Hybrid trigger state.
+    // Burst-trigger state. nextBurstDelay is re-randomized after each
+    // burst dismisses, so the rhythm never feels predictable.
     let deck = shuffled(BRAND_PHRASES)
     let deckIndex = 0
     let lastMoveAt = performance.now()
     let lastBurstAt = performance.now()
     let burstActive = false
     let hovering = false
-    const IDLE_MS = 2000
-    const MAX_GAP_MS = 20000
+    let nextBurstDelay = randomBurstDelay()
     const BURST_HOLD_MS = 3400
+    // Home-page-only feature. Other pages get the dot+blob cursor but no
+    // marketing-phrase bursts.
+    const burstsEnabled = pathname === '/'
 
     const fireBurst = () => {
       if (burstActive) return
@@ -150,19 +164,18 @@ export function CustomCursor() {
         window.setTimeout(() => {
           burstActive = false
           lastMoveAt = performance.now()
+          // Fresh random delay for the NEXT burst — the user can't
+          // anticipate when the cursor will pop next.
+          nextBurstDelay = randomBurstDelay()
         }, 450)
       }, BURST_HOLD_MS)
     }
 
     const tickIntervalId = window.setInterval(() => {
+      if (!burstsEnabled) return
       if (burstActive || hovering) return
-      const now = performance.now()
-      const idleFor = now - lastMoveAt
-      const sinceLast = now - lastBurstAt
-      // Idle-preferred firing, with a hard ceiling so it still fires if
-      // the user is moving continuously.
-      if (idleFor >= IDLE_MS && sinceLast >= 8000) fireBurst()
-      else if (sinceLast >= MAX_GAP_MS) fireBurst()
+      const sinceLast = performance.now() - lastBurstAt
+      if (sinceLast >= nextBurstDelay) fireBurst()
     }, 400)
 
     const onMove = (e: MouseEvent) => {
@@ -260,7 +273,7 @@ export function CustomCursor() {
       window.removeEventListener('focus', onFocus)
       document.documentElement.classList.remove('cursor-hidden')
     }
-  }, [])
+  }, [pathname])
 
   return (
     <>

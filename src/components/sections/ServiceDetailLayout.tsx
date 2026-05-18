@@ -34,6 +34,31 @@ export interface ServiceDetailData {
     title: string;
     body: string;
   }[];
+  /** Override the default "Live in weeks." process H2 with something
+   *  service-specific (e.g. "The 6–10 week build."). Falls back to the
+   *  global promise when not set. */
+  processHeading?: string;
+  /** Optional one-line callout below the process heading. Useful for
+   *  highlighting an underrated process strength (e.g. "Working software
+   *  every Friday — no long silences."). */
+  processSubhead?: string;
+  /** Optional tech-stack caption rendered below the process grid.
+   *  Builds trust with technical buyers. */
+  techStack?: string;
+  /** Optional 3-way "Build vs Buy vs Hire" decision matrix. Renders
+   *  between deliverables and compare. Different objection from compare
+   *  (which is 2-way SaaS-vs-FL); this one addresses "why not hire?". */
+  buildVsBuy?: {
+    eyebrow?: string;
+    headline: string;
+    intro?: string;
+    rows: {
+      label: string;
+      saas: string;
+      hire: string;
+      futureline: string;
+    }[];
+  };
   deliverables: string[];
   industries?: {
     name: string;
@@ -104,6 +129,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
     { id: 'why-it-matters', label: 'Why it matters' },
     { id: 'how-we-work', label: 'How we work' },
     { id: 'what-you-get', label: 'What you get' },
+    ...(data.buildVsBuy && data.buildVsBuy.rows.length > 0
+      ? [{ id: 'build-buy-hire', label: 'Build, buy, or hire?' }]
+      : []),
     ...(data.compare && data.compare.rows.length > 0
       ? [{ id: 'why-not-saas', label: 'Why not SaaS?' }]
       : []),
@@ -255,8 +283,18 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               variant="chars"
               className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
             >
-              Live in weeks.
+              {data.processHeading ?? 'Live in weeks.'}
             </AnimatedText>
+            {data.processSubhead && (
+              <AnimatedText
+                as="p"
+                variant="words"
+                className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg"
+                delay={0.15}
+              >
+                {data.processSubhead}
+              </AnimatedText>
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:grid-cols-4">
@@ -274,6 +312,15 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               </FadeUp>
             ))}
           </div>
+
+          {data.techStack && (
+            <div className="mt-12 border-t border-white/[0.08] pt-6 md:mt-14">
+              <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45">
+                <span className="text-lab">Built on</span>
+                <span className="text-white/70 normal-case tracking-normal">{data.techStack}</span>
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -313,6 +360,107 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           </div>
         </div>
       </section>
+
+      {/* ── Build vs Buy vs Hire (optional): 3-way decision matrix ──
+          Different from compare (which is 2-way SaaS-vs-FL). Addresses
+          the "why not hire a developer?" objection that compare can't. */}
+      {data.buildVsBuy && data.buildVsBuy.rows.length > 0 && (
+        <section
+          id="build-buy-hire"
+          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 max-w-3xl md:mb-14">
+              <SectionEyebrow>{data.buildVsBuy.eyebrow ?? 'Decision framework'}</SectionEyebrow>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                {data.buildVsBuy.headline}
+              </AnimatedText>
+              {data.buildVsBuy.intro && (
+                <AnimatedText
+                  as="p"
+                  variant="words"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  delay={0.15}
+                >
+                  {data.buildVsBuy.intro}
+                </AnimatedText>
+              )}
+            </div>
+
+            <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+              {/* Column headers — Category / SaaS / Hire / FutureLine */}
+              <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
+                <div className="col-span-12 md:col-span-3">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                    Category
+                  </p>
+                </div>
+                <div className="col-span-4 md:col-span-3">
+                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                    Buy SaaS
+                  </p>
+                </div>
+                <div className="col-span-4 md:col-span-3">
+                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                    Hire developer
+                  </p>
+                </div>
+                <div className="col-span-4 md:col-span-3">
+                  <p
+                    className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
+                    style={{ textShadow: '0 0 8px rgba(24,169,153,0.4)' }}
+                  >
+                    <span
+                      aria-hidden
+                      className="inline-block h-2 w-2 rounded-full bg-lab"
+                      style={{ boxShadow: '0 0 8px rgba(24, 169, 153, 0.65)' }}
+                    />
+                    FutureLine
+                  </p>
+                </div>
+              </div>
+
+              {data.buildVsBuy.rows.map((row, i) => (
+                <FadeUp key={i} delay={i * 0.05}>
+                  <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
+                    <div className="col-span-12 md:col-span-3">
+                      <div className="flex items-baseline gap-3">
+                        <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-lab/70">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">
+                          {row.label}
+                        </h4>
+                      </div>
+                    </div>
+                    <div className="col-span-4 md:col-span-3">
+                      <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.saas}</p>
+                    </div>
+                    <div className="col-span-4 md:col-span-3">
+                      <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.hire}</p>
+                    </div>
+                    <div className="relative col-span-4 md:col-span-3">
+                      <span
+                        aria-hidden
+                        className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-lab/40 via-lab/15 to-transparent md:block"
+                      />
+                      <p className="text-sm font-medium leading-relaxed text-white md:text-base">
+                        {row.futureline}
+                      </p>
+                    </div>
+                  </div>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Compare (optional): "Off-the-shelf vs. built for you" ── */}
       {data.compare && data.compare.rows.length > 0 && (
@@ -441,7 +589,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             >
               What clients gain.
             </AnimatedText>
-            <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+            <div
+              className={[
+                'mt-12 grid grid-cols-1 gap-12 md:gap-8',
+                data.stats.length === 4
+                  ? 'md:grid-cols-2 lg:grid-cols-4'
+                  : 'md:grid-cols-3',
+              ].join(' ')}
+            >
               {data.stats.map((s, i) => (
                 <FadeUp key={i} delay={i * 0.08}>
                   <div className="border-t border-white/[0.12] pt-6">

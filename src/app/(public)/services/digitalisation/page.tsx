@@ -14,9 +14,10 @@ const data: ServiceDetailData = {
   eyebrow: 'FL · Lab · Digitalisation',
   pageNumber: '01',
   heading: 'Paper out. Systems in.',
-  // 1) Subhead rewritten to lead with buyer reality + 8) light AI angle
+  // Subhead trimmed to one core sentence + three brand promises. The
+  // "Your competitors aren't" framing is saved for the compare section.
   subhead:
-    'Your team is buried in admin. Your competitors aren’t. We replace paper, spreadsheets, and inbox approvals with one system your people will actually use — live in weeks, owned forever, AI-ready by design.',
+    'Replace paper, spreadsheets, and inbox approvals with one system your team will actually use. Live in weeks. Owned forever. AI-ready by design.',
   marqueeItems: [
     'Digital workflows',
     'One source of truth',
@@ -25,27 +26,20 @@ const data: ServiceDetailData = {
     'No spreadsheet sprawl',
     'AI-ready by design',
   ],
-  // 3) Pain points #5 and #6 swapped for sharper, digitalisation-specific stats
+  // Pruned 6 → 4 strongest pain points. Stats normalized to consistent
+  // shape (number + tight unit), descriptive nouns moved into headlines
+  // below so the stat column scans as a vertical column of comparable
+  // numbers rather than mixed labels.
   painPoints: [
     {
-      stat: '11 hrs / week',
+      stat: '11 hrs/wk',
       headline: 'Wasted hours.',
       body: 'Manual data entry alone costs the average SME employee 11 hours per week — time your competitors are spending on growth.',
     },
     {
-      stat: '88% errors',
+      stat: '88%',
       headline: 'Spreadsheet risk.',
       body: '88% of spreadsheets contain critical errors. Every one is an unaudited liability sitting in someone’s inbox.',
-    },
-    {
-      stat: 'Real-time: 0%',
-      headline: 'Zero visibility.',
-      body: 'You can’t manage what you can’t see. Decisions get made on yesterday’s data — or last month’s.',
-    },
-    {
-      stat: '#1 churn cause',
-      headline: 'Staff burnout.',
-      body: 'Talented people leave when their job is admin, not work. Manual processes are the number-one cause of preventable staff turnover.',
     },
     {
       stat: '$47k',
@@ -131,45 +125,30 @@ const data: ServiceDetailData = {
       },
     ],
   },
-  // 4) Stats trio refreshed — no duplicate "11 hrs" from pain section
-  stats: [
-    {
-      value: '5 wks',
-      label: 'Average delivery',
-      sub: 'Kickoff to live system. Not 12-month enterprise builds.',
-    },
-    {
-      value: '$0',
-      label: 'Recurring licence fees',
-      sub: 'Custom systems mean no monthly software tax. Forever.',
-    },
-    {
-      value: '100%',
-      label: 'Yours, forever',
-      sub: 'Source code, infrastructure, and data — owned outright. No vendor lock-in.',
-    },
-  ],
-  // 6) Industries expanded — sharper before/after per sector
+  // Stats section omitted — the compare table already covers cost ($0
+  // licence fees) and ownership; the hero already promises "live in
+  // weeks". A standalone stats trio here was redundant.
+  // Industries — one sentence each, scannable in the 2-col grid.
   industries: [
     {
       name: 'Oil & Gas',
-      pain: 'Paper permits, HSE compliance logs, and field reports buried in inboxes — we ship digital permit-to-work systems, audit-grade incident routing, and field apps that work offline on a rig.',
+      pain: 'Digital permit-to-work, HSE incident routing, and field apps that work offline on a rig.',
     },
     {
       name: 'Construction',
-      pain: 'Site diaries on WhatsApp, snag lists on clipboards, subcontractor approvals lost in email — we ship project management that the foreman uses on the site, not the office.',
+      pain: 'Project management the foreman uses on site — not the office. Diaries, snags, sub-approvals.',
     },
     {
       name: 'Government & Public Sector',
-      pain: 'Service requests on paper forms, approvals stuck on someone’s desk, public records nobody can find — we ship citizen-facing portals and internal workflows that meet compliance and ship faster.',
+      pain: 'Citizen portals and internal workflows that meet compliance and ship faster than your IT vendor.',
     },
     {
       name: 'Education & Training',
-      pain: 'Enrolment in spreadsheets, attendance on paper, reporting compiled the night before the board meeting — we ship student-facing portals and admin systems your registrar will actually use.',
+      pain: 'Student portals and admin systems your registrar will actually use — not work around.',
     },
     {
       name: 'SMEs Scaling Operations',
-      pain: 'The 5-person process you’ve outgrown. Founders doing admin instead of strategy. We rebuild the operation around how the business will work at 50 people — before you hit 50.',
+      pain: 'Rebuild the operation around how you’ll work at 50 people — before you hit 50.',
     },
   ],
   // FAQs — kept the original 4, added 2 more (data security + ownership)
@@ -199,11 +178,12 @@ const data: ServiceDetailData = {
       a: 'No. You own the codebase, the documentation, and the credentials. Most clients don’t need us after month one. Those who want ongoing support get a small monthly package — but it’s opt-in, never a requirement.',
     },
   ],
-  // 7) CTA — added the second beat to match home page CTA rhythm
+  // Closing CTA — echoes the hero's three brand promises so the page
+  // bookends on the same note ("Live in weeks. Owned forever. AI-ready.").
   cta: {
-    eyebrow: '07 — Start',
+    eyebrow: '06 — Start',
     headline: 'Stop paying for paper. Start owning your systems.',
-    sub: 'A free systems audit. We map every manual touchpoint, show you exactly what to fix first, and give you the numbers to justify the build. No commitment, no jargon, no pitch deck.',
+    sub: 'Live in weeks. Owned forever. Start with a free audit — we’ll come back with the smallest first move that pays for itself.',
     primary: { label: 'Get a free audit', href: '/audit' },
     secondary: { label: 'All services', href: '/services' },
   },

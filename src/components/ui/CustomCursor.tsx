@@ -292,20 +292,9 @@ export function CustomCursor() {
       <div
         ref={labelRef}
         aria-hidden="true"
-        className="custom-cursor-label pointer-events-none fixed left-0 top-0 z-[10001] hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 whitespace-nowrap rounded-full border border-lab/60 bg-black/85 py-3.5 pl-5 pr-7 opacity-0 shadow-[0_0_50px_-2px_rgba(24,169,153,0.55),inset_0_0_0_1px_rgba(24,169,153,0.18)] backdrop-blur-xl"
+        className="custom-cursor-label pointer-events-none fixed left-0 top-0 z-[10001] hidden -translate-x-1/2 -translate-y-1/2 items-center whitespace-nowrap rounded-full border border-lab/60 bg-black/85 px-6 py-3.5 opacity-0 shadow-[0_0_50px_-2px_rgba(24,169,153,0.55),inset_0_0_0_1px_rgba(24,169,153,0.18)] backdrop-blur-xl"
         style={{ willChange: 'transform, opacity' }}
       >
-        <span
-          aria-hidden="true"
-          className="flex items-center gap-2.5 border-r border-white/15 pr-4 font-mono text-[10px] uppercase tracking-[0.32em] text-lab"
-        >
-          <span
-            aria-hidden="true"
-            className="block h-1.5 w-1.5 rounded-full bg-lab"
-            style={{ boxShadow: '0 0 10px 2px rgba(24, 169, 153, 0.7)' }}
-          />
-          FL · Lab
-        </span>
         <span
           ref={phraseRef}
           className="text-[15px] font-medium leading-none tracking-[-0.005em] text-white md:text-base"

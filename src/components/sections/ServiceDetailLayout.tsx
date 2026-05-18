@@ -16,6 +16,7 @@ import { AnimatedText } from '@/components/ui/AnimatedText';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
+import { PageScrollSpy } from '@/components/ui/PageScrollSpy';
 
 export interface ServiceDetailData {
   eyebrow: string; // e.g. "FL · Lab · Digitalisation"
@@ -97,10 +98,32 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
+  // Sections list for the scroll-spy is built dynamically so optional
+  // blocks (compare/stats/industries/faqs) only appear when present.
+  const spySections = [
+    { id: 'why-it-matters', label: 'Why it matters' },
+    { id: 'how-we-work', label: 'How we work' },
+    { id: 'what-you-get', label: 'What you get' },
+    ...(data.compare && data.compare.rows.length > 0
+      ? [{ id: 'why-not-saas', label: 'Why not SaaS?' }]
+      : []),
+    ...(data.stats && data.stats.length > 0
+      ? [{ id: 'by-the-numbers', label: 'By the numbers' }]
+      : []),
+    ...(data.industries && data.industries.length > 0
+      ? [{ id: 'where-it-fits', label: 'Where it fits' }]
+      : []),
+    ...(data.faqs && data.faqs.length > 0
+      ? [{ id: 'common-questions', label: 'Common questions' }]
+      : []),
+    { id: 'start', label: 'Start' },
+  ];
+
   return (
     <main className="bg-brand-bg">
+      <PageScrollSpy sections={spySections} />
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
+      <section id="top" className="relative overflow-hidden border-b border-white/[0.06]">
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
           <HeroRibbon3D color="#18A999" tilt={0.35} bloom={0.75} />
         </div>
@@ -108,6 +131,15 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
         />
+        {/* Huge faded page-number watermark — editorial layout cue,
+            sits behind the hero text and the 3D ribbon. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-2 z-[2] hidden select-none items-center font-black tracking-tighter text-white/[0.025] md:flex"
+          style={{ fontSize: 'clamp(14rem, 26vw, 28rem)', lineHeight: 0.85 }}
+        >
+          {data.pageNumber}
+        </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 md:py-32 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12">
@@ -119,9 +151,8 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 />
                 {data.eyebrow}
               </p>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-white/45">
-                {data.pageNumber}
-              </p>
+              {/* Small page-number line removed — replaced by the big
+                  faded watermark behind the hero. */}
               <AnimatedText
                 as="h1"
                 variant="chars"
@@ -148,11 +179,11 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                     Get a free systems audit
                   </Link>
                   <Link
-                    href="/services"
+                    href="#how-we-work"
                     data-cursor="hover"
                     className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
                   >
-                    All services →
+                    See how it works ↓
                   </Link>
                 </div>
               </FadeUp>
@@ -164,7 +195,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <MarqueeStrip items={data.marqueeItems} speed={30} />
 
       {/* ── Pain points (numbered editorial rows) ── */}
-      <section className="px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+      <section id="why-it-matters" className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 md:mb-14">
             <SectionEyebrow>Why it matters</SectionEyebrow>
@@ -215,7 +246,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Process / how we work ── */}
-      <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+      <section id="how-we-work" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 md:mb-14">
             <SectionEyebrow>How we work</SectionEyebrow>
@@ -247,7 +278,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Deliverables ── */}
-      <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+      <section id="what-you-get" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
@@ -285,7 +316,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Compare (optional): "Off-the-shelf vs. built for you" ── */}
       {data.compare && data.compare.rows.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="why-not-saas" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10 max-w-3xl md:mb-14">
               <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
@@ -400,7 +431,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Stats (optional) ── */}
       {data.stats && data.stats.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="by-the-numbers" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>By the numbers</SectionEyebrow>
             <AnimatedText
@@ -431,7 +462,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Industries (optional) ── */}
       {data.industries && data.industries.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="where-it-fits" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Where it fits</SectionEyebrow>
             <AnimatedText
@@ -475,7 +506,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── FAQ (optional) ── */}
       {data.faqs && data.faqs.length > 0 && (
-        <section className="border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="common-questions" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <SectionEyebrow>Common questions</SectionEyebrow>
             <AnimatedText
@@ -496,7 +527,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       )}
 
       {/* ── Closing CTA ── */}
-      <section className="border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+      <section id="start" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">

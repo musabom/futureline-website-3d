@@ -288,7 +288,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {/* ── Pain points (numbered editorial rows) ── */}
       <section id="why-it-matters" className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 md:mb-14">
+          <div className="mb-8 md:mb-12">
             <SectionEyebrow>Why it matters</SectionEyebrow>
             <AnimatedText
               as="h2"
@@ -303,7 +303,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             {data.painPoints.map((p, i) => (
               <article
                 key={i}
-                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-9 md:gap-12 md:py-12"
+                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-8 md:gap-12 md:py-10"
               >
                 <div className="col-span-12 md:col-span-3">
                   <p className="font-mono text-sm tracking-[0.3em] text-lab">
@@ -339,7 +339,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {/* ── Process / how we work ── */}
       <section id="how-we-work" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 md:mb-14">
+          <div className="mb-8 md:mb-12">
             <SectionEyebrow>How we work</SectionEyebrow>
             <AnimatedText
               as="h2"
@@ -377,7 +377,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           </div>
 
           {data.techStack && (
-            <div className="mt-12 border-t border-white/[0.08] pt-6 md:mt-14">
+            <div className="mt-9 border-t border-white/[0.08] pt-5 md:mt-10">
               <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45">
                 <span className="text-lab">Built on</span>
                 <span className="text-white/70 normal-case tracking-normal">{data.techStack}</span>
@@ -435,7 +435,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl md:mb-14">
+            <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.recentBuilds.eyebrow ?? 'Recent builds'}</SectionEyebrow>
               <AnimatedText
                 as="h2"
@@ -458,7 +458,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
             <RecentBuildsGrid tiles={data.recentBuilds.tiles} />
 
-            <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-white/35 md:mt-10">
+            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-white/35 md:mt-8">
               Stylized previews — examples of what we ship, not specific client work
             </p>
           </div>
@@ -474,7 +474,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl md:mb-14">
+            <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.buildVsBuy.eyebrow ?? 'Decision framework'}</SectionEyebrow>
               <AnimatedText
                 as="h2"
@@ -576,7 +576,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl md:mb-14">
+            <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.commitment.eyebrow ?? 'The engagement'}</SectionEyebrow>
               <AnimatedText
                 as="h2"
@@ -694,7 +694,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.compare && data.compare.rows.length > 0 && (
         <section id="why-not-saas" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl md:mb-14">
+            <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
               <AnimatedText
                 as="h2"

@@ -26,6 +26,12 @@ const data: ServiceDetailData = {
     'Weekly demos',
     'Built around your team',
   ],
+  // Section H2 overrides — the layout's defaults are digitalisation-
+  // flavored ("The cost of staying manual.", "Built to last."). Custom
+  // Software is about software ownership and build-process risk, not
+  // manual work, so the headings need to fit the page.
+  painHeading: 'Where custom builds go wrong.',
+  deliverablesHeading: 'What you walk away with.',
   // Pain points rewritten — old set duplicated the compare table
   // ($12k licence, 80% unused, vendor lock-in, 70% adoption fail are
   // all rows in the compare). New set names the *unique pain of

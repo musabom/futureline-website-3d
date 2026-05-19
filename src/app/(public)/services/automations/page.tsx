@@ -37,7 +37,7 @@ const data: ServiceDetailData = {
   painPoints: [
     {
       stat: '19 hrs/wk',
-      headline: 'Time haemorrhage.',
+      headline: 'Wasted hours.',
       body: 'The average small-business team spends 19 hours per week on tasks a machine could do — data entry, copy-paste between tools, chasing approvals.',
     },
     {
@@ -122,8 +122,8 @@ const data: ServiceDetailData = {
             'Push, email, or in-app notifications by role',
             'Full audit trail — who, what, when, why',
             'Mobile sign-off — approvers can act from the field',
-            'Conditional logic — different stages for different request types',
-            'Integrates with your CRM, HRIS, or finance system',
+            'Branches by request type — different approval flow for a purchase order vs a leave request',
+            'Integrates with your CRM, HR system, or finance tools',
           ],
           results: [
             'Approval cycle: 2–3 days → 2–3 hours',
@@ -145,11 +145,11 @@ const data: ServiceDetailData = {
           replaces:
             'Manual exports, Zapier flows that break, the intern doing CSV imports on Friday, the spreadsheet "master copy" everyone secretly edits.',
           features: [
-            'Bi-directional sync — change once, propagates everywhere',
-            'Conflict resolution rules you control',
+            'Two-way sync — change it once, it updates everywhere',
+            'Conflict rules you control — pick which tool wins when records disagree',
             'Error queue — broken records flagged, not silently dropped',
-            'Schema mapping — your terms, not the vendor’s',
-            'Throttling and retries built in — handles rate limits',
+            'Field mapping — your terms, not the vendor’s',
+            'Handles vendor rate limits — automatic retries on failure',
             'Full activity log for every record changed',
           ],
           results: [
@@ -172,12 +172,12 @@ const data: ServiceDetailData = {
           replaces:
             'The triage tray, the "we’ll get back to you within 48 hours" queue, the junior staffer copy-pasting the same answer 100 times a day.',
           features: [
-            'Intent classification — your taxonomy, your training data',
+            'Reads what each request is really about — your categories, your data',
             'Smart routing — by team, by priority, by language',
-            'AI-drafted reply — human approves or edits before send',
-            'Escalation rules for low-confidence calls',
-            'Continuous learning from human corrections',
-            'Plug in any model — OpenAI, Anthropic, open source, on-prem',
+            'AI-drafted reply — a human approves or edits before send',
+            'Escalates the uncertain cases to a person automatically',
+            'Learns continuously from human corrections',
+            'Plug in any model — OpenAI, Anthropic, open source, or self-hosted',
           ],
           results: [
             'First-response time: hours → minutes',
@@ -199,9 +199,9 @@ const data: ServiceDetailData = {
           replaces:
             'Phone calls back to the office, paper forms collected at end of shift, the next-morning data-entry catch-up, the dispatcher manually creating tickets.',
           features: [
-            'Offline-first — works without signal, syncs on reconnect',
+            'Works without signal — saves locally, uploads when reconnected',
             'Barcode + photo + GPS capture in one tap',
-            'Triggers downstream workflows: tickets, dispatch, billing, restock',
+            'Fires off the next steps automatically: tickets, dispatch, billing, restock',
             'Push notifications to the right person, not the team channel',
             'Audit trail with geo-tag and timestamp on every action',
             'Configurable per role — driver, supervisor, technician',
@@ -257,7 +257,7 @@ const data: ServiceDetailData = {
       {
         label: 'AI capabilities',
         saas: 'Add-on credits. Limited integrations. One model option.',
-        hire: 'Depends on the dev’s ML experience.',
+        hire: 'Depends on the dev’s machine-learning experience.',
         futureline:
           'Use any model. Your data, your prompts, your fallback rules. On-prem option.',
       },
@@ -365,7 +365,7 @@ const data: ServiceDetailData = {
     },
     {
       q: 'Will this work with our existing tools?',
-      a: 'Yes — that’s the point. We integrate with what you already have (CRM, HRIS, accounting, project tools, custom databases). If something doesn’t have an off-the-shelf integration, we write one. No "you must migrate to our platform first" conversations.',
+      a: 'Yes — that’s the point. We integrate with what you already have (CRM, HR system, accounting, project tools, custom databases). If something doesn’t have a ready-made integration, we write one. No "you must migrate to our platform first" conversations.',
     },
     {
       q: 'How do we maintain it once it’s live?',

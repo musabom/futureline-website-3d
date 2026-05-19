@@ -239,15 +239,16 @@ const data: ServiceDetailData = {
       },
       {
         label: 'Cost shape',
-        saas: '$12k+/year, every year. Forever.',
-        hire: 'Salary + benefits + recruiter fee. $80k+/yr.',
-        futureline: '$$ one-off. Then $0/yr.',
+        saas: 'Recurring fee, every year. Forever.',
+        hire: 'Salary + benefits + recruiter fee. Every year.',
+        futureline:
+          '45–75% cheaper than SaaS over 3 years. Paid once, owned forever.',
       },
       {
         label: 'Fit to your team',
         saas: '30–60%. Built for everyone. Fits no one perfectly.',
         hire: '60–90%. Depends on who you hire.',
-        futureline: '95%+. Shaped around your day-to-day from day one.',
+        futureline: '99%+. Shaped around your day-to-day from day one.',
       },
       {
         label: 'Ownership',

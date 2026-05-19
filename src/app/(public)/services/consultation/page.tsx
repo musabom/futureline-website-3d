@@ -135,11 +135,10 @@ const data: ServiceDetailData = {
   // offers it "free"? Because every other party is conflicted.
   compare: {
     eyebrow: 'Why not just listen to vendors?',
-    // Headline switched from "Free advice vs. honest advice." to a
-    // brand-voice callback ("read" is the closing CTA's anchor word —
-    // "Get an honest read."). "Their pitch, our read." is sharper, two
-    // clauses mirror the two columns, drops the oxymoronic "free advice".
-    headline: 'Their pitch, our read.',
+    // Headline kept in plain English — "read" as a noun (meaning
+    // "take/assessment") is business jargon and not universal. This
+    // version tells the reader directly what the table below proves.
+    headline: 'Why our advice is different.',
     intro:
       'Every vendor demo, agency pitch, and comparison site is "free" — because someone’s being paid downstream when you sign. Here’s the trade you’re making.',
     leftHeader: 'Vendor-led advice',

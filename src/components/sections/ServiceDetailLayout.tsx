@@ -35,10 +35,22 @@ export interface ServiceDetailData {
     title: string;
     body: string;
   }[];
+  /** Override the default "The cost of staying manual." pain H2.
+   *  Defaults are digitalisation-flavored; each service page should
+   *  name its own pain frame. */
+  painHeading?: string;
   /** Override the default "Live in weeks." process H2 with something
    *  service-specific (e.g. "The 6–10 week build."). Falls back to the
    *  global promise when not set. */
   processHeading?: string;
+  /** Override the default "Built to last." deliverables H2. */
+  deliverablesHeading?: string;
+  /** Override the default "What clients gain." stats H2. */
+  statsHeading?: string;
+  /** Override the default "Built for your industry." industries H2. */
+  industriesHeading?: string;
+  /** Override the default "Things we hear." FAQs H2. */
+  faqsHeading?: string;
   /** Optional one-line callout below the process heading. Useful for
    *  highlighting an underrated process strength (e.g. "Working software
    *  every Friday — no long silences."). */
@@ -264,7 +276,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               variant="chars"
               className="max-w-4xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
             >
-              The cost of staying manual.
+              {data.painHeading ?? 'The cost of staying manual.'}
             </AnimatedText>
           </div>
 
@@ -367,7 +379,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 variant="chars"
                 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
               >
-                Built to last.
+                {data.deliverablesHeading ?? 'Built to last.'}
               </AnimatedText>
               <p className="mt-8 max-w-md text-base leading-relaxed text-white/55 md:text-lg">
                 Every system ships with what you actually need on day one — not bolted-on later, not behind a future upsell.
@@ -785,7 +797,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               variant="chars"
               className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
             >
-              What clients gain.
+              {data.statsHeading ?? 'What clients gain.'}
             </AnimatedText>
             <div
               className={[
@@ -823,7 +835,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               variant="chars"
               className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
             >
-              Built for your industry.
+              {data.industriesHeading ?? 'Built for your industry.'}
             </AnimatedText>
             {/* Industries grid — 2 cols on md+ (not 3) so wider cards
                 give the substantial pain copy room to breathe. For an
@@ -867,7 +879,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               variant="chars"
               className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]"
             >
-              Things we hear.
+              {data.faqsHeading ?? 'Things we hear.'}
             </AnimatedText>
             <div className="mt-10">
               {data.faqs.map((f, i) => (

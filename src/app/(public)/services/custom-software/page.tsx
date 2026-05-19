@@ -118,9 +118,9 @@ const data: ServiceDetailData = {
         industry: 'Oil & Gas',
         title: 'HSE operations dashboard',
         subtitle:
-          'Real-time KPIs, incident routing, contractor compliance — one screen the COO actually opens.',
+          'Real-time KPIs, incident routing, contractor compliance — one screen leadership actually opens.',
         detail: {
-          lead: 'One screen for the COO. Real-time KPIs, contractor compliance, incident routing — everything that matters to safety in operations, finally in one place.',
+          lead: 'One screen for the team running ops. Real-time KPIs, contractor compliance, incident routing — everything that matters to safety in operations, finally in one place.',
           whoItsFor:
             'Oil & gas operators running field teams across multiple sites, with HSE compliance pressure and contractor accountability that can’t be tracked in spreadsheets.',
           replaces:
@@ -201,7 +201,7 @@ const data: ServiceDetailData = {
         subtitle:
           'Replaces 2–3 SaaS subs. Built around your stages, your terminology, your handoffs. No per-seat tax.',
         detail: {
-          lead: 'Replace your stack with one system that speaks your team’s language. Pipeline stages match your sales process. Reports match what your COO actually asks for. No per-seat tax that punishes hiring.',
+          lead: 'Replace your stack with one system that speaks your team’s language. Pipeline stages match your sales process. Reports match what leadership actually asks for. No per-seat tax that punishes hiring.',
           whoItsFor:
             'Founders and ops leads at SMEs (10–200 people) who’ve outgrown HubSpot/Pipedrive and dread the next per-seat renewal.',
           replaces:
@@ -279,12 +279,12 @@ const data: ServiceDetailData = {
       'Map your workflow and write down what success looks like',
       'Design and prototype — clickable demo before any code ships',
       'Build with weekly Friday demos — no long silences, no surprise reveals',
-      'Test, document, train — handover demo signed off by your COO',
+      'Test, document, train — handover demo signed off by your team lead',
       'You own the GitHub repo, infrastructure, and credentials — from day 1, not handover',
     ],
     youDo: [
       {
-        item: 'Discovery — your COO or ops lead walks us through the workflow',
+        item: 'Discovery — your operations lead walks us through the workflow',
         time: 'Weeks 1–2 · ~3 hrs/week',
       },
       {

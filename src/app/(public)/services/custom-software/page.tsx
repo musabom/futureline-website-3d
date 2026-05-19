@@ -270,33 +270,38 @@ const data: ServiceDetailData = {
   commitment: {
     eyebrow: 'The engagement',
     headline: 'What we do, what you do.',
+    // Intro tightened (28w → 17w). Drops the "partnership" framing
+    // (slightly corporate) and leads with the asymmetry.
     intro:
-      'A custom build is a partnership, but the bulk of the work sits with us. Here’s exactly what your team is on the hook for, with honest hour estimates.',
+      'Most of the work sits with us. Here’s exactly what sits with you — with honest hour estimates.',
     weDo: [
-      'Map your workflow, language, and edges — write down what success looks like',
-      'Design, prototype, and build the system — clickable demo before any code ships',
-      'Run weekly Friday demos with release notes — no surprises, no long silences',
-      'Test, document, and train your team — handover demo signed off by your COO',
-      'Transfer the GitHub repo, infrastructure, and credentials — you own everything on day 1',
+      'Map your workflow and write down what success looks like',
+      'Design and prototype — clickable demo before any code ships',
+      'Build with weekly Friday demos — no long silences, no surprise reveals',
+      'Test, document, train — handover demo signed off by your COO',
+      'You own the GitHub repo, infrastructure, and credentials — from day 1, not handover',
     ],
     youDo: [
       {
-        item: 'Discovery sessions — your COO or ops lead with us, mapping the workflow',
+        item: 'Discovery — your COO or ops lead walks us through the workflow',
         time: 'Weeks 1–2 · ~3 hrs/week',
       },
       {
-        item: 'Demo feedback — review the Friday build, flag what’s off',
+        item: 'Demo feedback — review each Friday build, flag what’s off',
         time: 'Weeks 3–8 · ~1 hr/week',
       },
       {
-        item: 'Decision moments — sign-off on scope, design, launch',
-        time: '3 × ~30 min',
+        item: 'Sign-off moments — scope, design, launch',
+        time: 'Throughout · 3 × ~30 min',
       },
       {
-        item: 'Handover training — your admin learns the system end-to-end',
+        item: 'Training — your admin learns the system end-to-end',
         time: 'Week 10 · ~4 hrs total',
       },
     ],
+    // Total ask: 6 + 6 + 1.5 + 4 = 17.5 ≈ 17 hours of client time across
+    // a 10-week build. Honest, concrete, confidence-building number.
+    youDoTotal: '~17 hours of your team’s time, across 10 weeks.',
   },
   // Compare table — kept, but it now owns the "vs SaaS" argument
   // exclusively (pain points used to duplicate this).

@@ -65,6 +65,11 @@ export interface ServiceDetailData {
     eyebrow?: string;
     headline: string;
     intro?: string;
+    /** Column header overrides. Default to "Buy SaaS" / "Hire developer"
+     *  but each service page can name its alternatives more precisely
+     *  (e.g. Automations swaps to "Use Zapier/Make" / "Hire a developer"). */
+    saasHeader?: string;
+    hireHeader?: string;
     rows: {
       label: string;
       saas: string;
@@ -501,13 +506,13 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <div className="col-span-4 md:col-span-3">
                   <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
                     <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
-                    Buy SaaS
+                    {data.buildVsBuy.saasHeader ?? 'Buy SaaS'}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
                   <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
                     <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
-                    Hire developer
+                    {data.buildVsBuy.hireHeader ?? 'Hire developer'}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">

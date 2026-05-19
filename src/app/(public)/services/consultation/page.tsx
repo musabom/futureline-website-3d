@@ -135,29 +135,41 @@ const data: ServiceDetailData = {
   // offers it "free"? Because every other party is conflicted.
   compare: {
     eyebrow: 'Why not just listen to vendors?',
-    headline: 'Free advice vs. honest advice.',
+    // Headline switched from "Free advice vs. honest advice." to a
+    // brand-voice callback ("read" is the closing CTA's anchor word —
+    // "Get an honest read."). "Their pitch, our read." is sharper, two
+    // clauses mirror the two columns, drops the oxymoronic "free advice".
+    headline: 'Their pitch, our read.',
     intro:
-      'Every vendor demo, agency pitch, and comparison site is "free" — because someone’s being paid downstream when you sign. Here’s the trade you’re actually making.',
+      'Every vendor demo, agency pitch, and comparison site is "free" — because someone’s being paid downstream when you sign. Here’s the trade you’re making.',
     leftHeader: 'Vendor-led advice',
     rightHeader: 'FutureLine independent',
     rows: [
       {
         label: 'Skin in the game',
         saas: 'Sells you software. Paid to recommend their tool.',
-        futureline: 'No software to sell. No commission. No vendor partnerships.',
+        // Extended trio → four-beat. Closes the "but surely some
+        // kickback exists?" door explicitly.
+        futureline: 'No software to sell. No commission. No vendor partnerships. Not even a referral fee.',
       },
       {
-        label: 'Breadth of experience',
+        // "Breadth of experience" was corporate; new label is tighter
+        // and implies "we've seen this before."
+        label: 'Pattern recognition',
         saas: 'Knows one toolset deeply — theirs.',
         futureline: 'Cross-sector experience across SaaS, custom builds, and in-house teams.',
       },
       {
-        label: 'Honest about doing nothing',
+        // "Honest about doing nothing" was wordy; "Telling you to wait"
+        // is direct and verb-led.
+        label: 'Telling you to wait',
         saas: 'Won’t tell you to skip the buy. Their job is to close.',
         futureline: 'Routinely recommends "don’t buy yet" or "just use what you already have."',
       },
       {
-        label: 'Outcome alignment',
+        // "Outcome alignment" was consultant-jargon; "Whose win matters"
+        // makes the asymmetry concrete in plain English.
+        label: 'Whose win matters',
         saas: 'Win = you sign a contract.',
         futureline: 'Win = you get the right answer, even when that answer is "do nothing".',
       },

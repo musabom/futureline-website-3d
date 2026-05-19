@@ -258,9 +258,19 @@ const data: ServiceDetailData = {
       },
       {
         label: 'Risk when things go wrong',
-        saas: 'Vendor sunsets, raises prices, kills features.',
+        saas: 'Vendor sunsets, raises prices, kills features — you migrate or you’re stuck.',
         hire: 'Single point of failure. Devs leave, codebase orphaned.',
         futureline: 'Documented, supported, owned. You can hire anyone to maintain it.',
+      },
+      // AI Readiness — absorbed from the (now-removed) Compare table.
+      // The most unique angle Compare had that Build/Buy/Hire didn't
+      // already cover. Forward-looking buying signal.
+      {
+        label: 'AI readiness',
+        saas: 'Limited to whatever AI features the vendor decides to bolt on.',
+        hire: 'Depends on the dev. AI integration adds months and risk.',
+        futureline:
+          'Your data, your structure, AI-ready from day 1. Plug in any model.',
       },
     ],
   },
@@ -304,48 +314,14 @@ const data: ServiceDetailData = {
     // a 10-week build. Honest, concrete, confidence-building number.
     youDoTotal: '~17 hours of your team’s time, across 10 weeks.',
   },
-  // Compare table — kept, but it now owns the "vs SaaS" argument
-  // exclusively (pain points used to duplicate this).
-  compare: {
-    eyebrow: 'Why not just buy SaaS?',
-    headline: 'Off-the-shelf vs. built for you.',
-    intro:
-      'Most teams start with a SaaS subscription. It feels safe, fast, and cheap. Five years in, the maths flips. Here’s what you actually trade.',
-    leftHeader: 'Off-the-shelf SaaS',
-    rightHeader: 'FutureLine custom build',
-    rows: [
-      {
-        label: '5-Year Cost',
-        saas: '$12k+ per year. $60k+ over 5 years — and rising every renewal.',
-        futureline: 'One build. Zero ongoing licences. Pays itself back inside year one.',
-      },
-      {
-        label: 'Ownership',
-        saas: 'You rent. The vendor owns the code, data model, and roadmap.',
-        futureline: 'You own the source code, the infrastructure, and the data. Forever.',
-      },
-      {
-        label: 'Fit',
-        saas: '80% of features your team never uses. The 20% you need is half-shaped.',
-        futureline: 'Built around your workflow. Every screen earns its place.',
-      },
-      {
-        label: 'Adoption',
-        saas: 'Your team works around the tool. Workarounds become the real process.',
-        futureline: 'Your team uses it because it matches how they actually work.',
-      },
-      {
-        label: 'Lock-In',
-        saas: 'When the vendor raises prices, kills features, or shuts down — you’re stuck.',
-        futureline: 'No vendor. No lock-in. You decide what changes and when.',
-      },
-      {
-        label: 'AI Readiness',
-        saas: 'Limited to whatever AI features the vendor decides to bolt on.',
-        futureline: 'Your data, your structure, AI-ready from day one. Plug in any model.',
-      },
-    ],
-  },
+  // Compare table removed — its "vs SaaS" argument is already delivered
+  // by Build/Buy/Hire above (3-way comparison covering Speed, Cost, Fit,
+  // Ownership, Risk, AI). Reading the two tables back-to-back was the
+  // same argument told twice. Unique points preserved: AI Readiness
+  // added as a row in Build/Buy/Hire; the "vendor sunsets… you migrate
+  // or you're stuck" framing folded into the Risk row's SaaS column.
+  // Digitalisation still uses Compare because that buyer is mid-decision
+  // SaaS-vs-custom and earns the depth.
   // Stats — added 4th (ownership %). Layout adapts to 4-col grid.
   stats: [
     {

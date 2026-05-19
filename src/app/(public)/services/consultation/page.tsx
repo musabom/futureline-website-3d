@@ -99,7 +99,7 @@ const data: ServiceDetailData = {
   // expectations on how much client time is actually needed.
   commitment: {
     eyebrow: 'The engagement',
-    headline: 'We do the work. You get an honest read.',
+    headline: 'We do the work. You get the right call.',
     intro:
       'Here’s exactly what sits with you — with honest hour estimates.',
     weDo: [

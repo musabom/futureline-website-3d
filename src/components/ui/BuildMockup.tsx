@@ -250,10 +250,16 @@ function BuildTileBody({
         <h3 className="mt-3 text-lg font-semibold tracking-tight text-white">
           {title}
         </h3>
-        <p className="mt-1.5 flex-1 text-sm leading-relaxed text-white/55">
+        {/* Subtitle takes natural height — no flex-1. With flex-1 (flex: 1 1 0%
+            = flex-shrink: 1), a row-uniform grid height + outer overflow-hidden
+            could clip the last line on cards with shorter subtitles. */}
+        <p className="mt-1.5 text-sm leading-relaxed text-white/55">
           {subtitle}
         </p>
-        <div className="mt-4 flex items-center gap-1.5 border-t border-white/[0.05] pt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 transition-colors duration-300 group-hover:text-lab">
+        {/* mt-auto pushes the footer to the bottom of the flex container
+            regardless of subtitle height — gives the column its alignment
+            without putting the subtitle at flex-shrink risk. */}
+        <div className="mt-auto flex items-center gap-1.5 border-t border-white/[0.05] pt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 transition-colors duration-300 group-hover:text-lab">
           {clickable ? 'See the build' : 'Custom build'}
           <ArrowRight
             size={11}

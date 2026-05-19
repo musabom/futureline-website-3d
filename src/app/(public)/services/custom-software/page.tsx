@@ -109,9 +109,9 @@ const data: ServiceDetailData = {
   // what-it-replaces, features, typical results.
   recentBuilds: {
     eyebrow: 'Examples',
-    headline: 'A few things we can build.',
+    headline: 'Built for what you actually run.',
     intro:
-      'Four examples — we ship many more. Each is built around the team using it, not the SaaS it replaces. Click any tile for the full picture.',
+      'Each one is shaped around the team using it — not the SaaS it replaces. Click any tile for the full picture.',
     tiles: [
       {
         kind: 'dashboard',

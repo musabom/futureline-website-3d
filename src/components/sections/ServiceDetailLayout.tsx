@@ -107,6 +107,10 @@ export interface ServiceDetailData {
     intro?: string;
     weDo: string[];
     youDo: { item: string; time: string }[];
+    /** Optional "Total ask" callout under the YOU column — a single
+     *  honest hour total across the engagement. Renders as a footer
+     *  panel highlight when present. */
+    youDoTotal?: string;
   };
   industries?: {
     name: string;
@@ -664,6 +668,16 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       </li>
                     ))}
                   </ul>
+                  {data.commitment.youDoTotal && (
+                    <div className="mt-7 border-t border-white/15 pt-5">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/55">
+                        Total ask
+                      </p>
+                      <p className="mt-2 text-base font-semibold leading-snug text-white md:text-lg">
+                        {data.commitment.youDoTotal}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </FadeUp>
             </div>

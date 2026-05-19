@@ -17,6 +17,7 @@ import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { PageScrollSpy } from '@/components/ui/PageScrollSpy';
+import { BuildTile } from '@/components/ui/BuildMockup';
 
 export interface ServiceDetailData {
   eyebrow: string; // e.g. "FL · Lab · Digitalisation"
@@ -60,6 +61,31 @@ export interface ServiceDetailData {
     }[];
   };
   deliverables: string[];
+  /** Optional "Recent builds" tile strip — stylized mockups of
+   *  representative built systems. Provides visual proof on a page
+   *  that's otherwise text-heavy. Renders after deliverables. */
+  recentBuilds?: {
+    eyebrow?: string;
+    headline: string;
+    intro?: string;
+    tiles: {
+      title: string;
+      subtitle: string;
+      industry: string;
+      kind: 'dashboard' | 'mobile' | 'portal' | 'crm';
+    }[];
+  };
+  /** Optional "What we do, what you do" commitment panel — sets
+   *  expectations on client-side time investment. Addresses the
+   *  unspoken buyer worry: "how much of my team's time will this
+   *  consume?" Renders after the Build/Buy/Hire matrix. */
+  commitment?: {
+    eyebrow?: string;
+    headline: string;
+    intro?: string;
+    weDo: string[];
+    youDo: { item: string; time: string }[];
+  };
   industries?: {
     name: string;
     pain: string;
@@ -129,8 +155,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
     { id: 'why-it-matters', label: 'Why it matters' },
     { id: 'how-we-work', label: 'How we work' },
     { id: 'what-you-get', label: 'What you get' },
+    ...(data.recentBuilds && data.recentBuilds.tiles.length > 0
+      ? [{ id: 'recent-builds', label: 'Recent builds' }]
+      : []),
     ...(data.buildVsBuy && data.buildVsBuy.rows.length > 0
       ? [{ id: 'build-buy-hire', label: 'Build, buy, or hire?' }]
+      : []),
+    ...(data.commitment
+      ? [{ id: 'the-engagement', label: 'The engagement' }]
       : []),
     ...(data.compare && data.compare.rows.length > 0
       ? [{ id: 'why-not-saas', label: 'Why not SaaS?' }]
@@ -361,6 +393,58 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         </div>
       </section>
 
+      {/* ── Recent builds (optional): visual proof strip ──
+          Stylized mockups of representative built systems. Gives a
+          text-heavy service page some visual weight. Renders after
+          deliverables so the bullet list is immediately backed by
+          "here's what each of those looks like." */}
+      {data.recentBuilds && data.recentBuilds.tiles.length > 0 && (
+        <section
+          id="recent-builds"
+          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 max-w-3xl md:mb-14">
+              <SectionEyebrow>{data.recentBuilds.eyebrow ?? 'Recent builds'}</SectionEyebrow>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                {data.recentBuilds.headline}
+              </AnimatedText>
+              {data.recentBuilds.intro && (
+                <AnimatedText
+                  as="p"
+                  variant="words"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  delay={0.15}
+                >
+                  {data.recentBuilds.intro}
+                </AnimatedText>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {data.recentBuilds.tiles.map((tile, i) => (
+                <FadeUp key={i} delay={i * 0.08}>
+                  <BuildTile
+                    kind={tile.kind}
+                    title={tile.title}
+                    subtitle={tile.subtitle}
+                    industry={tile.industry}
+                  />
+                </FadeUp>
+              ))}
+            </div>
+
+            <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-white/35 md:mt-10">
+              Stylized previews — representative of build types, not specific client work
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* ── Build vs Buy vs Hire (optional): 3-way decision matrix ──
           Different from compare (which is 2-way SaaS-vs-FL). Addresses
           the "why not hire a developer?" objection that compare can't. */}
@@ -457,6 +541,120 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   </div>
                 </FadeUp>
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Commitment (optional): "What we do, what you do" ──
+          Sets expectations on client-side time investment. Two side-
+          by-side panels: FutureLine column lists what we own; client
+          column lists time commitments with hour estimates. */}
+      {data.commitment && (
+        <section
+          id="the-engagement"
+          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 max-w-3xl md:mb-14">
+              <SectionEyebrow>{data.commitment.eyebrow ?? 'The engagement'}</SectionEyebrow>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                {data.commitment.headline}
+              </AnimatedText>
+              {data.commitment.intro && (
+                <AnimatedText
+                  as="p"
+                  variant="words"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  delay={0.15}
+                >
+                  {data.commitment.intro}
+                </AnimatedText>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              {/* What we do */}
+              <FadeUp>
+                <div className="relative h-full overflow-hidden rounded-xl border border-lab/30 bg-lab/[0.04] p-7 md:p-9">
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background:
+                        'linear-gradient(90deg, transparent 0%, rgba(24,169,153,0.7) 50%, transparent 100%)',
+                    }}
+                  />
+                  <div className="mb-6 flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-lab/40 bg-lab/15 font-mono text-[10px] font-bold uppercase tracking-widest text-lab"
+                    >
+                      FL
+                    </span>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-lab">
+                      What we do
+                    </p>
+                  </div>
+                  <ul className="space-y-3.5">
+                    {data.commitment.weDo.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex items-baseline gap-3 text-base leading-relaxed text-white/85 md:text-lg"
+                      >
+                        <span
+                          aria-hidden
+                          className="font-mono text-[10px] tracking-[0.25em] text-lab/70"
+                        >
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeUp>
+
+              {/* What you do */}
+              <FadeUp delay={0.1}>
+                <div className="relative h-full overflow-hidden rounded-xl border border-white/15 bg-white/[0.03] p-7 md:p-9">
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                    style={{
+                      background:
+                        'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)',
+                    }}
+                  />
+                  <div className="mb-6 flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-white/[0.06] font-mono text-[10px] font-bold uppercase tracking-widest text-white/75"
+                    >
+                      You
+                    </span>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-white/65">
+                      What you do
+                    </p>
+                  </div>
+                  <ul className="space-y-4">
+                    {data.commitment.youDo.map((entry, i) => (
+                      <li key={i} className="border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
+                        <p className="text-base font-medium leading-relaxed text-white md:text-lg">
+                          {entry.item}
+                        </p>
+                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">
+                          {entry.time}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeUp>
             </div>
           </div>
         </section>

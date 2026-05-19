@@ -318,6 +318,11 @@ function BuildDetailModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="build-modal-title"
+      // Tell Lenis (the page-level smooth-scroll lib) to ignore wheel
+      // events inside the modal — otherwise Lenis intercepts the wheel
+      // and there's nowhere for it to scroll (body's locked), so the
+      // modal's overflow-y-auto never sees the event.
+      data-lenis-prevent
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

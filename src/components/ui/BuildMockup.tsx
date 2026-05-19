@@ -301,30 +301,38 @@ function BuildDetailModal({
 
   if (!tile.detail) return null;
 
+  // Canonical scrollable-modal pattern: the OUTER wrapper is the scroll
+  // container (overflow-y-auto + min-h-full inner flex centering). The
+  // backdrop is part of the wrapper's background, NOT a separate button
+  // element — so wheel events anywhere in the dimmed area still scroll
+  // the wrapper. Click-to-close uses target === currentTarget on the
+  // wrapper to avoid swallowing clicks on the panel itself.
   return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="build-modal-title"
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[100] overflow-y-auto bg-black/75 backdrop-blur-sm"
+      style={{
+        animation: 'build-modal-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+      }}
     >
-      {/* Backdrop scrim */}
-      <button
-        aria-label="Close"
-        onClick={onClose}
-        className="absolute inset-0 cursor-default bg-black/75 backdrop-blur-sm"
-        style={{
-          animation: 'build-modal-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1)',
-        }}
-      />
-
-      {/* Panel */}
       <div
-        className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/10 bg-[#070707] shadow-[0_50px_140px_-20px_rgba(0,0,0,0.85),0_0_40px_-10px_rgba(24,169,153,0.25)]"
-        style={{
-          animation: 'build-modal-pop 320ms cubic-bezier(0.22, 1, 0.36, 1)',
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
         }}
+        className="flex min-h-full items-start justify-center p-4 md:items-center md:p-8"
       >
+        {/* Panel */}
+        <div
+          className="relative w-full max-w-3xl rounded-2xl border border-white/10 bg-[#070707] shadow-[0_50px_140px_-20px_rgba(0,0,0,0.85),0_0_40px_-10px_rgba(24,169,153,0.25)]"
+          style={{
+            animation: 'build-modal-pop 320ms cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        >
         <button
           autoFocus
           onClick={onClose}
@@ -446,6 +454,7 @@ function BuildDetailModal({
             <ArrowRight size={14} />
           </Link>
         </div>
+      </div>
       </div>
 
       <style jsx global>{`

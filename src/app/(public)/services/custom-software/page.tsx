@@ -97,6 +97,46 @@ const data: ServiceDetailData = {
     'Full source code, transferred to your GitHub on day 1',
     'Documentation, trained team, signed handover demo',
   ],
+  // Recent builds — 4 stylized mockup tiles. Provides visual proof on
+  // a page that's otherwise text-heavy. Tiles are CSS-only abstractions
+  // representing build TYPES, not real client work. Disclaimer caption
+  // is rendered automatically by the layout.
+  recentBuilds: {
+    eyebrow: 'Recent builds',
+    headline: 'What we ship.',
+    intro:
+      'Four representative build types from FutureLine engagements. Each is shaped around the team using it — not the SaaS replacing it.',
+    tiles: [
+      {
+        kind: 'dashboard',
+        industry: 'Oil & Gas',
+        title: 'HSE operations dashboard',
+        subtitle:
+          'Real-time KPIs, incident routing, contractor compliance — one screen the COO actually opens.',
+      },
+      {
+        kind: 'mobile',
+        industry: 'Construction',
+        title: 'Field app, offline-first',
+        subtitle:
+          'Site diaries, snags, sub-approvals. Works without signal — syncs the moment the foreman walks back to the trailer.',
+      },
+      {
+        kind: 'portal',
+        industry: 'Public Sector',
+        title: 'Citizen service portal',
+        subtitle:
+          'Public-facing service requests + internal case management. Compliance-ready out of the box.',
+      },
+      {
+        kind: 'crm',
+        industry: 'SMEs Scaling Fast',
+        title: 'Custom CRM + ops console',
+        subtitle:
+          'Replaces 2–3 SaaS subs. Built around your stages, your terminology, your handoffs. No per-seat tax.',
+      },
+    ],
+  },
   // NEW: Build vs Buy vs Hire decision matrix. Addresses the "why not
   // hire a freelancer?" objection that the SaaS-vs compare table can't.
   buildVsBuy: {
@@ -134,6 +174,40 @@ const data: ServiceDetailData = {
         saas: 'Vendor sunsets, raises prices, kills features.',
         hire: 'Single point of failure. Devs leave, codebase orphaned.',
         futureline: 'Documented, supported, owned. You can hire anyone to maintain it.',
+      },
+    ],
+  },
+  // Commitment panel — "What we do, what you do." Sets expectations on
+  // client-side time investment so the unspoken "how much of MY team's
+  // time?" question is answered before it's asked.
+  commitment: {
+    eyebrow: 'The engagement',
+    headline: 'What we do, what you do.',
+    intro:
+      'A custom build is a partnership, but the bulk of the work sits with us. Here’s exactly what your team is on the hook for, with honest hour estimates.',
+    weDo: [
+      'Map your workflow, language, and edges — write down what success looks like',
+      'Design, prototype, and build the system — clickable demo before any code ships',
+      'Run weekly Friday demos with release notes — no surprises, no long silences',
+      'Test, document, and train your team — handover demo signed off by your COO',
+      'Transfer the GitHub repo, infrastructure, and credentials — you own everything on day 1',
+    ],
+    youDo: [
+      {
+        item: 'Discovery sessions — your COO or ops lead with us, mapping the workflow',
+        time: 'Weeks 1–2 · ~3 hrs/week',
+      },
+      {
+        item: 'Demo feedback — review the Friday build, flag what’s off',
+        time: 'Weeks 3–8 · ~1 hr/week',
+      },
+      {
+        item: 'Decision moments — sign-off on scope, design, launch',
+        time: '3 × ~30 min',
+      },
+      {
+        item: 'Handover training — your admin learns the system end-to-end',
+        time: 'Week 10 · ~4 hrs total',
       },
     ],
   },
@@ -233,6 +307,10 @@ const data: ServiceDetailData = {
     {
       q: 'Custom software sounds expensive — we can’t afford it.',
       a: 'Compare it against 3 years of SaaS fees for tools that don’t fit. Most clients recover the build cost within 12 months — and then pay nothing year-on-year. We also offer phased delivery so the investment is spread across the build timeline.',
+    },
+    {
+      q: 'What does a custom build actually cost?',
+      a: 'Most builds land between $25k–$120k depending on scope, integrations, and complexity. We commit to a fixed price after the free audit — no rolling estimates, no surprise invoices. Phased delivery means you can spread the investment across the build, and most clients recover the build cost inside 12 months of go-live. From then on, your operating cost is $0 — you own the code.',
     },
     {
       q: 'What if requirements change during the build?',

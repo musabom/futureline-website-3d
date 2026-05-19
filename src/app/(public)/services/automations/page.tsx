@@ -143,7 +143,7 @@ const data: ServiceDetailData = {
           whoItsFor:
             'Teams running 3+ SaaS tools that don’t talk to each other — and burning hours every week on copy-paste reconciliation.',
           replaces:
-            'Manual exports, Zapier flows that break, the intern doing CSV imports on Friday, the spreadsheet "master copy" everyone secretly edits.',
+            'Manual exports, brittle no-code flows that break on every vendor update, the intern doing CSV imports on Friday, the spreadsheet "master copy" everyone secretly edits.',
           features: [
             'Two-way sync — change it once, it updates everywhere',
             'Conflict rules you control — pick which tool wins when records disagree',
@@ -216,15 +216,15 @@ const data: ServiceDetailData = {
     ],
   },
   // Build/Buy/Hire equivalent for Automations — 3-way matrix addressing
-  // the biggest unspoken objection: "Why not just use Zapier/Make?"
-  // Schema's column-header overrides let us swap "Buy SaaS" → "Use
-  // Zapier/Make" without forking the layout.
+  // the biggest unspoken objection: "Why not just use an off-the-shelf
+  // automation tool?" The schema's column-header overrides let us swap
+  // "Buy SaaS" → "Off-the-shelf tool" without forking the layout.
   buildVsBuy: {
     eyebrow: 'Decision framework',
-    headline: 'Zapier, hire a dev, or us?',
+    headline: 'Off-the-shelf, hire a dev, or us?',
     intro:
-      'Three honest paths. Different cost, reliability, and ceiling. We’ll tell you when Zapier is genuinely the right call — it sometimes is.',
-    saasHeader: 'Use Zapier/Make',
+      'Three honest paths. Different cost, reliability, and ceiling. We’ll tell you when an off-the-shelf tool is genuinely the right call — it sometimes is.',
+    saasHeader: 'Off-the-shelf tool',
     hireHeader: 'Hire a developer',
     rows: [
       {
@@ -312,7 +312,7 @@ const data: ServiceDetailData = {
     {
       value: '$0',
       label: 'Per-task fees',
-      sub: 'No Zapier-style per-run pricing. Once it’s built, it runs free forever.',
+      sub: 'No per-task pricing like off-the-shelf automation tools. Once it’s built, it runs free forever.',
     },
     {
       value: '24/7',
@@ -357,7 +357,7 @@ const data: ServiceDetailData = {
     },
     {
       q: 'What does this actually cost?',
-      a: 'Most automation projects land between $8k–$45k depending on integration count and complexity. Fixed price after the free audit — no rolling estimates. Then $0/month forever (unlike Zapier or Make, which charge per task). Most clients recover the cost within 6 months from the time saved.',
+      a: 'Most automation projects land between $8k–$45k depending on integration count and complexity. Fixed price after the free audit — no rolling estimates. Then $0/month forever (unlike off-the-shelf automation tools that charge per task). Most clients recover the cost within 6 months from the time saved.',
     },
     {
       q: 'Who owns the automations after handover?',

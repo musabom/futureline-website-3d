@@ -269,11 +269,12 @@ const data: ServiceDetailData = {
   // time?" question is answered before it's asked.
   commitment: {
     eyebrow: 'The engagement',
-    headline: 'What we do, what you do.',
-    // Intro tightened (28w → 17w). Drops the "partnership" framing
-    // (slightly corporate) and leads with the asymmetry.
+    headline: 'We do the work. You own the result.',
+    // Intro retightened — now the headline carries the asymmetry claim,
+    // so the intro drops "Most of the work sits with us" (redundant
+    // with the new headline) and leads with the time-honesty beat.
     intro:
-      'Most of the work sits with us. Here’s exactly what sits with you — with honest hour estimates.',
+      'Here’s exactly what sits with you — with honest hour estimates.',
     weDo: [
       'Map your workflow and write down what success looks like',
       'Design and prototype — clickable demo before any code ships',

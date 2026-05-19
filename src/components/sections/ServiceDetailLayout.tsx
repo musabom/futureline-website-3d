@@ -17,7 +17,7 @@ import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { PageScrollSpy } from '@/components/ui/PageScrollSpy';
-import { BuildTile } from '@/components/ui/BuildMockup';
+import { RecentBuildsGrid } from '@/components/ui/BuildMockup';
 
 export interface ServiceDetailData {
   eyebrow: string; // e.g. "FL · Lab · Digitalisation"
@@ -85,6 +85,16 @@ export interface ServiceDetailData {
       subtitle: string;
       industry: string;
       kind: 'dashboard' | 'mobile' | 'portal' | 'crm';
+      /** Optional click-through detail — when present, the tile opens
+       *  a modal with long-form marketing copy explaining how the
+       *  build helps organizations. */
+      detail?: {
+        lead: string;
+        whoItsFor: string;
+        replaces: string;
+        features: string[];
+        results: string[];
+      };
     }[];
   };
   /** Optional "What we do, what you do" commitment panel — sets
@@ -437,21 +447,10 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               )}
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {data.recentBuilds.tiles.map((tile, i) => (
-                <FadeUp key={i} delay={i * 0.08}>
-                  <BuildTile
-                    kind={tile.kind}
-                    title={tile.title}
-                    subtitle={tile.subtitle}
-                    industry={tile.industry}
-                  />
-                </FadeUp>
-              ))}
-            </div>
+            <RecentBuildsGrid tiles={data.recentBuilds.tiles} />
 
             <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-white/35 md:mt-10">
-              Stylized previews — representative of build types, not specific client work
+              Stylized previews — examples of what we ship, not specific client work
             </p>
           </div>
         </section>

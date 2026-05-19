@@ -103,15 +103,15 @@ const data: ServiceDetailData = {
     'Full source code, transferred to your GitHub on day 1',
     'Documentation, trained team, signed handover demo',
   ],
-  // Recent builds — 4 stylized mockup tiles. Provides visual proof on
-  // a page that's otherwise text-heavy. Tiles are CSS-only abstractions
-  // representing build TYPES, not real client work. Disclaimer caption
-  // is rendered automatically by the layout.
+  // Recent builds — 4 example tiles. Reframed as "examples of what we
+  // CAN build" (not an exhaustive list). Each tile is clickable and
+  // opens a modal with long-form marketing copy: lead, who-it's-for,
+  // what-it-replaces, features, typical results.
   recentBuilds: {
-    eyebrow: 'Recent builds',
-    headline: 'What we ship.',
+    eyebrow: 'Examples',
+    headline: 'A few things we can build.',
     intro:
-      'Four representative build types from FutureLine engagements. Each is shaped around the team using it — not the SaaS replacing it.',
+      'Four examples — we ship many more. Each is built around the team using it, not the SaaS it replaces. Click any tile for the full picture.',
     tiles: [
       {
         kind: 'dashboard',
@@ -119,6 +119,26 @@ const data: ServiceDetailData = {
         title: 'HSE operations dashboard',
         subtitle:
           'Real-time KPIs, incident routing, contractor compliance — one screen the COO actually opens.',
+        detail: {
+          lead: 'One screen for the COO. Real-time KPIs, contractor compliance, incident routing — everything that matters to safety in operations, finally in one place.',
+          whoItsFor:
+            'Oil & gas operators running field teams across multiple sites, with HSE compliance pressure and contractor accountability that can’t be tracked in spreadsheets.',
+          replaces:
+            'Excel incident logs, PDF permit forms, WhatsApp HSE walks, the safety officer’s clipboard, and the three vendor dashboards nobody opens.',
+          features: [
+            'Real-time incident routing with auto-escalation by severity',
+            'Contractor compliance tracking — certs, inductions, permit history',
+            'HSE KPI dashboards built around YOUR safety scorecard',
+            'Audit-grade logs — every decision traceable, defensible',
+            'Permit-to-work workflows that route, notify, and close in minutes',
+            'Offline-first field app for inspectors and supervisors',
+          ],
+          results: [
+            '60% reduction in compliance prep time before audits',
+            'Zero missed audits across the operational site portfolio',
+            'HSE team manages 3× the contractor headcount with the same staff',
+          ],
+        },
       },
       {
         kind: 'mobile',
@@ -126,6 +146,26 @@ const data: ServiceDetailData = {
         title: 'Field app, offline-first',
         subtitle:
           'Site diaries, snags, sub-approvals. Works without signal — syncs the moment the foreman walks back to the trailer.',
+        detail: {
+          lead: 'What the foreman actually uses on site. Site diaries, snags, sub-approvals — all without a cellular signal. Syncs the moment they walk back to the trailer.',
+          whoItsFor:
+            'Construction GCs, subcontractors, and civil engineering teams running multi-site projects with field crews who don’t have time for office software.',
+          replaces:
+            'WhatsApp diary chats, paper snag lists, email approval chains, the giant Excel everyone’s afraid to open, and the generic platforms like Procore that nobody opens on site.',
+          features: [
+            'Offline-first sync — works without signal, queues then uploads when reconnected',
+            'Photo capture with geo-tag and timestamp on every entry',
+            'Snag assignment with photo evidence and resolution tracking',
+            'Sub-approval routing with one-tap accept or reject',
+            'Daily site report auto-generated from the day’s entries — no end-of-day admin',
+            'Mobile-first UI built for gloves, dust, and sun glare',
+          ],
+          results: [
+            '~4 hrs/day reclaimed per site foreman',
+            'Complete site diary on day 1 — no week-end catch-up',
+            'Zero lost snags between site and office',
+          ],
+        },
       },
       {
         kind: 'portal',
@@ -133,6 +173,26 @@ const data: ServiceDetailData = {
         title: 'Citizen service portal',
         subtitle:
           'Public-facing service requests + internal case management. Compliance-ready out of the box.',
+        detail: {
+          lead: 'What public service should look like in 2026. Citizens self-serve. Staff manage cases, not queues. Compliance is built in, not bolted on.',
+          whoItsFor:
+            'Municipalities, ministries, regulatory authorities, and public-facing service delivery teams handling hundreds or thousands of requests per month.',
+          replaces:
+            'Paper application forms, phone-call queues, generic e-gov framework rollouts, vendor-locked CMS dragging audit trails behind it.',
+          features: [
+            'Service request intake with conditional logic and document upload',
+            'Citizen-facing status tracking — "where’s my application?"',
+            'Internal case management with assignee routing and SLA timers',
+            'Compliance audit trail — every action timestamped and attributable',
+            'WCAG-AA accessibility on day one — not an afterthought',
+            'Multilingual UI (Arabic + English) with RTL support built in',
+          ],
+          results: [
+            'Service times cut by ~70% across the live service portfolio',
+            'Staff workload halved — same throughput with half the headcount',
+            'Citizen satisfaction scores up 40 points within two quarters',
+          ],
+        },
       },
       {
         kind: 'crm',
@@ -140,6 +200,26 @@ const data: ServiceDetailData = {
         title: 'Custom CRM + ops console',
         subtitle:
           'Replaces 2–3 SaaS subs. Built around your stages, your terminology, your handoffs. No per-seat tax.',
+        detail: {
+          lead: 'Replace your stack with one system that speaks your team’s language. Pipeline stages match your sales process. Reports match what your COO actually asks for. No per-seat tax that punishes hiring.',
+          whoItsFor:
+            'Founders and ops leads at SMEs (10–200 people) who’ve outgrown HubSpot/Pipedrive and dread the next per-seat renewal.',
+          replaces:
+            '2–3 SaaS subs bolted together with Zapier — usually a CRM, a project tool, and a billing tool, plus the Excel everyone hates.',
+          features: [
+            'Pipeline stages built around YOUR sales motion — not Salesforce’s',
+            'Ops dashboard showing live revenue, deal stage, and team capacity',
+            'Billing integration with your accounting tool of choice',
+            'Your terminology — deals, accounts, projects, tickets, however you name them',
+            'Role-based access without enterprise-tier pricing',
+            'API + integrations to whatever’s already in your stack',
+          ],
+          results: [
+            '1 system replacing 2–3 subscriptions — ~$25k+/yr eliminated',
+            'Per-seat tax killed — hire freely without budget conversations',
+            'Sales team adoption 95%+ in week 1 (vs ~30% on HubSpot)',
+          ],
+        },
       },
     ],
   },

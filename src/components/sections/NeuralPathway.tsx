@@ -471,15 +471,18 @@ function TopicCard({
       data-cursor-strength="16"
       tabIndex={isActive ? 0 : -1}
       className={[
-        'pointer-events-auto group block h-full rounded-2xl border border-academy/30 bg-black/88 p-9 backdrop-blur-xl transition-all duration-500 md:p-10',
-        'hover:border-academy/55 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]',
+        // bg-black/88 → bg-black/65 + backdrop-blur-2xl: more glass,
+        // the 3D nebula behind shows through softly while text stays
+        // readable thanks to the heavier blur.
+        'pointer-events-auto group block h-full rounded-2xl border border-academy/30 bg-black/65 p-9 backdrop-blur-2xl transition-all duration-500 md:p-10',
+        'hover:border-academy/55 hover:shadow-[0_30px_80px_-15px_rgba(0,0,0,0.5)]',
         isActive ? 'pointer-events-auto' : 'pointer-events-none',
       ].join(' ')}
       style={{
-        // Halo is mostly black with a small amber edge — restores figure/
-        // ground separation against the amber nebula behind the card.
+        // Lighter halo (was 0.75 → 0.5) so the card doesn't feel like
+        // a block parked on top of the scene.
         boxShadow: isActive
-          ? '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(91, 123, 251, 0.18), 0 0 0 1px rgba(91, 123, 251, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+          ? '0 40px 100px -15px rgba(0, 0, 0, 0.5), 0 0 30px -8px rgba(91, 123, 251, 0.18), 0 0 0 1px rgba(91, 123, 251, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
           : 'none',
       }}
     >
@@ -533,10 +536,12 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
   const { stat, bullets } = topic.highlights;
   return (
     <div
-      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/88 p-9 backdrop-blur-xl md:p-10"
+      // Matches the TopicCard transparency: bg-black/65 + backdrop-blur-2xl
+      // so both columns feel like glass panels in the 3D scene.
+      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/65 p-9 backdrop-blur-2xl md:p-10"
       style={{
         boxShadow:
-          '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(91, 123, 251, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+          '0 40px 100px -15px rgba(0, 0, 0, 0.5), 0 0 30px -8px rgba(91, 123, 251, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
       {/* Top accent line — matches the card's amber top-edge gradient so
@@ -754,10 +759,10 @@ export default function NeuralPathway() {
             textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
           }}
         >
-          Turn AI into income.
+          Be AI proficient in days.
         </h3>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
-          Stop consuming AI content. Start building with it — and getting paid. Tap any track to start your run.
+          Stop consuming AI content. Start building with it. Tap any track to start your run.
         </p>
       </div>
 

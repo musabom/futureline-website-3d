@@ -38,7 +38,7 @@ function pillClass(active: boolean) {
 const WHY_STATS = [
   {
     value: '4%',
-    label: 'MOOC completion',
+    label: 'Online course completion',
     sub: 'Industry average for free online courses. Most people don’t get past week 2 — we built around that.',
   },
   {
@@ -65,7 +65,7 @@ const PROCESS_STEPS = [
     when: 'Week 1',
     title: 'Foundations & framing',
     body:
-      'Set up your dev environment, ship a "hello world" milestone, meet the cohort. Output: working setup + first checkpoint reviewed by the instructor.',
+      'Get your tools set up, complete a first hands-on milestone, meet the cohort. Output: working setup + first checkpoint reviewed by the instructor.',
   },
   {
     when: 'Weeks 2–3',
@@ -77,7 +77,7 @@ const PROCESS_STEPS = [
     when: 'Week 4',
     title: 'Capstone',
     body:
-      'One bigger project tied to YOUR work where possible. Instructor reviews. Real critique, not a participation badge. Output: portfolio-grade project + written feedback.',
+      'One bigger project tied to your own work where possible. Instructor reviews. Real critique, not a participation badge. Output: portfolio-grade project + written feedback.',
   },
   {
     when: 'Post-course',
@@ -97,7 +97,7 @@ const VS_ROWS = [
     fl: 'Per-course pricing. Team training scales with seats — no per-seat tax.',
   },
   {
-    label: 'Time to first working build',
+    label: 'Time to first result',
     yt: 'Days to start. Months to finish. If you finish.',
     bootcamp: '12+ weeks of full-time commitment.',
     fl: 'Week 1 — working setup + first checkpoint reviewed.',
@@ -118,7 +118,7 @@ const VS_ROWS = [
     label: 'What you leave with',
     yt: 'Notes. Maybe.',
     bootcamp: 'A generic capstone everyone in your cohort built.',
-    fl: 'A portfolio-grade project tied to YOUR work + instructor feedback.',
+    fl: 'A portfolio-grade project tied to your own work + instructor feedback.',
   },
 ];
 
@@ -127,7 +127,7 @@ const VS_ROWS = [
 const FAQS = [
   {
     q: 'How much does a course cost?',
-    a: 'Public courses run between $250–$1,200 per cohort depending on length and depth (OMR 100–500 in local pricing). Team training scales differently — a fixed price for 5+ seats with no per-seat tax. Discounts available for non-profits and education sector. Exact price is on each course’s page below.',
+    a: 'Public courses run between $250–$1,200 per cohort depending on length and depth (OMR 100–500 in local pricing). Team training scales differently — a fixed price for 5+ seats with no per-seat tax. Discounts available for non-profits and the education sector. Exact price is listed on each course’s card in the catalog above.',
   },
   {
     q: 'How much time per week do I need?',
@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     q: 'Do I get a certificate?',
-    a: 'Yes — and a portfolio piece (the capstone), which is the more useful artifact. The certificate is FutureLine-issued and verifiable. The portfolio is what gets you hired or promoted.',
+    a: 'Yes — and a portfolio piece (the capstone), which is the more useful of the two. The certificate is FutureLine-issued and verifiable. The portfolio is what gets you hired or promoted.',
   },
   {
     q: 'What if it’s not for me?',
@@ -468,7 +468,7 @@ export default async function CoursesPage({
               className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
               delay={0.15}
             >
-              Most online courses are designed for the moment of enrolment, not the moment of completion. We flipped the design.
+              Most online courses optimise for sign-up. We optimise for finish.
             </AnimatedText>
           </div>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -635,15 +635,15 @@ export default async function CoursesPage({
                 Train the team. Skip the per-seat tax.
               </AnimatedText>
               <p className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
-                For 5+ team members. Custom syllabus designed around your stack and your goals. On-site, remote, or hybrid. Single invoice — no per-seat tax that punishes hiring.
+                For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
               </p>
             </div>
             <ul className="md:col-span-7">
               {[
-                'Custom syllabus shaped around your stack and your goals',
+                'Custom syllabus designed around your team’s actual work and tools',
                 'On-site (Oman / GCC), remote (any timezone), or hybrid',
                 'Single invoice — no per-seat tax that punishes hiring',
-                'Capstone projects tied to YOUR actual systems',
+                'Capstone projects tied to your own actual systems',
                 'Manager debriefs after the cohort — what your team learned, what to deploy next',
               ].map((item, i) => (
                 <li
@@ -717,7 +717,7 @@ export default async function CoursesPage({
                 Can&apos;t find what you need?
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
-                We design custom training for teams. Tell us what you&apos;re building toward and we&apos;ll come back with a proposal — usually within a business day.
+                A different schedule, a different topic, or training that doesn&apos;t fit a public cohort — tell us what you&apos;re working toward and we&apos;ll come back within a business day.
               </p>
             </div>
           </FadeUp>

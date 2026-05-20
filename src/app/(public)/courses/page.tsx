@@ -9,7 +9,6 @@ import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
-import { PageScrollSpy } from '@/components/ui/PageScrollSpy';
 
 export const dynamic = 'force-dynamic';
 
@@ -229,23 +228,12 @@ export default async function CoursesPage({
     return `/courses${qs ? `?${qs}` : ''}`;
   }
 
-  // Catalog (live courses from admin) leads the page. Marketing copy
-  // explaining the "why" and "how" follows beneath — buyers who scroll
-  // get the case for buying after they've seen what's actually on offer.
-  const spySections = [
-    { id: 'catalog', label: 'Course catalog' },
-    { id: 'why-this-works', label: 'Why this works' },
-    { id: 'how-a-track-runs', label: 'How a track runs' },
-    { id: 'how-it-compares', label: 'How it compares' },
-    { id: 'for-teams', label: 'For teams' },
-    { id: 'faq', label: 'FAQ' },
-    { id: 'enquiry', label: 'Get in touch' },
-  ];
+  // No PageScrollSpy on this page — its left-edge label overlaps the
+  // catalog header content on narrower viewports. The page is content-
+  // led (cards first, marketing sections second), users scroll naturally.
 
   return (
     <main className="bg-brand-bg">
-      <PageScrollSpy sections={spySections} />
-
       {/* ── Catalog (page top — compact header + cards) ──
           Replaced the giant 3D hero with a tight inline header so the
           first row of course cards is visible above the fold on any
@@ -256,9 +244,10 @@ export default async function CoursesPage({
         className="scroll-mt-24 px-4 pt-8 pb-16 sm:px-6 md:pt-12 md:pb-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          {/* Page header — eyebrow + H1 + subhead, intentionally compact
-              so cards lead the page. ~200px tall total. */}
-          <div className="mb-8 max-w-3xl md:mb-10">
+          {/* Page header — eyebrow + tight H1 + single-line subhead.
+              Sized so the first row of course cards sits above the fold
+              on a typical 800px-tall laptop viewport. */}
+          <div className="mb-6 max-w-4xl md:mb-8">
             <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
               <span
                 aria-hidden
@@ -266,16 +255,17 @@ export default async function CoursesPage({
               />
               FL · Academy
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-white md:text-5xl lg:text-[3.75rem]">
+            <h1 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem]">
               We teach what we practice.
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Practical courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach. Built so you actually finish.
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
+              AI, cybersecurity, cloud, and data — built so you actually finish.
             </p>
           </div>
 
-          {/* Search + filters — sit between header and cards. */}
-          <div className="mb-8 flex flex-col gap-5 md:mb-10">
+          {/* Search + filters — compact, single column of compact rows
+              so the cards grid starts as high up the page as possible. */}
+          <div className="mb-6 flex flex-col gap-3 md:mb-8">
             <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
@@ -283,16 +273,13 @@ export default async function CoursesPage({
                   name="search"
                   defaultValue={params.search}
                   placeholder="Search courses…"
-                  className="fl-input !py-2.5 !pl-9 !text-xs"
+                  className="fl-input !py-2 !pl-9 !text-xs"
                 />
               </div>
               {params.level && <input type="hidden" name="level" value={params.level} />}
               {params.category && <input type="hidden" name="category" value={params.category} />}
               {params.type && <input type="hidden" name="type" value={params.type} />}
             </form>
-          </div>
-
-          <div className="mb-8 flex flex-col gap-4 md:mb-12">
             <div className="flex flex-wrap items-center gap-2">
               <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
               <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>

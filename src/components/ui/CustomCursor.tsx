@@ -45,7 +45,7 @@ const BRAND_PHRASES = [
   'Built around your day-to-day',
   'Systems that earn their keep',
   'Useful, not magic',
-  'Turn AI into income',
+  'Be AI proficient in days',
   'Learn AI. Build leverage.',
   'From scroll to skill',
   'AI that pays for itself',

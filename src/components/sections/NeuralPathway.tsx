@@ -746,27 +746,29 @@ export default function NeuralPathway() {
           (the promise). Bottom: "in days." (the timing payoff). Cards
           live between them. The eye flows: hook → proof → resolution. */}
 
-      {/* TOP — the promise. Subtle radial scrim behind so the gradient
-          text reads cleanly above the busy 3D nebula. */}
-      <div className="pointer-events-none absolute left-1/2 top-24 z-10 -translate-x-1/2 text-center md:top-28">
+      {/* TOP — the promise. Cards are now pushed down (top-[14rem]+),
+          so this title gets a clear top zone. Sized larger and given
+          a stronger blue glow to elevate it as the section's hero. */}
+      <div className="pointer-events-none absolute left-1/2 top-20 z-10 -translate-x-1/2 text-center md:top-24">
         <span
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-64 w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-72 w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 45%, transparent 75%)',
+              'radial-gradient(ellipse at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.5) 45%, transparent 75%)',
           }}
         />
         <h3
-          className="bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-4xl font-black leading-[1.05] tracking-tight text-transparent md:text-[clamp(3rem,5.5vw,5.5rem)]"
+          className="bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-5xl font-black leading-[1.02] tracking-tight text-transparent md:text-[clamp(3.5rem,6.5vw,7rem)]"
           style={{
             letterSpacing: '-0.02em',
-            textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
+            textShadow:
+              '0 0 60px rgba(91, 123, 251, 0.55), 0 0 30px rgba(147, 174, 255, 0.35)',
           }}
         >
           Be AI proficient
         </h3>
-        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
           Stop consuming AI content. Start building with it. Tap any track to start your run.
         </p>
       </div>
@@ -807,7 +809,7 @@ export default function NeuralPathway() {
           sides of the 3D network. */}
 
       {/* LEFT column */}
-      <div className="pointer-events-none absolute inset-y-0 left-[4%] z-20 hidden flex-col justify-center md:flex xl:left-[8%]">
+      <div className="pointer-events-none absolute left-[4%] top-[14rem] bottom-[10rem] z-20 hidden flex-col justify-center md:flex md:top-[16rem] xl:left-[8%]">
         <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
           {TOPICS.map((t, i) => {
             const isActive = activeTopic === i;
@@ -842,7 +844,7 @@ export default function NeuralPathway() {
       </div>
 
       {/* RIGHT column */}
-      <div className="pointer-events-none absolute inset-y-0 right-[4%] z-20 hidden flex-col justify-center md:flex xl:right-[8%]">
+      <div className="pointer-events-none absolute right-[4%] top-[14rem] bottom-[10rem] z-20 hidden flex-col justify-center md:flex md:top-[16rem] xl:right-[8%]">
         <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
           {TOPICS.map((t, i) => {
             const isActive = activeTopic === i;

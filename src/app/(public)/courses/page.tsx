@@ -3,9 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { Search, ArrowRight, Clock, Check, X, Layers } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import CourseEnquiryForm from '@/components/CourseEnquiryForm';
-import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
-import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { FadeUp } from '@/components/motion/FadeUp';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
@@ -248,109 +246,53 @@ export default async function CoursesPage({
     <main className="bg-brand-bg">
       <PageScrollSpy sections={spySections} />
 
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
-        <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
-          <HeroRibbon3D color="#5B7BFB" tilt={0.35} bloom={0.7} />
-        </div>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
-        />
-        {/* Page-number watermark — editorial cue matching service detail pages. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-2 z-[2] hidden select-none items-center font-black tracking-tighter text-white/[0.025] md:flex"
-          style={{ fontSize: 'clamp(14rem, 26vw, 28rem)', lineHeight: 0.85 }}
-        >
-          FL
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-28 sm:px-6 md:py-40 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12">
-            <div className="md:col-span-7">
-              <p className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
-                <span
-                  aria-hidden
-                  className="block h-1.5 w-1.5 rounded-full bg-academy shadow-[0_0_10px_2px_rgba(91,123,251,0.55)]"
-                />
-                FL · Academy
-              </p>
-              <AnimatedText
-                as="h1"
-                variant="chars"
-                className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3.5rem,8vw,7rem)]"
-              >
-                We teach what we practice.
-              </AnimatedText>
-              <AnimatedText
-                as="p"
-                variant="words"
-                className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
-                delay={0.2}
-              >
-                Practical courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach. Built so you actually finish.
-              </AnimatedText>
-              <FadeUp delay={0.4}>
-                <div className="mt-12 flex flex-wrap items-center gap-3">
-                  <Link
-                    href="#catalog"
-                    data-cursor="magnetic"
-                    data-cursor-strength="22"
-                    className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
-                  >
-                    Browse the catalog
-                  </Link>
-                  <Link
-                    href="#how-a-track-runs"
-                    data-cursor="hover"
-                    className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
-                  >
-                    See how a track runs ↓
-                  </Link>
-                </div>
-              </FadeUp>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <MarqueeStrip
-        items={['AI', 'Cybersecurity', 'Cloud', 'Data', 'Web Development', 'Online · In-Person · Hybrid']}
-        speed={32}
-        accent="lab"
-      />
-
-      {/* ── Catalog ── */}
+      {/* ── Catalog (page top — compact header + cards) ──
+          Replaced the giant 3D hero with a tight inline header so the
+          first row of course cards is visible above the fold on any
+          laptop viewport. The marketing copy (Why / Process / Compare /
+          FAQ) lives below the cards for buyers who scroll. */}
       <section
         id="catalog"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        className="scroll-mt-24 px-4 pt-8 pb-16 sm:px-6 md:pt-12 md:pb-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-6 md:mb-12">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <SectionEyebrow accent="academy" className="mb-3">Catalog</SectionEyebrow>
-                <h2 className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl">
-                  What we teach.
-                </h2>
-              </div>
-              <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
-                  <input
-                    name="search"
-                    defaultValue={params.search}
-                    placeholder="Search courses…"
-                    className="fl-input !py-2.5 !pl-9 !text-xs"
-                  />
-                </div>
-                {params.level && <input type="hidden" name="level" value={params.level} />}
-                {params.category && <input type="hidden" name="category" value={params.category} />}
-                {params.type && <input type="hidden" name="type" value={params.type} />}
-              </form>
-            </div>
+          {/* Page header — eyebrow + H1 + subhead, intentionally compact
+              so cards lead the page. ~200px tall total. */}
+          <div className="mb-8 max-w-3xl md:mb-10">
+            <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
+              <span
+                aria-hidden
+                className="block h-1.5 w-1.5 rounded-full bg-academy shadow-[0_0_10px_2px_rgba(91,123,251,0.55)]"
+              />
+              FL · Academy
+            </p>
+            <h1 className="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-white md:text-5xl lg:text-[3.75rem]">
+              We teach what we practice.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+              Practical courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach. Built so you actually finish.
+            </p>
+          </div>
 
+          {/* Search + filters — sit between header and cards. */}
+          <div className="mb-8 flex flex-col gap-5 md:mb-10">
+            <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
+                <input
+                  name="search"
+                  defaultValue={params.search}
+                  placeholder="Search courses…"
+                  className="fl-input !py-2.5 !pl-9 !text-xs"
+                />
+              </div>
+              {params.level && <input type="hidden" name="level" value={params.level} />}
+              {params.category && <input type="hidden" name="category" value={params.category} />}
+              {params.type && <input type="hidden" name="type" value={params.type} />}
+            </form>
+          </div>
+
+          <div className="mb-8 flex flex-col gap-4 md:mb-12">
             <div className="flex flex-wrap items-center gap-2">
               <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
               <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>

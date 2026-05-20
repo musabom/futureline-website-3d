@@ -27,9 +27,9 @@ const config: Config = {
         // Replaces the off-brand amber so Academy and Lab read as the
         // two poles already present in the FutureLine wordmark.
         academy: {
-          DEFAULT: '#6B7CC3',
-          light: '#b6c4ff',
-          dark: '#36467e',
+          DEFAULT: '#5B7BFB',
+          light: '#93AEFF',
+          dark: '#2A3475',
         },
         // Mirrors the reference repo's brand.* namespace so verbatim section
         // components compile. bg/fg/muted use the reference's black canvas;
@@ -65,8 +65,8 @@ const config: Config = {
           container: '#18a999',
         },
         secondary: {
-          DEFAULT: '#b6c4ff',
-          container: '#36467e',
+          DEFAULT: '#93AEFF',
+          container: '#2A3475',
         },
       },
       fontFamily: {
@@ -77,7 +77,7 @@ const config: Config = {
         'brand-gradient': 'linear-gradient(135deg, #1B2C63, #18A999)',
         'brand-gradient-hover': 'linear-gradient(135deg, #0F1E3D, #148F82)',
         'lab-glow': 'radial-gradient(ellipse at center, rgba(24, 169, 153, 0.25), transparent 70%)',
-        'academy-glow': 'radial-gradient(ellipse at center, rgba(107, 124, 195, 0.28), transparent 70%)',
+        'academy-glow': 'radial-gradient(ellipse at center, rgba(91, 123, 251, 0.28), transparent 70%)',
       },
       animation: {
         spotlight: 'spotlight 2s ease .75s 1 forwards',

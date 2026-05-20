@@ -109,7 +109,7 @@ export default async function CoursesPage({
       <section className="relative overflow-hidden border-b border-white/[0.06]">
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
           {/* Academy amber pole */}
-          <HeroRibbon3D color="#6B7CC3" tilt={0.35} bloom={0.7} />
+          <HeroRibbon3D color="#5B7BFB" tilt={0.35} bloom={0.7} />
         </div>
         <div
           aria-hidden="true"
@@ -122,7 +122,7 @@ export default async function CoursesPage({
               <p className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
                 <span
                   aria-hidden
-                  className="block h-1.5 w-1.5 rounded-full bg-academy shadow-[0_0_10px_2px_rgba(107,124,195,0.55)]"
+                  className="block h-1.5 w-1.5 rounded-full bg-academy shadow-[0_0_10px_2px_rgba(91,123,251,0.55)]"
                 />
                 FL · Academy
               </p>

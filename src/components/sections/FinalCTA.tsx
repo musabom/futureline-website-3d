@@ -101,7 +101,7 @@ export function FinalCTA() {
                         background:
                           s.hue < 0.6
                             ? 'rgba(94, 218, 200, 0.95)'  // teal — Lab pole
-                            : 'rgba(107, 124, 195, 0.95)', // wordmark blue — Academy pole
+                            : 'rgba(91, 123, 251, 0.95)', // wordmark blue — Academy pole
                       } as React.CSSProperties
                     }
                   />

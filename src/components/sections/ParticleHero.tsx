@@ -74,7 +74,7 @@ export function ParticleHero() {
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage:
-                'linear-gradient(90deg, #20C5B3 0%, #18A999 35%, #5edac8 55%, #b6c4ff 80%, #36467e 100%)',
+                'linear-gradient(90deg, #20C5B3 0%, #18A999 35%, #5edac8 55%, #93AEFF 80%, #2A3475 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               filter:
@@ -130,7 +130,7 @@ export function ParticleHero() {
             className="bg-clip-text text-transparent"
             style={{
               backgroundImage:
-                'linear-gradient(135deg, #b6c4ff 0%, #6b7cc3 100%)',
+                'linear-gradient(135deg, #93AEFF 0%, #5b7bfb 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}

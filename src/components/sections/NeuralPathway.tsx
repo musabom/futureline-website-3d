@@ -7,7 +7,7 @@
  * section, the camera orbits to focus on each topic in turn — and that
  * topic's HTML card appears with its course detail.
  *
- * The whole section is blue-dominant (#6B7CC3, FL Academy pole — the
+ * The whole section is blue-dominant (#5B7BFB, FL Academy pole — the
  * wordmark's blue end) to contrast with the teal Lab corridor
  * (DualWalkway). Click any topic node → that course's detail page.
  */
@@ -41,9 +41,9 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ACADEMY = '#6B7CC3';
-const ACADEMY_LIGHT = '#b6c4ff';
-const ACADEMY_RGB = [107 / 255, 124 / 255, 195 / 255] as const;
+const ACADEMY = '#5B7BFB';
+const ACADEMY_LIGHT = '#93AEFF';
+const ACADEMY_RGB = [91 / 255, 123 / 255, 251 / 255] as const;
 
 // ── Network data ───────────────────────────────────────────────────────
 type TopicData = {
@@ -479,7 +479,7 @@ function TopicCard({
         // Halo is mostly black with a small amber edge — restores figure/
         // ground separation against the amber nebula behind the card.
         boxShadow: isActive
-          ? '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(107, 124, 195, 0.18), 0 0 0 1px rgba(107, 124, 195, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+          ? '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(91, 123, 251, 0.18), 0 0 0 1px rgba(91, 123, 251, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
           : 'none',
       }}
     >
@@ -489,12 +489,12 @@ function TopicCard({
         className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl"
         style={{
           background:
-            'linear-gradient(90deg, transparent 0%, rgba(107, 124, 195, 0.85) 35%, rgba(182, 196, 255, 0.6) 65%, transparent 100%)',
+            'linear-gradient(90deg, transparent 0%, rgba(91, 123, 251, 0.85) 35%, rgba(147, 174, 255, 0.6) 65%, transparent 100%)',
         }}
       />
 
       <div className="mb-7 flex items-center gap-3.5">
-        <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-academy/45 bg-academy/15 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/25 group-hover:shadow-[0_0_20px_rgba(107,124,195,0.5)]">
+        <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-academy/45 bg-academy/15 text-academy transition-all duration-300 group-hover:border-academy/70 group-hover:bg-academy/25 group-hover:shadow-[0_0_20px_rgba(91,123,251,0.5)]">
           <Icon size={19} strokeWidth={1.75} />
         </span>
         <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
@@ -536,7 +536,7 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
       className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/88 p-9 backdrop-blur-xl md:p-10"
       style={{
         boxShadow:
-          '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(107, 124, 195, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+          '0 50px 140px -20px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(91, 123, 251, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
       {/* Top accent line — matches the card's amber top-edge gradient so
@@ -546,7 +546,7 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
         className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl"
         style={{
           background:
-            'linear-gradient(90deg, transparent 0%, rgba(107, 124, 195, 0.65) 35%, rgba(182, 196, 255, 0.45) 65%, transparent 100%)',
+            'linear-gradient(90deg, transparent 0%, rgba(91, 123, 251, 0.65) 35%, rgba(147, 174, 255, 0.45) 65%, transparent 100%)',
         }}
       />
 
@@ -559,7 +559,7 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
           <span
             className="bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-1 text-6xl font-black leading-[1.05] tracking-tight text-transparent md:text-7xl"
             style={{
-              textShadow: '0 0 36px rgba(107, 124, 195, 0.3)',
+              textShadow: '0 0 36px rgba(91, 123, 251, 0.3)',
             }}
           >
             {stat.value}
@@ -581,7 +581,7 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
               aria-hidden
               className="mt-2.5 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-academy"
               style={{
-                boxShadow: '0 0 10px rgba(107, 124, 195, 0.65)',
+                boxShadow: '0 0 10px rgba(91, 123, 251, 0.65)',
               }}
             />
             <span>{b}</span>
@@ -722,7 +722,7 @@ export default function NeuralPathway() {
           className="block h-1.5 w-1.5 rounded-full"
           style={{
             background: ACADEMY,
-            boxShadow: '0 0 10px 2px rgba(107, 124, 195, 0.55)',
+            boxShadow: '0 0 10px 2px rgba(91, 123, 251, 0.55)',
           }}
         />
         <span style={{ color: ACADEMY }}>FL · Academy</span>
@@ -751,7 +751,7 @@ export default function NeuralPathway() {
           className="bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-4xl font-black leading-[1.05] tracking-tight text-transparent md:text-[clamp(3rem,5.5vw,5.5rem)]"
           style={{
             letterSpacing: '-0.02em',
-            textShadow: '0 0 40px rgba(107, 124, 195, 0.35)',
+            textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
           }}
         >
           Turn AI into income.

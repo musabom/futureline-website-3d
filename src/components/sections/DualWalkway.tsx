@@ -464,7 +464,7 @@ export default function DualWalkway() {
           />
           <RibbonWall
             side="right"
-            color="#6B7CC3"
+            color="#5B7BFB"
             boostRef={wallBoostRef}
             pulseRef={pulseRef}
           />
@@ -503,12 +503,12 @@ export default function DualWalkway() {
         aria-hidden="true"
         className="pointer-events-none absolute right-6 top-8 z-10 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] md:right-16"
       >
-        <span style={{ color: '#6B7CC3' }}>FL · Academy</span>
+        <span style={{ color: '#5B7BFB' }}>FL · Academy</span>
         <span
           className="block h-1.5 w-1.5 rounded-full"
           style={{
-            background: '#6B7CC3',
-            boxShadow: '0 0 10px 2px rgba(107, 124, 195, 0.55)',
+            background: '#5B7BFB',
+            boxShadow: '0 0 10px 2px rgba(91, 123, 251, 0.55)',
           }}
         />
       </div>

@@ -244,10 +244,8 @@ export default async function CoursesPage({
         className="scroll-mt-24 px-4 pt-8 pb-16 sm:px-6 md:pt-12 md:pb-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          {/* Page header — eyebrow + tight H1 + single-line subhead.
-              Sized so the first row of course cards sits above the fold
-              on a typical 800px-tall laptop viewport. */}
-          <div className="mb-6 max-w-4xl md:mb-8">
+          {/* Page header — eyebrow + Title Case H1 + single-line subhead. */}
+          <div className="mb-8 max-w-4xl md:mb-10">
             <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
               <span
                 aria-hidden
@@ -256,111 +254,138 @@ export default async function CoursesPage({
               FL · Academy
             </p>
             <h1 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem]">
-              We teach what we practice.
+              We Teach What We Practice.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
               AI, cybersecurity, cloud, and data — built so you actually finish.
             </p>
           </div>
 
-          {/* Search + filters — compact, single column of compact rows
-              so the cards grid starts as high up the page as possible. */}
-          <div className="mb-6 flex flex-col gap-3 md:mb-8">
-            <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
-                <input
-                  name="search"
-                  defaultValue={params.search}
-                  placeholder="Search courses…"
-                  className="fl-input !py-2 !pl-9 !text-xs"
-                />
+          {/* Filters (left sticky rail) + cards (right) ──────────────
+              Moved filters into a dedicated 240px sidebar on lg+ so the
+              cards grid sits at the top of its column with no preamble.
+              On smaller viewports the grid collapses to one column and
+              the filters stack above the cards. */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr] lg:gap-12">
+
+            <aside
+              aria-label="Course filters"
+              className="lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-2"
+            >
+              <div className="flex flex-col gap-6">
+                {/* Search */}
+                <form method="GET" action="/courses" className="w-full">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
+                    <input
+                      name="search"
+                      defaultValue={params.search}
+                      placeholder="Search courses…"
+                      className="fl-input w-full !py-2 !pl-9 !text-xs"
+                    />
+                  </div>
+                  {params.level && <input type="hidden" name="level" value={params.level} />}
+                  {params.category && <input type="hidden" name="category" value={params.category} />}
+                  {params.type && <input type="hidden" name="type" value={params.type} />}
+                </form>
+
+                {/* Level */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
+                    {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+                      <Link
+                        key={lvl}
+                        href={buildHref({ level: lvl })}
+                        className={pillClass(params.level === lvl)}
+                        data-cursor="hover"
+                      >
+                        {lvl}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Category */}
+                {categories.length > 0 && (
+                  <div className="flex flex-col gap-2.5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Category</span>
+                    <div className="flex flex-wrap gap-2">
+                      <Link href={buildHref({ category: '' })} className={pillClass(!params.category)} data-cursor="hover">All</Link>
+                      {categories.map((cat) => (
+                        <Link
+                          key={cat}
+                          href={buildHref({ category: cat })}
+                          className={pillClass(params.category === cat)}
+                          data-cursor="hover"
+                        >
+                          {cat}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Delivery */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Delivery</span>
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={buildHref({ type: '' })} className={pillClass(!params.type)} data-cursor="hover">All</Link>
+                    {[
+                      { v: 'ONLINE', label: 'Online' },
+                      { v: 'IN_PERSON', label: 'In-person' },
+                      { v: 'HYBRID', label: 'Hybrid' },
+                    ].map((d) => (
+                      <Link
+                        key={d.v}
+                        href={buildHref({ type: d.v })}
+                        className={pillClass(params.type === d.v)}
+                        data-cursor="hover"
+                      >
+                        {d.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Auth-gated tabs */}
+                {session?.user && (
+                  <div className="flex flex-col gap-2.5 border-t border-white/[0.06] pt-5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">View</span>
+                    <div className="flex flex-col gap-1">
+                      {[
+                        { key: 'all', label: 'All courses' },
+                        { key: 'enrolled', label: 'My courses' },
+                      ].map(({ key, label }) => (
+                        <Link
+                          key={key}
+                          href={`/courses?tab=${key}`}
+                          className={`py-1 text-sm transition-colors ${
+                            activeTab === key
+                              ? 'text-academy'
+                              : 'text-white/55 hover:text-white'
+                          }`}
+                          data-cursor="hover"
+                        >
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              {params.level && <input type="hidden" name="level" value={params.level} />}
-              {params.category && <input type="hidden" name="category" value={params.category} />}
-              {params.type && <input type="hidden" name="type" value={params.type} />}
-            </form>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
-              <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
-              {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
-                <Link
-                  key={lvl}
-                  href={buildHref({ level: lvl })}
-                  className={pillClass(params.level === lvl)}
-                  data-cursor="hover"
-                >
-                  {lvl}
-                </Link>
-              ))}
-            </div>
+            </aside>
 
-            {categories.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Category</span>
-                <Link href={buildHref({ category: '' })} className={pillClass(!params.category)} data-cursor="hover">All</Link>
-                {categories.map((cat) => (
-                  <Link
-                    key={cat}
-                    href={buildHref({ category: cat })}
-                    className={pillClass(params.category === cat)}
-                    data-cursor="hover"
-                  >
-                    {cat}
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Delivery</span>
-              <Link href={buildHref({ type: '' })} className={pillClass(!params.type)} data-cursor="hover">All</Link>
-              {[
-                { v: 'ONLINE', label: 'Online' },
-                { v: 'IN_PERSON', label: 'In-person' },
-                { v: 'HYBRID', label: 'Hybrid' },
-              ].map((d) => (
-                <Link
-                  key={d.v}
-                  href={buildHref({ type: d.v })}
-                  className={pillClass(params.type === d.v)}
-                  data-cursor="hover"
-                >
-                  {d.label}
-                </Link>
-              ))}
-            </div>
-
-            {session?.user && (
-              <div className="flex gap-4 border-b border-white/[0.06] pt-2">
-                {[
-                  { key: 'all', label: 'All courses' },
-                  { key: 'enrolled', label: 'My courses' },
-                ].map(({ key, label }) => (
-                  <Link
-                    key={key}
-                    href={`/courses?tab=${key}`}
-                    className={`pb-3 font-mono text-[11px] uppercase tracking-[0.3em] transition-colors ${
-                      activeTab === key
-                        ? 'border-b border-academy text-academy'
-                        : 'border-b border-transparent text-white/45 hover:text-white'
-                    }`}
-                    data-cursor="hover"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {courses.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
-              <p className="mt-3 text-sm text-white/55">Try adjusting your filters.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {/* Cards column */}
+            <div>
+              {courses.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-32 text-center">
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
+                  <p className="mt-3 text-sm text-white/55">Try adjusting your filters.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {courses.map((course, i) => {
                 const isEnrolled = course.enrollments && course.enrollments.length > 0;
                 const href = isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`;
@@ -412,11 +437,13 @@ export default async function CoursesPage({
                         <ArrowRight size={13} className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-academy" />
                       </span>
                     </div>
-                  </Link>
-                );
-              })}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </section>
 

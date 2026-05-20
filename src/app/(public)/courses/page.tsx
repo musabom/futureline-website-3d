@@ -18,7 +18,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'FL Academy — Courses | FutureLine',
   description:
-    'AI, cybersecurity, cloud, data — taught by operators. Online, in-person, and hybrid courses built so you actually finish.',
+    'AI, cybersecurity, cloud, data — taught by practitioners. Online, in-person, and hybrid courses built so you actually finish.',
   openGraph: {
     title: 'FL Academy — Courses',
     description: 'Professional and technical courses taught by practitioners.',
@@ -50,7 +50,7 @@ const WHY_STATS = [
     sub: 'Small cohorts, fixed start dates, weekly live sessions. Peer pressure + instructor presence = you finish.',
   },
   {
-    value: 'Operators',
+    value: 'Practitioners',
     label: 'Who teaches',
     sub: 'People shipping the systems they teach — not career instructors with one project from a decade ago.',
   },
@@ -86,7 +86,7 @@ const PROCESS_STEPS = [
     when: 'Post-course',
     title: 'Materials & community',
     body:
-      'Lifetime access to course materials. Alumni Slack. Monthly office hours with operator instructors. Output: a network of people building with the same skills.',
+      'Lifetime access to course materials. Alumni Slack. Monthly office hours with practitioner instructors. Output: a network of people building with the same skills.',
   },
 ];
 
@@ -109,7 +109,7 @@ const VS_ROWS = [
     label: 'Instructor access',
     yt: 'Zero. You’re alone with the comment section.',
     bootcamp: 'Junior teaching assistants reading from a scripted curriculum.',
-    fl: 'Live sessions with operators shipping the systems they teach.',
+    fl: 'Live sessions with practitioners shipping the systems they teach.',
   },
   {
     label: 'Completion rate',
@@ -194,7 +194,10 @@ export default async function CoursesPage({
     ];
   }
 
-  const [courses, categoryRows, totalCount] = await Promise.all([
+  // Catalog appears above the marketing copy. We intentionally don't expose
+  // a total course count anywhere — this is a CMS-driven catalog where
+  // courses come and go, so the count is meaningless as marketing surface.
+  const [courses, categoryRows] = await Promise.all([
     prisma.course.findMany({
       where,
       include: {
@@ -208,7 +211,6 @@ export default async function CoursesPage({
       select: { category: true },
       distinct: ['category'],
     }),
-    prisma.course.count({ where: baseFilter }),
   ]);
 
   const categories = categoryRows.map((r) => r.category).filter(Boolean) as string[];
@@ -229,11 +231,14 @@ export default async function CoursesPage({
     return `/courses${qs ? `?${qs}` : ''}`;
   }
 
+  // Catalog (live courses from admin) leads the page. Marketing copy
+  // explaining the "why" and "how" follows beneath — buyers who scroll
+  // get the case for buying after they've seen what's actually on offer.
   const spySections = [
+    { id: 'catalog', label: 'Course catalog' },
     { id: 'why-this-works', label: 'Why this works' },
     { id: 'how-a-track-runs', label: 'How a track runs' },
     { id: 'how-it-compares', label: 'How it compares' },
-    { id: 'catalog', label: 'Course catalog' },
     { id: 'for-teams', label: 'For teams' },
     { id: 'faq', label: 'FAQ' },
     { id: 'enquiry', label: 'Get in touch' },
@@ -276,7 +281,7 @@ export default async function CoursesPage({
                 variant="chars"
                 className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3.5rem,8vw,7rem)]"
               >
-                Taught by operators.
+                We teach what we practice.
               </AnimatedText>
               <AnimatedText
                 as="p"
@@ -294,7 +299,7 @@ export default async function CoursesPage({
                     data-cursor-strength="22"
                     className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
                   >
-                    Browse {totalCount} courses
+                    Browse the catalog
                   </Link>
                   <Link
                     href="#how-a-track-runs"
@@ -315,6 +320,176 @@ export default async function CoursesPage({
         speed={32}
         accent="lab"
       />
+
+      {/* ── Catalog ── */}
+      <section
+        id="catalog"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-6 md:mb-12">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <SectionEyebrow accent="academy" className="mb-3">Catalog</SectionEyebrow>
+                <h2 className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl">
+                  What we teach.
+                </h2>
+              </div>
+              <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
+                  <input
+                    name="search"
+                    defaultValue={params.search}
+                    placeholder="Search courses…"
+                    className="fl-input !py-2.5 !pl-9 !text-xs"
+                  />
+                </div>
+                {params.level && <input type="hidden" name="level" value={params.level} />}
+                {params.category && <input type="hidden" name="category" value={params.category} />}
+                {params.type && <input type="hidden" name="type" value={params.type} />}
+              </form>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
+              <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
+              {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+                <Link
+                  key={lvl}
+                  href={buildHref({ level: lvl })}
+                  className={pillClass(params.level === lvl)}
+                  data-cursor="hover"
+                >
+                  {lvl}
+                </Link>
+              ))}
+            </div>
+
+            {categories.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Category</span>
+                <Link href={buildHref({ category: '' })} className={pillClass(!params.category)} data-cursor="hover">All</Link>
+                {categories.map((cat) => (
+                  <Link
+                    key={cat}
+                    href={buildHref({ category: cat })}
+                    className={pillClass(params.category === cat)}
+                    data-cursor="hover"
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Delivery</span>
+              <Link href={buildHref({ type: '' })} className={pillClass(!params.type)} data-cursor="hover">All</Link>
+              {[
+                { v: 'ONLINE', label: 'Online' },
+                { v: 'IN_PERSON', label: 'In-person' },
+                { v: 'HYBRID', label: 'Hybrid' },
+              ].map((d) => (
+                <Link
+                  key={d.v}
+                  href={buildHref({ type: d.v })}
+                  className={pillClass(params.type === d.v)}
+                  data-cursor="hover"
+                >
+                  {d.label}
+                </Link>
+              ))}
+            </div>
+
+            {session?.user && (
+              <div className="flex gap-4 border-b border-white/[0.06] pt-2">
+                {[
+                  { key: 'all', label: 'All courses' },
+                  { key: 'enrolled', label: 'My courses' },
+                ].map(({ key, label }) => (
+                  <Link
+                    key={key}
+                    href={`/courses?tab=${key}`}
+                    className={`pb-3 font-mono text-[11px] uppercase tracking-[0.3em] transition-colors ${
+                      activeTab === key
+                        ? 'border-b border-academy text-academy'
+                        : 'border-b border-transparent text-white/45 hover:text-white'
+                    }`}
+                    data-cursor="hover"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {courses.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
+              <p className="mt-3 text-sm text-white/55">Try adjusting your filters.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {courses.map((course, i) => {
+                const isEnrolled = course.enrollments && course.enrollments.length > 0;
+                const href = isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`;
+                const priceLabel =
+                  isEnrolled ? 'Continue →' : course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
+                const num = String(i + 1).padStart(2, '0');
+                const instructorName = course.instructor
+                  ? `${course.instructor.firstName ?? ''} ${course.instructor.lastName ?? ''}`.trim()
+                  : '';
+
+                return (
+                  <Link
+                    key={course.id}
+                    href={href}
+                    data-cursor="hover"
+                    className="group flex h-full flex-col overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-colors duration-300 hover:border-academy/40 hover:bg-white/[0.04]"
+                  >
+                    <div className="mb-6 flex items-baseline justify-between">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">{num}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                          {course.level}
+                        </span>
+                        <span className="rounded-full border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-academy">
+                          {course.deliveryType.replace('_', ' ')}
+                        </span>
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.01em] text-white transition-colors group-hover:text-academy-light">
+                      {course.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-relaxed text-white/55 line-clamp-3">
+                      {course.shortDescription}
+                    </p>
+                    {/* Instructor strip — shows "Taught by [name]" when an
+                        instructor is attached. Backs the hero's "We teach what
+                        we practice." claim with a concrete name per course. */}
+                    {instructorName && (
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
+                        Taught by <span className="text-academy/90">{instructorName}</span>
+                      </p>
+                    )}
+                    <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">
+                      <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                        <Clock size={11} /> {course.durationHours}h
+                      </span>
+                      <span className="flex items-center gap-2 text-sm font-semibold text-white">
+                        {priceLabel}
+                        <ArrowRight size={13} className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-academy" />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* ── Why this works (4 stats) ── */}
       <section
@@ -484,176 +659,6 @@ export default async function CoursesPage({
               </FadeUp>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Catalog ── */}
-      <section
-        id="catalog"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col gap-6 md:mb-12">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <SectionEyebrow accent="academy" className="mb-3">Catalog</SectionEyebrow>
-                <h2 className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl">
-                  {courses.length} {courses.length === 1 ? 'course' : 'courses'} on offer
-                </h2>
-              </div>
-              <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
-                  <input
-                    name="search"
-                    defaultValue={params.search}
-                    placeholder="Search courses…"
-                    className="fl-input !py-2.5 !pl-9 !text-xs"
-                  />
-                </div>
-                {params.level && <input type="hidden" name="level" value={params.level} />}
-                {params.category && <input type="hidden" name="category" value={params.category} />}
-                {params.type && <input type="hidden" name="type" value={params.type} />}
-              </form>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
-              <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
-              {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
-                <Link
-                  key={lvl}
-                  href={buildHref({ level: lvl })}
-                  className={pillClass(params.level === lvl)}
-                  data-cursor="hover"
-                >
-                  {lvl}
-                </Link>
-              ))}
-            </div>
-
-            {categories.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Category</span>
-                <Link href={buildHref({ category: '' })} className={pillClass(!params.category)} data-cursor="hover">All</Link>
-                {categories.map((cat) => (
-                  <Link
-                    key={cat}
-                    href={buildHref({ category: cat })}
-                    className={pillClass(params.category === cat)}
-                    data-cursor="hover"
-                  >
-                    {cat}
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Delivery</span>
-              <Link href={buildHref({ type: '' })} className={pillClass(!params.type)} data-cursor="hover">All</Link>
-              {[
-                { v: 'ONLINE', label: 'Online' },
-                { v: 'IN_PERSON', label: 'In-person' },
-                { v: 'HYBRID', label: 'Hybrid' },
-              ].map((d) => (
-                <Link
-                  key={d.v}
-                  href={buildHref({ type: d.v })}
-                  className={pillClass(params.type === d.v)}
-                  data-cursor="hover"
-                >
-                  {d.label}
-                </Link>
-              ))}
-            </div>
-
-            {session?.user && (
-              <div className="flex gap-4 border-b border-white/[0.06] pt-2">
-                {[
-                  { key: 'all', label: 'All courses' },
-                  { key: 'enrolled', label: 'My courses' },
-                ].map(({ key, label }) => (
-                  <Link
-                    key={key}
-                    href={`/courses?tab=${key}`}
-                    className={`pb-3 font-mono text-[11px] uppercase tracking-[0.3em] transition-colors ${
-                      activeTab === key
-                        ? 'border-b border-academy text-academy'
-                        : 'border-b border-transparent text-white/45 hover:text-white'
-                    }`}
-                    data-cursor="hover"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {courses.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
-              <p className="mt-3 text-sm text-white/55">Try adjusting your filters.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {courses.map((course, i) => {
-                const isEnrolled = course.enrollments && course.enrollments.length > 0;
-                const href = isEnrolled ? `/dashboard/course/${course.slug}` : `/courses/${course.slug}`;
-                const priceLabel =
-                  isEnrolled ? 'Continue →' : course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
-                const num = String(i + 1).padStart(2, '0');
-                const instructorName = course.instructor
-                  ? `${course.instructor.firstName ?? ''} ${course.instructor.lastName ?? ''}`.trim()
-                  : '';
-
-                return (
-                  <Link
-                    key={course.id}
-                    href={href}
-                    data-cursor="hover"
-                    className="group flex h-full flex-col overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-colors duration-300 hover:border-academy/40 hover:bg-white/[0.04]"
-                  >
-                    <div className="mb-6 flex items-baseline justify-between">
-                      <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">{num}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-                          {course.level}
-                        </span>
-                        <span className="rounded-full border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-academy">
-                          {course.deliveryType.replace('_', ' ')}
-                        </span>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.01em] text-white transition-colors group-hover:text-academy-light">
-                      {course.title}
-                    </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-white/55 line-clamp-3">
-                      {course.shortDescription}
-                    </p>
-                    {/* Instructor strip — shows "Taught by [name]" when an
-                        instructor is attached. Backs the hero's "Taught by
-                        operators." claim with a concrete name per course. */}
-                    {instructorName && (
-                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
-                        Taught by <span className="text-academy/90">{instructorName}</span>
-                      </p>
-                    )}
-                    <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">
-                      <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-                        <Clock size={11} /> {course.durationHours}h
-                      </span>
-                      <span className="flex items-center gap-2 text-sm font-semibold text-white">
-                        {priceLabel}
-                        <ArrowRight size={13} className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-academy" />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
         </div>
       </section>
 

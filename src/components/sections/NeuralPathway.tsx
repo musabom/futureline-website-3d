@@ -741,12 +741,17 @@ export default function NeuralPathway() {
         How to learn AI
       </div>
 
-      {/* Centered title (top of section) — subtle radial scrim behind so
-          the gradient text reads cleanly above the busy 3D nebula. */}
-      <div className="pointer-events-none absolute left-1/2 top-24 z-10 -translate-x-1/2 text-center md:top-32">
+      {/* Title is SPLIT into a tease/payoff sandwich that bookends the
+          cards instead of competing with them. Top: "Be AI proficient"
+          (the promise). Bottom: "in days." (the timing payoff). Cards
+          live between them. The eye flows: hook → proof → resolution. */}
+
+      {/* TOP — the promise. Subtle radial scrim behind so the gradient
+          text reads cleanly above the busy 3D nebula. */}
+      <div className="pointer-events-none absolute left-1/2 top-24 z-10 -translate-x-1/2 text-center md:top-28">
         <span
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-72 w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-64 w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background:
               'radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 45%, transparent 75%)',
@@ -759,11 +764,39 @@ export default function NeuralPathway() {
             textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
           }}
         >
-          Be AI proficient in days.
+          Be AI proficient
         </h3>
-        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
           Stop consuming AI content. Start building with it. Tap any track to start your run.
         </p>
+      </div>
+
+      {/* BOTTOM — the timing payoff. Eyebrow + the closing two words
+          of the title. Sits in the clear zone between card bottoms
+          and the progress dots / browse-courses CTA (both at bottom-10).
+          Position chosen so it never collides with cards on standard
+          1080px+ desktop viewports. */}
+      <div className="pointer-events-none absolute left-1/2 bottom-24 z-10 -translate-x-1/2 text-center md:bottom-28">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-44 w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.4) 45%, transparent 75%)',
+          }}
+        />
+        <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-academy/85">
+          The timing
+        </p>
+        <h3
+          className="mt-3 bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-4xl font-black leading-[1.05] tracking-tight text-transparent md:text-[clamp(3rem,5vw,5rem)]"
+          style={{
+            letterSpacing: '-0.02em',
+            textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
+          }}
+        >
+          in days.
+        </h3>
       </div>
 
       {/* Zig-zag overlay — two columns, left and right. For each topic,

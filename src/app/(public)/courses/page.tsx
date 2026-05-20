@@ -35,26 +35,31 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
+// Operational triplet (cohort size · time per week · price band · length)
+// — borrowed from Maven/Write-of-Passage convention of showing buyers the
+// concrete time/money/effort commitment above the fold, rather than mixing
+// promotional adjectives. Each value is short enough not to overflow the
+// 4-column grid at any breakpoint.
 const WHY_STATS = [
   {
-    value: '4%',
-    label: 'Online course completion',
-    sub: 'Industry average for free online courses. Most people don’t get past week 2 — we built around that.',
+    value: '10–15',
+    label: 'Cohort size',
+    sub: 'Small enough that the instructor knows your name and your work. Large enough for real peer review.',
   },
   {
-    value: 'Cohort',
-    label: 'Format',
-    sub: 'Small cohorts, fixed start dates, weekly live sessions. Peer pressure + instructor presence = you finish.',
+    value: '4–6 hrs',
+    label: 'Per week',
+    sub: '2 hours of live session + 2–4 hours of hands-on labs. Evenings UTC+4 (Oman) — all sessions recorded for catch-up.',
   },
   {
-    value: 'Practitioners',
-    label: 'Who teaches',
-    sub: 'People shipping the systems they teach — not career instructors with one project from a decade ago.',
+    value: '$250–$1,200',
+    label: 'Per cohort',
+    sub: 'Depending on length and depth. OMR 100–500 in local pricing. Discounts for non-profits and the education sector.',
   },
   {
-    value: 'Lifetime',
-    label: 'Materials access',
-    sub: 'Course materials yours forever, including future updates. Re-attend any cohort free if a topic shifts.',
+    value: '4 weeks',
+    label: 'Standard track',
+    sub: 'Foundations → labs → capstone → community. Some tracks run longer; the rhythm holds.',
   },
 ];
 
@@ -194,7 +199,9 @@ export default async function CoursesPage({
   // Catalog appears above the marketing copy. We intentionally don't expose
   // a total course count anywhere — this is a CMS-driven catalog where
   // courses come and go, so the count is meaningless as marketing surface.
-  const [courses, categoryRows] = await Promise.all([
+  // Instructors are queried independently so the "Who teaches" authority
+  // band can render every practitioner with a published, approved course.
+  const [courses, categoryRows, instructors] = await Promise.all([
     prisma.course.findMany({
       where,
       include: {
@@ -207,6 +214,13 @@ export default async function CoursesPage({
       where: baseFilter,
       select: { category: true },
       distinct: ['category'],
+    }),
+    prisma.user.findMany({
+      where: {
+        courses: { some: baseFilter },
+      },
+      select: { id: true, firstName: true, lastName: true, bio: true },
+      orderBy: { firstName: 'asc' },
     }),
   ]);
 
@@ -254,10 +268,10 @@ export default async function CoursesPage({
               FL · Academy
             </p>
             <h1 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem]">
-              We Teach What We Practice.
+              Plenty of training. Less of it sticks.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
-              AI, cybersecurity, cloud, and data — built so you actually finish.
+              Cohort-paced courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach — so what you learn is what you can actually use.
             </p>
           </div>
 
@@ -447,20 +461,68 @@ export default async function CoursesPage({
         </div>
       </section>
 
-      {/* ── Why this works (4 stats) ── */}
+      {/* ── Risk-reversal band ──────────────────────────────────────
+          Sits directly under the catalog so buyers see the safety net
+          before they're asked to commit. Three commitments lifted from
+          FAQ + Lifetime stat (refund / lifetime access / re-attendance).
+          Borrowed pattern from Write of Passage's "100% satisfied
+          within 14 days, no questions asked" — risk reversal stated
+          as a sentence, not a badge. */}
+      <section
+        aria-label="Our commitment to you"
+        className="border-t border-academy/[0.18] bg-gradient-to-b from-academy/[0.04] to-transparent px-4 py-12 sm:px-6 md:py-14 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
+            {[
+              {
+                eyebrow: 'Refund',
+                title: 'First week, no questions.',
+                body: 'Full refund inside the first week of the cohort. After week 1, pro-rata if you stop attending. We’d rather lose the booking than have you stuck.',
+              },
+              {
+                eyebrow: 'Lifetime access',
+                title: 'Materials yours forever.',
+                body: 'Course materials yours forever, including future updates as the field shifts. Your access never expires — it just gets better.',
+              },
+              {
+                eyebrow: 'Re-attendance',
+                title: 'Re-take any cohort, free.',
+                body: 'If a topic shifts or you want a refresher, re-attend any future cohort at no extra cost. One purchase, ongoing entry.',
+              },
+            ].map((item, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
+                <div className="flex h-full flex-col">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy">
+                    {item.eyebrow}
+                  </p>
+                  <h3 className="mt-3 text-xl font-semibold tracking-[-0.01em] text-white md:text-2xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60 md:text-[15px]">
+                    {item.body}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── What you're buying (4 operational stats) ── */}
       <section
         id="why-this-works"
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 max-w-3xl md:mb-12">
-            <SectionEyebrow accent="academy">Why this works</SectionEyebrow>
+            <SectionEyebrow accent="academy">What you’re buying</SectionEyebrow>
             <AnimatedText
               as="h2"
               variant="chars"
               className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
             >
-              Built around the people who finish.
+              Skills the market actually pays for.
             </AnimatedText>
             <AnimatedText
               as="p"
@@ -468,14 +530,18 @@ export default async function CoursesPage({
               className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
               delay={0.15}
             >
-              Most online courses optimise for sign-up. We optimise for finish.
+              Most online courses finish at 4%. Ours don&apos;t — by design. Here&apos;s what you&apos;re committing to before you decide.
             </AnimatedText>
           </div>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             {WHY_STATS.map((s, i) => (
               <FadeUp key={i} delay={i * 0.08}>
                 <div className="border-t border-white/[0.12] pt-6">
-                  <p className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
+                  {/* Smaller value size than the original text-5xl/text-6xl
+                      so longer strings (e.g. "$250–$1,200") fit the 4-col
+                      grid at any breakpoint without colliding with the
+                      next column. */}
+                  <p className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.5rem]">
                     {s.value}
                   </p>
                   <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-academy/90">
@@ -488,6 +554,73 @@ export default async function CoursesPage({
           </div>
         </div>
       </section>
+
+      {/* ── Who teaches (instructor authority band) ─────────────────
+          Per research, the single biggest credibility signal on a
+          course landing page is "name + employer". We don't yet have
+          rich bios for every instructor, so this band renders whatever
+          data the schema has (first/last name + optional bio) and
+          stays useful when bios are filled in later. Empty bios fall
+          back to the generic "FL Practitioner" badge. */}
+      {instructors.length > 0 && (
+        <section
+          id="instructors"
+          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 max-w-3xl md:mb-12">
+              <SectionEyebrow accent="academy">Who teaches</SectionEyebrow>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                Practitioners, not lecturers.
+              </AnimatedText>
+              <AnimatedText
+                as="p"
+                variant="words"
+                className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
+                delay={0.15}
+              >
+                The people teaching ship the systems they teach — real builds, real clients, real critique. No curriculum read from a deck.
+              </AnimatedText>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {instructors.map((inst, i) => {
+                const fullName = `${inst.firstName ?? ''} ${inst.lastName ?? ''}`.trim() || 'FutureLine Instructor';
+                const initials =
+                  `${(inst.firstName ?? '')[0] ?? ''}${(inst.lastName ?? '')[0] ?? ''}`.toUpperCase() || '··';
+                return (
+                  <FadeUp key={inst.id} delay={i * 0.06}>
+                    <div className="flex h-full flex-col rounded-md border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-academy/40 hover:bg-white/[0.04]">
+                      <div className="flex items-center gap-4">
+                        <div
+                          aria-hidden
+                          className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-academy/30 bg-academy/10 font-mono text-sm font-medium uppercase tracking-[0.1em] text-academy"
+                        >
+                          {initials}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="truncate text-base font-semibold tracking-tight text-white md:text-lg">
+                            {fullName}
+                          </h3>
+                          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-academy/80">
+                            FL Practitioner
+                          </p>
+                        </div>
+                      </div>
+                      {inst.bio && (
+                        <p className="mt-5 text-sm leading-relaxed text-white/55">{inst.bio}</p>
+                      )}
+                    </div>
+                  </FadeUp>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── How a track runs (process) ── */}
       <section

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { Search, ArrowRight, Clock } from 'lucide-react';
+import { Search, ArrowRight, Clock, Check, X, Layers } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import CourseEnquiryForm from '@/components/CourseEnquiryForm';
 import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
@@ -11,13 +11,14 @@ import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
+import { PageScrollSpy } from '@/components/ui/PageScrollSpy';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'FL Academy — Courses | FutureLine',
   description:
-    'AI, cybersecurity, cloud, data — taught by operators. Online, in-person, and hybrid courses built to finish, not just enroll.',
+    'AI, cybersecurity, cloud, data — taught by operators. Online, in-person, and hybrid courses built so you actually finish.',
   openGraph: {
     title: 'FL Academy — Courses',
     description: 'Professional and technical courses taught by practitioners.',
@@ -35,6 +36,124 @@ function pillClass(active: boolean) {
     : `${PILL_CLASS} border-white/[0.12] text-white/55 hover:border-white/30 hover:text-white`;
 }
 
+// Why-this-works stats — 4 quick differentiators between hero and catalog.
+// Each one is a single concept, not a claim that needs a citation.
+const WHY_STATS = [
+  {
+    value: '4%',
+    label: 'MOOC completion',
+    sub: 'Industry average for free online courses. Most people don’t get past week 2 — we built around that.',
+  },
+  {
+    value: 'Cohort',
+    label: 'Format',
+    sub: 'Small cohorts, fixed start dates, weekly live sessions. Peer pressure + instructor presence = you finish.',
+  },
+  {
+    value: 'Operators',
+    label: 'Who teaches',
+    sub: 'People shipping the systems they teach — not career instructors with one project from a decade ago.',
+  },
+  {
+    value: 'Lifetime',
+    label: 'Materials access',
+    sub: 'Course materials yours forever, including future updates. Re-attend any cohort free if a topic shifts.',
+  },
+];
+
+// How a track runs — 4 process steps. Mirrors the service-page pattern
+// with explicit outputs per phase.
+const PROCESS_STEPS = [
+  {
+    when: 'Week 1',
+    title: 'Foundations & framing',
+    body:
+      'Set up your dev environment, ship a "hello world" milestone, meet the cohort. Output: working setup + first checkpoint reviewed by the instructor.',
+  },
+  {
+    when: 'Weeks 2–3',
+    title: 'Hands-on labs',
+    body:
+      'Build 3–4 small projects, each unlocking a real-world skill. Live sessions twice a week, async labs in between. Output: portfolio-ready code, peer-reviewed.',
+  },
+  {
+    when: 'Week 4',
+    title: 'Capstone',
+    body:
+      'One bigger project tied to YOUR work where possible. Instructor reviews. Real critique, not a participation badge. Output: portfolio-grade project + written feedback.',
+  },
+  {
+    when: 'Post-course',
+    title: 'Materials & community',
+    body:
+      'Lifetime access to course materials. Alumni Slack. Monthly office hours with operator instructors. Output: a network of people building with the same skills.',
+  },
+];
+
+// 3-way decision matrix — Self-taught / Generic bootcamp / FL Academy.
+// Addresses the "why pay when YouTube exists?" objection.
+const VS_ROWS = [
+  {
+    label: 'Cost shape',
+    yt: 'Free — but your time isn’t. Months of stop-start learning.',
+    bootcamp: '$10k–$20k for 12–26 weeks of full-time commitment.',
+    fl: 'Per-course pricing. Team training scales with seats — no per-seat tax.',
+  },
+  {
+    label: 'Time to first working build',
+    yt: 'Days to start. Months to finish. If you finish.',
+    bootcamp: '12+ weeks of full-time commitment.',
+    fl: 'Week 1 — working setup + first checkpoint reviewed.',
+  },
+  {
+    label: 'Instructor access',
+    yt: 'Zero. You’re alone with the comment section.',
+    bootcamp: 'Junior teaching assistants reading from a scripted curriculum.',
+    fl: 'Live sessions with operators shipping the systems they teach.',
+  },
+  {
+    label: 'Completion rate',
+    yt: '~4% industry average for self-paced.',
+    bootcamp: 'Better — peer pressure helps. But high drop-out in week 4–6.',
+    fl: 'Cohort-paced, weekly live, designed end-to-end for people who finish.',
+  },
+  {
+    label: 'What you leave with',
+    yt: 'Notes. Maybe.',
+    bootcamp: 'A generic capstone everyone in your cohort built.',
+    fl: 'A portfolio-grade project tied to YOUR work + instructor feedback.',
+  },
+];
+
+// FAQ items including the soft pricing band (the unspoken "what does this
+// actually cost?" buyers self-disqualify on).
+const FAQS = [
+  {
+    q: 'How much does a course cost?',
+    a: 'Public courses run between $250–$1,200 per cohort depending on length and depth (OMR 100–500 in local pricing). Team training scales differently — a fixed price for 5+ seats with no per-seat tax. Discounts available for non-profits and education sector. Exact price is on each course’s page below.',
+  },
+  {
+    q: 'How much time per week do I need?',
+    a: 'Plan for 4–6 hours per week: 2 hours of live session + 2–4 hours of hands-on labs and reading. Live cohorts run weekday evenings UTC+4 (Oman) and are recorded. We’d rather you finish at week 6 than not at all — flexibility is built in.',
+  },
+  {
+    q: 'What if I miss a session or fall behind?',
+    a: 'Every live session is recorded and posted within a few hours. Slack channel with the instructor + your cohort. If you fall a week behind, the instructor will help you catch up — or roll you into the next cohort at no extra cost.',
+  },
+  {
+    q: 'Do I get a certificate?',
+    a: 'Yes — and a portfolio piece (the capstone), which is the more useful artifact. The certificate is FutureLine-issued and verifiable. The portfolio is what gets you hired or promoted.',
+  },
+  {
+    q: 'What if it’s not for me?',
+    a: 'Full refund within the first week of the cohort — no questions, no awkward call. After week 1, we offer pro-rata refunds if you stop attending. We’d rather lose the booking than have you stuck.',
+  },
+  {
+    q: 'Are there prerequisites?',
+    a: 'Listed per course. Most beginner tracks have none beyond "comfortable using a laptop." Intermediate and advanced tracks call out 1–2 specific prereqs (e.g., basic Python, basic SQL) up front — no surprise gates.',
+  },
+];
+
 export default async function CoursesPage({
   searchParams,
 }: {
@@ -50,7 +169,16 @@ export default async function CoursesPage({
   const params = await searchParams;
   const activeTab = params.tab || 'all';
 
-  const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
+  // Base filter: published + approved + NOT the placeholder "Test"
+  // course. (The Test course was leaking to production — defensive
+  // filter here even if a future deploy fixes the DB status.)
+  const baseFilter = {
+    status: 'PUBLISHED' as const,
+    approvalStatus: 'APPROVED' as const,
+    NOT: { title: { equals: 'Test', mode: 'insensitive' as const } },
+  };
+
+  const where: any = { ...baseFilter };
 
   if (activeTab === 'enrolled' && session?.user?.id) {
     where.enrollments = { some: { userId: session.user.id } };
@@ -76,13 +204,11 @@ export default async function CoursesPage({
       orderBy: { createdAt: 'desc' },
     }),
     prisma.course.findMany({
-      where: { status: 'PUBLISHED', approvalStatus: 'APPROVED' },
+      where: baseFilter,
       select: { category: true },
       distinct: ['category'],
     }),
-    prisma.course.count({
-      where: { status: 'PUBLISHED', approvalStatus: 'APPROVED' },
-    }),
+    prisma.course.count({ where: baseFilter }),
   ]);
 
   const categories = categoryRows.map((r) => r.category).filter(Boolean) as string[];
@@ -103,18 +229,37 @@ export default async function CoursesPage({
     return `/courses${qs ? `?${qs}` : ''}`;
   }
 
+  const spySections = [
+    { id: 'why-this-works', label: 'Why this works' },
+    { id: 'how-a-track-runs', label: 'How a track runs' },
+    { id: 'how-it-compares', label: 'How it compares' },
+    { id: 'catalog', label: 'Course catalog' },
+    { id: 'for-teams', label: 'For teams' },
+    { id: 'faq', label: 'FAQ' },
+    { id: 'enquiry', label: 'Get in touch' },
+  ];
+
   return (
     <main className="bg-brand-bg">
+      <PageScrollSpy sections={spySections} />
+
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-white/[0.06]">
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
-          {/* Academy amber pole */}
           <HeroRibbon3D color="#5B7BFB" tilt={0.35} bloom={0.7} />
         </div>
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
         />
+        {/* Page-number watermark — editorial cue matching service detail pages. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-2 z-[2] hidden select-none items-center font-black tracking-tighter text-white/[0.025] md:flex"
+          style={{ fontSize: 'clamp(14rem, 26vw, 28rem)', lineHeight: 0.85 }}
+        >
+          FL
+        </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 py-28 sm:px-6 md:py-40 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12">
@@ -139,7 +284,7 @@ export default async function CoursesPage({
                 className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
                 delay={0.2}
               >
-                AI, cybersecurity, cloud, data. Practical courses taught by people who do the work — online, in-person, and hybrid. Built so you actually finish.
+                Practical courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach. Built so you actually finish.
               </AnimatedText>
               <FadeUp delay={0.4}>
                 <div className="mt-12 flex flex-wrap items-center gap-3">
@@ -152,11 +297,11 @@ export default async function CoursesPage({
                     Browse {totalCount} courses
                   </Link>
                   <Link
-                    href="#enquiry"
+                    href="#how-a-track-runs"
                     data-cursor="hover"
                     className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
                   >
-                    Request custom training →
+                    See how a track runs ↓
                   </Link>
                 </div>
               </FadeUp>
@@ -171,16 +316,189 @@ export default async function CoursesPage({
         accent="lab"
       />
 
-      {/* ── Catalog ── */}
-      <section id="catalog" className="px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      {/* ── Why this works (4 stats) ── */}
+      <section
+        id="why-this-works"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
         <div className="mx-auto max-w-7xl">
-          {/* Filters header */}
-          <div className="mb-10 flex flex-col gap-6 md:mb-14">
+          <div className="mb-8 max-w-3xl md:mb-12">
+            <SectionEyebrow accent="academy">Why this works</SectionEyebrow>
+            <AnimatedText
+              as="h2"
+              variant="chars"
+              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+            >
+              Built around the people who finish.
+            </AnimatedText>
+            <AnimatedText
+              as="p"
+              variant="words"
+              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
+              delay={0.15}
+            >
+              Most online courses are designed for the moment of enrolment, not the moment of completion. We flipped the design.
+            </AnimatedText>
+          </div>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+            {WHY_STATS.map((s, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
+                <div className="border-t border-white/[0.12] pt-6">
+                  <p className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
+                    {s.value}
+                  </p>
+                  <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-academy/90">
+                    {s.label}
+                  </p>
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">{s.sub}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How a track runs (process) ── */}
+      <section
+        id="how-a-track-runs"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 max-w-3xl md:mb-12">
+            <SectionEyebrow accent="academy">How a track runs</SectionEyebrow>
+            <AnimatedText
+              as="h2"
+              variant="chars"
+              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+            >
+              4 weeks. One outcome.
+            </AnimatedText>
+            <AnimatedText
+              as="p"
+              variant="words"
+              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
+              delay={0.15}
+            >
+              The default shape. Some tracks run longer; the rhythm is the same.
+            </AnimatedText>
+          </div>
+          <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:grid-cols-4">
+            {PROCESS_STEPS.map((step, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
+                <div className="border-t border-white/[0.12] py-8">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy">
+                    {step.when}
+                  </p>
+                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.01em] text-white">
+                    {String(i + 1).padStart(2, '0')} · {step.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-white/55">{step.body}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it compares (3-way decision matrix) ── */}
+      <section
+        id="how-it-compares"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 max-w-3xl md:mb-12">
+            <SectionEyebrow accent="academy">How it compares</SectionEyebrow>
+            <AnimatedText
+              as="h2"
+              variant="chars"
+              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+            >
+              YouTube, bootcamp, or us?
+            </AnimatedText>
+            <AnimatedText
+              as="p"
+              variant="words"
+              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
+              delay={0.15}
+            >
+              Three honest paths. We&apos;ll tell you when YouTube is genuinely the right call — it sometimes is.
+            </AnimatedText>
+          </div>
+
+          <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+            <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
+              <div className="col-span-12 md:col-span-3">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">Category</p>
+              </div>
+              <div className="col-span-4 md:col-span-3">
+                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                  YouTube / blogs
+                </p>
+              </div>
+              <div className="col-span-4 md:col-span-3">
+                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                  Generic bootcamp
+                </p>
+              </div>
+              <div className="col-span-4 md:col-span-3">
+                <p
+                  className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
+                  style={{ textShadow: '0 0 8px rgba(91,123,251,0.4)' }}
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block h-2 w-2 rounded-full bg-academy"
+                    style={{ boxShadow: '0 0 8px rgba(91, 123, 251, 0.65)' }}
+                  />
+                  FL Academy
+                </p>
+              </div>
+            </div>
+            {VS_ROWS.map((row, i) => (
+              <FadeUp key={i} delay={i * 0.05}>
+                <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
+                  <div className="col-span-12 md:col-span-3">
+                    <div className="flex items-baseline gap-3">
+                      <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-academy/70">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">{row.label}</h4>
+                    </div>
+                  </div>
+                  <div className="col-span-4 md:col-span-3">
+                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.yt}</p>
+                  </div>
+                  <div className="col-span-4 md:col-span-3">
+                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.bootcamp}</p>
+                  </div>
+                  <div className="relative col-span-4 md:col-span-3">
+                    <span
+                      aria-hidden
+                      className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-academy/40 via-academy/15 to-transparent md:block"
+                    />
+                    <p className="text-sm font-medium leading-relaxed text-white md:text-base">{row.fl}</p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Catalog ── */}
+      <section
+        id="catalog"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-6 md:mb-12">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <SectionEyebrow accent="academy" className="mb-3">Catalog</SectionEyebrow>
                 <h2 className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl">
-                  {courses.length} of {totalCount} courses
+                  {courses.length} {courses.length === 1 ? 'course' : 'courses'} on offer
                 </h2>
               </div>
               <form method="GET" action="/courses" className="flex w-full max-w-sm items-center gap-2">
@@ -193,14 +511,12 @@ export default async function CoursesPage({
                     className="fl-input !py-2.5 !pl-9 !text-xs"
                   />
                 </div>
-                {/* preserve other filters when searching */}
                 {params.level && <input type="hidden" name="level" value={params.level} />}
                 {params.category && <input type="hidden" name="category" value={params.category} />}
                 {params.type && <input type="hidden" name="type" value={params.type} />}
               </form>
             </div>
 
-            {/* Filter pills */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
               <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
@@ -275,7 +591,6 @@ export default async function CoursesPage({
             )}
           </div>
 
-          {/* Course grid */}
           {courses.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-32 text-center">
               <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
@@ -289,6 +604,9 @@ export default async function CoursesPage({
                 const priceLabel =
                   isEnrolled ? 'Continue →' : course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
                 const num = String(i + 1).padStart(2, '0');
+                const instructorName = course.instructor
+                  ? `${course.instructor.firstName ?? ''} ${course.instructor.lastName ?? ''}`.trim()
+                  : '';
 
                 return (
                   <Link
@@ -311,10 +629,18 @@ export default async function CoursesPage({
                     <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.01em] text-white transition-colors group-hover:text-academy-light">
                       {course.title}
                     </h3>
-                    <p className="mt-4 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">
+                    <p className="mt-4 text-sm leading-relaxed text-white/55 line-clamp-3">
                       {course.shortDescription}
                     </p>
-                    <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
+                    {/* Instructor strip — shows "Taught by [name]" when an
+                        instructor is attached. Backs the hero's "Taught by
+                        operators." claim with a concrete name per course. */}
+                    {instructorName && (
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
+                        Taught by <span className="text-academy/90">{instructorName}</span>
+                      </p>
+                    )}
+                    <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">
                       <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
                         <Clock size={11} /> {course.durationHours}h
                       </span>
@@ -331,17 +657,106 @@ export default async function CoursesPage({
         </div>
       </section>
 
+      {/* ── For teams — custom training band ── */}
+      <section
+        id="for-teams"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
+            <div className="md:col-span-5">
+              <SectionEyebrow accent="academy">For teams</SectionEyebrow>
+              <AnimatedText
+                as="h2"
+                variant="chars"
+                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
+              >
+                Train the team. Skip the per-seat tax.
+              </AnimatedText>
+              <p className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
+                For 5+ team members. Custom syllabus designed around your stack and your goals. On-site, remote, or hybrid. Single invoice — no per-seat tax that punishes hiring.
+              </p>
+            </div>
+            <ul className="md:col-span-7">
+              {[
+                'Custom syllabus shaped around your stack and your goals',
+                'On-site (Oman / GCC), remote (any timezone), or hybrid',
+                'Single invoice — no per-seat tax that punishes hiring',
+                'Capstone projects tied to YOUR actual systems',
+                'Manager debriefs after the cohort — what your team learned, what to deploy next',
+              ].map((item, i) => (
+                <li
+                  key={i}
+                  className="flex items-baseline gap-4 border-t border-white/[0.08] py-5 text-base text-white/80 md:text-lg"
+                >
+                  <span aria-hidden className="font-mono text-xs tracking-[0.3em] text-academy">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section
+        id="faq"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-8 md:mb-12">
+            <SectionEyebrow accent="academy">FAQ</SectionEyebrow>
+            <AnimatedText
+              as="h2"
+              variant="chars"
+              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]"
+            >
+              Things people ask.
+            </AnimatedText>
+          </div>
+          <div className="mt-10">
+            {FAQS.map((f, i) => (
+              <details
+                key={i}
+                className="group border-t border-white/[0.08]"
+              >
+                <summary
+                  className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-left"
+                  data-cursor="hover"
+                >
+                  <span className="text-base font-medium leading-snug text-white md:text-lg">{f.q}</span>
+                  <span
+                    aria-hidden
+                    className="mt-1 flex-shrink-0 font-mono text-xs text-white/45 transition-colors group-hover:text-academy group-open:rotate-45"
+                    style={{ transition: 'transform 220ms ease, color 220ms ease' }}
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="pb-6 pr-8 text-sm leading-relaxed text-white/65 md:text-base">{f.a}</p>
+              </details>
+            ))}
+            <div className="border-t border-white/[0.08]" />
+          </div>
+        </div>
+      </section>
+
       {/* ── Enquiry ── */}
-      <section id="enquiry" className="border-t border-white/[0.06] px-4 py-32 sm:px-6 md:py-44 lg:px-8">
+      <section
+        id="enquiry"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8"
+      >
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <div className="mb-12 text-center">
-              <SectionEyebrow accent="academy">Custom training</SectionEyebrow>
+              <SectionEyebrow accent="academy">Get in touch</SectionEyebrow>
               <h2 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]">
                 Can&apos;t find what you need?
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
-                We design custom training programmes for teams. Tell us what you&apos;re building toward and we&apos;ll come back with a proposal.
+                We design custom training for teams. Tell us what you&apos;re building toward and we&apos;ll come back with a proposal — usually within a business day.
               </p>
             </div>
           </FadeUp>

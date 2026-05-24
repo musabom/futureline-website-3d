@@ -36,10 +36,75 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// What you're buying — four pillars, deliberately written as short
-// concept words rather than hard numbers. Catalogs evolve, prices and
-// schedules vary per course — generic language stays honest as the
-// product changes. Specifics live on each course's detail page.
+// Where these skills get paid — per-pillar payoff cards. Grounded in
+// labour-market research (WEF Future of Jobs 2025, McKinsey GCC, ISC2
+// Workforce Study, regional salary guides) but the numbers themselves
+// stay OFF the page on request — directional qualitative language only,
+// so the section ages well as the market moves. Sectors and role names
+// are concrete (they don't go stale), demand sentences are qualitative.
+const PILLAR_PAYOFFS = [
+  {
+    name: 'AI & Machine Learning',
+    pitch: 'Build the models companies are scrambling to deploy.',
+    sectors: ['Banking', 'Government', 'Telco', 'Healthcare', 'E-commerce'],
+    earn: 'Strong pay bands across the GCC for mid- to senior-level roles.',
+    roles: [
+      'ML Engineer',
+      'AI Engineer',
+      'Data Scientist',
+      'MLOps Engineer',
+      'NLP Engineer',
+    ],
+    demand: 'GCC employers consistently report a shortage of AI talent — supply hasn’t caught up with the rate of adoption.',
+  },
+  {
+    name: 'Cybersecurity',
+    pitch: 'Defend the systems regulators now require to be secure.',
+    sectors: ['Banking', 'Government', 'Telco', 'Oil & Gas', 'Healthcare'],
+    earn: 'Demand-driven pay, especially in regulated industries.',
+    roles: [
+      'SOC Analyst',
+      'Security Engineer',
+      'Penetration Tester',
+      'GRC Analyst',
+      'Incident Responder',
+    ],
+    demand: 'Nearly every regulated organisation reports a meaningful gap in security skills — and the gap is widening, not closing.',
+  },
+  {
+    name: 'Cloud',
+    pitch: 'Build the infrastructure national digital strategies depend on.',
+    sectors: ['Public sector', 'Banking', 'Telco', 'National megaprojects', 'Consultancies'],
+    earn: 'Certifications carry a measurable salary premium across the region.',
+    roles: [
+      'Cloud Engineer',
+      'Cloud Architect',
+      'DevOps Engineer',
+      'Site Reliability Engineer',
+      'Solutions Architect',
+    ],
+    demand: 'Among the fastest-growing skill categories on every major workforce report — and the GCC is leaning into it hardest.',
+  },
+  {
+    name: 'Data Analytics',
+    pitch: 'Turn messy company data into the reports leadership acts on.',
+    sectors: ['Banking', 'Government statistics', 'Telco', 'E-commerce', 'Healthcare'],
+    earn: 'Steady demand across virtually every industry — analytics literacy is a baseline now, not a specialism.',
+    roles: [
+      'Data Analyst',
+      'BI Developer',
+      'Insights Manager',
+      'Power BI Developer',
+      'Data Engineer',
+    ],
+    demand: 'Big-data and analytics roles sit among the top fastest-growing jobs over the next decade.',
+  },
+];
+
+// How we teach — four pillars, deliberately written as short concept
+// words rather than hard numbers. These describe FL's pedagogy, not
+// the market. Catalogs evolve, prices and schedules vary per course —
+// generic language stays honest as the product changes.
 const WHY_STATS = [
   {
     value: 'Small',
@@ -461,29 +526,106 @@ export default async function CoursesPage({
         </div>
       </section>
 
-      {/* ── What you're buying (4 operational stats) ── */}
+      {/* ── Where these skills get paid (per-pillar payoff cards) ──
+          Replaces the old vague "Skills the market actually pays for"
+          stat grid. Answers the two questions a buyer actually has:
+          where do I apply this skill, and what roles does it unlock?
+          All numbers stripped on request — directional qualitative
+          language only. Sectors + role names + demand sentence per
+          pillar, in a parallel-shape grid. */}
       <section
-        id="why-this-works"
+        id="where-it-pays"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
+            <SectionEyebrow accent="academy">Where it gets paid</SectionEyebrow>
+            <BrandedHeading as="h2" size="lg" className="mt-3">
+              Skills GCC employers are hiring for.
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+              AI, cybersecurity, cloud, and data sit among the fastest-growing skill categories worldwide. Here&apos;s where each one gets applied — and the roles it unlocks — in the region.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+            {PILLAR_PAYOFFS.map((p, i) => (
+              <FadeUp key={p.name} delay={i * 0.08}>
+                <article className="flex h-full flex-col rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm md:p-9">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
+                    {p.name}
+                  </p>
+                  <h3 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-tight text-white md:text-3xl">
+                    {p.pitch}
+                  </h3>
+
+                  <div className="mt-7 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-x-10">
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                        Where it’s applied
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/70 md:text-base">
+                        {p.sectors.join(' · ')}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                        What it pays
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/70 md:text-base">
+                        {p.earn}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-7">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                      Roles you could land
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {p.roles.map((role) => (
+                        <span
+                          key={role}
+                          className="rounded-full border border-academy/30 bg-academy/10 px-3 py-1.5 text-xs font-medium text-academy md:text-[13px]"
+                        >
+                          {role}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="mt-7 border-t border-white/[0.08] pt-5 text-sm italic leading-relaxed text-white/60 md:text-[15px]">
+                    {p.demand}
+                  </p>
+                </article>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How we teach (the 4 ops pillars) ──────────────────────
+          The old "Skills the market actually pays for" stat tiles —
+          they were really FL's pedagogy in disguise. Renamed and moved
+          here so they answer their actual question (how does FL
+          deliver) instead of pretending to be market data. */}
+      <section
+        id="how-we-teach"
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
-            <SectionEyebrow accent="academy">What you’re buying</SectionEyebrow>
+            <SectionEyebrow accent="academy">How we teach</SectionEyebrow>
             <BrandedHeading as="h2" size="lg" className="mt-3">
-              Skills the market actually pays for.
+              Designed end-to-end for people who finish.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Most online courses are designed for the sign-up. Ours are designed for the finish. Here&apos;s what you&apos;re committing to before you decide.
+              Cohort-paced, instructor-led, and priced for training — not for a per-seat licence tax.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             {WHY_STATS.map((s, i) => (
               <FadeUp key={i} delay={i * 0.08}>
                 <div className="border-t border-white/[0.12] pt-6">
-                  {/* Smaller value size than the original text-5xl/text-6xl
-                      so longer strings (e.g. "$250–$1,200") fit the 4-col
-                      grid at any breakpoint without colliding with the
-                      next column. */}
                   <p className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.5rem]">
                     {s.value}
                   </p>

@@ -25,10 +25,16 @@ export default function Header() {
     };
   }, []);
 
+  // Nav exposes our 4 services directly + the Academy catalogue. The
+  // aggregator "/services" page and the marketing "/ai" page are
+  // intentionally not in the top nav — direct routes for what you can
+  // actually buy.
   const navLinks = [
-    { href: '/services', label: 'Services' },
+    { href: '/services/digitalisation', label: 'Digitalisation' },
+    { href: '/services/custom-software', label: 'Custom Software' },
+    { href: '/services/automations', label: 'Automations' },
+    { href: '/services/consultation', label: 'Consultation' },
     { href: '/courses', label: strings.nav.courses },
-    { href: '/ai', label: 'AI' },
   ];
 
   const headerClass = [
@@ -60,7 +66,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
+          <nav className="hidden items-center gap-6 lg:gap-7 md:flex" aria-label="Main">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

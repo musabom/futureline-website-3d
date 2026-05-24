@@ -9,6 +9,7 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { FadeUp } from '@/components/motion/FadeUp'
+import { BrandedHeading } from '@/components/ui/BrandedHeading'
 
 const SPARK_COUNT = 22
 
@@ -79,9 +80,9 @@ export function FinalCTA() {
           </p>
 
           <div className="relative inline-block">
-            <h2 className="relative z-10 text-5xl font-semibold leading-[0.95] tracking-[-0.02em] md:text-[clamp(4rem,10vw,10rem)]">
+            <BrandedHeading as="h2" size="xl" className="relative z-10">
               Ready when you are.
-            </h2>
+            </BrandedHeading>
 
             {burst && (
               <div

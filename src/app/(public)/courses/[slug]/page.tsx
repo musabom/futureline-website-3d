@@ -13,6 +13,7 @@ import {
 import EnrollButton from '@/components/EnrollButton';
 import { formatPrice } from '@/lib/utils';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { FadeUp } from '@/components/motion/FadeUp';
 import type { Metadata } from 'next';
 
@@ -90,13 +91,9 @@ export default async function CourseDetailPage({
             </span>
           </div>
 
-          <AnimatedText
-            as="h1"
-            variant="chars"
-            className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,6vw,5.5rem)]"
-          >
+          <BrandedHeading as="h1" size="xl">
             {course.title}
-          </AnimatedText>
+          </BrandedHeading>
 
           <AnimatedText
             as="p"
@@ -189,13 +186,9 @@ export default async function CourseDetailPage({
                     <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
                       About this course
                     </p>
-                    <AnimatedText
-                      as="h2"
-                      variant="chars"
-                      className="text-3xl font-semibold tracking-[-0.01em] text-white md:text-4xl"
-                    >
+                    <BrandedHeading as="h2" size="md">
                       What you&apos;ll learn.
-                    </AnimatedText>
+                    </BrandedHeading>
                     <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-white/70 md:text-lg">
                       {course.fullDescription}
                     </p>

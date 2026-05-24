@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { getBrandSettings } from '@/lib/brand';
 import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
@@ -83,13 +84,9 @@ export default async function AIPage() {
                 />
                 FL · Lab · AI & Automation
               </p>
-              <AnimatedText
-                as="h1"
-                variant="chars"
-                className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3.5rem,8vw,7rem)]"
-              >
+              <BrandedHeading as="h1" size="xl">
                 Useful, not magic.
-              </AnimatedText>
+              </BrandedHeading>
               <AnimatedText
                 as="p"
                 variant="words"
@@ -142,13 +139,9 @@ export default async function AIPage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
             <SectionEyebrow>What we&apos;re building</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,6vw,5.5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               AI capabilities.
-            </AnimatedText>
+            </BrandedHeading>
             <AnimatedText
               as="p"
               variant="words"
@@ -200,13 +193,9 @@ export default async function AIPage() {
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
               <SectionEyebrow>The vision</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 AI that works for your business.
-              </AnimatedText>
+              </BrandedHeading>
               <p className="mt-8 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
                 Our approach is practical and results-driven. We don&apos;t believe in AI for the sake of AI. Every solution is designed to solve a real problem, save time, and deliver measurable impact.
               </p>
@@ -257,9 +246,9 @@ export default async function AIPage() {
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
               Start the conversation
             </p>
-            <h2 className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,7vw,6rem)]">
+            <BrandedHeading as="h2" size="xl">
               Tell us where AI fits.
-            </h2>
+            </BrandedHeading>
             <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
               Early enquiries get a free scoping call. We&apos;ll tell you up front whether AI is the right tool for your problem — or whether automation, dashboards, or a process fix would be cheaper and faster.
             </p>

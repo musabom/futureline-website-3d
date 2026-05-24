@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 
@@ -110,24 +111,14 @@ export function ServiceCards() {
       />
 
       <div className="relative mx-auto max-w-7xl">
-        <div className="mb-14 md:mb-20">
+        <div className="mx-auto mb-14 max-w-4xl text-center md:mb-20">
           <SectionEyebrow>What we do</SectionEyebrow>
-          <AnimatedText
-            as="h2"
-            variant="chars"
-            id="services-heading"
-            className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,7vw,6.5rem)]"
-          >
+          <BrandedHeading as="h2" size="xl" id="services-heading">
             Four ways to build.
-          </AnimatedText>
-          <AnimatedText
-            as="p"
-            variant="words"
-            className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
-            delay={0.15}
-          >
+          </BrandedHeading>
+          <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl">
             Pick the one that matches where you&apos;re stuck. We start with a free audit either way.
-          </AnimatedText>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">

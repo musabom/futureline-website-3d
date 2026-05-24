@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import AuditEnquiryForm from '@/components/AuditEnquiryForm';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { CheckCircle2 } from 'lucide-react';
@@ -41,13 +42,9 @@ export default function AuditPage() {
             {/* Left — pitch */}
             <div className="lg:col-span-6">
               <SectionEyebrow>Free systems audit</SectionEyebrow>
-              <AnimatedText
-                as="h1"
-                variant="chars"
-                className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,6vw,5rem)]"
-              >
+              <BrandedHeading as="h1" size="xl">
                 Tell us what slows you down.
-              </AnimatedText>
+              </BrandedHeading>
               <AnimatedText
                 as="p"
                 variant="words"
@@ -85,9 +82,9 @@ export default function AuditPage() {
                   <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.32em] text-lab">
                     Request a free audit
                   </p>
-                  <h2 className="mb-7 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                  <BrandedHeading as="h2" size="sm" className="mb-7">
                     Start with your details.
-                  </h2>
+                  </BrandedHeading>
                   <AuditEnquiryForm />
                 </div>
               </FadeUp>

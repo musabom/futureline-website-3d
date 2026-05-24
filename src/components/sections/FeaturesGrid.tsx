@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 
 const FEATURES = [
   {
@@ -143,23 +144,14 @@ export function FeaturesGrid() {
       id="features"
       className="relative bg-brand-bg px-6 py-32 md:px-12 md:py-48"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl text-center">
         <SectionEyebrow>Our services</SectionEyebrow>
-        <AnimatedText
-          as="h2"
-          variant="chars"
-          className="max-w-5xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] md:text-[clamp(4rem,10vw,9rem)]"
-        >
+        <BrandedHeading as="h2" size="xl">
           Systems built for scale.
-        </AnimatedText>
-        <AnimatedText
-          as="p"
-          variant="words"
-          className="mt-10 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl"
-          delay={0.2}
-        >
+        </BrandedHeading>
+        <p className="mx-auto mt-10 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
           Built for businesses outgrowing their tools. Done in weeks, not years.
-        </AnimatedText>
+        </p>
 
         <div className="mt-24 md:mt-32">
           {FEATURES.map((f, i) => (

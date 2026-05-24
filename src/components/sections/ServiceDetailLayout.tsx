@@ -13,6 +13,7 @@ import { useState, useRef } from 'react';
 import { ChevronDown, Check, X, Layers } from 'lucide-react';
 import HeroRibbon3D from './HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
@@ -244,13 +245,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               </p>
               {/* Small page-number line removed — replaced by the big
                   faded watermark behind the hero. */}
-              <AnimatedText
-                as="h1"
-                variant="chars"
-                className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3.5rem,8vw,6.5rem)]"
-              >
+              <BrandedHeading as="h1" size="xl">
                 {data.heading}
-              </AnimatedText>
+              </BrandedHeading>
               <AnimatedText
                 as="p"
                 variant="words"
@@ -290,13 +287,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-12">
             <SectionEyebrow>Why it matters</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-4xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               {data.painHeading ?? 'The cost of staying manual.'}
-            </AnimatedText>
+            </BrandedHeading>
           </div>
 
           <div className="space-y-0">
@@ -341,13 +334,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-12">
             <SectionEyebrow>How we work</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               {data.processHeading ?? 'Live in weeks.'}
-            </AnimatedText>
+            </BrandedHeading>
             {data.processSubhead && (
               <AnimatedText
                 as="p"
@@ -393,13 +382,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
               <SectionEyebrow>What you get</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 {data.deliverablesHeading ?? 'Built to last.'}
-              </AnimatedText>
+              </BrandedHeading>
               <p className="mt-8 max-w-md text-base leading-relaxed text-white/55 md:text-lg">
                 Every system ships with what you actually need on day one — not bolted-on later, not behind a future upsell.
               </p>
@@ -437,13 +422,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.recentBuilds.eyebrow ?? 'Recent builds'}</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 {data.recentBuilds.headline}
-              </AnimatedText>
+              </BrandedHeading>
               {data.recentBuilds.intro && (
                 <AnimatedText
                   as="p"
@@ -476,13 +457,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.buildVsBuy.eyebrow ?? 'Decision framework'}</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 {data.buildVsBuy.headline}
-              </AnimatedText>
+              </BrandedHeading>
               {data.buildVsBuy.intro && (
                 <AnimatedText
                   as="p"
@@ -578,13 +555,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.commitment.eyebrow ?? 'The engagement'}</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 {data.commitment.headline}
-              </AnimatedText>
+              </BrandedHeading>
               {data.commitment.intro && (
                 <AnimatedText
                   as="p"
@@ -696,13 +669,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg">
                 {data.compare.headline}
-              </AnimatedText>
+              </BrandedHeading>
               {data.compare.intro && (
                 <AnimatedText
                   as="p"
@@ -810,13 +779,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <section id="by-the-numbers" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>By the numbers</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,6vw,5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               {data.statsHeading ?? 'What clients gain.'}
-            </AnimatedText>
+            </BrandedHeading>
             <div
               className={[
                 'mt-12 grid grid-cols-1 gap-12 md:gap-8',
@@ -848,13 +813,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <section id="where-it-fits" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Where it fits</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               {data.industriesHeading ?? 'Built for your industry.'}
-            </AnimatedText>
+            </BrandedHeading>
             {/* Industries grid — 2 cols on md+ (not 3) so wider cards
                 give the substantial pain copy room to breathe. For an
                 odd card count (5, 7, 9...), the last card spans both
@@ -892,13 +853,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <section id="common-questions" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <SectionEyebrow>Common questions</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]"
-            >
+            <BrandedHeading as="h2" size="lg">
               {data.faqsHeading ?? 'Things we hear.'}
-            </AnimatedText>
+            </BrandedHeading>
             <div className="mt-10">
               {data.faqs.map((f, i) => (
                 <FaqItem key={i} q={f.q} a={f.a} />
@@ -916,9 +873,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
               {data.cta?.eyebrow ?? '05 — Start'}
             </p>
-            <h2 className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,7vw,6rem)]">
+            <BrandedHeading as="h2" size="xl">
               {data.cta?.headline ?? 'Ready when you are.'}
-            </h2>
+            </BrandedHeading>
             <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
               {data.cta?.sub ?? "A free systems audit. No commitment. Just an honest look at what's slowing you down."}
             </p>

@@ -39,6 +39,18 @@ model Course {
   shortDescription  String
   fullDescription   String
   deliveryType      DeliveryType
+  // Course format — how this course is delivered in TIME:
+  //   COHORT     → live cohort with fixed start/end dates
+  //   SELF_PACED → recorded / on-demand / always available
+  //   WORKSHOP   → one-time live event (no end date, single session)
+  // Existing rows default to COHORT so the migration is safe.
+  courseFormat      CourseFormat        @default(COHORT)
+  // For COHORT / WORKSHOP courses: is the schedule confirmed?
+  //   SCHEDULED → admin has set concrete dates
+  //   TBC       → cohort planned, dates announced soon
+  //   COMPLETED → past cohort, no current schedule
+  // Ignored when courseFormat = SELF_PACED.
+  scheduleStatus    ScheduleStatus      @default(SCHEDULED)
   category          String
   level             String
   price             Float
@@ -271,6 +283,22 @@ enum DeliveryType {
   ONLINE
   IN_PERSON
   HYBRID
+}
+
+// How a course is delivered in TIME — orthogonal to DeliveryType
+// (which is about WHERE — online / in-person / hybrid).
+enum CourseFormat {
+  COHORT       // Live cohort with fixed start/end dates
+  SELF_PACED   // Recorded / on-demand / always available
+  WORKSHOP     // One-time live event (single session)
+}
+
+// For cohort & workshop courses: is the schedule confirmed yet?
+// Self-paced courses ignore this — they're always available.
+enum ScheduleStatus {
+  SCHEDULED  // Admin set concrete dates
+  TBC        // Cohort planned, dates announced soon
+  COMPLETED  // Past cohort, no current schedule
 }
 
 enum CourseStatus {

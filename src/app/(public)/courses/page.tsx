@@ -219,9 +219,14 @@ export default async function CoursesPage({
       select: { category: true },
       distinct: ['category'],
     }),
+    // All active instructors — not constrained by course relationship.
+    // The admin manually adds Practitioners and expects them to surface
+    // here. If a practitioner shouldn't appear, admin uses the active
+    // toggle on /admin/instructors to disable them.
     prisma.user.findMany({
       where: {
-        courses: { some: baseFilter },
+        role: 'INSTRUCTOR',
+        isActive: true,
       },
       select: { id: true, firstName: true, lastName: true, bio: true, image: true },
       orderBy: { firstName: 'asc' },

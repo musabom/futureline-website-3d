@@ -1,0 +1,328 @@
+/**
+ * VideoEffectsClient — client-side upload + effect picker + result
+ * preview. Talks to /api/video-effects/process for the actual FFmpeg
+ * pipeline; this component is purely state, validation, and UI.
+ *
+ * State machine:
+ *   idle            → user hasn't picked a file yet
+ *   ready           → file picked + effect selected, ready to submit
+ *   processing      → POST in flight; show spinner + cancel button
+ *   done            → processed video URL received; preview + download
+ *   error           → server returned an error or upload failed
+ *
+ * The component intentionally renders the input preview AND the
+ * output preview side-by-side once done so the user can A/B them.
+ */
+'use client';
+
+import { useRef, useState } from 'react';
+import { Upload, Sparkles, Download, X, Film, RotateCcw } from 'lucide-react';
+
+const EFFECTS = [
+  {
+    id: 'glow',
+    label: 'Cinematic Glow',
+    description: 'Bloom around highlights + warm grade. Reads as polished, dreamy.',
+  },
+  {
+    id: 'neon',
+    label: 'Neon Cyberpunk',
+    description: 'Lifted blues, crushed reds, grain. Reads as synthwave / dark city.',
+  },
+  {
+    id: 'dark',
+    label: 'Dark Aesthetic',
+    description: 'Crushed shadows + vignette. Reads as moody portrait / editorial.',
+  },
+  {
+    id: 'vintage',
+    label: 'Vintage Film',
+    description: 'Warm shift, low saturation, grain, vignette. Reads as Super-8 footage.',
+  },
+] as const;
+
+type EffectId = (typeof EFFECTS)[number]['id'];
+
+type Status = 'idle' | 'ready' | 'processing' | 'done' | 'error';
+
+const MAX_BYTES = 50 * 1024 * 1024;
+
+export function VideoEffectsClient() {
+  const [file, setFile] = useState<File | null>(null);
+  const [inputPreviewUrl, setInputPreviewUrl] = useState<string>('');
+  const [effect, setEffect] = useState<EffectId>('glow');
+  const [status, setStatus] = useState<Status>('idle');
+  const [resultUrl, setResultUrl] = useState<string>('');
+  const [resultLabel, setResultLabel] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = (f: File | null) => {
+    if (!f) return;
+    if (f.size > MAX_BYTES) {
+      setError(`File too large. Max ${MAX_BYTES / 1024 / 1024} MB.`);
+      setStatus('error');
+      return;
+    }
+    if (!f.type.startsWith('video/')) {
+      setError('File must be a video.');
+      setStatus('error');
+      return;
+    }
+    // Revoke any previous local preview URL so we don't leak.
+    if (inputPreviewUrl) URL.revokeObjectURL(inputPreviewUrl);
+    setFile(f);
+    setInputPreviewUrl(URL.createObjectURL(f));
+    setError('');
+    setResultUrl('');
+    setResultLabel('');
+    setStatus('ready');
+  };
+
+  const onPickFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFile(e.target.files?.[0] ?? null);
+  };
+
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleFile(e.dataTransfer.files?.[0] ?? null);
+  };
+
+  const submit = async () => {
+    if (!file) return;
+    setStatus('processing');
+    setError('');
+    setResultUrl('');
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('preset', effect);
+      const res = await fetch('/api/video-effects/process', {
+        method: 'POST',
+        body: fd,
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(body.error ?? `Server returned ${res.status}.`);
+        setStatus('error');
+        return;
+      }
+      setResultUrl(body.url);
+      setResultLabel(body.label);
+      setStatus('done');
+    } catch (err: any) {
+      setError(err?.message ?? 'Network error');
+      setStatus('error');
+    }
+  };
+
+  const reset = () => {
+    if (inputPreviewUrl) URL.revokeObjectURL(inputPreviewUrl);
+    setFile(null);
+    setInputPreviewUrl('');
+    setResultUrl('');
+    setResultLabel('');
+    setError('');
+    setStatus('idle');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  return (
+    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-md md:p-10">
+      {/* Step 1 — upload */}
+      {status === 'idle' && (
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onDrop={onDrop}
+          className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.12] bg-white/[0.015] px-6 py-16 text-center transition-colors hover:border-lab/40 hover:bg-white/[0.03]"
+        >
+          <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-lab/30 bg-lab/10 text-lab">
+            <Film size={22} />
+          </div>
+          <h2 className="text-xl font-semibold text-white md:text-2xl">
+            Drop a video, or click to pick one.
+          </h2>
+          <p className="mt-2 max-w-md text-sm text-white/55">
+            MP4 / MOV / WebM up to 50&nbsp;MB. The first 30 seconds get processed.
+          </p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="video/*"
+            onChange={onPickFile}
+            className="hidden"
+            id="video-effects-file"
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="mt-7 inline-flex items-center gap-2 rounded-full border border-lab/40 bg-lab/[0.12] px-6 py-3 text-sm font-medium text-lab transition-colors hover:border-lab/70 hover:bg-lab/[0.22]"
+          >
+            <Upload size={14} />
+            Choose video
+          </button>
+        </div>
+      )}
+
+      {/* Step 2 — file picked, choose effect, submit */}
+      {(status === 'ready' || status === 'processing') && (
+        <div className="space-y-7">
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-[1fr_300px]">
+            <video
+              src={inputPreviewUrl}
+              controls
+              muted
+              className="aspect-video w-full rounded-lg border border-white/[0.06] bg-black object-contain"
+            />
+            <div className="flex flex-col justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
+                  Loaded
+                </p>
+                <p className="mt-2 truncate text-sm font-medium text-white">{file?.name}</p>
+                <p className="mt-1 text-xs text-white/45">
+                  {file ? `${(file.size / 1024 / 1024).toFixed(1)} MB · ${file.type}` : ''}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={reset}
+                disabled={status === 'processing'}
+                className="inline-flex items-center gap-1.5 self-start rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/70 transition-colors hover:border-white/[0.2] hover:text-white disabled:opacity-50"
+              >
+                <X size={12} /> Choose a different file
+              </button>
+            </div>
+          </div>
+
+          {/* Effect picker */}
+          <div>
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
+              Pick a look
+            </p>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {EFFECTS.map((eff) => {
+                const selected = eff.id === effect;
+                return (
+                  <button
+                    key={eff.id}
+                    type="button"
+                    disabled={status === 'processing'}
+                    onClick={() => setEffect(eff.id)}
+                    className={[
+                      'rounded-lg border p-4 text-left transition-all disabled:opacity-50',
+                      selected
+                        ? 'border-lab/55 bg-lab/[0.08] shadow-[0_0_0_1px_rgba(24,169,153,0.2)]'
+                        : 'border-white/[0.08] bg-white/[0.02] hover:border-white/[0.18]',
+                    ].join(' ')}
+                  >
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className={`text-sm font-semibold ${selected ? 'text-lab' : 'text-white'}`}>
+                        {eff.label}
+                      </span>
+                      {selected && <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-lab">selected</span>}
+                    </div>
+                    <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                      {eff.description}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-white/45">
+              Processing runs server-side via FFmpeg. Typical time: 10–30s.
+            </p>
+            <button
+              type="button"
+              onClick={submit}
+              disabled={status === 'processing'}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-white/90 disabled:opacity-60"
+            >
+              {status === 'processing' ? (
+                <>
+                  <span className="inline-block h-3 w-3 animate-spin rounded-full border border-black/30 border-t-black" />
+                  Processing…
+                </>
+              ) : (
+                <>
+                  <Sparkles size={14} />
+                  Apply effect
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 3 — done, show side-by-side */}
+      {status === 'done' && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div>
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                Before
+              </p>
+              <video
+                src={inputPreviewUrl}
+                controls
+                muted
+                className="aspect-video w-full rounded-lg border border-white/[0.06] bg-black object-contain"
+              />
+            </div>
+            <div>
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
+                After · {resultLabel}
+              </p>
+              <video
+                src={resultUrl}
+                controls
+                autoPlay
+                muted
+                className="aspect-video w-full rounded-lg border border-lab/30 bg-black object-contain"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <button
+              type="button"
+              onClick={reset}
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white/75 transition-colors hover:border-white/[0.2] hover:text-white"
+            >
+              <RotateCcw size={13} /> Try another video
+            </button>
+            <a
+              href={resultUrl}
+              download
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-white/90"
+            >
+              <Download size={14} /> Download
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Error state — surfaces server message, lets user retry */}
+      {status === 'error' && (
+        <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-5">
+          <p className="text-sm font-medium text-red-300">
+            {error || 'Something went wrong.'}
+          </p>
+          <button
+            type="button"
+            onClick={reset}
+            className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-red-200 hover:text-white"
+          >
+            <RotateCcw size={12} /> Start over
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

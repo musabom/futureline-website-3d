@@ -36,18 +36,18 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// Where these skills get paid — per-pillar payoff cards. Grounded in
-// labour-market research (WEF Future of Jobs 2025, McKinsey GCC, ISC2
-// Workforce Study, regional salary guides) but the numbers themselves
-// stay OFF the page on request — directional qualitative language only,
-// so the section ages well as the market moves. Sectors and role names
-// are concrete (they don't go stale), demand sentences are qualitative.
+// Where these skills get paid — per-pillar payoff cards. Generic
+// language throughout: no named regions, no specific time/money
+// numbers, no product names, no time-horizon claims. Sectors and
+// role names are concrete (real industry-standard taxonomy that
+// won't date), every "earn" and "demand" sentence is qualitative,
+// so the section ages well as the market moves.
 const PILLAR_PAYOFFS = [
   {
     name: 'AI & Machine Learning',
     pitch: 'Build the models companies are scrambling to deploy.',
     sectors: ['Banking', 'Government', 'Telco', 'Healthcare', 'E-commerce'],
-    earn: 'Strong pay bands across the GCC for mid- to senior-level roles.',
+    earn: 'Strong pay bands for mid- to senior-level roles.',
     roles: [
       'ML Engineer',
       'AI Engineer',
@@ -55,11 +55,11 @@ const PILLAR_PAYOFFS = [
       'MLOps Engineer',
       'NLP Engineer',
     ],
-    demand: 'GCC employers consistently report a shortage of AI talent — supply hasn’t caught up with the rate of adoption.',
+    demand: 'Employers consistently report a shortage of AI talent — supply hasn’t caught up with the rate of adoption.',
   },
   {
     name: 'Cybersecurity',
-    pitch: 'Defend the systems regulators now require to be secure.',
+    pitch: 'Defend the systems organizations can’t afford to lose.',
     sectors: ['Banking', 'Government', 'Telco', 'Oil & Gas', 'Healthcare'],
     earn: 'Demand-driven pay, especially in regulated industries.',
     roles: [
@@ -73,9 +73,9 @@ const PILLAR_PAYOFFS = [
   },
   {
     name: 'Cloud',
-    pitch: 'Build the infrastructure national digital strategies depend on.',
-    sectors: ['Public sector', 'Banking', 'Telco', 'National megaprojects', 'Consultancies'],
-    earn: 'Certifications carry a measurable salary premium across the region.',
+    pitch: 'Build the infrastructure modern organizations run on.',
+    sectors: ['Public sector', 'Banking', 'Telco', 'Enterprise', 'Consultancies'],
+    earn: 'Certifications carry a measurable salary premium.',
     roles: [
       'Cloud Engineer',
       'Cloud Architect',
@@ -83,21 +83,21 @@ const PILLAR_PAYOFFS = [
       'Site Reliability Engineer',
       'Solutions Architect',
     ],
-    demand: 'Among the fastest-growing skill categories on every major workforce report — and the GCC is leaning into it hardest.',
+    demand: 'Among the most in-demand skill categories on every major workforce report.',
   },
   {
     name: 'Data Analytics',
     pitch: 'Turn messy company data into the reports leadership acts on.',
-    sectors: ['Banking', 'Government statistics', 'Telco', 'E-commerce', 'Healthcare'],
+    sectors: ['Banking', 'Government', 'Telco', 'E-commerce', 'Healthcare'],
     earn: 'Steady demand across virtually every industry — analytics literacy is a baseline now, not a specialism.',
     roles: [
       'Data Analyst',
       'BI Developer',
       'Insights Manager',
-      'Power BI Developer',
+      'Analytics Engineer',
       'Data Engineer',
     ],
-    demand: 'Big-data and analytics roles sit among the top fastest-growing jobs over the next decade.',
+    demand: 'Big-data and analytics roles sit among the most in-demand job categories on the market.',
   },
 ];
 
@@ -484,7 +484,7 @@ export default async function CoursesPage({
               Skills Organizations Are Hiring For.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              AI, cybersecurity, cloud, and data sit among the fastest-growing skill categories worldwide. Here&apos;s where each one gets applied — and the roles it unlocks — in the region.
+              AI, cybersecurity, cloud, and data sit among the most in-demand skill categories. Here&apos;s where each one gets applied — and the roles it unlocks.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">

@@ -218,6 +218,20 @@ export default function EditCoursePage() {
               <option value="ARCHIVED">Archived</option>
             </select>
           </div>
+          {/* Feature on home — maps to the 3 admin-controlled positions in
+              the home page NeuralPathway scene. Only one course per slot;
+              assigning to a slot another course holds will transparently
+              clear the prior holder (newest assignment wins). */}
+          <div>
+            <label className={labelClass}>Feature on home page</label>
+            <select name="featuredSlot" value={form.featuredSlot ?? ''} onChange={handleChange} className={selectClass}>
+              <option value="">Not featured</option>
+              <option value="1">Featured — Position 1</option>
+              <option value="2">Featured — Position 2</option>
+              <option value="3">Featured — Position 3</option>
+            </select>
+            <p className="text-xs text-slate-600 mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
+          </div>
         </div>
 
         <div className="flex gap-4 pt-4 border-t border-white/[0.06]">

@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save } from 'lucide-react';
+import { Fragment, useState, useEffect } from 'react';
+import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save, Pencil } from 'lucide-react';
 
 interface Instructor {
   id: string;
@@ -22,6 +22,11 @@ export default function AdminInstructorsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editRate, setEditRate] = useState<number>(70);
   const [saving, setSaving] = useState(false);
+  // Bio editor — separate state from the commission editor so admin
+  // can have both open on different rows without clobbering each other.
+  const [editingBioId, setEditingBioId] = useState<string | null>(null);
+  const [editBio, setEditBio] = useState<string>('');
+  const [savingBio, setSavingBio] = useState(false);
 
   useEffect(() => { fetchInstructors(); }, []);
 
@@ -51,6 +56,32 @@ export default function AdminInstructorsPage() {
     setEditingId(null);
     fetchInstructors();
     setSaving(false);
+  };
+
+  const openBioEditor = (instructor: Instructor) => {
+    setEditingBioId(instructor.id);
+    setEditBio(instructor.bio ?? '');
+  };
+
+  const cancelBioEditor = () => {
+    setEditingBioId(null);
+    setEditBio('');
+  };
+
+  const saveBio = async (id: string) => {
+    setSavingBio(true);
+    // Empty string → null so the column stays clean (Prisma writes null
+    // for an empty string, but the explicit cast makes intent obvious).
+    const next = editBio.trim() === '' ? null : editBio.trim();
+    await fetch(`/api/admin/instructors/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bio: next }),
+    });
+    setEditingBioId(null);
+    setEditBio('');
+    fetchInstructors();
+    setSavingBio(false);
   };
 
   const filtered = instructors.filter(i =>
@@ -140,10 +171,23 @@ export default function AdminInstructorsPage() {
                 <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-600">No instructors found</td></tr>
               ) : (
                 filtered.map((instructor) => (
-                  <tr key={instructor.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                  <Fragment key={instructor.id}>
+                  <tr className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-slate-200 text-sm">{instructor.firstName} {instructor.lastName}</div>
                       <div className="text-xs text-slate-500">{instructor.email}</div>
+                      {/* Bio summary line — shows current bio (truncated) or
+                          a placeholder. Click to expand the inline editor. */}
+                      <button
+                        type="button"
+                        onClick={() => openBioEditor(instructor)}
+                        className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-teal-400 transition-colors group"
+                      >
+                        <Pencil size={11} className="flex-shrink-0 opacity-60 group-hover:opacity-100" />
+                        {instructor.bio
+                          ? <span className="italic">{instructor.bio.length > 60 ? instructor.bio.slice(0, 60).trim() + '…' : instructor.bio}</span>
+                          : <span className="uppercase tracking-widest font-bold">Add bio</span>}
+                      </button>
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-300">{instructor._count.courses}</td>
                     <td className="px-6 py-4 text-sm text-slate-300">{instructor.totalStudents}</td>
@@ -201,6 +245,54 @@ export default function AdminInstructorsPage() {
                       </button>
                     </td>
                   </tr>
+                  {/* Bio editor sub-row — only renders when this row's bio
+                      is being edited. Full-width colspan textarea + Save /
+                      Cancel. Used in the home-page "Who teaches" band on
+                      /courses, and surfaces nowhere else. */}
+                  {editingBioId === instructor.id && (
+                    <tr className="border-b border-white/[0.04] bg-white/[0.015]">
+                      <td colSpan={6} className="px-6 py-5">
+                        <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                          Instructor bio
+                        </label>
+                        <textarea
+                          value={editBio}
+                          onChange={(e) => setEditBio(e.target.value)}
+                          placeholder="e.g. AI Lead, ex-OmanTel. Built X for Y, Z, A. 8 years shipping production ML for clients in the region."
+                          rows={3}
+                          maxLength={2000}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 resize-y"
+                          autoFocus
+                        />
+                        <div className="mt-3 flex items-center justify-between">
+                          <p className="text-[11px] text-slate-500">
+                            Shows in the <span className="text-slate-300">&quot;Who teaches&quot;</span> band on /courses. 1–2 sentences with employer + a credential reads strongest.
+                            <span className="ml-2 text-slate-600">{editBio.length}/2000</span>
+                          </p>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={cancelBioEditor}
+                              disabled={savingBio}
+                              className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-200 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => saveBio(instructor.id)}
+                              disabled={savingBio}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-500/15 border border-teal-500/40 text-teal-400 text-xs font-bold uppercase tracking-widest hover:bg-teal-500/25 transition-colors disabled:opacity-50"
+                            >
+                              <Save size={13} />
+                              {savingBio ? 'Saving…' : 'Save bio'}
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  </Fragment>
                 ))
               )}
             </tbody>

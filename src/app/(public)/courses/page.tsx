@@ -650,6 +650,46 @@ export default async function CoursesPage({
         </div>
       </section>
 
+      {/* ── For teams — custom training band ── */}
+      <section
+        id="for-teams"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          {/* Centered section header — same pattern as other sections. */}
+          <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
+            <SectionEyebrow accent="academy">For teams</SectionEyebrow>
+            <BrandedHeading as="h2" size="lg" className="mt-3">
+              Upskill Your Team With FutureLine.
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg">
+              For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
+            </p>
+          </div>
+          <div className="mx-auto max-w-3xl">
+            <ul>
+              {[
+                'Custom syllabus designed around your team’s actual work and tools',
+                'On-site (Oman / GCC), remote (any timezone), or hybrid',
+                'Single invoice — no per-seat tax that punishes hiring',
+                'Capstone projects tied to your own actual systems',
+                'Manager debriefs after the cohort — what your team learned, what to deploy next',
+              ].map((item, i) => (
+                <li
+                  key={i}
+                  className="flex items-baseline gap-4 border-t border-white/[0.08] py-5 text-base text-white/80 md:text-lg"
+                >
+                  <span aria-hidden className="font-mono text-xs tracking-[0.3em] text-academy">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* ── Who teaches (instructor authority band) ─────────────────
           Per research, the single biggest credibility signal on a
           course landing page is "name + employer". We don't yet have
@@ -723,46 +763,6 @@ export default async function CoursesPage({
           </div>
         </section>
       )}
-
-      {/* ── For teams — custom training band ── */}
-      <section
-        id="for-teams"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          {/* Centered section header — same pattern as other sections. */}
-          <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
-            <SectionEyebrow accent="academy">For teams</SectionEyebrow>
-            <BrandedHeading as="h2" size="lg" className="mt-3">
-              Upskill Your Team With FutureLine.
-            </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg">
-              For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
-            </p>
-          </div>
-          <div className="mx-auto max-w-3xl">
-            <ul>
-              {[
-                'Custom syllabus designed around your team’s actual work and tools',
-                'On-site (Oman / GCC), remote (any timezone), or hybrid',
-                'Single invoice — no per-seat tax that punishes hiring',
-                'Capstone projects tied to your own actual systems',
-                'Manager debriefs after the cohort — what your team learned, what to deploy next',
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="flex items-baseline gap-4 border-t border-white/[0.08] py-5 text-base text-white/80 md:text-lg"
-                >
-                  <span aria-hidden className="font-mono text-xs tracking-[0.3em] text-academy">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
 
       {/* ── FAQ ── */}
       <section

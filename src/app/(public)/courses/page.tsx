@@ -414,6 +414,27 @@ export default async function CoursesPage({
                   ? `${course.instructor.firstName ?? ''} ${course.instructor.lastName ?? ''}`.trim()
                   : '';
 
+                // Schedule chip — single line of text computed from
+                // courseFormat + scheduleStatus + startDate.
+                //   SELF_PACED            → "Self-paced"
+                //   COHORT/WORKSHOP TBC   → "Dates TBC"
+                //   COHORT/WORKSHOP DONE  → "Next cohort TBA"
+                //   COHORT SCHEDULED + dt → "Starts <date>"
+                //   WORKSHOP SCHEDULED + dt → "<date>"
+                //   fallback              → empty (don't render the chip)
+                const scheduleChip = (() => {
+                  if (course.courseFormat === 'SELF_PACED') return 'Self-paced';
+                  if (course.scheduleStatus === 'TBC') return 'Dates TBC';
+                  if (course.scheduleStatus === 'COMPLETED') return 'Next cohort TBA';
+                  if (course.startDate) {
+                    const d = new Date(course.startDate).toLocaleDateString(undefined, {
+                      day: 'numeric', month: 'short',
+                    });
+                    return course.courseFormat === 'WORKSHOP' ? d : `Starts ${d}`;
+                  }
+                  return '';
+                })();
+
                 return (
                   <Link
                     key={course.id}
@@ -444,6 +465,17 @@ export default async function CoursesPage({
                     {instructorName && (
                       <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
                         Taught by <span className="text-academy/90">{instructorName}</span>
+                      </p>
+                    )}
+                    {/* Schedule chip — shows "Starts <date>" /
+                        "Self-paced" / "Dates TBC" / "Next cohort TBA"
+                        depending on the course's format + status. Empty
+                        for COHORT courses with SCHEDULED status but no
+                        start date set (those would have rendered nothing
+                        in the old design too). */}
+                    {scheduleChip && (
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-academy/80">
+                        {scheduleChip}
                       </p>
                     )}
                     <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">

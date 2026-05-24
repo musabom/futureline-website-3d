@@ -94,7 +94,8 @@ export function formatZodError(error: z.ZodError): string {
 // throw "Unknown argument" errors.
 const COURSE_WRITE_FIELDS = new Set([
   'title', 'slug', 'shortDescription', 'fullDescription',
-  'deliveryType', 'category', 'level',
+  'deliveryType', 'courseFormat', 'scheduleStatus',
+  'category', 'level',
   'price', 'discountPrice', 'durationHours',
   'startDate', 'endDate', 'seatCapacity', 'location',
   'instructorId', 'thumbnail', 'marketingVideoUrl',
@@ -116,6 +117,27 @@ export function normalizeCourseData(data: any) {
   }
   if (typeof normalized.endDate === 'string' && normalized.endDate) {
     normalized.endDate = new Date(normalized.endDate);
+  }
+  // courseFormat / scheduleStatus — drop empty strings so the DB
+  // defaults kick in. Both are enums on the Prisma side; sending an
+  // empty string would fail enum validation.
+  if (normalized.courseFormat === '' || normalized.courseFormat == null) {
+    delete normalized.courseFormat;
+  }
+  if (normalized.scheduleStatus === '' || normalized.scheduleStatus == null) {
+    delete normalized.scheduleStatus;
+  }
+  // When format = SELF_PACED, dates are meaningless. Clear them so the
+  // catalog renders "Available now" instead of stale dates.
+  if (normalized.courseFormat === 'SELF_PACED') {
+    normalized.startDate = null;
+    normalized.endDate = null;
+  }
+  // When schedule is TBC, clear dates too — they're explicitly "not
+  // set yet" rather than a stale value from a previous cohort.
+  if (normalized.scheduleStatus === 'TBC') {
+    normalized.startDate = null;
+    normalized.endDate = null;
   }
   // featuredSlot: <select> uses "" for "None" — coerce to null so the DB
   // unique-nullable column stays valid. Numeric strings ("1") become ints.

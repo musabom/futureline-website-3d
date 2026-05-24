@@ -150,6 +150,16 @@ export default function EditCoursePage() {
               <option value="IN_PERSON">In-Person</option>
               <option value="HYBRID">Hybrid</option>
             </select>
+            <p className="text-xs text-slate-600 mt-1.5">Where the course runs.</p>
+          </div>
+          <div>
+            <label className={labelClass}>Course Format</label>
+            <select name="courseFormat" value={form.courseFormat || 'COHORT'} onChange={handleChange} className={selectClass}>
+              <option value="COHORT">Live cohort (fixed dates)</option>
+              <option value="SELF_PACED">Self-paced / recorded</option>
+              <option value="WORKSHOP">Workshop (one-time event)</option>
+            </select>
+            <p className="text-xs text-slate-600 mt-1.5">How the course runs in time. Self-paced courses skip dates.</p>
           </div>
           <div>
             <label className={labelClass}>Category</label>
@@ -216,14 +226,36 @@ export default function EditCoursePage() {
               {instructors.map((i: any) => <option key={i.id} value={i.id}>{i.firstName} {i.lastName}</option>)}
             </select>
           </div>
-          <div>
-            <label className={labelClass}>Start Date</label>
-            <input name="startDate" type="date" value={form.startDate || ''} onChange={handleChange} className="input-field" />
-          </div>
-          <div>
-            <label className={labelClass}>End Date</label>
-            <input name="endDate" type="date" value={form.endDate || ''} onChange={handleChange} className="input-field" />
-          </div>
+          {/* Schedule fields — only render for COHORT/WORKSHOP formats.
+              Self-paced courses skip them entirely. For COHORT/WORKSHOP,
+              admin first picks the schedule status (Confirmed / TBC);
+              dates only show when SCHEDULED. */}
+          {form.courseFormat !== 'SELF_PACED' && (
+            <>
+              <div>
+                <label className={labelClass}>Schedule Status</label>
+                <select name="scheduleStatus" value={form.scheduleStatus || 'SCHEDULED'} onChange={handleChange} className={selectClass}>
+                  <option value="SCHEDULED">Scheduled (dates confirmed)</option>
+                  <option value="TBC">TBC (dates announced soon)</option>
+                  <option value="COMPLETED">Past cohort (next one TBA)</option>
+                </select>
+                <p className="text-xs text-slate-600 mt-1.5">Catalog renders the right tag based on this.</p>
+              </div>
+              <div className="hidden md:block" />
+              {form.scheduleStatus === 'SCHEDULED' && (
+                <>
+                  <div>
+                    <label className={labelClass}>Start Date</label>
+                    <input name="startDate" type="date" value={form.startDate || ''} onChange={handleChange} className="input-field" />
+                  </div>
+                  <div>
+                    <label className={labelClass}>End Date</label>
+                    <input name="endDate" type="date" value={form.endDate || ''} onChange={handleChange} className="input-field" />
+                  </div>
+                </>
+              )}
+            </>
+          )}
           <div>
             <label className={labelClass}>Seat Capacity</label>
             <input name="seatCapacity" type="number" value={form.seatCapacity || ''} onChange={handleChange} className="input-field" />

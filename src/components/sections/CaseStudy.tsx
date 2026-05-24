@@ -9,6 +9,7 @@
 
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow'
+import { BrandedHeading } from '@/components/ui/BrandedHeading'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
@@ -69,13 +70,9 @@ export function CaseStudy() {
         <aside className="md:col-span-5">
           <div className="md:sticky md:top-32">
             <SectionEyebrow>By the numbers</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] md:text-[clamp(3.5rem,7vw,7rem)]"
-            >
+            <BrandedHeading as="h2" size="xl">
               47% fail.
-            </AnimatedText>
+            </BrandedHeading>
             <p className="mt-6 text-sm uppercase tracking-[0.25em] text-white/45">
               Industry rate · Your project won&apos;t
             </p>

@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import ServiceEnquiryForm from '@/components/ServiceEnquiryForm';
 import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { FadeUp } from '@/components/motion/FadeUp';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
@@ -45,13 +46,9 @@ export default async function ServicesPage() {
                 <span aria-hidden className="block h-1.5 w-1.5 rounded-full bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]" />
                 FL · Lab
               </p>
-              <AnimatedText
-                as="h1"
-                variant="chars"
-                className="text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3.5rem,8vw,7rem)]"
-              >
+              <BrandedHeading as="h1" size="xl">
                 Systems that earn their keep.
-              </AnimatedText>
+              </BrandedHeading>
               <AnimatedText
                 as="p"
                 variant="words"
@@ -98,23 +95,14 @@ export default async function ServicesPage() {
       {/* ── Services grid (editorial cards) ── */}
       <section id="services-grid" className="px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 md:mb-24">
+          <div className="mx-auto mb-16 max-w-3xl text-center md:mb-24">
             <SectionEyebrow>Available now</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(3rem,6vw,6rem)]"
-            >
+            <BrandedHeading as="h2" size="xl">
               Our services.
-            </AnimatedText>
-            <AnimatedText
-              as="p"
-              variant="words"
-              className="mt-8 max-w-2xl text-lg leading-relaxed text-white/60 md:text-xl"
-              delay={0.15}
-            >
+            </BrandedHeading>
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-white/60 md:text-xl">
               Pick the one that matches where you&apos;re stuck. We start with a free audit either way.
-            </AnimatedText>
+            </p>
           </div>
 
           {services.length === 0 ? (
@@ -180,9 +168,9 @@ export default async function ServicesPage() {
           <FadeUp>
             <div className="mb-12 text-center">
               <SectionEyebrow>Get in touch</SectionEyebrow>
-              <h2 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]">
+              <BrandedHeading as="h2" size="lg" className="mt-3">
                 Tell us what&apos;s slowing you down.
-              </h2>
+              </BrandedHeading>
               <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
                 Send a quick brief. We&apos;ll come back with an honest read on whether we can help — and the smallest first move that moves the needle.
               </p>

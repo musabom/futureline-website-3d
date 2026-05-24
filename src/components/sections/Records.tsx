@@ -13,6 +13,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 
 type Stat = {
   value: number
@@ -163,17 +164,14 @@ export function Records() {
         className="pointer-events-none absolute left-1/2 top-40 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-brand-accent/[0.05] blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl text-center">
         <SectionEyebrow>The record</SectionEyebrow>
-        <h2
-          id="records-heading"
-          className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.02em] md:text-[clamp(3.5rem,8vw,8rem)]"
-        >
+        <BrandedHeading as="h2" size="xl" id="records-heading">
           Two divisions.
           <br />
           One record of work.
-        </h2>
-        <p className="mt-10 max-w-md text-lg leading-relaxed text-white/65 md:text-xl">
+        </BrandedHeading>
+        <p className="mx-auto mt-10 max-w-md text-lg leading-relaxed text-white/65 md:text-xl">
           What FL Lab builds and what FL Academy teaches — measured the same
           way: in actual outcomes.
         </p>

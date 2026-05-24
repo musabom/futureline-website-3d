@@ -9,6 +9,7 @@ import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
+import { BrandedHeading } from '@/components/ui/BrandedHeading';
 
 export const dynamic = 'force-dynamic';
 
@@ -257,27 +258,19 @@ export default async function CoursesPage({
         className="scroll-mt-24 px-4 pt-8 pb-16 sm:px-6 md:pt-12 md:pb-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          {/* Page header — eyebrow + Title Case H1 + single-line subhead. */}
-          <div className="mb-8 max-w-4xl md:mb-10">
-            <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
+          {/* Page header — eyebrow + branded H1 + subhead, all centered. */}
+          <div className="mx-auto mb-8 max-w-4xl text-center md:mb-10">
+            <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.4em] text-academy">
               <span
                 aria-hidden
                 className="block h-1.5 w-1.5 rounded-full bg-academy shadow-[0_0_10px_2px_rgba(91,123,251,0.55)]"
               />
               FL · Academy
             </p>
-            {/* Branded Academy-gradient title. font-black for the bolder
-                weight, bg-clip-text with the same gradient family as the
-                "Be AI proficient" headline on the home page. py-2 is the
-                descender buffer for bg-clip-text — without it the bottom
-                of glyphs like g/p/y get sliced. */}
-            <h1
-              className="mt-3 bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-[2.25rem] font-black leading-[1.05] tracking-[-0.02em] text-transparent sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem]"
-              style={{ textShadow: '0 0 40px rgba(91, 123, 251, 0.18)' }}
-            >
+            <BrandedHeading as="h1" size="xl" className="mt-3">
               Learn Future AI Skills, Today.
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
+            </BrandedHeading>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
               Cohort-paced courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach — so what you learn is what you can actually use.
             </p>
           </div>
@@ -474,23 +467,14 @@ export default async function CoursesPage({
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 max-w-3xl md:mb-12">
+          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
             <SectionEyebrow accent="academy">What you’re buying</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg" className="mt-3">
               Skills the market actually pays for.
-            </AnimatedText>
-            <AnimatedText
-              as="p"
-              variant="words"
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
-              delay={0.15}
-            >
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
               Most online courses are designed for the sign-up. Ours are designed for the finish. Here&apos;s what you&apos;re committing to before you decide.
-            </AnimatedText>
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             {WHY_STATS.map((s, i) => (
@@ -527,23 +511,14 @@ export default async function CoursesPage({
           className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
-            <div className="mb-8 max-w-3xl md:mb-12">
+            <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
               <SectionEyebrow accent="academy">Who teaches</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
+              <BrandedHeading as="h2" size="lg" className="mt-3">
                 Learn From Practitioners.
-              </AnimatedText>
-              <AnimatedText
-                as="p"
-                variant="words"
-                className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
-                delay={0.15}
-              >
+              </BrandedHeading>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
                 The people teaching ship the systems they teach — real builds, real clients, real critique. No curriculum read from a deck.
-              </AnimatedText>
+              </p>
             </div>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {instructors.map((inst, i) => {
@@ -587,23 +562,14 @@ export default async function CoursesPage({
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 max-w-3xl md:mb-12">
+          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
             <SectionEyebrow accent="academy">How a track runs</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg" className="mt-3">
               4 weeks. One outcome.
-            </AnimatedText>
-            <AnimatedText
-              as="p"
-              variant="words"
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
-              delay={0.15}
-            >
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
               The default shape. Some tracks run longer; the rhythm is the same.
-            </AnimatedText>
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:grid-cols-4">
             {PROCESS_STEPS.map((step, i) => (
@@ -629,23 +595,14 @@ export default async function CoursesPage({
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 max-w-3xl md:mb-12">
+          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
             <SectionEyebrow accent="academy">How it compares</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-            >
+            <BrandedHeading as="h2" size="lg" className="mt-3">
               YouTube, bootcamp, or us?
-            </AnimatedText>
-            <AnimatedText
-              as="p"
-              variant="words"
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
-              delay={0.15}
-            >
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
               Three honest paths. We&apos;ll tell you when YouTube is genuinely the right call — it sometimes is.
-            </AnimatedText>
+            </p>
           </div>
 
           <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
@@ -716,21 +673,18 @@ export default async function CoursesPage({
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-            <div className="md:col-span-5">
-              <SectionEyebrow accent="academy">For teams</SectionEyebrow>
-              <AnimatedText
-                as="h2"
-                variant="chars"
-                className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
-              >
-                Train the team. Skip the per-seat tax.
-              </AnimatedText>
-              <p className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
-                For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
-              </p>
-            </div>
-            <ul className="md:col-span-7">
+          {/* Centered section header — same pattern as other sections. */}
+          <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
+            <SectionEyebrow accent="academy">For teams</SectionEyebrow>
+            <BrandedHeading as="h2" size="lg" className="mt-3">
+              Train the team. Skip the per-seat tax.
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg">
+              For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
+            </p>
+          </div>
+          <div className="mx-auto max-w-3xl">
+            <ul>
               {[
                 'Custom syllabus designed around your team’s actual work and tools',
                 'On-site (Oman / GCC), remote (any timezone), or hybrid',
@@ -759,15 +713,11 @@ export default async function CoursesPage({
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-3xl">
-          <div className="mb-8 md:mb-12">
+          <div className="mb-8 text-center md:mb-12">
             <SectionEyebrow accent="academy">FAQ</SectionEyebrow>
-            <AnimatedText
-              as="h2"
-              variant="chars"
-              className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]"
-            >
+            <BrandedHeading as="h2" size="lg" className="mt-3">
               Things people ask.
-            </AnimatedText>
+            </BrandedHeading>
           </div>
           <div className="mt-10">
             {FAQS.map((f, i) => (
@@ -805,9 +755,9 @@ export default async function CoursesPage({
           <FadeUp>
             <div className="mb-12 text-center">
               <SectionEyebrow accent="academy">Get in touch</SectionEyebrow>
-              <h2 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4rem)]">
+              <BrandedHeading as="h2" size="lg" className="mt-3">
                 Can&apos;t find what you need?
-              </h2>
+              </BrandedHeading>
               <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
                 A different schedule, a different topic, or training that doesn&apos;t fit a public cohort — tell us what you&apos;re working toward and we&apos;ll come back within a business day.
               </p>

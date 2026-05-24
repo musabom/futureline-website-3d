@@ -579,6 +579,77 @@ export default async function CoursesPage({
         </div>
       </section>
 
+      {/* ── How it compares (Others vs FutureLine) ── */}
+      <section
+        id="how-it-compares"
+        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
+            <SectionEyebrow accent="academy">How it compares</SectionEyebrow>
+            <BrandedHeading as="h2" size="lg" className="mt-3">
+              Others and FutureLine.
+            </BrandedHeading>
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+              Two honest paths. Pick the one that matches how you actually finish.
+            </p>
+          </div>
+
+          {/* 2-column matrix: Category | Others | FutureLine. The FL column
+              keeps the academy hairline + glow as the visual anchor. */}
+          <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+            <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
+              <div className="col-span-12 md:col-span-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">Category</p>
+              </div>
+              <div className="col-span-6 md:col-span-4">
+                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                  Others
+                </p>
+              </div>
+              <div className="col-span-6 md:col-span-4">
+                <p
+                  className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
+                  style={{ textShadow: '0 0 8px rgba(91,123,251,0.4)' }}
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block h-2 w-2 rounded-full bg-academy"
+                    style={{ boxShadow: '0 0 8px rgba(91, 123, 251, 0.65)' }}
+                  />
+                  FutureLine
+                </p>
+              </div>
+            </div>
+            {VS_ROWS.map((row, i) => (
+              <FadeUp key={i} delay={i * 0.05}>
+                <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
+                  <div className="col-span-12 md:col-span-4">
+                    <div className="flex items-baseline gap-3">
+                      <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-academy/70">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">{row.label}</h4>
+                    </div>
+                  </div>
+                  <div className="col-span-6 md:col-span-4">
+                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.others}</p>
+                  </div>
+                  <div className="relative col-span-6 md:col-span-4">
+                    <span
+                      aria-hidden
+                      className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-academy/40 via-academy/15 to-transparent md:block"
+                    />
+                    <p className="text-sm font-medium leading-relaxed text-white md:text-base">{row.fl}</p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Who teaches (instructor authority band) ─────────────────
           Per research, the single biggest credibility signal on a
           course landing page is "name + employer". We don't yet have
@@ -652,77 +723,6 @@ export default async function CoursesPage({
           </div>
         </section>
       )}
-
-      {/* ── How it compares (Others vs FutureLine) ── */}
-      <section
-        id="how-it-compares"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
-            <SectionEyebrow accent="academy">How it compares</SectionEyebrow>
-            <BrandedHeading as="h2" size="lg" className="mt-3">
-              Others and FutureLine.
-            </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Two honest paths. Pick the one that matches how you actually finish.
-            </p>
-          </div>
-
-          {/* 2-column matrix: Category | Others | FutureLine. The FL column
-              keeps the academy hairline + glow as the visual anchor. */}
-          <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
-            <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
-              <div className="col-span-12 md:col-span-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">Category</p>
-              </div>
-              <div className="col-span-6 md:col-span-4">
-                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
-                  Others
-                </p>
-              </div>
-              <div className="col-span-6 md:col-span-4">
-                <p
-                  className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
-                  style={{ textShadow: '0 0 8px rgba(91,123,251,0.4)' }}
-                >
-                  <span
-                    aria-hidden
-                    className="inline-block h-2 w-2 rounded-full bg-academy"
-                    style={{ boxShadow: '0 0 8px rgba(91, 123, 251, 0.65)' }}
-                  />
-                  FutureLine
-                </p>
-              </div>
-            </div>
-            {VS_ROWS.map((row, i) => (
-              <FadeUp key={i} delay={i * 0.05}>
-                <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
-                  <div className="col-span-12 md:col-span-4">
-                    <div className="flex items-baseline gap-3">
-                      <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-academy/70">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">{row.label}</h4>
-                    </div>
-                  </div>
-                  <div className="col-span-6 md:col-span-4">
-                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.others}</p>
-                  </div>
-                  <div className="relative col-span-6 md:col-span-4">
-                    <span
-                      aria-hidden
-                      className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-academy/40 via-academy/15 to-transparent md:block"
-                    />
-                    <p className="text-sm font-medium leading-relaxed text-white md:text-base">{row.fl}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── For teams — custom training band ── */}
       <section

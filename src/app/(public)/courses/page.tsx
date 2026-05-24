@@ -481,7 +481,7 @@ export default async function CoursesPage({
           <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
             <SectionEyebrow accent="academy">Where it gets paid</SectionEyebrow>
             <BrandedHeading as="h2" size="lg" className="mt-3">
-              Skills Organizations are hiring for.
+              Skills Organizations Are Hiring For.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
               AI, cybersecurity, cloud, and data sit among the fastest-growing skill categories worldwide. Here&apos;s where each one gets applied — and the roles it unlocks — in the region.

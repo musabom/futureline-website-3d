@@ -540,10 +540,19 @@ function TopicCard({
 function TopicHighlights({ topic }: { topic: TopicData }) {
   const { stat, bullets } = topic.highlights;
   return (
-    <div
+    // The whole highlights panel is now a Link to the same destination
+    // as TopicCard — clicking ANY part of EITHER card (left or right)
+    // navigates to the course. Previously only the left TopicCard was
+    // wrapped, so the right-hand "What you'll learn" panel looked
+    // interactive but did nothing on tap. `group` so hover states stay
+    // consistent with TopicCard styling.
+    <Link
+      href={topic.href}
+      data-cursor="magnetic"
+      data-cursor-strength="16"
       // Matches the TopicCard transparency: bg-black/65 + backdrop-blur-2xl
       // so both columns feel like glass panels in the 3D scene.
-      className="relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/65 p-9 backdrop-blur-2xl md:p-10"
+      className="pointer-events-auto group relative flex h-full flex-col justify-center rounded-2xl border border-academy/25 bg-black/65 p-9 backdrop-blur-2xl transition-all duration-500 hover:border-academy/55 hover:shadow-[0_30px_80px_-15px_rgba(0,0,0,0.5)] md:p-10"
       style={{
         boxShadow:
           '0 40px 100px -15px rgba(0, 0, 0, 0.5), 0 0 30px -8px rgba(91, 123, 251, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
@@ -598,7 +607,7 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
           </li>
         ))}
       </ul>
-    </div>
+    </Link>
   );
 }
 

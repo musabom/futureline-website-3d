@@ -28,10 +28,24 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     await requireAdmin();
     const data = await req.json();
     const { id: _id, createdAt, instructor, _count, ...updateData } = data;
-    const course = await prisma.course.update({ 
-      where: { id: id }, 
-      data: normalizeCourseData(updateData) 
+    const normalized = normalizeCourseData(updateData);
+
+    // featuredSlot is @@unique. If admin assigns this course to a slot that
+    // another course already holds, transactionally clear the prior holder
+    // before updating — "newest assignment wins" instead of erroring out.
+    const course = await prisma.$transaction(async (tx) => {
+      if (typeof normalized.featuredSlot === 'number') {
+        await tx.course.updateMany({
+          where: { featuredSlot: normalized.featuredSlot, NOT: { id } },
+          data: { featuredSlot: null },
+        });
+      }
+      return tx.course.update({
+        where: { id },
+        data: normalized,
+      });
     });
+
     return NextResponse.json(course);
   } catch (error: any) {
     return NextResponse.json({ error: "An error occurred" }, { status: 400 });

@@ -50,6 +50,14 @@ model Course {
   status            CourseStatus        @default(DRAFT)
   approvalStatus    ApprovalStatus      @default(APPROVED)
   rejectionReason   String?
+  // Featured slot on the home-page NeuralPathway scene. Values 1, 2,
+  // or 3 → mapped to the three featurable course positions in
+  // `NeuralPathway.tsx`. Slot 4 is reserved for the centered
+  // "Browse all courses" CTA card and is not admin-controllable.
+  // @@unique enforces one course per slot at the DB level; the API
+  // route transactionally clears the slot from any prior holder so
+  // newest assignment wins.
+  featuredSlot      Int?                @unique
   createdAt         DateTime            @default(now())
   instructor        User?               @relation("InstructorCourses", fields: [instructorId], references: [id])
   enrollments       Enrollment[]

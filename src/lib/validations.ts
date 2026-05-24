@@ -40,6 +40,8 @@ export const courseSchema = z.object({
   thumbnail: z.string().url().optional().nullable().or(z.literal('')),
   marketingVideoUrl: z.string().url().optional().nullable().or(z.literal('')),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED', 'DELETED']).optional(),
+  // Featured slot on the home-page NeuralPathway. 1–3 = featured; null = not featured.
+  featuredSlot: z.coerce.number().int().min(1).max(3).optional().nullable(),
 }).refine((data) => {
   if (data.startDate && data.endDate) {
     return new Date(data.endDate) >= new Date(data.startDate);
@@ -88,6 +90,14 @@ export function normalizeCourseData(data: any) {
   }
   if (typeof normalized.endDate === 'string' && normalized.endDate) {
     normalized.endDate = new Date(normalized.endDate);
+  }
+  // featuredSlot: <select> uses "" for "None" — coerce to null so the DB
+  // unique-nullable column stays valid. Numeric strings ("1") become ints.
+  if (normalized.featuredSlot === '' || normalized.featuredSlot === undefined) {
+    normalized.featuredSlot = null;
+  } else if (typeof normalized.featuredSlot === 'string') {
+    const parsed = parseInt(normalized.featuredSlot, 10);
+    normalized.featuredSlot = Number.isNaN(parsed) ? null : parsed;
   }
   return normalized;
 }

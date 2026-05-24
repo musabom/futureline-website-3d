@@ -57,6 +57,11 @@ type TopicData = {
   // on the opposite. Card is anchored on the OPPOSITE side from where
   // the 3D node sits, so the user's eye flows card → 3D node → highlights.
   cardSide: 'left' | 'right';
+  // Marker for the final "Browse all courses" CTA topic. When true, the
+  // left/right zig-zag layout is skipped and a single CENTERED card is
+  // rendered instead. The 3D node + connections still exist (so the
+  // network topology stays balanced), only the card UI changes.
+  isBrowseAll?: boolean;
   highlights: {
     stat: { value: string; label: string };
     bullets: string[];
@@ -122,22 +127,22 @@ const TOPICS: TopicData[] = [
     },
   },
   {
+    // 4th and FINAL topic: the Browse-all CTA card. Keeps the id 'data'
+    // so the CONNECTIONS graph stays intact (the 3D node still wires up
+    // to hub + ai + cyber + sat5 + sat7). The CARD UI is centered and
+    // shows the all-courses CTA — admin cannot feature a course here.
     id: 'data',
-    label: 'Data Analytics with Python',
+    isBrowseAll: true,
+    label: 'Browse all courses',
     description:
-      'From messy data to dashboards your leadership can act on. SQL, pandas, plotly — the operator stack.',
-    href: '/courses/data-analytics-python',
+      'See every track FL Academy is running — AI, cybersecurity, cloud, data and more.',
+    href: '/courses',
     icon: BarChart3,
-    position: [-3.6, -2.0, 0.6], // left
-    cardSide: 'right',           // card right, highlights left
-    highlights: {
-      stat: { value: 'Operator', label: 'First, not academic' },
-      bullets: [
-        'SQL for everyday operators',
-        'Pandas + numpy fundamentals',
-        'Plotly dashboards leadership uses',
-        'From messy query to clear insight',
-      ],
+    position: [-3.6, -2.0, 0.6], // left node
+    cardSide: 'right',           // unused when isBrowseAll
+    highlights: {                // unused when isBrowseAll
+      stat: { value: '', label: '' },
+      bullets: [],
     },
   },
 ];
@@ -599,7 +604,22 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
 
 // ── Section component ─────────────────────────────────────────────────
 
-export default function NeuralPathway() {
+// Shape passed in from the server when courses are featured via admin.
+// slot 1/2/3 → TOPICS[0]/[1]/[2] (visual choreography stays per-slot;
+// only label/description/href come from the course). Slot 4 doesn't
+// exist — TOPICS[3] is the locked Browse-all card.
+export type NeuralFeaturedCourse = {
+  slot: number;
+  title: string;
+  shortDescription: string;
+  slug: string;
+};
+
+export default function NeuralPathway({
+  featuredCourses,
+}: {
+  featuredCourses?: NeuralFeaturedCourse[];
+} = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const activeTopicRef = useRef(0);
   // 0..1 — how "settled" the active topic is. Spikes to 1 on change, lerped.
@@ -658,15 +678,33 @@ export default function NeuralPathway() {
     activeProgressRef.current = 0.2;
   }, [activeTopic]);
 
+  // Merge featured-course data (admin-controlled, server-fetched) over
+  // the hardcoded TOPICS defaults. Only label/description/href change;
+  // icon/position/cardSide/highlights stay per-slot (they're scene
+  // choreography, not course data). The browse-all topic is never
+  // touched — slot 4 doesn't exist.
+  const mergedTOPICS = useMemo<TopicData[]>(() => {
+    if (!featuredCourses || featuredCourses.length === 0) return TOPICS;
+    return TOPICS.map((t, i) => {
+      if (t.isBrowseAll) return t;
+      const slot = i + 1;
+      const featured = featuredCourses.find((f) => f.slot === slot);
+      if (!featured) return t;
+      return {
+        ...t,
+        label: featured.title,
+        description: featured.shortDescription,
+        href: `/courses/${featured.slug}`,
+      };
+    });
+  }, [featuredCourses]);
+
   const handleTopicClick = (idx: number) => {
-    const t = TOPICS[idx];
+    const t = mergedTOPICS[idx];
     if (t.href) {
       window.location.href = t.href;
     }
   };
-
-  const topic = TOPICS[activeTopic];
-  const TopicIcon = topic.icon;
 
   return (
     <section
@@ -808,10 +846,12 @@ export default function NeuralPathway() {
           topic as the user scrolls, filling the dead space on both
           sides of the 3D network. */}
 
-      {/* LEFT column */}
+      {/* LEFT column ── skips isBrowseAll topics; those render as a
+          centered card overlay further down. */}
       <div className="pointer-events-none absolute left-[4%] top-[14rem] bottom-[10rem] z-20 hidden flex-col justify-center md:flex md:top-[16rem] xl:left-[8%]">
         <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
-          {TOPICS.map((t, i) => {
+          {mergedTOPICS.map((t, i) => {
+            if (t.isBrowseAll) return null;
             const isActive = activeTopic === i;
             // Slide-in direction: cards slide from their cardSide,
             // highlights from the opposite side
@@ -843,10 +883,11 @@ export default function NeuralPathway() {
         </div>
       </div>
 
-      {/* RIGHT column */}
+      {/* RIGHT column ── also skips isBrowseAll topics. */}
       <div className="pointer-events-none absolute right-[4%] top-[14rem] bottom-[10rem] z-20 hidden flex-col justify-center md:flex md:top-[16rem] xl:right-[8%]">
         <div className="relative h-[30rem] w-[22rem] lg:h-[34rem] lg:w-[26rem] xl:w-[28rem]">
-          {TOPICS.map((t, i) => {
+          {mergedTOPICS.map((t, i) => {
+            if (t.isBrowseAll) return null;
             const isActive = activeTopic === i;
             const slideClass = isActive
               ? 'opacity-100 translate-x-0 translate-y-0'
@@ -874,9 +915,54 @@ export default function NeuralPathway() {
         </div>
       </div>
 
-      {/* Mobile card overlay — centered, smaller */}
+      {/* CENTER — Browse-all card. Replaces the bottom-right CTA link
+          for the final scroll-step. Renders only when the active topic
+          is the isBrowseAll one. Centered both axes, sized similarly to
+          a TopicCard so it feels like the same family of cards. */}
+      <div className="pointer-events-none absolute inset-0 z-20 hidden items-center justify-center md:flex">
+        {mergedTOPICS.map((t, i) => {
+          if (!t.isBrowseAll) return null;
+          const isActive = activeTopic === i;
+          return (
+            <div
+              key={t.id}
+              aria-hidden={!isActive}
+              className={[
+                'absolute transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+                isActive
+                  ? 'opacity-100 translate-y-0 scale-100'
+                  : 'opacity-0 translate-y-8 scale-95',
+              ].join(' ')}
+            >
+              <Link
+                href={t.href}
+                data-cursor="magnetic"
+                data-cursor-strength="20"
+                className="pointer-events-auto group block max-w-md rounded-2xl border border-academy/35 bg-black/70 px-10 py-9 text-center shadow-[0_30px_90px_-20px_rgba(91,123,251,0.45)] backdrop-blur-xl transition-all duration-300 hover:border-academy/60 hover:bg-black/80 lg:max-w-lg lg:px-12 lg:py-11"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-academy">
+                  Explore
+                </p>
+                <h3 className="mt-4 text-3xl font-black leading-[1.05] tracking-tight text-white md:text-4xl">
+                  {t.label}
+                </h3>
+                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/65 md:text-base">
+                  {t.description}
+                </p>
+                <span className="mt-8 inline-flex items-center gap-2 rounded-full border border-academy/50 bg-academy/[0.12] px-6 py-2.5 text-sm font-medium text-academy transition-all duration-300 group-hover:border-academy group-hover:bg-academy/[0.22]">
+                  Browse all courses
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile card overlay — centered, smaller. isBrowseAll topics
+          render with a CTA badge so the affordance is unambiguous. */}
       <div className="pointer-events-none absolute inset-x-4 bottom-24 z-20 md:hidden">
-        {TOPICS.map((t, i) => {
+        {mergedTOPICS.map((t, i) => {
           const Icon = t.icon;
           const isActive = activeTopic === i;
           if (!isActive) return null;
@@ -889,7 +975,7 @@ export default function NeuralPathway() {
               <div className="mb-3 flex items-center gap-2">
                 <Icon size={14} className="text-academy" />
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-academy">
-                  0{i + 1} · Track
+                  {t.isBrowseAll ? 'Explore' : `0${i + 1} · Track`}
                 </span>
               </div>
               <h4 className="text-lg font-black tracking-tight text-academy-light">
@@ -898,26 +984,20 @@ export default function NeuralPathway() {
               <p className="mt-2 text-xs leading-relaxed text-white/65">
                 {t.description}
               </p>
+              {t.isBrowseAll && (
+                <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-academy/50 bg-academy/10 px-4 py-1.5 text-xs font-medium text-academy">
+                  Browse all courses
+                  <ArrowRight size={12} />
+                </span>
+              )}
             </Link>
           );
         })}
       </div>
 
-      {/* CTA to all courses — bottom right */}
-      <div className="pointer-events-none absolute bottom-10 right-6 z-10 md:right-16">
-        <Link
-          href="/courses"
-          data-cursor="magnetic"
-          data-cursor-strength="20"
-          className="pointer-events-auto group inline-flex items-center gap-2 rounded-full border border-academy/40 bg-academy/[0.08] px-5 py-2.5 text-sm font-medium text-academy transition-all duration-300 hover:border-academy/70 hover:bg-academy/[0.15]"
-        >
-          Browse all courses
-          <ArrowRight
-            size={14}
-            className="transition-transform duration-300 group-hover:translate-x-0.5"
-          />
-        </Link>
-      </div>
+      {/* Bottom-right "Browse all courses" link removed — replaced by
+          the CENTER browse-all card that appears on the final scroll
+          step. */}
 
       {/* Progress dots */}
       <div

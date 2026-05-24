@@ -38,7 +38,15 @@ export default async function Home() {
       status: 'PUBLISHED',
       approvalStatus: 'APPROVED',
     },
-    select: { featuredSlot: true, title: true, shortDescription: true, slug: true },
+    select: {
+      featuredSlot: true,
+      title: true,
+      shortDescription: true,
+      slug: true,
+      highlightStatValue: true,
+      highlightStatLabel: true,
+      highlightBullets: true,
+    },
   });
   const featuredCourses = featuredCourseRows
     .filter((c): c is typeof c & { featuredSlot: number } => c.featuredSlot !== null)
@@ -47,6 +55,11 @@ export default async function Home() {
       title: c.title,
       shortDescription: c.shortDescription,
       slug: c.slug,
+      // Highlight overrides — pass undefined when the admin left them
+      // blank, so the NeuralPathway slot-default falls through cleanly.
+      highlightStatValue: c.highlightStatValue || undefined,
+      highlightStatLabel: c.highlightStatLabel || undefined,
+      highlightBullets: c.highlightBullets.length > 0 ? c.highlightBullets : undefined,
     }));
 
   return (

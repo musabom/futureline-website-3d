@@ -58,6 +58,13 @@ model Course {
   // route transactionally clears the slot from any prior holder so
   // newest assignment wins.
   featuredSlot      Int?                @unique
+  // Optional "What you'll learn" overrides rendered ON THE HOME PAGE
+  // when this course is featured (via featuredSlot). When null/empty
+  // the slot's hardcoded defaults in NeuralPathway.tsx are used.
+  // These don't render anywhere else — they're home-page specific.
+  highlightStatValue  String?           // e.g. "8 wks", "Live", "10 hrs"
+  highlightStatLabel  String?           // e.g. "Cohort length", "Format"
+  highlightBullets    String[]          // up to ~4 short lines
   createdAt         DateTime            @default(now())
   instructor        User?               @relation("InstructorCourses", fields: [instructorId], references: [id])
   enrollments       Enrollment[]

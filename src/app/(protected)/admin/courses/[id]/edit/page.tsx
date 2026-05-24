@@ -32,6 +32,16 @@ export default function EditCoursePage() {
         instructorId: course.instructorId || '',
         location: course.location || '',
         marketingVideoUrl: course.marketingVideoUrl || '',
+        // Home-page highlight overrides. Stored on the Course as
+        // `highlightBullets String[]` but we hydrate 4 individual
+        // text-input fields here for a simpler form model. Packed back
+        // into an array on submit.
+        highlightStatValue: course.highlightStatValue || '',
+        highlightStatLabel: course.highlightStatLabel || '',
+        highlightBullet1: course.highlightBullets?.[0] || '',
+        highlightBullet2: course.highlightBullets?.[1] || '',
+        highlightBullet3: course.highlightBullets?.[2] || '',
+        highlightBullet4: course.highlightBullets?.[3] || '',
       });
       setInstructors(insts);
       setFetching(false);
@@ -72,6 +82,14 @@ export default function EditCoursePage() {
           startDate: form.startDate || null,
           endDate: form.endDate || null,
           instructorId: form.instructorId || null,
+          // Pack the 4 bullet inputs back into an array; normalize step
+          // on the server drops empties and trims whitespace.
+          highlightBullets: [
+            form.highlightBullet1,
+            form.highlightBullet2,
+            form.highlightBullet3,
+            form.highlightBullet4,
+          ].filter((b) => typeof b === 'string' && b.trim().length > 0),
         }),
       });
       if (res.ok) router.push('/admin/courses');
@@ -233,6 +251,57 @@ export default function EditCoursePage() {
             <p className="text-xs text-slate-600 mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
           </div>
         </div>
+
+        {/* ── Home-page "What you'll learn" overrides ──────────────
+            Optional. Only rendered when this course is in a featured
+            slot. If left blank, the slot's hardcoded default bullets
+            in NeuralPathway.tsx are used.  Grouped under a collapsed
+            <details> so it doesn't clutter the form for the 99% of
+            courses that won't be featured. */}
+        <details className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-5 group">
+          <summary className="cursor-pointer text-sm font-bold text-slate-300 uppercase tracking-widest list-none flex items-center justify-between">
+            Home-page feature highlights <span className="text-xs text-slate-500 normal-case tracking-normal font-normal">(optional — used when featured)</span>
+            <span className="text-slate-500 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className={labelClass}>Stat value</label>
+              <input
+                name="highlightStatValue"
+                value={form.highlightStatValue || ''}
+                onChange={handleChange}
+                className="input-field"
+                placeholder="e.g. 8 wks, Live, 10 hrs"
+                maxLength={40}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Stat label</label>
+              <input
+                name="highlightStatLabel"
+                value={form.highlightStatLabel || ''}
+                onChange={handleChange}
+                className="input-field"
+                placeholder="e.g. Cohort length, Format"
+                maxLength={40}
+              />
+            </div>
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="md:col-span-2">
+                <label className={labelClass}>Bullet {n}</label>
+                <input
+                  name={`highlightBullet${n}`}
+                  value={form[`highlightBullet${n}`] || ''}
+                  onChange={handleChange}
+                  className="input-field"
+                  placeholder={n === 1 ? 'e.g. Neural-network foundations' : ''}
+                  maxLength={120}
+                />
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-slate-600 mt-4">These appear on the home page Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
+        </details>
 
         <div className="flex gap-4 pt-4 border-t border-white/[0.06]">
           <button type="submit" disabled={loading} className="btn-primary">

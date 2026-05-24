@@ -112,7 +112,12 @@ const TOPICS: TopicData[] = [
     label: 'Cloud Architecture',
     description:
       'Scalable infrastructure on AWS, GCP, and Azure. Patterns for systems that grow without breaking.',
-    href: '/courses',
+    // Default fallback when admin hasn't featured a course in slot 3.
+    // Points at a real published course detail page so the click never
+    // lands on the catalogue list. When admin features any course in
+    // this slot, mergedTOPICS overrides this href with that course's
+    // slug — the fallback is only used until something is featured.
+    href: '/courses/data-analytics-python',
     icon: Cloud,
     position: [3.6, -2.0, -0.4], // right
     cardSide: 'left',            // card left, highlights right

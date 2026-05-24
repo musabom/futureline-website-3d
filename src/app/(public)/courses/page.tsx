@@ -101,93 +101,33 @@ const PILLAR_PAYOFFS = [
   },
 ];
 
-// How we teach — four pillars, deliberately written as short concept
-// words rather than hard numbers. These describe FL's pedagogy, not
-// the market. Catalogs evolve, prices and schedules vary per course —
-// generic language stays honest as the product changes.
-const WHY_STATS = [
-  {
-    value: 'Small',
-    label: 'Cohort size',
-    sub: 'Small enough that the instructor knows your name and your work. Large enough for real peer review.',
-  },
-  {
-    value: 'Live',
-    label: 'Format',
-    sub: 'Live sessions with the instructor + hands-on labs in between. Evenings UTC+4 (Oman), all sessions recorded for catch-up.',
-  },
-  {
-    value: 'Fair',
-    label: 'Pricing',
-    sub: 'Per-cohort pricing, not per-seat tax. Team training scales without punishing hiring. Discounts for non-profits and the education sector.',
-  },
-  {
-    value: 'Cohort',
-    label: 'Track shape',
-    sub: 'Foundations → labs → capstone → community. Designed end-to-end for people who finish — not for the moment of enrolment.',
-  },
-];
-
-// How a track runs — 4 process steps. Mirrors the service-page pattern
-// with explicit outputs per phase.
-const PROCESS_STEPS = [
-  {
-    when: 'Week 1',
-    title: 'Foundations & framing',
-    body:
-      'Get your tools set up, complete a first hands-on milestone, meet the cohort. Output: working setup + first checkpoint reviewed by the instructor.',
-  },
-  {
-    when: 'Weeks 2–3',
-    title: 'Hands-on labs',
-    body:
-      'Build 3–4 small projects, each unlocking a real-world skill. Live sessions twice a week, async labs in between. Output: portfolio-ready code, peer-reviewed.',
-  },
-  {
-    when: 'Week 4',
-    title: 'Capstone',
-    body:
-      'One bigger project tied to your own work where possible. Instructor reviews. Real critique, not a participation badge. Output: portfolio-grade project + written feedback.',
-  },
-  {
-    when: 'Post-course',
-    title: 'Materials & community',
-    body:
-      'Lifetime access to course materials. Alumni Slack. Monthly office hours with practitioner instructors. Output: a network of people building with the same skills.',
-  },
-];
-
-// 3-way decision matrix — Self-taught / Generic bootcamp / FL Academy.
-// Addresses the "why pay when YouTube exists?" objection.
+// 2-way decision matrix — Others / FutureLine. Generic phrasing (no
+// named competitors, no specific time/money numbers) so the table
+// stays honest as alternatives shift in the market.
 const VS_ROWS = [
   {
     label: 'Cost shape',
-    yt: 'Free — but your time isn’t. Months of stop-start learning.',
-    bootcamp: '$10k–$20k for 12–26 weeks of full-time commitment.',
-    fl: 'Per-course pricing. Team training scales with seats — no per-seat tax.',
+    others: 'Free content with hidden time cost, or premium tuition for a full-time commitment.',
+    fl: 'Per-cohort pricing for individuals. Team training scales without per-seat tax.',
   },
   {
     label: 'Time to first result',
-    yt: 'Days to start. Months to finish. If you finish.',
-    bootcamp: '12+ weeks of full-time commitment.',
-    fl: 'Week 1 — working setup + first checkpoint reviewed.',
+    others: 'Weeks to months. If you finish at all.',
+    fl: 'Working setup and first reviewed milestone inside the opening weeks.',
   },
   {
     label: 'Instructor access',
-    yt: 'Zero. You’re alone with the comment section.',
-    bootcamp: 'Junior teaching assistants reading from a scripted curriculum.',
+    others: 'Either none, or a scripted curriculum from junior assistants.',
     fl: 'Live sessions with practitioners shipping the systems they teach.',
   },
   {
     label: 'Completion rate',
-    yt: '~4% industry average for self-paced.',
-    bootcamp: 'Better — peer pressure helps. But high drop-out in week 4–6.',
-    fl: 'Cohort-paced, weekly live, designed end-to-end for people who finish.',
+    others: 'Most people don’t finish — the format isn’t built for it.',
+    fl: 'Cohort-paced and end-to-end designed for the people who do.',
   },
   {
     label: 'What you leave with',
-    yt: 'Notes. Maybe.',
-    bootcamp: 'A generic capstone everyone in your cohort built.',
+    others: 'Notes, maybe a generic capstone built by everyone in the cohort.',
     fl: 'A portfolio-grade project tied to your own work + instructor feedback.',
   },
 ];
@@ -603,43 +543,6 @@ export default async function CoursesPage({
         </div>
       </section>
 
-      {/* ── How we teach (the 4 ops pillars) ──────────────────────
-          The old "Skills the market actually pays for" stat tiles —
-          they were really FL's pedagogy in disguise. Renamed and moved
-          here so they answer their actual question (how does FL
-          deliver) instead of pretending to be market data. */}
-      <section
-        id="how-we-teach"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
-            <SectionEyebrow accent="academy">How we teach</SectionEyebrow>
-            <BrandedHeading as="h2" size="lg" className="mt-3">
-              Designed end-to-end for people who finish.
-            </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Cohort-paced, instructor-led, and priced for training — not for a per-seat licence tax.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            {WHY_STATS.map((s, i) => (
-              <FadeUp key={i} delay={i * 0.08}>
-                <div className="border-t border-white/[0.12] pt-6">
-                  <p className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-[2.5rem]">
-                    {s.value}
-                  </p>
-                  <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-academy/90">
-                    {s.label}
-                  </p>
-                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">{s.sub}</p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Who teaches (instructor authority band) ─────────────────
           Per research, the single biggest credibility signal on a
           course landing page is "name + employer". We don't yet have
@@ -698,40 +601,7 @@ export default async function CoursesPage({
         </section>
       )}
 
-      {/* ── How a track runs (process) ── */}
-      <section
-        id="how-a-track-runs"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
-            <SectionEyebrow accent="academy">How a track runs</SectionEyebrow>
-            <BrandedHeading as="h2" size="lg" className="mt-3">
-              4 weeks. One outcome.
-            </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              The default shape. Some tracks run longer; the rhythm is the same.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:grid-cols-4">
-            {PROCESS_STEPS.map((step, i) => (
-              <FadeUp key={i} delay={i * 0.08}>
-                <div className="border-t border-white/[0.12] py-8">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy">
-                    {step.when}
-                  </p>
-                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.01em] text-white">
-                    {String(i + 1).padStart(2, '0')} · {step.title}
-                  </h3>
-                  <p className="mt-4 text-sm leading-relaxed text-white/55">{step.body}</p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── How it compares (3-way decision matrix) ── */}
+      {/* ── How it compares (Others vs FutureLine) ── */}
       <section
         id="how-it-compares"
         className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
@@ -740,31 +610,27 @@ export default async function CoursesPage({
           <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
             <SectionEyebrow accent="academy">How it compares</SectionEyebrow>
             <BrandedHeading as="h2" size="lg" className="mt-3">
-              YouTube, bootcamp, or us?
+              Others and FutureLine.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Three honest paths. We&apos;ll tell you when YouTube is genuinely the right call — it sometimes is.
+              Two honest paths. Pick the one that matches how you actually finish.
             </p>
           </div>
 
+          {/* 2-column matrix: Category | Others | FutureLine. The FL column
+              keeps the academy hairline + glow as the visual anchor. */}
           <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
             <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
-              <div className="col-span-12 md:col-span-3">
+              <div className="col-span-12 md:col-span-4">
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">Category</p>
               </div>
-              <div className="col-span-4 md:col-span-3">
+              <div className="col-span-6 md:col-span-4">
                 <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
                   <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
-                  YouTube / blogs
+                  Others
                 </p>
               </div>
-              <div className="col-span-4 md:col-span-3">
-                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
-                  Generic bootcamp
-                </p>
-              </div>
-              <div className="col-span-4 md:col-span-3">
+              <div className="col-span-6 md:col-span-4">
                 <p
                   className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
                   style={{ textShadow: '0 0 8px rgba(91,123,251,0.4)' }}
@@ -774,14 +640,14 @@ export default async function CoursesPage({
                     className="inline-block h-2 w-2 rounded-full bg-academy"
                     style={{ boxShadow: '0 0 8px rgba(91, 123, 251, 0.65)' }}
                   />
-                  FL Academy
+                  FutureLine
                 </p>
               </div>
             </div>
             {VS_ROWS.map((row, i) => (
               <FadeUp key={i} delay={i * 0.05}>
                 <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
-                  <div className="col-span-12 md:col-span-3">
+                  <div className="col-span-12 md:col-span-4">
                     <div className="flex items-baseline gap-3">
                       <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-academy/70">
                         {String(i + 1).padStart(2, '0')}
@@ -789,13 +655,10 @@ export default async function CoursesPage({
                       <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">{row.label}</h4>
                     </div>
                   </div>
-                  <div className="col-span-4 md:col-span-3">
-                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.yt}</p>
+                  <div className="col-span-6 md:col-span-4">
+                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.others}</p>
                   </div>
-                  <div className="col-span-4 md:col-span-3">
-                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.bootcamp}</p>
-                  </div>
-                  <div className="relative col-span-4 md:col-span-3">
+                  <div className="relative col-span-6 md:col-span-4">
                     <span
                       aria-hidden
                       className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-academy/40 via-academy/15 to-transparent md:block"
@@ -819,7 +682,7 @@ export default async function CoursesPage({
           <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
             <SectionEyebrow accent="academy">For teams</SectionEyebrow>
             <BrandedHeading as="h2" size="lg" className="mt-3">
-              Train the team. Skip the per-seat tax.
+              Upskill Your Team With FutureLine.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg">
               For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.

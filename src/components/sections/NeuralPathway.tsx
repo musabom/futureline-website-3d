@@ -938,20 +938,20 @@ export default function NeuralPathway({
                 href={t.href}
                 data-cursor="magnetic"
                 data-cursor-strength="20"
-                className="pointer-events-auto group block max-w-md rounded-2xl border border-academy/35 bg-black/70 px-10 py-9 text-center shadow-[0_30px_90px_-20px_rgba(91,123,251,0.45)] backdrop-blur-xl transition-all duration-300 hover:border-academy/60 hover:bg-black/80 lg:max-w-lg lg:px-12 lg:py-11"
+                className="pointer-events-auto group block w-[min(92vw,640px)] rounded-3xl border border-academy/40 bg-black/75 px-12 py-12 text-center shadow-[0_40px_120px_-20px_rgba(91,123,251,0.55)] backdrop-blur-xl transition-all duration-300 hover:border-academy/70 hover:bg-black/85 md:w-[640px] md:px-16 md:py-14 lg:w-[720px] lg:px-20 lg:py-16"
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-academy">
+                <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-academy md:text-xs">
                   Explore
                 </p>
-                <h3 className="mt-4 text-3xl font-black leading-[1.05] tracking-tight text-white md:text-4xl">
+                <h3 className="mt-5 text-4xl font-black leading-[1.05] tracking-tight text-white md:text-5xl lg:text-[3.5rem]">
                   {t.label}
                 </h3>
-                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/65 md:text-base">
+                <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
                   {t.description}
                 </p>
-                <span className="mt-8 inline-flex items-center gap-2 rounded-full border border-academy/50 bg-academy/[0.12] px-6 py-2.5 text-sm font-medium text-academy transition-all duration-300 group-hover:border-academy group-hover:bg-academy/[0.22]">
+                <span className="mt-10 inline-flex items-center gap-2.5 rounded-full border border-academy/55 bg-academy/[0.14] px-8 py-3.5 text-base font-medium text-academy transition-all duration-300 group-hover:border-academy group-hover:bg-academy/[0.24] md:text-lg">
                   Browse all courses
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                  <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </Link>
             </div>

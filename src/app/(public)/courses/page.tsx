@@ -43,8 +43,8 @@ function pillClass(active: boolean) {
 // paid for to do it?" — not abstract skill taxonomy.
 const PILLAR_PAYOFFS = [
   {
-    name: 'Build your dream software.',
-    pitch: 'You don’t need to be a developer. Use AI to ship the app or tool you’ve always wanted to build.',
+    name: 'Build',
+    pitch: 'Build Your Dream App with AI.',
     sectors: ['Internal tools', 'Workflow apps', 'Side-project prototypes', 'Personal automations', 'Founder experiments'],
     earn: 'Startups, SMEs, and product teams pay well for builders who can ship without a six-month dev cycle.',
     roles: [
@@ -57,8 +57,8 @@ const PILLAR_PAYOFFS = [
     demand: 'The bar for shipping useful software has dropped — but the people who actually ship are still rare.',
   },
   {
-    name: 'Automate your boring tasks.',
-    pitch: 'Stop doing repetitive work. Use AI to handle the parts of your job that quietly drain your week.',
+    name: 'Automate',
+    pitch: 'Automate Boring Tasks with AI.',
     sectors: ['Reporting', 'Email triage', 'Document review', 'Data cleanup', 'Routine admin'],
     earn: 'Time saved is value created — and operators who automate their busywork get promoted into bigger work.',
     roles: [
@@ -71,8 +71,8 @@ const PILLAR_PAYOFFS = [
     demand: 'The average knowledge worker loses hours every day to busywork. The ones who automate it pull ahead.',
   },
   {
-    name: 'Make sharper decisions.',
-    pitch: 'Cut through complexity. Use AI to read the data, weigh the options, and make the call with confidence.',
+    name: 'Decide',
+    pitch: 'Make Sharper Decisions with AI.',
     sectors: ['Strategy reviews', 'Market analysis', 'Stress-testing decisions', 'Risk assessments', 'Insight reports'],
     earn: 'Decisions that hit the target are worth what the wrong call would have cost.',
     roles: [
@@ -85,8 +85,8 @@ const PILLAR_PAYOFFS = [
     demand: 'Every organisation drowns in data and starves for insight. AI-fluent decision-makers close that gap.',
   },
   {
-    name: 'Land your next role.',
-    pitch: 'Become the person in the room who actually uses AI — not just talks about it. The market is paying for that distinction.',
+    name: 'Advance',
+    pitch: 'Land Your Next Role with AI.',
     sectors: ['Career pivots', 'Promotions', 'Internal moves', 'Job applications', 'Salary negotiations'],
     earn: 'AI proficiency is the new computer literacy — invisible if you have it, expensive if you don’t.',
     roles: [

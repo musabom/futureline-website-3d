@@ -88,8 +88,29 @@ export function formatZodError(error: z.ZodError): string {
   return error.issues.map(e => e.message).join(', ');
 }
 
+// Allow-list of fields the Course Prisma model accepts on create/update.
+// Anything not in this list is dropped before reaching Prisma so stray
+// form-state fields (e.g. helper inputs like highlightBullet1) can't
+// throw "Unknown argument" errors.
+const COURSE_WRITE_FIELDS = new Set([
+  'title', 'slug', 'shortDescription', 'fullDescription',
+  'deliveryType', 'category', 'level',
+  'price', 'discountPrice', 'durationHours',
+  'startDate', 'endDate', 'seatCapacity', 'location',
+  'instructorId', 'thumbnail', 'marketingVideoUrl',
+  'status', 'approvalStatus', 'rejectionReason',
+  'featuredSlot',
+  'highlightStatValue', 'highlightStatLabel', 'highlightBullets',
+]);
+
 export function normalizeCourseData(data: any) {
-  const normalized = { ...data };
+  // Defensive: drop unknown keys so Prisma doesn't reject the whole
+  // write. Form components sometimes carry transient state fields
+  // (per-bullet inputs, UI toggles) that have no DB column.
+  const normalized: any = {};
+  for (const k of Object.keys(data || {})) {
+    if (COURSE_WRITE_FIELDS.has(k)) normalized[k] = data[k];
+  }
   if (typeof normalized.startDate === 'string' && normalized.startDate) {
     normalized.startDate = new Date(normalized.startDate);
   }

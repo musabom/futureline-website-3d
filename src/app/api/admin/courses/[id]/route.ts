@@ -48,7 +48,15 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
     return NextResponse.json(course);
   } catch (error: any) {
-    return NextResponse.json({ error: "An error occurred" }, { status: 400 });
+    // Surface the real Prisma / runtime message so admin sees what
+    // actually broke instead of a generic "An error occurred." We log
+    // the full error too for stack-trace debugging in the dev console.
+    // eslint-disable-next-line no-console
+    console.error('PUT /api/admin/courses/[id] failed:', error);
+    const message = typeof error?.message === 'string' && error.message
+      ? error.message
+      : 'An error occurred';
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
 

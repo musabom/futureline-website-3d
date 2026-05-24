@@ -636,8 +636,15 @@ export type NeuralFeaturedCourse = {
 
 export default function NeuralPathway({
   featuredCourses,
+  slotHrefs,
 }: {
   featuredCourses?: NeuralFeaturedCourse[];
+  // slot (1/2/3) → fallback course detail URL. Server-side computed
+  // fallback for slots without an admin-featured course. Ensures the
+  // card ALWAYS navigates to a specific course detail page, never the
+  // generic catalogue. Featured courses override this; this overrides
+  // the hardcoded TOPIC.href default.
+  slotHrefs?: Record<number, string>;
 } = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const activeTopicRef = useRef(0);
@@ -705,35 +712,49 @@ export default function NeuralPathway({
   // (the page never renders empty/half-broken state). The browse-all
   // topic is never touched — slot 4 doesn't exist.
   const mergedTOPICS = useMemo<TopicData[]>(() => {
-    if (!featuredCourses || featuredCourses.length === 0) return TOPICS;
+    // Href priority per slot: featuredCourse > slotHrefs > TOPIC.href.
+    // Label/description/highlights only get overridden by featuredCourse —
+    // slotHrefs only changes WHERE the card navigates, not WHAT it shows
+    // (the slot keeps its brand: "AI & Machine Learning", etc).
     return TOPICS.map((t, i) => {
       if (t.isBrowseAll) return t;
       const slot = i + 1;
-      const featured = featuredCourses.find((f) => f.slot === slot);
-      if (!featured) return t;
-      const hasOverriddenBullets =
-        featured.highlightBullets && featured.highlightBullets.length > 0;
-      const hasOverriddenStat =
-        !!featured.highlightStatValue || !!featured.highlightStatLabel;
-      return {
-        ...t,
-        label: featured.title,
-        description: featured.shortDescription,
-        href: `/courses/${featured.slug}`,
-        highlights: {
-          stat: hasOverriddenStat
-            ? {
-                value: featured.highlightStatValue || t.highlights.stat.value,
-                label: featured.highlightStatLabel || t.highlights.stat.label,
-              }
-            : t.highlights.stat,
-          bullets: hasOverriddenBullets
-            ? featured.highlightBullets!
-            : t.highlights.bullets,
-        },
-      };
+      const featured = featuredCourses?.find((f) => f.slot === slot);
+      // 1. Admin featured a course here — override label, description,
+      //    href, and (if filled in) highlights.
+      if (featured) {
+        const hasOverriddenBullets =
+          featured.highlightBullets && featured.highlightBullets.length > 0;
+        const hasOverriddenStat =
+          !!featured.highlightStatValue || !!featured.highlightStatLabel;
+        return {
+          ...t,
+          label: featured.title,
+          description: featured.shortDescription,
+          href: `/courses/${featured.slug}`,
+          highlights: {
+            stat: hasOverriddenStat
+              ? {
+                  value: featured.highlightStatValue || t.highlights.stat.value,
+                  label: featured.highlightStatLabel || t.highlights.stat.label,
+                }
+              : t.highlights.stat,
+            bullets: hasOverriddenBullets
+              ? featured.highlightBullets!
+              : t.highlights.bullets,
+          },
+        };
+      }
+      // 2. No featured course, but a fallback course slug exists for
+      //    this slot — keep slot brand, only swap the href.
+      const fallbackHref = slotHrefs?.[slot];
+      if (fallbackHref) {
+        return { ...t, href: fallbackHref };
+      }
+      // 3. Last resort — use the slot's hardcoded TOPIC.href.
+      return t;
     });
-  }, [featuredCourses]);
+  }, [featuredCourses, slotHrefs]);
 
   const handleTopicClick = (idx: number) => {
     const t = mergedTOPICS[idx];

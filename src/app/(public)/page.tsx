@@ -58,6 +58,50 @@ export default async function Home() {
       highlightBullets: c.highlightBullets.length > 0 ? c.highlightBullets : undefined,
     }));
 
+  // ── Slot href fallbacks ─────────────────────────────────────────
+  // When admin hasn't featured a course in a slot, we still want the
+  // card to navigate to a SPECIFIC course detail page (not the generic
+  // /courses catalogue). For each empty slot, find the most recent
+  // published course whose category matches that slot's theme, and use
+  // its slug as the slot's href. If no thematic match exists, fall
+  // back to any published course. If no published courses exist at
+  // all, the slot's hardcoded TOPIC default kicks in last.
+  //
+  // Featured courses always win — slotHrefs is only consulted for slots
+  // the admin hasn't actively spotlighted.
+  const SLOT_THEMES: Record<number, string[]> = {
+    1: ['AI', 'Machine Learning', 'Artificial Intelligence'],
+    2: ['Cybersecurity', 'Security', 'Cyber'],
+    3: ['Cloud', 'DevOps', 'Data', 'Web'],
+  };
+  const filledSlots = new Set(featuredCourses.map((f) => f.slot));
+  const slotHrefs: Record<number, string> = {};
+  for (const slotStr of Object.keys(SLOT_THEMES)) {
+    const slot = Number(slotStr);
+    if (filledSlots.has(slot)) continue;
+    const themes = SLOT_THEMES[slot];
+    const match = await prisma.course.findFirst({
+      where: {
+        status: 'PUBLISHED',
+        approvalStatus: 'APPROVED',
+        NOT: { title: { equals: 'Test', mode: 'insensitive' } },
+        OR: themes.map((t) => ({ category: { contains: t, mode: 'insensitive' } })),
+      },
+      select: { slug: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    const fallback = match ?? await prisma.course.findFirst({
+      where: {
+        status: 'PUBLISHED',
+        approvalStatus: 'APPROVED',
+        NOT: { title: { equals: 'Test', mode: 'insensitive' } },
+      },
+      select: { slug: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    if (fallback) slotHrefs[slot] = `/courses/${fallback.slug}`;
+  }
+
   return (
     <main className="bg-brand-bg">
       <ParticleHero />
@@ -68,7 +112,7 @@ export default async function Home() {
       {/* FL Academy — neural-pathway learning network. 3 admin-featurable
           slots (admin sets featuredSlot on a Course) + a locked centered
           Browse-all card on the final scroll step. */}
-      <NeuralPathway featuredCourses={featuredCourses} />
+      <NeuralPathway featuredCourses={featuredCourses} slotHrefs={slotHrefs} />
 
       {/* Trust band — the 47% / case-study editorial. */}
       <CaseStudy />

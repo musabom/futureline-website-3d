@@ -430,8 +430,13 @@ export default function AdminInstructorsPage() {
                                 </button>
                               )}
                             </div>
+                            {/* type="text" not "url" — browser url-type
+                                validation rejects the relative paths
+                                our upload endpoint returns (e.g.
+                                /uploads/instructors/abc.jpg). The field
+                                still accepts full https:// URLs too. */}
                             <input
-                              type="url"
+                              type="text"
                               value={editImage}
                               onChange={(e) => setEditImage(e.target.value)}
                               placeholder="…or paste a URL"
@@ -637,10 +642,14 @@ export default function AdminInstructorsPage() {
                         </button>
                       )}
                     </div>
-                    {/* Optional URL field — for admins who'd rather paste */}
+                    {/* Optional URL field — for admins who'd rather paste.
+                        type="text" not "url" because the browser's url
+                        validation rejects the relative paths our upload
+                        endpoint returns (e.g. /uploads/instructors/abc.jpg).
+                        Still accepts full https:// URLs. */}
                     <input
                       id="np-image"
-                      type="url"
+                      type="text"
                       value={addForm.image}
                       onChange={(e) => updateAddField('image', e.target.value)}
                       className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"

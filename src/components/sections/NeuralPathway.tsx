@@ -826,7 +826,7 @@ export default function NeuralPathway({
               '0 0 60px rgba(91, 123, 251, 0.55), 0 0 30px rgba(147, 174, 255, 0.35)',
           }}
         >
-          Be AI proficient
+          Be AI Proficient
         </h3>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
           Stop consuming AI content. Start building with it. Tap any track to start your run.
@@ -857,7 +857,7 @@ export default function NeuralPathway({
             textShadow: '0 0 40px rgba(91, 123, 251, 0.35)',
           }}
         >
-          in days.
+          In Days.
         </h3>
       </div>
 

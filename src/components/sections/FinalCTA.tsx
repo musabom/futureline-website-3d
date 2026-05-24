@@ -62,7 +62,7 @@ export function FinalCTA() {
     <section
       ref={sectionRef}
       id="start"
-      className="relative overflow-hidden bg-brand-bg px-6 py-40 md:py-56"
+      className="relative overflow-hidden bg-brand-bg px-6 py-24 md:py-36"
     >
       <div
         aria-hidden="true"

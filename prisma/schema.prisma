@@ -15,6 +15,10 @@ model User {
   password         String
   role             Role                @default(CUSTOMER)
   bio              String?
+  // Practitioner profile photo URL — admin pastes a hosted image link.
+  // Nullable — falls back to initials monogram in the public "Who teaches"
+  // band when absent.
+  image            String?
   commissionRate   Float               @default(70)
   isActive         Boolean             @default(true)
   resetToken       String?             @unique

@@ -35,31 +35,30 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// Operational triplet (cohort size · time per week · price band · length)
-// — borrowed from Maven/Write-of-Passage convention of showing buyers the
-// concrete time/money/effort commitment above the fold, rather than mixing
-// promotional adjectives. Each value is short enough not to overflow the
-// 4-column grid at any breakpoint.
+// What you're buying — four pillars, deliberately written as short
+// concept words rather than hard numbers. Catalogs evolve, prices and
+// schedules vary per course — generic language stays honest as the
+// product changes. Specifics live on each course's detail page.
 const WHY_STATS = [
   {
-    value: '10–15',
+    value: 'Small',
     label: 'Cohort size',
     sub: 'Small enough that the instructor knows your name and your work. Large enough for real peer review.',
   },
   {
-    value: '4–6 hrs',
-    label: 'Per week',
-    sub: '2 hours of live session + 2–4 hours of hands-on labs. Evenings UTC+4 (Oman) — all sessions recorded for catch-up.',
+    value: 'Live',
+    label: 'Format',
+    sub: 'Live sessions with the instructor + hands-on labs in between. Evenings UTC+4 (Oman), all sessions recorded for catch-up.',
   },
   {
-    value: '$250–$1,200',
-    label: 'Per cohort',
-    sub: 'Depending on length and depth. OMR 100–500 in local pricing. Discounts for non-profits and the education sector.',
+    value: 'Fair',
+    label: 'Pricing',
+    sub: 'Per-cohort pricing, not per-seat tax. Team training scales without punishing hiring. Discounts for non-profits and the education sector.',
   },
   {
-    value: '4 weeks',
-    label: 'Standard track',
-    sub: 'Foundations → labs → capstone → community. Some tracks run longer; the rhythm holds.',
+    value: 'Cohort',
+    label: 'Track shape',
+    sub: 'Foundations → labs → capstone → community. Designed end-to-end for people who finish — not for the moment of enrolment.',
   },
 ];
 
@@ -267,8 +266,16 @@ export default async function CoursesPage({
               />
               FL · Academy
             </p>
-            <h1 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl md:text-[2.75rem]">
-              Plenty of training. Less of it sticks.
+            {/* Branded Academy-gradient title. font-black for the bolder
+                weight, bg-clip-text with the same gradient family as the
+                "Be AI proficient" headline on the home page. py-2 is the
+                descender buffer for bg-clip-text — without it the bottom
+                of glyphs like g/p/y get sliced. */}
+            <h1
+              className="mt-3 bg-gradient-to-r from-academy-light via-academy to-indigo-200 bg-clip-text py-2 text-[2.25rem] font-black leading-[1.05] tracking-[-0.02em] text-transparent sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem]"
+              style={{ textShadow: '0 0 40px rgba(91, 123, 251, 0.18)' }}
+            >
+              Learn Future AI Skills, Today.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
               Cohort-paced courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach — so what you learn is what you can actually use.
@@ -461,54 +468,6 @@ export default async function CoursesPage({
         </div>
       </section>
 
-      {/* ── Risk-reversal band ──────────────────────────────────────
-          Sits directly under the catalog so buyers see the safety net
-          before they're asked to commit. Three commitments lifted from
-          FAQ + Lifetime stat (refund / lifetime access / re-attendance).
-          Borrowed pattern from Write of Passage's "100% satisfied
-          within 14 days, no questions asked" — risk reversal stated
-          as a sentence, not a badge. */}
-      <section
-        aria-label="Our commitment to you"
-        className="border-t border-academy/[0.18] bg-gradient-to-b from-academy/[0.04] to-transparent px-4 py-12 sm:px-6 md:py-14 lg:px-8"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
-            {[
-              {
-                eyebrow: 'Refund',
-                title: 'First week, no questions.',
-                body: 'Full refund inside the first week of the cohort. After week 1, pro-rata if you stop attending. We’d rather lose the booking than have you stuck.',
-              },
-              {
-                eyebrow: 'Lifetime access',
-                title: 'Materials yours forever.',
-                body: 'Course materials yours forever, including future updates as the field shifts. Your access never expires — it just gets better.',
-              },
-              {
-                eyebrow: 'Re-attendance',
-                title: 'Re-take any cohort, free.',
-                body: 'If a topic shifts or you want a refresher, re-attend any future cohort at no extra cost. One purchase, ongoing entry.',
-              },
-            ].map((item, i) => (
-              <FadeUp key={i} delay={i * 0.08}>
-                <div className="flex h-full flex-col">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-academy">
-                    {item.eyebrow}
-                  </p>
-                  <h3 className="mt-3 text-xl font-semibold tracking-[-0.01em] text-white md:text-2xl">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/60 md:text-[15px]">
-                    {item.body}
-                  </p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── What you're buying (4 operational stats) ── */}
       <section
         id="why-this-works"
@@ -530,7 +489,7 @@ export default async function CoursesPage({
               className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg"
               delay={0.15}
             >
-              Most online courses finish at 4%. Ours don&apos;t — by design. Here&apos;s what you&apos;re committing to before you decide.
+              Most online courses are designed for the sign-up. Ours are designed for the finish. Here&apos;s what you&apos;re committing to before you decide.
             </AnimatedText>
           </div>
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -575,7 +534,7 @@ export default async function CoursesPage({
                 variant="chars"
                 className="text-4xl font-semibold leading-[0.95] tracking-[-0.02em] text-white md:text-[clamp(2.5rem,5vw,4.5rem)]"
               >
-                Practitioners, not lecturers.
+                Learn From Practitioners.
               </AnimatedText>
               <AnimatedText
                 as="p"

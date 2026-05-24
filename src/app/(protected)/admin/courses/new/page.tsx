@@ -57,24 +57,29 @@ export default function NewCoursePage() {
       const res = await fetch('/api/admin/courses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          price: isFree ? 0 : parseFloat(form.price),
-          discountPrice: (!isFree && form.discountPrice) ? parseFloat(form.discountPrice) : null,
-          durationHours: parseInt(form.durationHours),
-          seatCapacity: form.seatCapacity ? parseInt(form.seatCapacity) : null,
-          startDate: form.startDate || null,
-          endDate: form.endDate || null,
-          instructorId: form.instructorId || null,
-          // Pack the 4 bullet inputs back into an array; server normalize
-          // step drops empties and trims whitespace.
-          highlightBullets: [
-            form.highlightBullet1,
-            form.highlightBullet2,
-            form.highlightBullet3,
-            form.highlightBullet4,
-          ].filter((b: any) => typeof b === 'string' && b.trim().length > 0),
-        }),
+        // Strip the form-only helper fields (highlightBullet1..4 are
+        // React state shape, not real Course columns) before spreading.
+        // Prisma throws on unknown fields. Packed `highlightBullets` is
+        // the real column.
+        body: JSON.stringify((() => {
+          const { highlightBullet1, highlightBullet2, highlightBullet3, highlightBullet4, ...rest } = form;
+          return {
+            ...rest,
+            price: isFree ? 0 : parseFloat(form.price),
+            discountPrice: (!isFree && form.discountPrice) ? parseFloat(form.discountPrice) : null,
+            durationHours: parseInt(form.durationHours),
+            seatCapacity: form.seatCapacity ? parseInt(form.seatCapacity) : null,
+            startDate: form.startDate || null,
+            endDate: form.endDate || null,
+            instructorId: form.instructorId || null,
+            highlightBullets: [
+              highlightBullet1,
+              highlightBullet2,
+              highlightBullet3,
+              highlightBullet4,
+            ].filter((b: any) => typeof b === 'string' && b.trim().length > 0),
+          };
+        })()),
       });
       if (res.ok) router.push('/admin/courses');
       else alert('Failed to create course');

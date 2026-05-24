@@ -36,69 +36,67 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// 4 generic skill domains — Build · Operate · Analyse · Lead.
-// Deliberately abstract so every course we run (now or in future)
-// slots cleanly into one of them. No named subjects (no "AI",
-// no "Cybersecurity"), no specific products, no regions, no specific
-// stats. Each card answers the same parallel question shape: what
-// kind of work, where it's applied, what it pays, roles it unlocks,
-// why employers are hiring.
+// 4 AI-outcome cards — what an AI-proficient person can actually DO,
+// framed as buyer-recognisable promises. Generic enough that any
+// course we run (current or future) slots into one of them. The cards
+// answer "what does AI let you do, and what's the work people get
+// paid for to do it?" — not abstract skill taxonomy.
 const PILLAR_PAYOFFS = [
   {
-    name: 'Build',
-    pitch: 'Build the things that actually work in production.',
-    sectors: ['Banking', 'Tech', 'Manufacturing', 'Public sector', 'Healthcare'],
-    earn: 'Builders are valued in every sector — the supply hasn’t caught up with demand.',
+    name: 'Build your dream software.',
+    pitch: 'You don’t need to be a developer. Use AI to ship the app or tool you’ve always wanted to build.',
+    sectors: ['Internal tools', 'Workflow apps', 'Side-project prototypes', 'Personal automations', 'Founder experiments'],
+    earn: 'Startups, SMEs, and product teams pay well for builders who can ship without a six-month dev cycle.',
     roles: [
-      'Engineer',
-      'Developer',
-      'Architect',
-      'Technical Specialist',
-      'Technical Lead',
+      'Solo Builder',
+      'Product Operator',
+      'Tech Founder',
+      'No-Code Lead',
+      'Solo Developer',
     ],
-    demand: 'The supply of people who can actually ship to production has never caught up — and the gap is widening, not closing.',
+    demand: 'The bar for shipping useful software has dropped — but the people who actually ship are still rare.',
   },
   {
-    name: 'Operate',
-    pitch: 'Run the systems people quietly depend on.',
-    sectors: ['Operations', 'Banking', 'Logistics', 'Healthcare', 'Retail'],
-    earn: 'Operators who can keep complex systems running are valued — even when the work is invisible.',
+    name: 'Automate your boring tasks.',
+    pitch: 'Stop doing repetitive work. Use AI to handle the parts of your job that quietly drain your week.',
+    sectors: ['Reporting', 'Email triage', 'Document review', 'Data cleanup', 'Routine admin'],
+    earn: 'Time saved is value created — and operators who automate their busywork get promoted into bigger work.',
     roles: [
+      'Automation Engineer',
+      'Workflow Designer',
       'Operations Lead',
       'Process Owner',
-      'Implementation Specialist',
-      'Coordinator',
-      'Technical Operator',
+      'Productivity Specialist',
     ],
-    demand: 'The work that keeps the lights on is invisible until it stops — and most teams are understaffed for it.',
+    demand: 'The average knowledge worker loses hours every day to busywork. The ones who automate it pull ahead.',
   },
   {
-    name: 'Analyse',
-    pitch: 'Turn information into the calls leadership has to make.',
-    sectors: ['Banking', 'Consulting', 'Government', 'Tech', 'Healthcare'],
-    earn: 'Analysis that leads to good decisions is worth what those decisions cost.',
+    name: 'Make sharper decisions.',
+    pitch: 'Cut through complexity. Use AI to read the data, weigh the options, and make the call with confidence.',
+    sectors: ['Strategy reviews', 'Market analysis', 'Stress-testing decisions', 'Risk assessments', 'Insight reports'],
+    earn: 'Decisions that hit the target are worth what the wrong call would have cost.',
     roles: [
       'Analyst',
-      'Researcher',
       'Insights Lead',
-      'Investigator',
-      'Specialist',
+      'Strategy Consultant',
+      'Decision Scientist',
+      'Researcher',
     ],
-    demand: 'Every organisation has data. Few have insight. Most are hiring to close that gap.',
+    demand: 'Every organisation drowns in data and starves for insight. AI-fluent decision-makers close that gap.',
   },
   {
-    name: 'Lead',
-    pitch: 'Make the calls. Set the direction. Carry the weight.',
-    sectors: ['Consultancies', 'Enterprise', 'Public sector', 'Banking', 'Tech'],
-    earn: 'Strategy and leadership are paid for the calls, not the hours.',
+    name: 'Land your next role.',
+    pitch: 'Become the person in the room who actually uses AI — not just talks about it. The market is paying for that distinction.',
+    sectors: ['Career pivots', 'Promotions', 'Internal moves', 'Job applications', 'Salary negotiations'],
+    earn: 'AI proficiency is the new computer literacy — invisible if you have it, expensive if you don’t.',
     roles: [
+      'Senior Specialist',
       'Team Lead',
       'Manager',
-      'Director',
-      'Advisor',
-      'Strategist',
+      'Consultant',
+      'Specialist Hire',
     ],
-    demand: 'Leadership decisions are expensive to get wrong — and most people are never formally taught how to make them.',
+    demand: 'AI fluency is the difference between staying relevant and falling behind. Most people are scrambling to catch up.',
   },
 ];
 
@@ -485,7 +483,7 @@ export default async function CoursesPage({
               Skills Organizations Are Hiring For.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Every course we run pays into one of four kinds of work organisations are hiring for. Here&apos;s where each one gets applied — and the roles it unlocks.
+              Four practical outcomes AI proficiency unlocks. Here&apos;s where each gets applied — and the roles people get hired to do them.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">

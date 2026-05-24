@@ -69,7 +69,7 @@ export async function POST(req: Request) {
 
     const firstName = typeof data.firstName === 'string' ? data.firstName.trim() : '';
     const lastName = typeof data.lastName === 'string' ? data.lastName.trim() : '';
-    const email = typeof data.email === 'string' ? data.email.trim().toLowerCase() : '';
+    const emailInput = typeof data.email === 'string' ? data.email.trim().toLowerCase() : '';
     const bio = typeof data.bio === 'string' && data.bio.trim() ? data.bio.trim() : null;
     const image = typeof data.image === 'string' && data.image.trim() ? data.image.trim() : null;
     const commissionRate =
@@ -79,19 +79,31 @@ export async function POST(req: Request) {
         ? Number(data.commissionRate)
         : 70;
 
-    if (!firstName || !lastName || !email) {
+    if (!firstName || !lastName) {
       return NextResponse.json(
-        { error: 'First name, last name, and email are required.' },
+        { error: 'First name and last name are required.' },
         { status: 400 },
       );
     }
 
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json(
-        { error: 'A user with that email already exists.' },
-        { status: 409 },
-      );
+    // Email is optional. The User schema requires email (unique) for
+    // potential login, so we auto-generate an internal placeholder when
+    // admin doesn't supply one. The placeholder is unique-by-construction
+    // (random hex), and the instructor (or admin) can update it later
+    // when they actually need to sign in.
+    const email = emailInput
+      || `practitioner-${randomBytes(6).toString('hex')}@futureline.internal`;
+
+    // Only check uniqueness when admin actually entered an email — the
+    // generated placeholder is unique-by-construction.
+    if (emailInput) {
+      const existing = await prisma.user.findUnique({ where: { email } });
+      if (existing) {
+        return NextResponse.json(
+          { error: 'A user with that email already exists.' },
+          { status: 409 },
+        );
+      }
     }
 
     // Random initial password — admin doesn't see it. Instructor uses

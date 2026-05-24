@@ -1,6 +1,19 @@
 'use client';
-import { Fragment, useState, useEffect } from 'react';
-import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save, Pencil, UserPlus, X } from 'lucide-react';
+import { Fragment, useRef, useState, useEffect } from 'react';
+import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save, Pencil, UserPlus, X, Upload } from 'lucide-react';
+
+// Shared image-upload helper. Posts the file to /api/admin/upload-image
+// (admin-only multipart endpoint) and returns the public URL. Throws
+// on failure so callers can surface a clean error.
+async function uploadImage(file: File): Promise<string> {
+  const fd = new FormData();
+  fd.append('file', file);
+  const res = await fetch('/api/admin/upload-image', { method: 'POST', body: fd });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error ?? 'Upload failed');
+  if (typeof data.url !== 'string') throw new Error('Upload returned no URL');
+  return data.url;
+}
 
 interface Instructor {
   id: string;
@@ -54,6 +67,45 @@ export default function AdminInstructorsPage() {
   const [addForm, setAddForm] = useState<NewPractitionerForm>(EMPTY_NEW_FORM);
   const [addSaving, setAddSaving] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [addUploading, setAddUploading] = useState(false);
+  const addFileRef = useRef<HTMLInputElement>(null);
+
+  // Bio editor upload (separate state so the two file pickers don't
+  // share status — admin could in theory be uploading for one row
+  // while reviewing another).
+  const [bioUploading, setBioUploading] = useState(false);
+  const bioFileRef = useRef<HTMLInputElement>(null);
+
+  const handleAddFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAddUploading(true);
+    setAddError(null);
+    try {
+      const url = await uploadImage(file);
+      setAddForm((prev) => ({ ...prev, image: url }));
+    } catch (err: any) {
+      setAddError(err?.message ?? 'Upload failed');
+    } finally {
+      setAddUploading(false);
+      if (addFileRef.current) addFileRef.current.value = '';
+    }
+  };
+
+  const handleBioFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBioUploading(true);
+    try {
+      const url = await uploadImage(file);
+      setEditImage(url);
+    } catch (err: any) {
+      alert(err?.message ?? 'Upload failed');
+    } finally {
+      setBioUploading(false);
+      if (bioFileRef.current) bioFileRef.current.value = '';
+    }
+  };
 
   const openAddModal = () => {
     setAddForm(EMPTY_NEW_FORM);
@@ -329,21 +381,15 @@ export default function AdminInstructorsPage() {
                     <tr className="border-b border-white/[0.04] bg-white/[0.015]">
                       <td colSpan={6} className="px-6 py-5">
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-[160px_1fr]">
-                          {/* Left: image URL input + live preview. */}
+                          {/* Left: profile photo — upload OR paste URL,
+                              with live preview. */}
                           <div>
                             <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-                              Profile photo URL
+                              Profile photo
                             </label>
-                            <input
-                              type="url"
-                              value={editImage}
-                              onChange={(e) => setEditImage(e.target.value)}
-                              placeholder="https://…"
-                              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
-                            />
                             {/* Live preview — falls back to a soft hint when the
                                 URL is empty or fails to load. */}
-                            <div className="mt-3 flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                            <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
                               {editImage.trim() ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -356,6 +402,41 @@ export default function AdminInstructorsPage() {
                                 <span className="text-[11px] text-slate-600">Preview</span>
                               )}
                             </div>
+                            <div className="mt-3 flex flex-wrap items-center gap-2">
+                              <input
+                                ref={bioFileRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleBioFileChange}
+                                className="hidden"
+                                id={`bio-file-${instructor.id}`}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => bioFileRef.current?.click()}
+                                disabled={bioUploading}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-slate-300 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
+                              >
+                                <Upload size={11} />
+                                {bioUploading ? 'Uploading…' : 'Upload'}
+                              </button>
+                              {editImage.trim() && !bioUploading && (
+                                <button
+                                  type="button"
+                                  onClick={() => setEditImage('')}
+                                  className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+                                >
+                                  Clear
+                                </button>
+                              )}
+                            </div>
+                            <input
+                              type="url"
+                              value={editImage}
+                              onChange={(e) => setEditImage(e.target.value)}
+                              placeholder="…or paste a URL"
+                              className="mt-2 w-full bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+                            />
                           </div>
                           {/* Right: bio textarea. */}
                           <div>
@@ -495,42 +576,79 @@ export default function AdminInstructorsPage() {
               </div>
               <div className="md:col-span-2">
                 <label htmlFor="np-email" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
-                  Email *
+                  Email <span className="text-slate-600 font-normal normal-case tracking-normal">(optional)</span>
                 </label>
                 <input
                   id="np-email"
                   type="email"
                   value={addForm.email}
                   onChange={(e) => updateAddField('email', e.target.value)}
-                  required
                   className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
                   placeholder="sarah@example.com"
                 />
-                <p className="mt-1 text-[10px] text-slate-600">Used as the login email if they ever need to sign in.</p>
+                <p className="mt-1 text-[10px] text-slate-600">Used as the login email if they ever need to sign in. Leave blank to skip.</p>
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="np-image" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
-                  Profile photo URL
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Profile photo
                 </label>
-                <input
-                  id="np-image"
-                  type="url"
-                  value={addForm.image}
-                  onChange={(e) => updateAddField('image', e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
-                  placeholder="https://… (paste a hosted image URL)"
-                />
-                {addForm.image.trim() && (
-                  <div className="mt-2 flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={addForm.image}
-                      alt="Preview"
-                      className="h-full w-full object-cover"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                <div className="flex flex-wrap items-start gap-3">
+                  {/* Live preview thumbnail */}
+                  <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                    {addForm.image.trim() ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={addForm.image}
+                        alt="Preview"
+                        className="h-full w-full object-cover"
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                      />
+                    ) : (
+                      <span className="text-[10px] text-slate-600">Preview</span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 space-y-2">
+                    {/* Upload button — triggers hidden file input */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <input
+                        ref={addFileRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAddFileChange}
+                        className="hidden"
+                        id="np-file"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => addFileRef.current?.click()}
+                        disabled={addUploading}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-slate-300 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
+                      >
+                        <Upload size={12} />
+                        {addUploading ? 'Uploading…' : 'Upload photo'}
+                      </button>
+                      {addForm.image.trim() && !addUploading && (
+                        <button
+                          type="button"
+                          onClick={() => updateAddField('image', '')}
+                          className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+                    {/* Optional URL field — for admins who'd rather paste */}
+                    <input
+                      id="np-image"
+                      type="url"
+                      value={addForm.image}
+                      onChange={(e) => updateAddField('image', e.target.value)}
+                      className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                      placeholder="…or paste a hosted URL"
                     />
                   </div>
-                )}
+                </div>
+                <p className="mt-2 text-[10px] text-slate-600">JPG, PNG, WebP, or GIF · max 5 MB</p>
               </div>
               <div className="md:col-span-2">
                 <label htmlFor="np-bio" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">

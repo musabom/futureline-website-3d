@@ -42,6 +42,11 @@ export const courseSchema = z.object({
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED', 'DELETED']).optional(),
   // Featured slot on the home-page NeuralPathway. 1–3 = featured; null = not featured.
   featuredSlot: z.coerce.number().int().min(1).max(3).optional().nullable(),
+  // "What you'll learn" overrides — used when the course is featured.
+  // All optional; falls back to NeuralPathway's slot defaults if absent.
+  highlightStatValue: z.string().max(40).optional().nullable().or(z.literal('')),
+  highlightStatLabel: z.string().max(40).optional().nullable().or(z.literal('')),
+  highlightBullets: z.array(z.string().max(120)).max(6).optional(),
 }).refine((data) => {
   if (data.startDate && data.endDate) {
     return new Date(data.endDate) >= new Date(data.startDate);
@@ -98,6 +103,18 @@ export function normalizeCourseData(data: any) {
   } else if (typeof normalized.featuredSlot === 'string') {
     const parsed = parseInt(normalized.featuredSlot, 10);
     normalized.featuredSlot = Number.isNaN(parsed) ? null : parsed;
+  }
+  // Highlight stat strings: empty → null so we don't render empty <p> tags.
+  if (normalized.highlightStatValue === '') normalized.highlightStatValue = null;
+  if (normalized.highlightStatLabel === '') normalized.highlightStatLabel = null;
+  // Bullets: drop empties + trim whitespace. Postgres String[] doesn't allow
+  // undefined → coerce to empty array so writes always work.
+  if (Array.isArray(normalized.highlightBullets)) {
+    normalized.highlightBullets = normalized.highlightBullets
+      .map((b: unknown) => (typeof b === 'string' ? b.trim() : ''))
+      .filter((b: string) => b.length > 0);
+  } else if (normalized.highlightBullets == null) {
+    normalized.highlightBullets = [];
   }
   return normalized;
 }

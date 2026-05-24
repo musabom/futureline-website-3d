@@ -608,11 +608,16 @@ function TopicHighlights({ topic }: { topic: TopicData }) {
 // slot 1/2/3 → TOPICS[0]/[1]/[2] (visual choreography stays per-slot;
 // only label/description/href come from the course). Slot 4 doesn't
 // exist — TOPICS[3] is the locked Browse-all card.
+// Highlight fields are optional — when absent the slot's hardcoded
+// defaults in TOPICS continue to drive the right-hand card.
 export type NeuralFeaturedCourse = {
   slot: number;
   title: string;
   shortDescription: string;
   slug: string;
+  highlightStatValue?: string;
+  highlightStatLabel?: string;
+  highlightBullets?: string[];
 };
 
 export default function NeuralPathway({
@@ -679,10 +684,12 @@ export default function NeuralPathway({
   }, [activeTopic]);
 
   // Merge featured-course data (admin-controlled, server-fetched) over
-  // the hardcoded TOPICS defaults. Only label/description/href change;
-  // icon/position/cardSide/highlights stay per-slot (they're scene
-  // choreography, not course data). The browse-all topic is never
-  // touched — slot 4 doesn't exist.
+  // the hardcoded TOPICS defaults. label/description/href always come
+  // from the featured course when present. Highlight stat + bullets
+  // override the slot defaults ONLY IF the admin filled them in for
+  // this course — otherwise the slot's hardcoded highlights persist
+  // (the page never renders empty/half-broken state). The browse-all
+  // topic is never touched — slot 4 doesn't exist.
   const mergedTOPICS = useMemo<TopicData[]>(() => {
     if (!featuredCourses || featuredCourses.length === 0) return TOPICS;
     return TOPICS.map((t, i) => {
@@ -690,11 +697,26 @@ export default function NeuralPathway({
       const slot = i + 1;
       const featured = featuredCourses.find((f) => f.slot === slot);
       if (!featured) return t;
+      const hasOverriddenBullets =
+        featured.highlightBullets && featured.highlightBullets.length > 0;
+      const hasOverriddenStat =
+        !!featured.highlightStatValue || !!featured.highlightStatLabel;
       return {
         ...t,
         label: featured.title,
         description: featured.shortDescription,
         href: `/courses/${featured.slug}`,
+        highlights: {
+          stat: hasOverriddenStat
+            ? {
+                value: featured.highlightStatValue || t.highlights.stat.value,
+                label: featured.highlightStatLabel || t.highlights.stat.label,
+              }
+            : t.highlights.stat,
+          bullets: hasOverriddenBullets
+            ? featured.highlightBullets!
+            : t.highlights.bullets,
+        },
       };
     });
   }, [featuredCourses]);

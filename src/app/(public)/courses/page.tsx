@@ -36,69 +36,69 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// Per-pillar payoff cards mapped to FL's four service pillars
-// (Digitalisation · Custom Software · Automations · Consultation).
-// The Academy teaches the skills behind the work the Lab actually
-// ships — "we teach what we practice." Voice borrowed from the FL
-// brand phrases ("Paper out. Systems in." · "Robots do the boring."
-// · "The operator's approach"). Stays generic on specifics — no
-// regions, no specific stats, no time horizons.
+// 4 generic skill domains — Build · Operate · Analyse · Lead.
+// Deliberately abstract so every course we run (now or in future)
+// slots cleanly into one of them. No named subjects (no "AI",
+// no "Cybersecurity"), no specific products, no regions, no specific
+// stats. Each card answers the same parallel question shape: what
+// kind of work, where it's applied, what it pays, roles it unlocks,
+// why employers are hiring.
 const PILLAR_PAYOFFS = [
   {
-    name: 'Digitalisation',
-    pitch: 'Paper out. Systems in.',
-    sectors: ['Government', 'Banking', 'Manufacturing', 'Healthcare', 'SMEs'],
-    earn: 'Operators who can lead a digitisation are rare — and rewarded for it.',
+    name: 'Build',
+    pitch: 'Build the things that actually work in production.',
+    sectors: ['Banking', 'Tech', 'Manufacturing', 'Public sector', 'Healthcare'],
+    earn: 'Builders are valued in every sector — the supply hasn’t caught up with demand.',
     roles: [
-      'Digital Operations Lead',
+      'Engineer',
+      'Developer',
+      'Architect',
+      'Technical Specialist',
+      'Technical Lead',
+    ],
+    demand: 'The supply of people who can actually ship to production has never caught up — and the gap is widening, not closing.',
+  },
+  {
+    name: 'Operate',
+    pitch: 'Run the systems people quietly depend on.',
+    sectors: ['Operations', 'Banking', 'Logistics', 'Healthcare', 'Retail'],
+    earn: 'Operators who can keep complex systems running are valued — even when the work is invisible.',
+    roles: [
+      'Operations Lead',
       'Process Owner',
       'Implementation Specialist',
-      'Operations Tech Lead',
-      'BPM Analyst',
+      'Coordinator',
+      'Technical Operator',
     ],
-    demand: 'Most organisations still run critical work on paper and scattered spreadsheets — they know it, and they’re hiring to fix it.',
+    demand: 'The work that keeps the lights on is invisible until it stops — and most teams are understaffed for it.',
   },
   {
-    name: 'Custom Software',
-    pitch: 'Software that fits the team — not the other way round.',
-    sectors: ['Banking', 'Enterprise', 'E-commerce', 'Tech', 'Public sector'],
-    earn: 'Engineers who ship to production are valued across every industry.',
+    name: 'Analyse',
+    pitch: 'Turn information into the calls leadership has to make.',
+    sectors: ['Banking', 'Consulting', 'Government', 'Tech', 'Healthcare'],
+    earn: 'Analysis that leads to good decisions is worth what those decisions cost.',
     roles: [
-      'Full-Stack Engineer',
-      'Backend Engineer',
-      'Solutions Architect',
-      'Tech Lead',
-      'Product Engineer',
+      'Analyst',
+      'Researcher',
+      'Insights Lead',
+      'Investigator',
+      'Specialist',
     ],
-    demand: 'Off-the-shelf SaaS fits the average team. Most teams aren’t average — and they’re done renting workflows that don’t fit.',
+    demand: 'Every organisation has data. Few have insight. Most are hiring to close that gap.',
   },
   {
-    name: 'Automations',
-    pitch: 'Robots do the boring. Your team does the work that matters.',
-    sectors: ['Operations', 'Banking', 'Healthcare', 'Logistics', 'Retail'],
-    earn: 'Automation skills compound — every saved hour returns, every day.',
-    roles: [
-      'Automation Engineer',
-      'RPA Developer',
-      'Integration Engineer',
-      'Workflow Designer',
-      'Process Automation Lead',
-    ],
-    demand: 'Every team has compounding manual work. The ones that automate it pull ahead.',
-  },
-  {
-    name: 'Consultation',
-    pitch: 'Read the business. Scope the work. Advise like an operator.',
+    name: 'Lead',
+    pitch: 'Make the calls. Set the direction. Carry the weight.',
     sectors: ['Consultancies', 'Enterprise', 'Public sector', 'Banking', 'Tech'],
-    earn: 'Strategy and advisory roles command top-tier compensation across industries.',
+    earn: 'Strategy and leadership are paid for the calls, not the hours.',
     roles: [
-      'Solutions Consultant',
-      'Strategy Lead',
-      'Business Analyst',
-      'Tech Advisor',
-      'Programme Manager',
+      'Team Lead',
+      'Manager',
+      'Director',
+      'Advisor',
+      'Strategist',
     ],
-    demand: 'Leadership decisions are expensive to get wrong — and most advice comes from people who’ve never operated.',
+    demand: 'Leadership decisions are expensive to get wrong — and most people are never formally taught how to make them.',
   },
 ];
 
@@ -485,7 +485,7 @@ export default async function CoursesPage({
               Skills Organizations Are Hiring For.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              Four kinds of work organisations are paying for — the same four FutureLine ships every day. Here&apos;s the skill behind each one, and the roles it unlocks.
+              Every course we run pays into one of four kinds of work organisations are hiring for. Here&apos;s where each one gets applied — and the roles it unlocks.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">

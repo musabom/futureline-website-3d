@@ -64,7 +64,7 @@ export function CaseStudy() {
   return (
     <section
       aria-label="By the numbers"
-      className="relative bg-brand-bg px-6 py-32 md:px-12"
+      className="relative bg-brand-bg px-6 py-20 md:px-12 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
         <aside className="md:col-span-5">

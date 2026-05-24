@@ -2,12 +2,8 @@ import type { Metadata } from 'next';
 import { ParticleHero } from '@/components/sections/ParticleHero';
 import DualWalkway from '@/components/sections/DualWalkwayLazy';
 import NeuralPathway from '@/components/sections/NeuralPathwayLazy';
-import { ServiceCards } from '@/components/sections/ServiceCards';
-import { FeaturesGrid } from '@/components/sections/FeaturesGrid';
 import { CaseStudy } from '@/components/sections/CaseStudy';
-import { Records } from '@/components/sections/Records';
 import { FinalCTA } from '@/components/sections/FinalCTA';
-import { MarqueeStrip } from '@/components/ui/MarqueeStrip';
 import { prisma } from '@/lib/prisma';
 
 // Force-dynamic so featured-course changes from the admin show up on
@@ -74,32 +70,8 @@ export default async function Home() {
           Browse-all card on the final scroll step. */}
       <NeuralPathway featuredCourses={featuredCourses} />
 
-      {/* Quick-scan marketing cards for the four services. */}
-      <ServiceCards />
-
-      <MarqueeStrip
-        items={[
-          'Digitalisation',
-          'Custom Software',
-          'Automations',
-          'Consultation',
-          'Systems Built for Scale',
-        ]}
-        speed={30}
-      />
-
-      {/* Editorial deep dive into each service. */}
-      <FeaturesGrid />
-
+      {/* Trust band — the 47% / case-study editorial. */}
       <CaseStudy />
-
-      <MarqueeStrip
-        items={['FL Lab', 'FL Academy', 'Build', 'Teach', 'Ship', 'Repeat']}
-        speed={28}
-        direction="right"
-      />
-
-      <Records />
 
       <FinalCTA />
     </main>

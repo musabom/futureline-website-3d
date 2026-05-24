@@ -36,68 +36,69 @@ function pillClass(active: boolean) {
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
 // Each one is a single concept, not a claim that needs a citation.
-// Where these skills get paid — per-pillar payoff cards. Generic
-// language throughout: no named regions, no specific time/money
-// numbers, no product names, no time-horizon claims. Sectors and
-// role names are concrete (real industry-standard taxonomy that
-// won't date), every "earn" and "demand" sentence is qualitative,
-// so the section ages well as the market moves.
+// Per-pillar payoff cards mapped to FL's four service pillars
+// (Digitalisation · Custom Software · Automations · Consultation).
+// The Academy teaches the skills behind the work the Lab actually
+// ships — "we teach what we practice." Voice borrowed from the FL
+// brand phrases ("Paper out. Systems in." · "Robots do the boring."
+// · "The operator's approach"). Stays generic on specifics — no
+// regions, no specific stats, no time horizons.
 const PILLAR_PAYOFFS = [
   {
-    name: 'AI & Machine Learning',
-    pitch: 'Build the models companies are scrambling to deploy.',
-    sectors: ['Banking', 'Government', 'Telco', 'Healthcare', 'E-commerce'],
-    earn: 'Strong pay bands for mid- to senior-level roles.',
+    name: 'Digitalisation',
+    pitch: 'Paper out. Systems in.',
+    sectors: ['Government', 'Banking', 'Manufacturing', 'Healthcare', 'SMEs'],
+    earn: 'Operators who can lead a digitisation are rare — and rewarded for it.',
     roles: [
-      'ML Engineer',
-      'AI Engineer',
-      'Data Scientist',
-      'MLOps Engineer',
-      'NLP Engineer',
+      'Digital Operations Lead',
+      'Process Owner',
+      'Implementation Specialist',
+      'Operations Tech Lead',
+      'BPM Analyst',
     ],
-    demand: 'Employers consistently report a shortage of AI talent — supply hasn’t caught up with the rate of adoption.',
+    demand: 'Most organisations still run critical work on paper and scattered spreadsheets — they know it, and they’re hiring to fix it.',
   },
   {
-    name: 'Cybersecurity',
-    pitch: 'Defend the systems organizations can’t afford to lose.',
-    sectors: ['Banking', 'Government', 'Telco', 'Oil & Gas', 'Healthcare'],
-    earn: 'Demand-driven pay, especially in regulated industries.',
+    name: 'Custom Software',
+    pitch: 'Software that fits the team — not the other way round.',
+    sectors: ['Banking', 'Enterprise', 'E-commerce', 'Tech', 'Public sector'],
+    earn: 'Engineers who ship to production are valued across every industry.',
     roles: [
-      'SOC Analyst',
-      'Security Engineer',
-      'Penetration Tester',
-      'GRC Analyst',
-      'Incident Responder',
-    ],
-    demand: 'Nearly every regulated organisation reports a meaningful gap in security skills — and the gap is widening, not closing.',
-  },
-  {
-    name: 'Cloud',
-    pitch: 'Build the infrastructure modern organizations run on.',
-    sectors: ['Public sector', 'Banking', 'Telco', 'Enterprise', 'Consultancies'],
-    earn: 'Certifications carry a measurable salary premium.',
-    roles: [
-      'Cloud Engineer',
-      'Cloud Architect',
-      'DevOps Engineer',
-      'Site Reliability Engineer',
+      'Full-Stack Engineer',
+      'Backend Engineer',
       'Solutions Architect',
+      'Tech Lead',
+      'Product Engineer',
     ],
-    demand: 'Among the most in-demand skill categories on every major workforce report.',
+    demand: 'Off-the-shelf SaaS fits the average team. Most teams aren’t average — and they’re done renting workflows that don’t fit.',
   },
   {
-    name: 'Data Analytics',
-    pitch: 'Turn messy company data into the reports leadership acts on.',
-    sectors: ['Banking', 'Government', 'Telco', 'E-commerce', 'Healthcare'],
-    earn: 'Steady demand across virtually every industry — analytics literacy is a baseline now, not a specialism.',
+    name: 'Automations',
+    pitch: 'Robots do the boring. Your team does the work that matters.',
+    sectors: ['Operations', 'Banking', 'Healthcare', 'Logistics', 'Retail'],
+    earn: 'Automation skills compound — every saved hour returns, every day.',
     roles: [
-      'Data Analyst',
-      'BI Developer',
-      'Insights Manager',
-      'Analytics Engineer',
-      'Data Engineer',
+      'Automation Engineer',
+      'RPA Developer',
+      'Integration Engineer',
+      'Workflow Designer',
+      'Process Automation Lead',
     ],
-    demand: 'Big-data and analytics roles sit among the most in-demand job categories on the market.',
+    demand: 'Every team has compounding manual work. The ones that automate it pull ahead.',
+  },
+  {
+    name: 'Consultation',
+    pitch: 'Read the business. Scope the work. Advise like an operator.',
+    sectors: ['Consultancies', 'Enterprise', 'Public sector', 'Banking', 'Tech'],
+    earn: 'Strategy and advisory roles command top-tier compensation across industries.',
+    roles: [
+      'Solutions Consultant',
+      'Strategy Lead',
+      'Business Analyst',
+      'Tech Advisor',
+      'Programme Manager',
+    ],
+    demand: 'Leadership decisions are expensive to get wrong — and most advice comes from people who’ve never operated.',
   },
 ];
 
@@ -484,7 +485,7 @@ export default async function CoursesPage({
               Skills Organizations Are Hiring For.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-              AI, cybersecurity, cloud, and data sit among the most in-demand skill categories. Here&apos;s where each one gets applied — and the roles it unlocks.
+              Four kinds of work organisations are paying for — the same four FutureLine ships every day. Here&apos;s the skill behind each one, and the roles it unlocks.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">

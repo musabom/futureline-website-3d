@@ -21,6 +21,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (data.commissionRate !== undefined) updateData.commissionRate = data.commissionRate;
     if (data.isActive !== undefined) updateData.isActive = data.isActive;
     if (data.bio !== undefined) updateData.bio = data.bio;
+    if (data.image !== undefined) updateData.image = data.image;
+    if (data.firstName !== undefined) updateData.firstName = data.firstName;
+    if (data.lastName !== undefined) updateData.lastName = data.lastName;
 
     const updated = await prisma.user.update({
       where: { id: id },

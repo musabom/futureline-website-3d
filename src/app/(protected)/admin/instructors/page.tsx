@@ -1,6 +1,6 @@
 'use client';
 import { Fragment, useState, useEffect } from 'react';
-import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save, Pencil } from 'lucide-react';
+import { Search, Users, BookOpen, ToggleLeft, ToggleRight, Percent, Save, Pencil, UserPlus, X } from 'lucide-react';
 
 interface Instructor {
   id: string;
@@ -8,12 +8,30 @@ interface Instructor {
   lastName: string;
   email: string;
   bio: string | null;
+  image: string | null;
   commissionRate: number;
   isActive: boolean;
   createdAt: string;
   _count: { courses: number };
   totalStudents: number;
 }
+
+// Shape of the Add-Practitioner modal form state.
+type NewPractitionerForm = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  image: string;
+  bio: string;
+};
+
+const EMPTY_NEW_FORM: NewPractitionerForm = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  image: '',
+  bio: '',
+};
 
 export default function AdminInstructorsPage() {
   const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -22,11 +40,57 @@ export default function AdminInstructorsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editRate, setEditRate] = useState<number>(70);
   const [saving, setSaving] = useState(false);
-  // Bio editor — separate state from the commission editor so admin
-  // can have both open on different rows without clobbering each other.
+  // Bio + image editor — separate state from the commission editor
+  // so admin can have both open on different rows without clobbering
+  // each other. Bio and image are edited together since they're the
+  // two profile-display fields used by the public "Who teaches" band.
   const [editingBioId, setEditingBioId] = useState<string | null>(null);
   const [editBio, setEditBio] = useState<string>('');
+  const [editImage, setEditImage] = useState<string>('');
   const [savingBio, setSavingBio] = useState(false);
+
+  // Add-Practitioner modal state.
+  const [addOpen, setAddOpen] = useState(false);
+  const [addForm, setAddForm] = useState<NewPractitionerForm>(EMPTY_NEW_FORM);
+  const [addSaving, setAddSaving] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
+
+  const openAddModal = () => {
+    setAddForm(EMPTY_NEW_FORM);
+    setAddError(null);
+    setAddOpen(true);
+  };
+  const closeAddModal = () => {
+    if (addSaving) return; // don't close mid-save
+    setAddOpen(false);
+    setAddError(null);
+  };
+  const updateAddField = (field: keyof NewPractitionerForm, value: string) => {
+    setAddForm((prev) => ({ ...prev, [field]: value }));
+  };
+  const submitAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAddSaving(true);
+    setAddError(null);
+    try {
+      const res = await fetch('/api/admin/instructors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(addForm),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setAddError(body.error ?? 'Failed to add practitioner.');
+        return;
+      }
+      closeAddModal();
+      fetchInstructors();
+    } catch {
+      setAddError('Network error. Please try again.');
+    } finally {
+      setAddSaving(false);
+    }
+  };
 
   useEffect(() => { fetchInstructors(); }, []);
 
@@ -61,25 +125,29 @@ export default function AdminInstructorsPage() {
   const openBioEditor = (instructor: Instructor) => {
     setEditingBioId(instructor.id);
     setEditBio(instructor.bio ?? '');
+    setEditImage(instructor.image ?? '');
   };
 
   const cancelBioEditor = () => {
     setEditingBioId(null);
     setEditBio('');
+    setEditImage('');
   };
 
   const saveBio = async (id: string) => {
     setSavingBio(true);
     // Empty string → null so the column stays clean (Prisma writes null
     // for an empty string, but the explicit cast makes intent obvious).
-    const next = editBio.trim() === '' ? null : editBio.trim();
+    const nextBio = editBio.trim() === '' ? null : editBio.trim();
+    const nextImage = editImage.trim() === '' ? null : editImage.trim();
     await fetch(`/api/admin/instructors/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bio: next }),
+      body: JSON.stringify({ bio: nextBio, image: nextImage }),
     });
     setEditingBioId(null);
     setEditBio('');
+    setEditImage('');
     fetchInstructors();
     setSavingBio(false);
   };
@@ -96,6 +164,14 @@ export default function AdminInstructorsPage() {
           <h1 className="text-2xl font-black text-white tracking-tight">Manage Instructors</h1>
           <p className="text-slate-400 text-sm mt-1">{instructors.length} instructors</p>
         </div>
+        <button
+          type="button"
+          onClick={openAddModal}
+          className="inline-flex items-center gap-2 rounded-lg border border-teal-500/40 bg-teal-500/15 px-4 py-2 text-sm font-bold uppercase tracking-widest text-teal-300 hover:bg-teal-500/25 transition-colors"
+        >
+          <UserPlus size={16} />
+          Add Practitioner
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -252,21 +328,54 @@ export default function AdminInstructorsPage() {
                   {editingBioId === instructor.id && (
                     <tr className="border-b border-white/[0.04] bg-white/[0.015]">
                       <td colSpan={6} className="px-6 py-5">
-                        <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-                          Instructor bio
-                        </label>
-                        <textarea
-                          value={editBio}
-                          onChange={(e) => setEditBio(e.target.value)}
-                          placeholder="e.g. AI Lead, ex-OmanTel. Built X for Y, Z, A. 8 years shipping production ML for clients in the region."
-                          rows={3}
-                          maxLength={2000}
-                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 resize-y"
-                          autoFocus
-                        />
-                        <div className="mt-3 flex items-center justify-between">
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-[160px_1fr]">
+                          {/* Left: image URL input + live preview. */}
+                          <div>
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                              Profile photo URL
+                            </label>
+                            <input
+                              type="url"
+                              value={editImage}
+                              onChange={(e) => setEditImage(e.target.value)}
+                              placeholder="https://…"
+                              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+                            />
+                            {/* Live preview — falls back to a soft hint when the
+                                URL is empty or fails to load. */}
+                            <div className="mt-3 flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                              {editImage.trim() ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={editImage}
+                                  alt="Preview"
+                                  className="h-full w-full object-cover"
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                                />
+                              ) : (
+                                <span className="text-[11px] text-slate-600">Preview</span>
+                              )}
+                            </div>
+                          </div>
+                          {/* Right: bio textarea. */}
+                          <div>
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                              Bio
+                            </label>
+                            <textarea
+                              value={editBio}
+                              onChange={(e) => setEditBio(e.target.value)}
+                              placeholder="e.g. AI Lead, ex-OmanTel. Built X for Y, Z, A. 8 years shipping production ML for clients in the region."
+                              rows={6}
+                              maxLength={2000}
+                              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 resize-y"
+                              autoFocus
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between gap-4">
                           <p className="text-[11px] text-slate-500">
-                            Shows in the <span className="text-slate-300">&quot;Who teaches&quot;</span> band on /courses. 1–2 sentences with employer + a credential reads strongest.
+                            Shows in the <span className="text-slate-300">&quot;Who teaches&quot;</span> band on /courses. 1–2 sentences + a photo reads strongest.
                             <span className="ml-2 text-slate-600">{editBio.length}/2000</span>
                           </p>
                           <div className="flex gap-2">
@@ -285,7 +394,7 @@ export default function AdminInstructorsPage() {
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-500/15 border border-teal-500/40 text-teal-400 text-xs font-bold uppercase tracking-widest hover:bg-teal-500/25 transition-colors disabled:opacity-50"
                             >
                               <Save size={13} />
-                              {savingBio ? 'Saving…' : 'Save bio'}
+                              {savingBio ? 'Saving…' : 'Save profile'}
                             </button>
                           </div>
                         </div>
@@ -308,6 +417,165 @@ export default function AdminInstructorsPage() {
           This will apply when paid courses are enabled.
         </p>
       </div>
+
+      {/* ── Add Practitioner modal ──────────────────────────────────
+          Simple form for the critical fields: name, email, profile
+          photo, bio. Role + password are handled server-side (role is
+          forced to INSTRUCTOR; password is a hashed random secret —
+          admin doesn't need to manage it). Backdrop click + Cancel
+          both dismiss. Submitting closes the modal and refreshes the
+          list. */}
+      {addOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="add-practitioner-title"
+          className="fixed inset-0 z-50 flex items-center justify-center"
+        >
+          {/* Backdrop */}
+          <div
+            onClick={closeAddModal}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            aria-hidden="true"
+          />
+          {/* Panel */}
+          <form
+            onSubmit={submitAdd}
+            className="relative z-10 mx-4 w-full max-w-lg rounded-xl border border-white/[0.08] bg-slate-950 p-7 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)]"
+          >
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div>
+                <h2 id="add-practitioner-title" className="text-xl font-black tracking-tight text-white">
+                  Add Practitioner
+                </h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  Creates a new instructor record that surfaces in the public &quot;Who teaches&quot; band on /courses.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={closeAddModal}
+                disabled={addSaving}
+                aria-label="Close"
+                className="p-1.5 text-slate-500 hover:text-white transition-colors disabled:opacity-50"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label htmlFor="np-first" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  First name *
+                </label>
+                <input
+                  id="np-first"
+                  type="text"
+                  value={addForm.firstName}
+                  onChange={(e) => updateAddField('firstName', e.target.value)}
+                  required
+                  maxLength={50}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label htmlFor="np-last" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Last name *
+                </label>
+                <input
+                  id="np-last"
+                  type="text"
+                  value={addForm.lastName}
+                  onChange={(e) => updateAddField('lastName', e.target.value)}
+                  required
+                  maxLength={50}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="np-email" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Email *
+                </label>
+                <input
+                  id="np-email"
+                  type="email"
+                  value={addForm.email}
+                  onChange={(e) => updateAddField('email', e.target.value)}
+                  required
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  placeholder="sarah@example.com"
+                />
+                <p className="mt-1 text-[10px] text-slate-600">Used as the login email if they ever need to sign in.</p>
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="np-image" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Profile photo URL
+                </label>
+                <input
+                  id="np-image"
+                  type="url"
+                  value={addForm.image}
+                  onChange={(e) => updateAddField('image', e.target.value)}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  placeholder="https://… (paste a hosted image URL)"
+                />
+                {addForm.image.trim() && (
+                  <div className="mt-2 flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={addForm.image}
+                      alt="Preview"
+                      className="h-full w-full object-cover"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="np-bio" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Bio
+                </label>
+                <textarea
+                  id="np-bio"
+                  value={addForm.bio}
+                  onChange={(e) => updateAddField('bio', e.target.value)}
+                  rows={3}
+                  maxLength={2000}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none resize-y"
+                  placeholder="1–2 sentences with employer + a credential reads strongest."
+                />
+                <p className="mt-1 text-[10px] text-slate-600">{addForm.bio.length}/2000</p>
+              </div>
+            </div>
+
+            {addError && (
+              <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
+                {addError}
+              </p>
+            )}
+
+            <div className="mt-6 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={closeAddModal}
+                disabled={addSaving}
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-200 transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={addSaving}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-teal-500/40 bg-teal-500/15 px-4 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 hover:bg-teal-500/25 transition-colors disabled:opacity-50"
+              >
+                <UserPlus size={13} />
+                {addSaving ? 'Adding…' : 'Add Practitioner'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

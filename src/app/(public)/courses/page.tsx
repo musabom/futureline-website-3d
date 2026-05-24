@@ -223,7 +223,7 @@ export default async function CoursesPage({
       where: {
         courses: { some: baseFilter },
       },
-      select: { id: true, firstName: true, lastName: true, bio: true },
+      select: { id: true, firstName: true, lastName: true, bio: true, image: true },
       orderBy: { firstName: 'asc' },
     }),
   ]);
@@ -573,12 +573,28 @@ export default async function CoursesPage({
                   <FadeUp key={inst.id} delay={i * 0.06}>
                     <div className="flex h-full flex-col rounded-md border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-academy/40 hover:bg-white/[0.04]">
                       <div className="flex items-center gap-4">
-                        <div
-                          aria-hidden
-                          className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-academy/30 bg-academy/10 font-mono text-sm font-medium uppercase tracking-[0.1em] text-academy"
-                        >
-                          {initials}
-                        </div>
+                        {/* Profile photo (if admin uploaded one) or
+                            initials monogram fallback. We use a plain
+                            <img> rather than next/image so external
+                            hosts work without next.config domain
+                            allowlisting. The img is decorative-with-
+                            attribution: alt=fullName for screen
+                            readers, monogram aria-hidden. */}
+                        {inst.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={inst.image}
+                            alt={fullName}
+                            className="h-12 w-12 flex-shrink-0 rounded-full border border-academy/30 object-cover"
+                          />
+                        ) : (
+                          <div
+                            aria-hidden
+                            className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-academy/30 bg-academy/10 font-mono text-sm font-medium uppercase tracking-[0.1em] text-academy"
+                          >
+                            {initials}
+                          </div>
+                        )}
                         <div className="min-w-0">
                           <h3 className="truncate text-base font-semibold tracking-tight text-white md:text-lg">
                             {fullName}

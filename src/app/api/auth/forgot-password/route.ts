@@ -45,15 +45,23 @@ export async function POST(req: Request) {
         },
       });
 
-      const appUrl = process.env.APP_URL;
-      let resetUrl: string;
-      if (appUrl) {
-        resetUrl = `${appUrl}/reset-password?token=${rawToken}`;
-      } else {
-        const host = req.headers.get('host') || 'localhost:5000';
-        const protocol = req.headers.get('x-forwarded-proto') || 'http';
-        resetUrl = `${protocol}://${host}/reset-password?token=${rawToken}`;
+      // Build the reset link from a trusted, server-configured base URL only.
+      // NEVER derive it from the request Host / X-Forwarded-Proto headers:
+      // those are attacker-controlled, so a spoofed Host would embed a valid
+      // reset token into a link pointing at the attacker's domain
+      // (host-header injection → account-takeover). If no base URL is
+      // configured we refuse to send rather than send a poisonable link.
+      const baseUrl = process.env.APP_URL || process.env.NEXTAUTH_URL;
+      if (!baseUrl) {
+        console.error(
+          '[forgot-password] APP_URL / NEXTAUTH_URL is not set — refusing to send a reset link built from untrusted request headers.',
+        );
+        return NextResponse.json({
+          message:
+            'If an account exists with that email, we have sent a password reset link.',
+        });
       }
+      const resetUrl = `${baseUrl.replace(/\/$/, '')}/reset-password?token=${rawToken}`;
 
       await sendEmail({
         to: user.email,

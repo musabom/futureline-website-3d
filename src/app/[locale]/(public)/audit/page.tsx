@@ -29,7 +29,7 @@ const WHAT_YOU_GET = [
 
 export default function AuditPage() {
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       <section className="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
         {/* Subtle ambient teal glow behind the hero */}
         <div

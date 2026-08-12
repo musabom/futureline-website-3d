@@ -11,8 +11,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <SplashIntro />
       <CustomCursor />
       <InactivityWatcher timeoutMinutes={60} />
+      {/* Skip link — the site had none. First tab stop on every page. */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-navy focus:px-4 focus:py-2 focus:font-display focus:text-sm focus:font-semibold focus:text-white"
+      >
+        Skip to main content
+      </a>
       <Header />
-      <div className="min-h-screen">{children}</div>
+      <div id="main-content" className="min-h-screen">
+        {children}
+      </div>
       <Footer />
     </SmoothScrollProvider>
   );

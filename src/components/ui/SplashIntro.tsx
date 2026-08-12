@@ -6,6 +6,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const STORAGE_KEY = 'futureline_splash_played'
 
@@ -100,7 +101,16 @@ export function SplashIntro() {
         gsap.set(topEl, { yPercent: -100 })
         gsap.set(bottomEl, { yPercent: 100 })
       }
-      setTimeout(() => setActive(false), immediate ? 50 : 100)
+      setTimeout(() => {
+        setActive(false)
+        // The intro locks body overflow while it plays. Any ScrollTrigger pin
+        // that initialised during that window measured against a locked body
+        // and sits at the wrong offset. Because the splash is
+        // sessionStorage-gated it only happens on a visitor's very first
+        // load, which makes it nearly impossible to reproduce in dev — so
+        // re-measure explicitly once the lock is released.
+        ScrollTrigger.refresh()
+      }, immediate ? 50 : 100)
     }
 
     return () => {

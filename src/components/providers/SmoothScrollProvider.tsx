@@ -13,16 +13,29 @@
 import { useEffect, type ReactNode } from 'react'
 import { initLenisGsap, destroyAllScrollTriggers } from '@/lib/lenis-gsap'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+import { scrollToInitialHash } from '@/lib/scroll'
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion()
 
   useEffect(() => {
-    if (reduced) return
+    if (reduced) {
+      // Native scroll still needs help landing on a cold-load anchor once
+      // pinned sections have been measured.
+      scrollToInitialHash()
+      return
+    }
 
     const lenis = initLenisGsap()
+    // Published so same-page anchors can drive Lenis directly. The instance
+    // was previously discarded, which left hash links fighting the smooth
+    // scroll instead of using it (see src/lib/scroll.ts).
+    window.__flLenis = lenis
+
+    scrollToInitialHash()
 
     return () => {
+      delete window.__flLenis
       lenis.destroy()
       destroyAllScrollTriggers()
     }

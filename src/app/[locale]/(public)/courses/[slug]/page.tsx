@@ -61,7 +61,7 @@ export default async function CourseDetailPage({
   const priceLabel = course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
 
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-white/[0.06]">
         <div

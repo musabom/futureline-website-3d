@@ -27,7 +27,7 @@ export default async function ServicesPage() {
   });
 
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-white/[0.06]">
         {/* Dark canvas backdrop with the signature 3D ribbon on the right side. */}

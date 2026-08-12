@@ -11,7 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="flex min-h-screen">
       <InactivityWatcher timeoutMinutes={30} />
       <AdminSidebar />
-      <main className="flex-1 bg-[#030d1a] overflow-auto">
+      <main className="flex-1 fl-dark-surface bg-[#030d1a] overflow-auto">
         <div className="p-8">{children}</div>
       </main>
     </div>

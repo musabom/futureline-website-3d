@@ -34,7 +34,7 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-[#030d1a]">
+      <div className="min-h-screen fl-dark-surface bg-[#030d1a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
           <Link

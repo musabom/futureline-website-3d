@@ -1,0 +1,16 @@
+{
+  "common": {
+    "languageSwitcher": "اللغة",
+    "skipToContent": "تخطَّ إلى المحتوى الرئيسي"
+  },
+  "nav": {
+    "whatWeOffer": "ما نقدّمه",
+    "vision": "الرؤية",
+    "whoWeServe": "من نخدم",
+    "faq": "الأسئلة الشائعة",
+    "courses": "الدورات",
+    "signIn": "تسجيل الدخول",
+    "getStarted": "ابدأ الآن",
+    "readinessAssessment": "تقييم الجاهزية"
+  }
+}

@@ -1,0 +1,31 @@
+/**
+ * Locale layout — validates the segment and opts the subtree into static
+ * rendering. <html>/<body>, fonts and providers live in the root layout
+ * (src/app/layout.tsx); see the note there for why.
+ */
+import { notFound } from 'next/navigation';
+import { hasLocale } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
+
+/** Pre-render both locale shells at build time. */
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  // Without this, any page using a translation hook opts out of static
+  // rendering for the whole subtree.
+  setRequestLocale(locale);
+
+  return <>{children}</>;
+}

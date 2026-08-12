@@ -19,7 +19,7 @@ import { CanvasBoundary } from './CanvasBoundary'
 
 interface Props {
   children: ReactNode
-  /** 'never' pauses the render loop entirely — see useInViewFrameloop. */
+  /** 'demand' holds a static frame while paused — see useInViewFrameloop. */
   frameloop?: 'always' | 'demand' | 'never'
   /** Rendered if WebGL is unavailable or the scene throws. */
   fallback?: ReactNode

@@ -1,31 +1,29 @@
 /**
- * useGlowTexture — soft radial sprite so THREE.Points render as round orbs
- * rather than hard squares.
+ * useGlowTexture — soft radial sprite so Points render as glowing orbs.
  *
- * Two non-obvious details, both learned the hard way in the prototype:
+ * Two non-obvious requirements come with it:
  *
  * 1. colorSpace must be SRGBColorSpace. Since three r152 a CanvasTexture used
  *    as a colour map is treated as linear unless told otherwise, which leaves
- *    the glow looking slightly grey.
+ *    the glow looking slightly washed out.
  *
- * 2. The geometry these points are drawn from must have NO uv attribute.
- *    If a Points geometry has uvs, three samples the sprite once per vertex
- *    instead of per fragment (gl_PointCoord) and every point renders as an
- *    opaque square — the texture appears to do nothing at all. Call
- *    geometry.deleteAttribute('uv') on any built-in geometry used with this.
+ * 2. The geometry it is applied to must have no `uv` attribute. If a Points
+ *    geometry carries UVs, three samples the map per-vertex instead of per
+ *    fragment via gl_PointCoord, and every point renders as a hard square
+ *    rather than a soft circle. Call geometry.deleteAttribute('uv').
  */
 'use client'
 
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 
-export function useGlowTexture(size = 64): THREE.CanvasTexture {
+export function useGlowTexture(size = 64) {
   const texture = useMemo(() => {
     const canvas = document.createElement('canvas')
     canvas.width = canvas.height = size
     const ctx = canvas.getContext('2d')!
-    const r = size / 2
-    const grad = ctx.createRadialGradient(r, r, 0, r, r, r)
+    const half = size / 2
+    const grad = ctx.createRadialGradient(half, half, 0, half, half, half)
     grad.addColorStop(0, 'rgba(255,255,255,1)')
     grad.addColorStop(0.4, 'rgba(255,255,255,0.8)')
     grad.addColorStop(1, 'rgba(255,255,255,0)')
@@ -37,7 +35,8 @@ export function useGlowTexture(size = 64): THREE.CanvasTexture {
     return tex
   }, [size])
 
-  // Route changes unmount these scenes, unlike the single-page prototype.
+  // A route change unmounts the canvas — the prototype never had to care
+  // because its page never went away.
   useEffect(() => () => texture.dispose(), [texture])
 
   return texture

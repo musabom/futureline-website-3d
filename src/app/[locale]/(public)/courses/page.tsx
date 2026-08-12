@@ -256,7 +256,7 @@ export default async function CoursesPage({
   // led (cards first, marketing sections second), users scroll naturally.
 
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       {/* ── Catalog (page top — compact header + cards) ──
           Replaced the giant 3D hero with a tight inline header so the
           first row of course cards is visible above the fold on any

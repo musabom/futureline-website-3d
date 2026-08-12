@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function VideoEffectsLabPage() {
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       <section className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">

@@ -1,24 +1,22 @@
-import Link from 'next/link';
-import { strings } from '@/lib/strings';
+/**
+ * Footer — light footer for the redesigned public site.
+ *
+ * Columns follow the company profile: the three pillars, the company links,
+ * and the Muscat location. Uses the locale-aware Link so an Arabic visitor
+ * stays in Arabic when navigating.
+ */
+import Image from 'next/image';
+import { Link } from '@/i18n/routing';
 
 interface FooterColProps {
   title: string;
   links: { label: string; href: string }[];
-  accent?: 'lab' | 'academy';
 }
 
-function FooterCol({ title, links, accent }: FooterColProps) {
-  const dotColor =
-    accent === 'lab'
-      ? 'bg-lab shadow-[0_0_10px_2px_rgba(24,169,153,0.55)]'
-      : accent === 'academy'
-      ? 'bg-academy shadow-[0_0_10px_2px_rgba(91,123,251,0.55)]'
-      : null;
-
+function FooterCol({ title, links }: FooterColProps) {
   return (
     <div>
-      <h3 className="mb-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-white/45">
-        {dotColor && <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />}
+      <h3 className="mb-5 font-display text-xs font-semibold uppercase tracking-[0.2em] text-ink-muted">
         {title}
       </h3>
       <ul className="space-y-3">
@@ -26,7 +24,7 @@ function FooterCol({ title, links, accent }: FooterColProps) {
           <li key={l.label}>
             <Link
               href={l.href}
-              className="text-sm text-white/65 transition-colors hover:text-white"
+              className="text-sm text-ink-muted transition-colors hover:text-teal"
               data-cursor="hover"
             >
               {l.label}
@@ -39,86 +37,75 @@ function FooterCol({ title, links, accent }: FooterColProps) {
 }
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-white/[0.06] bg-brand-bg px-4 py-16 sm:px-6 lg:px-8">
+    <footer className="border-t border-hairline bg-canvas-alt px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-5">
-          {/* Brand block */}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Link
-              href="/"
-              className="flex items-center gap-2.5"
-              aria-label="FutureLine home"
-              data-cursor="hover"
-            >
-              <span
-                aria-hidden="true"
-                className="h-2 w-2 rounded-full bg-lab shadow-[0_0_12px_2px_rgba(24,169,153,0.55)]"
+            <Link href="/" className="mb-4 inline-flex items-center gap-2.5" aria-label="FutureLine home">
+              <Image
+                src="/images/logo-mark.png"
+                alt=""
+                width={28}
+                height={28}
+                className="h-7 w-7"
               />
-              <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent">
-                {strings.brand.name}
+              <span className="font-display text-lg font-bold tracking-tight text-navy">
+                FutureLine
               </span>
             </Link>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
-              {strings.brand.tagline}
+            <p className="max-w-xs font-display text-base font-semibold text-navy">
+              Making everyone a leader in AI.
             </p>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/45">
-              {strings.brand.description}
+            <p className="mt-2 max-w-xs text-sm text-ink-muted" dir="rtl" lang="ar">
+              <span className="font-arabic">أن يكون الجميع قائدًا في الذكاء الاصطناعي.</span>
+            </p>
+            <p className="mt-5 text-sm text-ink-muted">
+              Muscat, Sultanate of Oman
+              <span aria-hidden> · </span>
+              <span dir="rtl" lang="ar" className="font-arabic">
+                مسقط، سلطنة عُمان
+              </span>
             </p>
           </div>
 
           <FooterCol
-            title="FL Lab"
-            accent="lab"
+            title="What we offer"
             links={[
-              { label: strings.footer.allServices, href: '/services' },
-              { label: 'Digitalisation', href: '/services/digitalisation' },
-              { label: 'Custom Software', href: '/services/custom-software' },
-              { label: 'Automations', href: '/services/automations' },
-              { label: 'Consultation', href: '/services/consultation' },
-              { label: 'AI Solutions', href: '/ai' },
+              { label: 'Consulting', href: '/#services' },
+              { label: 'Building Applications', href: '/#services' },
+              { label: 'Training & Enablement', href: '/courses' },
             ]}
           />
 
           <FooterCol
-            title="FL Academy"
-            accent="academy"
+            title="Company"
             links={[
-              { label: strings.footer.allCourses, href: '/courses' },
-              { label: strings.footer.onlineCourses, href: '/courses?type=ONLINE' },
-              { label: strings.footer.inPersonTraining, href: '/courses?type=IN_PERSON' },
-            ]}
-          />
-
-          <FooterCol
-            title={strings.footer.company}
-            links={[
-              { label: strings.footer.signIn, href: '/login' },
-              { label: strings.footer.createAccount, href: '/register' },
+              { label: 'Vision & Mission', href: '/#vision' },
+              { label: 'Who we serve', href: '/#who-we-serve' },
+              { label: 'FAQ', href: '/#faq' },
+              { label: 'Readiness assessment', href: '/#audit' },
             ]}
           />
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-white/[0.06] pt-8 md:flex-row md:items-center">
-          <span className="text-xs text-white/40">
-            {strings.brand.copyright(new Date().getFullYear())}
-          </span>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-xs text-white/45 transition-colors hover:text-white"
-              data-cursor="hover"
-            >
-              Privacy
+        <div className="mt-14 flex flex-col gap-3 border-t border-hairline pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {year} FutureLine.ai. All rights reserved.</p>
+          {/* No privacy/terms routes exist in the app yet — deliberately not
+              linked rather than pointing at a 404. */}
+          <p>
+            <Link href="/courses" className="transition-colors hover:text-teal">
+              Courses
             </Link>
-            <Link
-              href="/"
-              className="text-xs text-white/45 transition-colors hover:text-white"
-              data-cursor="hover"
-            >
-              Terms
+            <span aria-hidden className="mx-2">
+              ·
+            </span>
+            <Link href="/audit" className="transition-colors hover:text-teal">
+              Systems audit
             </Link>
-          </div>
+          </p>
         </div>
       </div>
     </footer>

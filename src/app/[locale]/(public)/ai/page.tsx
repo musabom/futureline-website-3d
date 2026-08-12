@@ -63,7 +63,7 @@ export default async function AIPage() {
   const contactEmail = brand.contactEmail;
 
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-white/[0.06]">
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">

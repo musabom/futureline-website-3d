@@ -8,14 +8,11 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: ['/', '/courses', '/courses/*', '/services', '/services/*', '/ai', '/tourism'],
-        // /v2 is the light-redesign staging route — also noindexed via its
-        // own page metadata. Both it and this entry go away at cutover.
         disallow: [
           '/admin', '/admin/*',
           '/instructor', '/instructor/*',
           '/dashboard', '/dashboard/*',
           '/api/*',
-          '/v2', '/v2/*',
         ],
       },
     ],

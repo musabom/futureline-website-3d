@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  /* The site's default canvas is now light. Surfaces that are still dark
+     (admin, instructor, dashboard, auth) set their own background — see the
+     .fl-dark-surface helper below — so they are unaffected by this flip. */
   body {
-    @apply bg-[#030d1a] text-white antialiased;
+    @apply bg-canvas text-ink antialiased;
   }
 
   /* Lenis baseline — disable native smooth scroll, allow Lenis to take over */
@@ -236,6 +239,17 @@ select.fl-input > option {
   .fl-light ::selection {
     background: rgba(24, 169, 153, 0.25);
     color: #0f1e3d;
+  }
+
+  /* Opt back into the dark canvas. Applied by pages that have not been
+     converted yet (and by the admin/instructor tooling, which stays dark by
+     design) so the global light default doesn't leave white text on white. */
+  .fl-dark-surface {
+    @apply bg-[#030d1a] text-white;
+  }
+  .fl-dark-surface ::selection {
+    background: rgba(24, 169, 153, 0.35);
+    color: #fff;
   }
 
   /* Light variants of the shared form primitives.

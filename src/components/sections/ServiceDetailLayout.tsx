@@ -212,7 +212,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
   ];
 
   return (
-    <main className="bg-brand-bg">
+    <main className="fl-dark-surface bg-brand-bg">
       <PageScrollSpy sections={spySections} />
       {/* ── Hero ── */}
       <section id="top" className="relative overflow-hidden border-b border-white/[0.06]">

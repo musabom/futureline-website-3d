@@ -1,23 +1,28 @@
 import type { Metadata } from 'next';
-import { ParticleHero } from '@/components/sections/ParticleHero';
-import DualWalkway from '@/components/sections/DualWalkwayLazy';
 import NeuralPathway from '@/components/sections/NeuralPathwayLazy';
-import { CaseStudy } from '@/components/sections/CaseStudy';
-import { FinalCTA } from '@/components/sections/FinalCTA';
 import { prisma } from '@/lib/prisma';
+import { AmbientMesh } from '@/components/ui/AmbientMesh';
+import { GlobeHero } from '@/components/sections/GlobeHero';
+import { ThreeActStory } from '@/components/sections/ThreeActStory';
+import { VisionMission } from '@/components/sections/VisionMission';
+import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
+import { ThreePillars } from '@/components/sections/ThreePillars';
+import { WhoWeServe } from '@/components/sections/WhoWeServe';
+import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
+import { FaqAccordion } from '@/components/sections/FaqAccordion';
 
 // Force-dynamic so featured-course changes from the admin show up on
 // the next page load rather than the next build.
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'FutureLine — Systems Built for Scale | Digital Transformation & Custom Software',
+  title: 'FutureLine.ai — AI Consulting · Applications · Training',
   description:
-    'FutureLine builds the digital systems your business needs to scale: digitalisation, custom software, intelligent automations, and expert consultation. No jargon. No lock-in. Just results.',
+    'An Omani company turning AI from talk into practice — we advise, we build, and we train, in Arabic and English. AI consulting, custom applications and AI agents, and applied training including the Vibe Coding programme. Muscat, Sultanate of Oman.',
   openGraph: {
-    title: 'FutureLine — Systems Built for Scale',
+    title: 'FutureLine.ai — Making everyone a leader in AI',
     description:
-      'FutureLine builds the digital systems your business needs to scale: digitalisation, custom software, intelligent automations, and expert consultation.',
+      'AI consulting, applications and training, in Arabic and English. Muscat, Sultanate of Oman.',
     type: 'website',
     url: '/',
   },
@@ -59,21 +64,29 @@ export default async function Home() {
     }));
 
   return (
-    <main className="bg-brand-bg">
-      <ParticleHero />
+    <main className="fl-light relative bg-canvas text-ink">
+      <AmbientMesh />
 
-      {/* FL Lab — twin-corridor brand moment with 4 service cards. */}
-      <DualWalkway />
+      <div className="relative z-10">
+        <GlobeHero />
+      </div>
 
-      {/* FL Academy — neural-pathway learning network. 3 admin-featurable
-          slots (admin sets featuredSlot on a Course) + a locked centered
-          Browse-all card on the final scroll step. */}
-      <NeuralPathway featuredCourses={featuredCourses} />
+      <div className="relative z-10">
+        {/* The three pillars as one continuous scroll movement. */}
+        <ThreeActStory />
+        <VisionMission />
+        <DifferentiatorStrip />
+        <ThreePillars />
+        <WhoWeServe />
 
-      {/* Trust band — the 47% / case-study editorial. */}
-      <CaseStudy />
+        {/* FL Academy — kept from the previous home. The admin's
+            featuredSlot control writes into this scene, so removing it
+            would silently orphan a shipped admin feature. */}
+        <NeuralPathway featuredCourses={featuredCourses} />
 
-      <FinalCTA />
+        <ReadinessCTA />
+        <FaqAccordion />
+      </div>
     </main>
   );
 }

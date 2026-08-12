@@ -3,7 +3,7 @@ import { Home, BookOpen } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#030d1a] flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen fl-dark-surface bg-[#030d1a] flex items-center justify-center px-4 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#18a999]/[0.06] rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-blue-600/[0.04] rounded-full blur-3xl pointer-events-none" />
 

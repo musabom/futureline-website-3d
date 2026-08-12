@@ -15,11 +15,11 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <div className="w-full max-w-md rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl p-8">
+      <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
         <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
           Invalid reset link. The link may be missing or malformed.
         </div>
-        <p className="text-center text-sm text-slate-400">
+        <p className="text-center text-sm text-ink-muted">
           <Link href="/forgot-password" className="text-teal-400 hover:text-teal-300 font-semibold">
             Request a new reset link
           </Link>
@@ -69,13 +69,13 @@ function ResetPasswordForm() {
 
   if (success) {
     return (
-      <div className="w-full max-w-md rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl p-8">
+      <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
         <div className="bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-3 rounded-lg mb-6 text-sm">
           Your password has been reset successfully!
         </div>
         <Link
           href="/login"
-          className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity block text-center"
+          className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity block text-center"
         >
           Sign In
         </Link>
@@ -84,7 +84,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl p-8">
+    <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
       {error && (
         <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
           {error}
@@ -93,28 +93,28 @@ function ResetPasswordForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
             New Password
           </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 transition-colors"
+            className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
             placeholder="At least 6 characters"
             required
             minLength={6}
           />
         </div>
         <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
             Confirm Password
           </label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 transition-colors"
+            className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
             placeholder="Repeat your password"
             required
             minLength={6}
@@ -123,13 +123,13 @@ function ResetPasswordForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           {loading ? 'Resetting...' : 'Reset Password'}
         </button>
       </form>
 
-      <p className="text-center text-sm text-slate-400 mt-6">
+      <p className="text-center text-sm text-ink-muted mt-6">
         <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
           Back to Sign In
         </Link>
@@ -140,7 +140,7 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen fl-dark-surface bg-[#030d1a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-block mb-6">
@@ -156,12 +156,12 @@ export default function ResetPasswordPage() {
               FutureLine
             </span>
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-white">Reset Password</h1>
-          <p className="text-slate-400 text-sm mt-2">Enter your new password below</p>
+          <h1 className="text-2xl font-black tracking-tight text-navy">Reset Password</h1>
+          <p className="text-ink-muted text-sm mt-2">Enter your new password below</p>
         </div>
         <Suspense
           fallback={
-            <div className="w-full max-w-md rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl p-8 text-center text-slate-400">
+            <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8 text-center text-ink-muted">
               Loading...
             </div>
           }

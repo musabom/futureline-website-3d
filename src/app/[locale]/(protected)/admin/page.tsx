@@ -141,20 +141,20 @@ export default async function AdminDashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-black text-white tracking-tight">Admin Dashboard</h1>
-        <p className="text-slate-400 text-sm mt-1">Overview of your platform</p>
+        <h1 className="text-2xl font-black text-navy tracking-tight">Admin Dashboard</h1>
+        <p className="text-ink-muted text-sm mt-1">Overview of your platform</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {stats.map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+          <div key={stat.label} className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
                 <stat.icon size={24} className={stat.iconClass} />
               </div>
               <div>
-                <div className="text-3xl font-black text-white">{stat.value}</div>
-                <div className="text-sm text-slate-400">{stat.label}</div>
+                <div className="text-3xl font-black text-navy">{stat.value}</div>
+                <div className="text-sm text-ink-muted">{stat.label}</div>
               </div>
             </div>
           </div>
@@ -172,39 +172,39 @@ export default async function AdminDashboard() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp size={18} className="text-teal-400" />
-            <h2 className="text-sm font-bold text-white">Enrollment Trend (Last 7 Days)</h2>
+            <h2 className="text-sm font-bold text-navy">Enrollment Trend (Last 7 Days)</h2>
           </div>
           <div className="flex items-end gap-2 h-40">
             {enrollmentTrend.map((day) => (
               <div key={day.label} className="flex-1 flex flex-col items-center justify-end h-full">
-                <span className="text-xs font-semibold text-slate-400 mb-1">{day.count}</span>
+                <span className="text-xs font-semibold text-ink-muted mb-1">{day.count}</span>
                 <div
                   className="w-full bg-teal-500/70 rounded-t-md transition-all"
                   style={{ height: `${(day.count / maxEnrollment) * 100}%`, minHeight: day.count > 0 ? '8px' : '2px' }}
                 />
-                <span className="text-xs text-slate-500 mt-2">{day.label}</span>
+                <span className="text-xs text-ink-muted mt-2">{day.label}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-2 mb-4">
             <BarChart3 size={18} className="text-green-400" />
-            <h2 className="text-sm font-bold text-white">Revenue Trend (Last 7 Days)</h2>
+            <h2 className="text-sm font-bold text-navy">Revenue Trend (Last 7 Days)</h2>
           </div>
           <div className="flex items-end gap-2 h-40">
             {revenueTrend.map((day) => (
               <div key={day.label} className="flex-1 flex flex-col items-center justify-end h-full">
-                <span className="text-xs font-semibold text-slate-400 mb-1">{day.amount > 0 ? formatPrice(day.amount) : '$0'}</span>
+                <span className="text-xs font-semibold text-ink-muted mb-1">{day.amount > 0 ? formatPrice(day.amount) : '$0'}</span>
                 <div
                   className="w-full bg-green-500/70 rounded-t-md transition-all"
                   style={{ height: `${(day.amount / maxRevenue) * 100}%`, minHeight: day.amount > 0 ? '8px' : '2px' }}
                 />
-                <span className="text-xs text-slate-500 mt-2">{day.label}</span>
+                <span className="text-xs text-ink-muted mt-2">{day.label}</span>
               </div>
             ))}
           </div>
@@ -212,51 +212,51 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-2 mb-4">
             <Clock size={18} className="text-indigo-400" />
-            <h2 className="text-sm font-bold text-white">Lead Pipeline</h2>
-            <span className="ml-auto text-sm text-slate-500">{totalLeads} total</span>
+            <h2 className="text-sm font-bold text-navy">Lead Pipeline</h2>
+            <span className="ml-auto text-sm text-ink-muted">{totalLeads} total</span>
           </div>
           {totalLeads === 0 ? (
-            <p className="text-slate-600 text-sm text-center py-6">No leads yet</p>
+            <p className="text-ink-muted text-sm text-center py-6">No leads yet</p>
           ) : (
             <div className="space-y-3">
               {leadPipeline.map((stage) => (
                 <div key={stage.stage} className="flex items-center gap-3">
-                  <span className="text-sm text-slate-400 w-24 shrink-0">{stage.label}</span>
-                  <div className="flex-1 bg-white/5 rounded-full h-5 overflow-hidden">
+                  <span className="text-sm text-ink-muted w-24 shrink-0">{stage.label}</span>
+                  <div className="flex-1 bg-canvas-card rounded-full h-5 overflow-hidden">
                     <div
                       className={`${stage.color} h-full rounded-full transition-all opacity-70`}
                       style={{ width: `${(stage.count / totalLeads) * 100}%`, minWidth: stage.count > 0 ? '12px' : '0' }}
                     />
                   </div>
-                  <span className="text-sm font-semibold text-white w-8 text-right">{stage.count}</span>
+                  <span className="text-sm font-semibold text-navy w-8 text-right">{stage.count}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-2 mb-4">
             <Users size={18} className="text-purple-400" />
-            <h2 className="text-sm font-bold text-white">Top Instructors</h2>
+            <h2 className="text-sm font-bold text-navy">Top Instructors</h2>
           </div>
           {instructorPerformance.length === 0 ? (
-            <p className="text-slate-600 text-sm text-center py-6">No instructors yet</p>
+            <p className="text-ink-muted text-sm text-center py-6">No instructors yet</p>
           ) : (
             <div className="space-y-3">
               {instructorPerformance.map((inst, i) => (
-                <div key={inst.name} className="flex items-center justify-between py-2 border-b border-white/[0.06] last:border-0">
+                <div key={inst.name} className="flex items-center justify-between py-2 border-b border-hairline last:border-0">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-bold text-teal-400 w-6">{i + 1}</span>
                     <div>
-                      <div className="text-sm font-medium text-slate-200">{inst.name}</div>
-                      <div className="text-xs text-slate-500">{inst.courses} course{inst.courses !== 1 ? 's' : ''}</div>
+                      <div className="text-sm font-medium text-ink">{inst.name}</div>
+                      <div className="text-xs text-ink-muted">{inst.courses} course{inst.courses !== 1 ? 's' : ''}</div>
                     </div>
                   </div>
-                  <div className="text-sm text-slate-400">{inst.students} student{inst.students !== 1 ? 's' : ''}</div>
+                  <div className="text-sm text-ink-muted">{inst.students} student{inst.students !== 1 ? 's' : ''}</div>
                 </div>
               ))}
             </div>
@@ -265,21 +265,21 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
-          <h2 className="text-sm font-bold text-white mb-4">Recent Orders</h2>
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
+          <h2 className="text-sm font-bold text-navy mb-4">Recent Orders</h2>
           {recentOrders.length === 0 ? (
-            <p className="text-slate-600 text-sm text-center py-6">No orders yet</p>
+            <p className="text-ink-muted text-sm text-center py-6">No orders yet</p>
           ) : (
             <div className="space-y-3">
               {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between py-2 border-b border-white/[0.06] last:border-0">
+                <div key={order.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0">
                   <div>
-                    <div className="text-sm font-medium text-slate-200">{order.user.firstName} {order.user.lastName}</div>
-                    <div className="text-xs text-slate-500">{order.course.title}</div>
+                    <div className="text-sm font-medium text-ink">{order.user.firstName} {order.user.lastName}</div>
+                    <div className="text-xs text-ink-muted">{order.course.title}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-semibold text-white">{formatPrice(order.amount)}</div>
-                    <div className="text-xs text-slate-500">{new Date(order.createdAt).toLocaleDateString('en-GB')}</div>
+                    <div className="text-sm font-semibold text-navy">{formatPrice(order.amount)}</div>
+                    <div className="text-xs text-ink-muted">{new Date(order.createdAt).toLocaleDateString('en-GB')}</div>
                   </div>
                 </div>
               ))}
@@ -287,19 +287,19 @@ export default async function AdminDashboard() {
           )}
         </div>
 
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
-          <h2 className="text-sm font-bold text-white mb-4">Top Courses</h2>
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
+          <h2 className="text-sm font-bold text-navy mb-4">Top Courses</h2>
           {topCourses.length === 0 ? (
-            <p className="text-slate-600 text-sm text-center py-6">No courses yet</p>
+            <p className="text-ink-muted text-sm text-center py-6">No courses yet</p>
           ) : (
             <div className="space-y-3">
               {topCourses.map((course, i) => (
-                <div key={course.id} className="flex items-center justify-between py-2 border-b border-white/[0.06] last:border-0">
+                <div key={course.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0">
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-bold text-teal-400 w-6">{i + 1}</span>
-                    <div className="text-sm font-medium text-slate-200">{course.title}</div>
+                    <div className="text-sm font-medium text-ink">{course.title}</div>
                   </div>
-                  <div className="text-sm text-slate-400">{course._count.enrollments} enrolled</div>
+                  <div className="text-sm text-ink-muted">{course._count.enrollments} enrolled</div>
                 </div>
               ))}
             </div>

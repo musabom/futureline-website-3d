@@ -86,21 +86,21 @@ export default function InstructorCoursesPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight">My Courses</h1>
-          <p className="text-slate-400 mt-1 text-sm">{courses.length} courses</p>
+          <h1 className="text-2xl font-black text-navy tracking-tight">My Courses</h1>
+          <p className="text-ink-muted mt-1 text-sm">{courses.length} courses</p>
         </div>
-        <Link href="/instructor/courses/new" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity">
+        <Link href="/instructor/courses/new" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity">
           <Plus size={18} /> Create Course
         </Link>
       </div>
 
-      <div className="flex border-b border-white/[0.06] mb-6">
+      <div className="flex border-b border-hairline mb-6">
         <button
           onClick={() => setActiveTab('active')}
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'active'
               ? 'text-teal-400 border-b-2 border-teal-400'
-              : 'text-slate-500 hover:text-slate-300'
+              : 'text-ink-muted hover:text-ink-muted'
           }`}
         >
           Active Courses
@@ -110,65 +110,65 @@ export default function InstructorCoursesPage() {
           className={`pb-4 px-6 text-sm font-medium transition-colors relative ${
             activeTab === 'archived'
               ? 'text-teal-400 border-b-2 border-teal-400'
-              : 'text-slate-500 hover:text-slate-300'
+              : 'text-ink-muted hover:text-ink-muted'
           }`}
         >
           Archive
           {archivedCount > 0 && (
-            <span className="ml-2 bg-white/10 text-slate-400 px-2 py-0.5 rounded-full text-xs">
+            <span className="ml-2 bg-canvas-card text-ink-muted px-2 py-0.5 rounded-full text-xs">
               {archivedCount}
             </span>
           )}
         </button>
       </div>
 
-      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
-        <div className="p-4 border-b border-white/[0.06]">
+      <div className="rounded-xl border border-hairline bg-canvas-card overflow-hidden">
+        <div className="p-4 border-b border-hairline">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" size={16} />
             <input
               type="text"
               placeholder="Search your courses..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+              className="w-full bg-canvas-card border border-hairline rounded-lg pl-9 pr-3 py-2 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
+            <thead className="border-b border-hairline bg-canvas-card">
               <tr>
-                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Title</th>
-                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Students</th>
-                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Lessons</th>
-                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
-                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Approval</th>
-                <th className="text-right px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Title</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Students</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Lessons</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Status</th>
+                <th className="text-left px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Approval</th>
+                <th className="text-right px-6 py-3 text-[11px] font-bold uppercase tracking-widest text-ink-muted">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500 text-sm">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-muted text-sm">Loading...</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500 text-sm">No courses found</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-muted text-sm">No courses found</td></tr>
               ) : (
                 filtered.map((course) => (
-                  <tr key={course.id} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
+                  <tr key={course.id} className="border-b border-hairline hover:bg-canvas-card">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-white text-sm">{course.title}</div>
-                      <div className="text-xs text-slate-500">{course.category}</div>
+                      <div className="font-medium text-navy text-sm">{course.title}</div>
+                      <div className="text-xs text-ink-muted">{course.category}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-slate-300">{course._count?.enrollments || 0}</td>
-                    <td className="px-6 py-4 text-sm text-slate-300">{course._count?.lessons || 0}</td>
+                    <td className="px-6 py-4 text-sm text-ink-muted">{course._count?.enrollments || 0}</td>
+                    <td className="px-6 py-4 text-sm text-ink-muted">{course._count?.lessons || 0}</td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1">
                         <span className={`text-xs font-semibold px-2 py-1 rounded-full w-fit border ${
                           course.status === 'PUBLISHED' ? 'bg-teal-500/10 border-teal-500/20 text-teal-400' :
                           course.status === 'DRAFT' ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' :
                           course.status === 'DELETED' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
-                          'bg-white/5 border-white/10 text-slate-400'
+                          'bg-canvas-card border-hairline text-ink-muted'
                         }`}>{course.status}</span>
                         {activeTab !== 'archived' && course.approvalStatus === 'APPROVED' && (
                           <button
@@ -186,11 +186,11 @@ export default function InstructorCoursesPage() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {activeTab === 'archived' ? (
-                          <span className="text-xs text-slate-500 italic">Hidden in archive</span>
+                          <span className="text-xs text-ink-muted italic">Hidden in archive</span>
                         ) : (
                           <>
                             {course.status === 'PUBLISHED' ? (
-                              <Link href={`/courses/${course.slug}`} className="p-2 text-slate-500 hover:text-white transition-colors" title="Preview course">
+                              <Link href={`/courses/${course.slug}`} className="p-2 text-ink-muted hover:text-navy transition-colors" title="Preview course">
                                 <Eye size={16} />
                               </Link>
                             ) : (
@@ -198,10 +198,10 @@ export default function InstructorCoursesPage() {
                                 <Eye size={16} />
                               </span>
                             )}
-                            <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-slate-500 hover:text-teal-400 transition-colors" title="Edit course">
+                            <Link href={`/instructor/courses/${course.id}/edit`} className="p-2 text-ink-muted hover:text-teal-400 transition-colors" title="Edit course">
                               <Edit size={16} />
                             </Link>
-                            <button onClick={() => deleteCourse(course.id)} className="p-2 text-slate-500 hover:text-red-400 transition-colors" title="Move to archive"><Trash2 size={16} /></button>
+                            <button onClick={() => deleteCourse(course.id)} className="p-2 text-ink-muted hover:text-red-400 transition-colors" title="Move to archive"><Trash2 size={16} /></button>
                           </>
                         )}
                       </div>

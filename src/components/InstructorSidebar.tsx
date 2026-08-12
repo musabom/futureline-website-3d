@@ -16,8 +16,8 @@ export default function InstructorSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-slate-950/80 backdrop-blur-2xl border-r border-white/[0.06] flex flex-col min-h-screen sticky top-0">
-      <div className="p-6 border-b border-white/[0.06]">
+    <aside className="w-64 bg-canvas-card backdrop-blur-2xl border-r border-hairline flex flex-col min-h-screen sticky top-0">
+      <div className="p-6 border-b border-hairline">
         <Link href="/instructor" className="flex items-center gap-2">
           <div>
             <span
@@ -31,7 +31,7 @@ export default function InstructorSidebar() {
             >
               FutureLine
             </span>
-            <span className="text-[10px] text-slate-500 uppercase tracking-widest">Instructor Portal</span>
+            <span className="text-[10px] text-ink-muted uppercase tracking-widest">Instructor Portal</span>
           </div>
         </Link>
       </div>
@@ -46,7 +46,7 @@ export default function InstructorSidebar() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 ${
                 isActive
                   ? 'bg-teal-500/10 text-teal-400 border-teal-400'
-                  : 'text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent'
+                  : 'text-ink-muted hover:bg-canvas-card hover:text-ink-muted border-transparent'
               }`}
             >
               <link.icon size={18} />
@@ -56,17 +56,17 @@ export default function InstructorSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/[0.06] space-y-1">
+      <div className="p-4 border-t border-hairline space-y-1">
         <Link
           href="/"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-ink-muted hover:bg-canvas-card hover:text-ink-muted border-transparent"
         >
           <Home size={18} />
           <span className="text-sm">View Site</span>
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-slate-500 hover:bg-white/5 hover:text-slate-300 border-transparent w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 border-l-2 text-ink-muted hover:bg-canvas-card hover:text-ink-muted border-transparent w-full"
         >
           <LogOut size={18} />
           <span className="text-sm">Sign Out</span>

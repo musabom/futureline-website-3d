@@ -5,8 +5,8 @@ import { slugify } from '@/lib/utils';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-const labelClass = 'block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2';
-const selectClass = 'input-field [&>option]:bg-slate-900';
+const labelClass = 'block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2';
+const selectClass = 'input-field [&>option]:bg-canvas-alt';
 
 export default function NewInstructorCoursePage() {
   const router = useRouter();
@@ -75,13 +75,13 @@ export default function NewInstructorCoursePage() {
 
   return (
     <div>
-      <Link href="/instructor/courses" className="inline-flex items-center gap-2 text-slate-500 hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
+      <Link href="/instructor/courses" className="inline-flex items-center gap-2 text-ink-muted hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
         <ArrowLeft size={14} /> Back to My Courses
       </Link>
-      <h1 className="text-2xl font-black text-white tracking-tight mb-1">Create New Course</h1>
-      <p className="text-slate-500 text-sm mb-8">Your course will be submitted for admin approval before it goes live.</p>
+      <h1 className="text-2xl font-black text-navy tracking-tight mb-1">Create New Course</h1>
+      <p className="text-ink-muted text-sm mb-8">Your course will be submitted for admin approval before it goes live.</p>
 
-      <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-8 max-w-4xl space-y-6">
+      <form onSubmit={handleSubmit} className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-8 max-w-4xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
             <label className={labelClass}>Title</label>
@@ -126,11 +126,11 @@ export default function NewInstructorCoursePage() {
             <div className="flex gap-3 mb-4">
               <button type="button" onClick={() => handleFreeToggle(true)}
                 className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
-                  isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                  isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-hairline text-ink-muted hover:border-hairline hover:text-ink-muted'
                 }`}>Free</button>
               <button type="button" onClick={() => handleFreeToggle(false)}
                 className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
-                  !isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                  !isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-hairline text-ink-muted hover:border-hairline hover:text-ink-muted'
                 }`}>Paid</button>
             </div>
             {isFree ? (
@@ -140,20 +140,20 @@ export default function NewInstructorCoursePage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Price (OMR)</label>
-                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
-                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                  <label className="block text-xs font-bold text-ink-muted mb-1.5">Price (OMR)</label>
+                  <div className="flex rounded-lg border border-hairline overflow-hidden focus-within:border-teal-500/50 bg-canvas-card">
+                    <span className="px-3 border-r border-hairline flex items-center text-xs font-bold text-ink-muted whitespace-nowrap">OMR</span>
                     <input name="price" type="number" step="0.001" min="0" value={form.price} onChange={handleChange}
-                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-navy placeholder:text-ink-muted"
                       placeholder="0.000" required={!isFree} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Discount Price (OMR) — optional</label>
-                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
-                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                  <label className="block text-xs font-bold text-ink-muted mb-1.5">Discount Price (OMR) — optional</label>
+                  <div className="flex rounded-lg border border-hairline overflow-hidden focus-within:border-teal-500/50 bg-canvas-card">
+                    <span className="px-3 border-r border-hairline flex items-center text-xs font-bold text-ink-muted whitespace-nowrap">OMR</span>
                     <input name="discountPrice" type="number" step="0.001" min="0" value={form.discountPrice} onChange={handleChange}
-                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-navy placeholder:text-ink-muted"
                       placeholder="0.000" />
                   </div>
                 </div>
@@ -184,11 +184,11 @@ export default function NewInstructorCoursePage() {
           <div className="md:col-span-2">
             <label className={labelClass}>Marketing Video URL (optional)</label>
             <input name="marketingVideoUrl" value={form.marketingVideoUrl} onChange={handleChange} className="input-field" placeholder="YouTube or Vimeo URL for course preview" />
-            <p className="text-xs text-slate-600 mt-1.5">Paste a Vimeo or YouTube link that will display on the course detail page</p>
+            <p className="text-xs text-ink-muted mt-1.5">Paste a Vimeo or YouTube link that will display on the course detail page</p>
           </div>
         </div>
 
-        <div className="flex gap-4 pt-4 border-t border-white/[0.06]">
+        <div className="flex gap-4 pt-4 border-t border-hairline">
           <button type="submit" disabled={loading} className="btn-primary">
             {loading ? 'Submitting…' : 'Submit for Approval'}
           </button>

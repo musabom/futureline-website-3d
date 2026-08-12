@@ -43,15 +43,15 @@ export default function ChangePasswordForm() {
   };
 
   const inputClass =
-    'w-full px-4 py-3 bg-white/[0.04] border border-white/[0.1] rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-teal-500/20 focus:border-teal-500/50 transition-colors text-sm';
+    'w-full px-4 py-3 bg-canvas-card border border-hairline rounded-lg text-navy placeholder:text-ink-muted focus:outline-none focus:ring-1 focus:ring-teal-500/20 focus:border-teal-500/50 transition-colors text-sm';
 
   return (
-    <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+    <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-9 h-9 bg-teal-500/10 border border-teal-500/20 rounded-lg flex items-center justify-center">
           <KeyRound size={16} className="text-teal-400" />
         </div>
-        <h3 className="text-base font-black text-white tracking-tight">Change Password</h3>
+        <h3 className="text-base font-black text-navy tracking-tight">Change Password</h3>
       </div>
 
       {message.text && (
@@ -66,7 +66,7 @@ export default function ChangePasswordForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Current Password</label>
+          <label className="block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2">Current Password</label>
           <input
             type="password"
             value={currentPassword}
@@ -76,7 +76,7 @@ export default function ChangePasswordForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">New Password</label>
+          <label className="block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2">New Password</label>
           <input
             type="password"
             value={newPassword}
@@ -87,7 +87,7 @@ export default function ChangePasswordForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Confirm New Password</label>
+          <label className="block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2">Confirm New Password</label>
           <input
             type="password"
             value={confirmPassword}
@@ -100,7 +100,7 @@ export default function ChangePasswordForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
         >
           {loading ? 'Updating…' : 'Update Password'}
         </button>

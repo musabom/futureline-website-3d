@@ -7,7 +7,7 @@ export default function AdminSettingsPage() {
     <div className="max-w-4xl mx-auto py-8 px-4">
       <div className="flex items-center gap-3 mb-8">
         <Shield className="text-teal-400" size={28} />
-        <h1 className="text-2xl font-black text-white tracking-tight">Admin Security Settings</h1>
+        <h1 className="text-2xl font-black text-navy tracking-tight">Admin Security Settings</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -15,9 +15,9 @@ export default function AdminSettingsPage() {
           <ChangePasswordForm />
         </div>
 
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
-          <h3 className="text-sm font-bold text-white mb-4">Security Recommendations</h3>
-          <ul className="space-y-3 text-sm text-slate-400">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
+          <h3 className="text-sm font-bold text-navy mb-4">Security Recommendations</h3>
+          <ul className="space-y-3 text-sm text-ink-muted">
             <li className="flex items-start gap-2">
               <span className="text-teal-400 font-bold">•</span>
               Use a strong password with at least 12 characters.

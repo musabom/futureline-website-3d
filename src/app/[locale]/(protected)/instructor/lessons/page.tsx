@@ -88,9 +88,9 @@ function SortableLesson({
   }
 
   return (
-    <div ref={setNodeRef} style={style} className={`flex items-center justify-between px-5 py-3 transition-colors ${isDragging ? 'bg-teal-500/[0.05]' : 'hover:bg-white/[0.02]'}`}>
+    <div ref={setNodeRef} style={style} className={`flex items-center justify-between px-5 py-3 transition-colors ${isDragging ? 'bg-teal-500/[0.05]' : 'hover:bg-canvas-card'}`}>
       <div className="flex items-center gap-3">
-        <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-0.5 text-slate-600 hover:text-slate-400 touch-none" title="Drag to reorder lesson">
+        <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-0.5 text-ink-muted hover:text-ink-muted touch-none" title="Drag to reorder lesson">
           <GripVertical size={16} />
         </button>
         {lesson.lessonType === 'QUIZ'
@@ -98,20 +98,20 @@ function SortableLesson({
           : <BookOpen className="text-teal-400 flex-shrink-0" size={16} />
         }
         <div>
-          <span className="text-sm font-medium text-slate-300">{lesson.lessonTitle}</span>
+          <span className="text-sm font-medium text-ink-muted">{lesson.lessonTitle}</span>
           <div className="flex items-center gap-2 mt-0.5">
             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-widest ${lesson.lessonType === 'QUIZ' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-teal-500/10 border-teal-500/20 text-teal-400'}`}>
               {lesson.lessonType}
             </span>
-            {lesson.videoUrl && <span className="text-[10px] text-slate-600 flex items-center gap-0.5"><Video size={10} /> Video</span>}
-            {lesson.content && <span className="text-[10px] text-slate-600 flex items-center gap-0.5"><FileText size={10} /> Notes</span>}
-            {lesson.lessonType === 'QUIZ' && lesson.questions?.length > 0 && <span className="text-[10px] text-slate-600">{lesson.questions.length} questions</span>}
+            {lesson.videoUrl && <span className="text-[10px] text-ink-muted flex items-center gap-0.5"><Video size={10} /> Video</span>}
+            {lesson.content && <span className="text-[10px] text-ink-muted flex items-center gap-0.5"><FileText size={10} /> Notes</span>}
+            {lesson.lessonType === 'QUIZ' && lesson.questions?.length > 0 && <span className="text-[10px] text-ink-muted">{lesson.questions.length} questions</span>}
           </div>
         </div>
       </div>
       <div className="flex items-center gap-1">
-        <button onClick={() => startEdit(lesson)} className="p-2 text-slate-500 hover:text-teal-400 rounded-lg transition-colors"><Edit size={14} /></button>
-        <button onClick={() => lesson.id && deleteLesson(lesson.id)} className="p-2 text-slate-500 hover:text-red-400 rounded-lg transition-colors"><Trash2 size={14} /></button>
+        <button onClick={() => startEdit(lesson)} className="p-2 text-ink-muted hover:text-teal-400 rounded-lg transition-colors"><Edit size={14} /></button>
+        <button onClick={() => lesson.id && deleteLesson(lesson.id)} className="p-2 text-ink-muted hover:text-red-400 rounded-lg transition-colors"><Trash2 size={14} /></button>
       </div>
     </div>
   );
@@ -156,10 +156,10 @@ function SortableModule({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={`rounded-xl border overflow-hidden transition-all ${isDragging ? 'border-teal-500/30 shadow-xl shadow-teal-500/10 bg-slate-950/60' : 'border-white/[0.07] bg-slate-950/40 backdrop-blur-sm'}`}>
-      <div className="flex items-center justify-between px-5 py-4 bg-white/[0.02] border-b border-white/[0.05]">
+    <div ref={setNodeRef} style={style} className={`rounded-xl border overflow-hidden transition-all ${isDragging ? 'border-teal-500/30 shadow-xl shadow-teal-500/10 bg-canvas-card' : 'border-hairline bg-canvas-card backdrop-blur-sm'}`}>
+      <div className="flex items-center justify-between px-5 py-4 bg-canvas-card border-b border-hairline">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-slate-600 hover:text-slate-400 touch-none flex-shrink-0" title="Drag to reorder module">
+          <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-ink-muted hover:text-ink-muted touch-none flex-shrink-0" title="Drag to reorder module">
             <GripVertical size={20} />
           </button>
           {isRenaming ? (
@@ -168,29 +168,29 @@ function SortableModule({
                 onKeyDown={e => { if (e.key === 'Enter') handleRenameSubmit(); if (e.key === 'Escape') { setIsRenaming(false); setRenameValue(moduleName); } }}
                 className="input-field text-sm flex-1" autoFocus />
               <button onClick={handleRenameSubmit} className="p-1.5 text-teal-400 hover:bg-teal-500/10 rounded-lg flex-shrink-0" title="Save name"><Check size={16} /></button>
-              <button onClick={() => { setIsRenaming(false); setRenameValue(moduleName); }} className="p-1.5 text-slate-500 hover:text-slate-300 rounded-lg flex-shrink-0" title="Cancel"><X size={16} /></button>
+              <button onClick={() => { setIsRenaming(false); setRenameValue(moduleName); }} className="p-1.5 text-ink-muted hover:text-ink-muted rounded-lg flex-shrink-0" title="Cancel"><X size={16} /></button>
             </div>
           ) : (
             <button onClick={() => toggleModule(moduleName)} className="flex items-center gap-3 text-left flex-1 min-w-0">
-              {isExpanded ? <ChevronDown className="text-teal-400 flex-shrink-0" size={20} /> : <ChevronRight className="text-slate-500 flex-shrink-0" size={20} />}
+              {isExpanded ? <ChevronDown className="text-teal-400 flex-shrink-0" size={20} /> : <ChevronRight className="text-ink-muted flex-shrink-0" size={20} />}
               <div className="min-w-0">
-                <h3 className="font-bold text-white text-sm truncate">Module {moduleIndex + 1}: {moduleName}</h3>
-                <span className="text-[11px] text-slate-500">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
+                <h3 className="font-bold text-navy text-sm truncate">Module {moduleIndex + 1}: {moduleName}</h3>
+                <span className="text-[11px] text-ink-muted">{moduleLessons.length} lesson{moduleLessons.length !== 1 ? 's' : ''}</span>
               </div>
             </button>
           )}
         </div>
         {!isRenaming && (
           <div className="flex items-center gap-1 flex-shrink-0">
-            <button onClick={() => { setIsRenaming(true); setRenameValue(moduleName); }} className="p-2 text-slate-500 hover:text-slate-300 rounded-lg transition-colors" title="Rename module"><Pencil size={14} /></button>
+            <button onClick={() => { setIsRenaming(true); setRenameValue(moduleName); }} className="p-2 text-ink-muted hover:text-ink-muted rounded-lg transition-colors" title="Rename module"><Pencil size={14} /></button>
             <button onClick={() => startAddLesson(moduleName)} className="p-2 text-teal-400 hover:bg-teal-500/10 rounded-lg transition-colors" title="Add lesson"><Plus size={16} /></button>
-            <button onClick={() => deleteModule(moduleName)} className="p-2 text-slate-500 hover:text-red-400 rounded-lg transition-colors" title="Delete module"><Trash2 size={16} /></button>
+            <button onClick={() => deleteModule(moduleName)} className="p-2 text-ink-muted hover:text-red-400 rounded-lg transition-colors" title="Delete module"><Trash2 size={16} /></button>
           </div>
         )}
       </div>
 
       {isExpanded && (
-        <div className="divide-y divide-white/[0.04]">
+        <div className="divide-y divide-hairline">
           {moduleLessons.length > 0 ? (
             <DndContext sensors={lessonSensors} collisionDetection={closestCenter} onDragEnd={(event) => onLessonDragEnd(moduleName, event)}>
               <SortableContext items={lessonIds} strategy={verticalListSortingStrategy}>
@@ -204,7 +204,7 @@ function SortableModule({
             </DndContext>
           ) : (
             !(addingTo === moduleName && newLesson) && (
-              <div className="px-5 py-8 text-center text-slate-500 text-sm">
+              <div className="px-5 py-8 text-center text-ink-muted text-sm">
                 No lessons yet.{' '}
                 <button onClick={() => startAddLesson(moduleName)} className="text-teal-400 hover:underline">Add one</button>
               </div>
@@ -402,13 +402,13 @@ export default function InstructorLessonsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-black text-white tracking-tight">Course Builder</h1>
+        <h1 className="text-2xl font-black text-navy tracking-tight">Course Builder</h1>
         {reordering && <span className="text-xs text-teal-400 font-bold uppercase tracking-widest animate-pulse">Saving order…</span>}
       </div>
 
       <div className="mb-6">
-        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Select Course</label>
-        <select value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} className="input-field max-w-md [&>option]:bg-slate-900">
+        <label className="block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2">Select Course</label>
+        <select value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} className="input-field max-w-md [&>option]:bg-canvas-alt">
           <option value="">Choose a course…</option>
           {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
         </select>
@@ -441,10 +441,10 @@ export default function InstructorLessonsPage() {
           </DndContext>
 
           {allModuleNames.length === 0 && !addingTo && (
-            <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-12 text-center">
+            <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-12 text-center">
               <BookOpen className="text-slate-700 mx-auto mb-4" size={48} />
-              <h3 className="text-base font-bold text-slate-400 mb-2">No modules yet</h3>
-              <p className="text-slate-500 text-sm">Click &ldquo;Add Module&rdquo; to start building your course</p>
+              <h3 className="text-base font-bold text-ink-muted mb-2">No modules yet</h3>
+              <p className="text-ink-muted text-sm">Click &ldquo;Add Module&rdquo; to start building your course</p>
             </div>
           )}
         </>
@@ -473,11 +473,11 @@ function LessonForm({ lesson, onChange, onSave, onCancel, saving }: {
   const removeQuestion = (index: number) => onChange({ ...lesson, questions: lesson.questions.filter((_, i) => i !== index) });
 
   return (
-    <div className="px-5 py-5 bg-slate-900/40 border-l-4 border-l-teal-500">
+    <div className="px-5 py-5 bg-canvas-alt border-l-4 border-l-teal-500">
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <input value={lesson.lessonTitle} onChange={e => onChange({ ...lesson, lessonTitle: e.target.value })} placeholder="Lesson Title" className="input-field md:col-span-2" required />
-          <select value={lesson.lessonType} onChange={e => onChange({ ...lesson, lessonType: e.target.value as 'CONTENT' | 'QUIZ' })} className="input-field [&>option]:bg-slate-900">
+          <select value={lesson.lessonType} onChange={e => onChange({ ...lesson, lessonType: e.target.value as 'CONTENT' | 'QUIZ' })} className="input-field [&>option]:bg-canvas-alt">
             <option value="CONTENT">Content Lesson</option>
             <option value="QUIZ">Quiz / Exercise</option>
           </select>
@@ -488,7 +488,7 @@ function LessonForm({ lesson, onChange, onSave, onCancel, saving }: {
             <input value={lesson.videoUrl}
               onChange={e => { let val = e.target.value; if (val.includes('<iframe')) { const m = val.match(/src="([^"]+)"/); if (m) val = m[1]; } onChange({ ...lesson, videoUrl: val }); }}
               placeholder="YouTube or Vimeo URL (optional)" className="input-field" />
-            <p className="text-[10px] text-slate-600 mt-1">Paste a Vimeo/YouTube link, player URL, or full embed code.</p>
+            <p className="text-[10px] text-ink-muted mt-1">Paste a Vimeo/YouTube link, player URL, or full embed code.</p>
             <textarea value={lesson.content} onChange={e => onChange({ ...lesson, content: e.target.value })} placeholder="Lesson Notes (shown to students)" className="input-field" rows={4} />
             <input value={lesson.resources} onChange={e => onChange({ ...lesson, resources: e.target.value })} placeholder="Attachment URLs (one per line, optional)" className="input-field" />
           </div>
@@ -498,10 +498,10 @@ function LessonForm({ lesson, onChange, onSave, onCancel, saving }: {
           <div className="space-y-4">
             <textarea value={lesson.content} onChange={e => onChange({ ...lesson, content: e.target.value })} placeholder="Quiz instructions or description (optional)" className="input-field" rows={2} />
             {lesson.questions.map((q, qi) => (
-              <div key={qi} className="rounded-xl border border-white/[0.07] bg-slate-900/50 p-4">
+              <div key={qi} className="rounded-xl border border-hairline bg-canvas-alt p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-bold text-white">Question {qi + 1}</span>
-                  <button onClick={() => removeQuestion(qi)} className="p-1 text-slate-500 hover:text-red-400 transition-colors"><X size={14} /></button>
+                  <span className="text-sm font-bold text-navy">Question {qi + 1}</span>
+                  <button onClick={() => removeQuestion(qi)} className="p-1 text-ink-muted hover:text-red-400 transition-colors"><X size={14} /></button>
                 </div>
                 <input value={q.question} onChange={e => updateQuestion(qi, 'question', e.target.value)} placeholder="Enter question…" className="input-field mb-3" />
                 <div className="space-y-2">
@@ -512,7 +512,7 @@ function LessonForm({ lesson, onChange, onSave, onCancel, saving }: {
                     </div>
                   ))}
                 </div>
-                <p className="text-[10px] text-slate-600 mt-2">Select the radio button next to the correct answer</p>
+                <p className="text-[10px] text-ink-muted mt-2">Select the radio button next to the correct answer</p>
               </div>
             ))}
             <button onClick={addQuestion} className="flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors"><Plus size={14} /> Add Question</button>

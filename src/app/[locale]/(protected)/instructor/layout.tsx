@@ -11,7 +11,7 @@ export default async function InstructorLayout({ children }: { children: React.R
     <div className="flex min-h-screen">
       <InactivityWatcher timeoutMinutes={30} />
       <InstructorSidebar />
-      <main className="flex-1 fl-dark-surface bg-[#030d1a] overflow-auto">
+      <main className="flex-1 bg-canvas overflow-auto">
         <div className="p-8">{children}</div>
       </main>
     </div>

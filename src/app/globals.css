@@ -44,15 +44,15 @@
     }
   }
 
-  /* Selection */
+  /* Selection — light canvas default. */
   ::selection {
-    background: rgba(24, 169, 153, 0.35);
-    color: #fff;
+    background: rgba(24, 169, 153, 0.25);
+    color: #0f1e3d;
   }
 }
 
 @layer components {
-  /* Dark glassmorphic design system — updated for v2 */
+  /* Shared component classes. Light canvas since the redesign. */
   .btn-primary {
     @apply bg-gradient-to-r from-teal-500 to-blue-600 text-white px-6 py-3 rounded-lg font-bold
            transition-all duration-300 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]
@@ -60,75 +60,75 @@
   }
 
   .btn-secondary {
-    @apply border border-white/20 text-white px-6 py-3 rounded-lg font-bold
-           transition-all duration-300 hover:bg-white/10;
+    @apply border border-hairline text-ink px-6 py-3 rounded-lg font-bold
+           transition-all duration-300 hover:bg-canvas-alt hover:border-teal/40;
   }
 
   .card {
-    @apply rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm
-           transition-all duration-300 hover:border-teal-500/20;
+    @apply rounded-xl border border-hairline bg-canvas-card
+           transition-all duration-300 hover:border-teal/30 hover:shadow-[var(--fl-elev-2)];
   }
 
   .input-field {
-    @apply w-full px-4 py-3 bg-white/[0.04] border border-white/[0.1] rounded-lg
-           text-white placeholder:text-slate-600
-           focus:outline-none focus:ring-1 focus:ring-teal-500/20 focus:border-teal-500/50
+    @apply w-full px-4 py-3 bg-canvas-card border border-hairline rounded-lg
+           text-ink placeholder:text-ink-muted/60
+           focus:outline-none focus:ring-1 focus:ring-teal/25 focus:border-teal/60
            transition-all duration-200 text-sm;
   }
 
   .admin-sidebar-item {
-    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400
-           transition-all duration-200 hover:bg-white/[0.05] hover:text-white;
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-ink-muted
+           transition-all duration-200 hover:bg-canvas-alt hover:text-navy;
   }
 
   .admin-sidebar-item.active {
-    @apply bg-teal-500/10 text-teal-400 border-l-2 border-teal-400;
+    @apply bg-teal/10 text-teal-dark border-s-2 border-teal;
   }
 
-  /* Form primitives for the 3D-redesigned public surfaces.
-     Kept separate from .input-field / .btn-primary so admin/instructor
-     pages keep their existing chrome. */
+  /* Form primitives used by the public enquiry forms. Kept separate from
+     .input-field so admin tooling can diverge without touching them. */
   .fl-label {
-    @apply mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-white/45;
+    @apply mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted;
   }
 
   .fl-input {
-    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
-           text-sm text-white placeholder:text-white/30
-           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+    @apply w-full rounded-md border border-hairline bg-canvas-card px-4 py-3
+           text-sm text-ink placeholder:text-ink-muted/60
+           transition-colors focus:border-teal/60 focus:outline-none focus:ring-1 focus:ring-teal/25;
   }
 
   .fl-textarea {
-    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
-           text-sm text-white placeholder:text-white/30 resize-none
-           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+    @apply w-full rounded-md border border-hairline bg-canvas-card px-4 py-3
+           text-sm text-ink placeholder:text-ink-muted/60 resize-none
+           transition-colors focus:border-teal/60 focus:outline-none focus:ring-1 focus:ring-teal/25;
   }
 
   .fl-select {
-    @apply w-full rounded-md border border-white/[0.12] bg-white/[0.03] px-4 py-3
-           text-sm text-white placeholder:text-white/30
-           transition-colors focus:border-lab/60 focus:outline-none focus:ring-1 focus:ring-lab/30;
+    @apply w-full rounded-md border border-hairline bg-canvas-card px-4 py-3
+           text-sm text-ink placeholder:text-ink-muted/60
+           transition-colors focus:border-teal/60 focus:outline-none focus:ring-1 focus:ring-teal/25;
   }
 
   .fl-submit {
-    @apply flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5
-           text-sm font-medium text-black transition-colors
-           hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex w-full items-center justify-center gap-2 rounded-full
+           bg-gradient-to-r from-navy via-teal to-mint px-6 py-3.5
+           text-sm font-medium text-white transition-opacity
+           hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .fl-submit-ghost {
-    @apply flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5
-           text-sm font-medium text-white/85 transition-colors
-           hover:border-white/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex w-full items-center justify-center gap-2 rounded-full border border-hairline px-6 py-3.5
+           text-sm font-medium text-ink transition-colors
+           hover:border-teal/50 hover:text-navy disabled:cursor-not-allowed disabled:opacity-50;
   }
 }
 
-/* Ensure native select <option> elements use the dark background. The arbitrary
-   variant version is incompatible with @apply, so we use a plain selector. */
+/* Native <option> can't be styled via @apply's arbitrary variants, so it needs
+   a plain selector to match the light control. */
 .fl-select > option,
 select.fl-input > option {
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #0f1e3d;
 }
 
 /* ============================================================================
@@ -250,37 +250,6 @@ select.fl-input > option {
   .fl-dark-surface ::selection {
     background: rgba(24, 169, 153, 0.35);
     color: #fff;
-  }
-
-  /* Light variants of the shared form primitives.
-     Scoping these rather than adding a variant prop means AuditEnquiryForm
-     and friends render correctly on a light surface without touching their
-     markup — so /audit keeps its current dark styling byte-for-byte and
-     there is no second copy of the form to keep in sync. */
-  .fl-light .fl-label {
-    @apply text-ink-muted;
-  }
-
-  .fl-light .fl-input,
-  .fl-light .fl-textarea,
-  .fl-light .fl-select {
-    @apply border-hairline bg-canvas-card text-ink placeholder:text-ink-muted/60
-           focus:border-teal/60 focus:ring-teal/20;
-  }
-
-  .fl-light .fl-select > option,
-  .fl-light select.fl-input > option {
-    background: #fff;
-    color: #0f1e3d;
-  }
-
-  .fl-light .fl-submit {
-    @apply bg-gradient-to-r from-navy via-teal to-mint text-white
-           hover:opacity-95;
-  }
-
-  .fl-light .fl-submit-ghost {
-    @apply border-hairline text-ink hover:border-teal/50 hover:text-navy;
   }
 }
 

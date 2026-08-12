@@ -56,24 +56,24 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-white tracking-tight mb-8">Orders</h1>
-      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
-        <div className="p-4 border-b border-white/[0.06] flex flex-col sm:flex-row gap-3">
+      <h1 className="text-2xl font-black text-navy tracking-tight mb-8">Orders</h1>
+      <div className="rounded-xl border border-hairline bg-canvas-card overflow-hidden">
+        <div className="p-4 border-b border-hairline flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" size={18} />
             <input
               type="text"
               placeholder="Search orders..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
+              className="bg-canvas-card border border-hairline rounded-lg px-3 py-2 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 w-full pl-9"
             />
           </div>
           {instructors.length > 0 && (
             <select
               value={instructorFilter}
               onChange={e => setInstructorFilter(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50 sm:w-56"
+              className="bg-canvas-card border border-hairline rounded-lg px-3 py-2 text-sm text-ink-muted focus:outline-none focus:border-teal-500/50 sm:w-56"
             >
               <option value="">All Instructors</option>
               {instructors.map(i => (
@@ -84,34 +84,34 @@ export default function AdminOrdersPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
+            <thead className="border-b border-hairline bg-canvas-card">
               <tr>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Customer</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Course</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Instructor</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Amount</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Method</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Customer</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Course</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Instructor</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Amount</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Method</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Status</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Date</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map(o => (
-                <tr key={o.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                <tr key={o.id} className="border-b border-hairline hover:bg-canvas-card transition-colors">
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-slate-200">{o.user?.firstName} {o.user?.lastName}</div>
-                    <div className="text-xs text-slate-500">{o.user?.email}</div>
+                    <div className="text-sm font-medium text-ink">{o.user?.firstName} {o.user?.lastName}</div>
+                    <div className="text-xs text-ink-muted">{o.user?.email}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-300">{o.course?.title}</td>
-                  <td className="px-6 py-4 text-sm text-slate-300">
+                  <td className="px-6 py-4 text-sm text-ink-muted">{o.course?.title}</td>
+                  <td className="px-6 py-4 text-sm text-ink-muted">
                     {o.course?.instructor
                       ? `${o.course.instructor.firstName} ${o.course.instructor.lastName}`
-                      : <span className="text-slate-600">—</span>}
+                      : <span className="text-ink-muted">—</span>}
                   </td>
-                  <td className="px-6 py-4 text-sm font-medium text-white">{formatPrice(o.amount)}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-navy">{formatPrice(o.amount)}</td>
                   <td className="px-6 py-4">
-                    <span className="text-xs font-medium text-slate-400">
+                    <span className="text-xs font-medium text-ink-muted">
                       {o.paymentMethod === 'BANK_TRANSFER' ? 'Bank Transfer' : o.paymentMethod || '—'}
                     </span>
                   </td>
@@ -124,7 +124,7 @@ export default function AdminOrdersPage() {
                       {o.paymentStatus}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-500">
+                  <td className="px-6 py-4 text-sm text-ink-muted">
                     {new Date(o.createdAt).toLocaleDateString('en-GB')}
                   </td>
                   <td className="px-6 py-4">
@@ -150,14 +150,14 @@ export default function AdminOrdersPage() {
                         </button>
                       </div>
                     ) : (
-                      <span className="text-xs text-slate-600">—</span>
+                      <span className="text-xs text-ink-muted">—</span>
                     )}
                   </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-slate-600">No orders found</td>
+                  <td colSpan={8} className="px-6 py-12 text-center text-ink-muted">No orders found</td>
                 </tr>
               )}
             </tbody>

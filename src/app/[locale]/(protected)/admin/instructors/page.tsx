@@ -213,8 +213,8 @@ export default function AdminInstructorsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight">Manage Instructors</h1>
-          <p className="text-slate-400 text-sm mt-1">{instructors.length} instructors</p>
+          <h1 className="text-2xl font-black text-navy tracking-tight">Manage Instructors</h1>
+          <p className="text-ink-muted text-sm mt-1">{instructors.length} instructors</p>
         </div>
         <button
           type="button"
@@ -227,89 +227,89 @@ export default function AdminInstructorsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
               <Users size={24} className="text-teal-400" />
             </div>
             <div>
-              <div className="text-3xl font-black text-white">{instructors.length}</div>
-              <div className="text-sm text-slate-400">Total Instructors</div>
+              <div className="text-3xl font-black text-navy">{instructors.length}</div>
+              <div className="text-sm text-ink-muted">Total Instructors</div>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
               <BookOpen size={24} className="text-teal-400" />
             </div>
             <div>
-              <div className="text-3xl font-black text-white">
+              <div className="text-3xl font-black text-navy">
                 {instructors.reduce((sum, i) => sum + i._count.courses, 0)}
               </div>
-              <div className="text-sm text-slate-400">Total Courses</div>
+              <div className="text-sm text-ink-muted">Total Courses</div>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
+        <div className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center">
               <Percent size={24} className="text-teal-400" />
             </div>
             <div>
-              <div className="text-3xl font-black text-white">
+              <div className="text-3xl font-black text-navy">
                 {instructors.length > 0 ? Math.round(instructors.reduce((sum, i) => sum + i.commissionRate, 0) / instructors.length) : 0}%
               </div>
-              <div className="text-sm text-slate-400">Avg. Instructor Share</div>
+              <div className="text-sm text-ink-muted">Avg. Instructor Share</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 overflow-hidden">
-        <div className="p-4 border-b border-white/[0.06]">
+      <div className="rounded-xl border border-hairline bg-canvas-card overflow-hidden">
+        <div className="p-4 border-b border-hairline">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" size={18} />
             <input
               type="text"
               placeholder="Search instructors..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 w-full pl-9"
+              className="bg-canvas-card border border-hairline rounded-lg px-3 py-2 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 w-full pl-9"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-white/[0.06] bg-white/[0.02]">
+            <thead className="border-b border-hairline bg-canvas-card">
               <tr>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Instructor</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Courses</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Students</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Revenue Split</th>
-                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
-                <th className="px-6 py-3 text-right text-[11px] font-bold uppercase tracking-widest text-slate-500">Actions</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Instructor</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Courses</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Students</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Revenue Split</th>
+                <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-ink-muted">Status</th>
+                <th className="px-6 py-3 text-right text-[11px] font-bold uppercase tracking-widest text-ink-muted">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-500">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-muted">Loading...</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-slate-600">No instructors found</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-ink-muted">No instructors found</td></tr>
               ) : (
                 filtered.map((instructor) => (
                   <Fragment key={instructor.id}>
-                  <tr className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                  <tr className="border-b border-hairline hover:bg-canvas-card transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-slate-200 text-sm">{instructor.firstName} {instructor.lastName}</div>
-                      <div className="text-xs text-slate-500">{instructor.email}</div>
+                      <div className="font-medium text-ink text-sm">{instructor.firstName} {instructor.lastName}</div>
+                      <div className="text-xs text-ink-muted">{instructor.email}</div>
                       {/* Bio summary line — shows current bio (truncated) or
                           a placeholder. Click to expand the inline editor. */}
                       <button
                         type="button"
                         onClick={() => openBioEditor(instructor)}
-                        className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-teal-400 transition-colors group"
+                        className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-ink-muted hover:text-teal-400 transition-colors group"
                       >
                         <Pencil size={11} className="flex-shrink-0 opacity-60 group-hover:opacity-100" />
                         {instructor.bio
@@ -317,24 +317,24 @@ export default function AdminInstructorsPage() {
                           : <span className="uppercase tracking-widest font-bold">Add bio</span>}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-sm text-slate-300">{instructor._count.courses}</td>
-                    <td className="px-6 py-4 text-sm text-slate-300">{instructor.totalStudents}</td>
+                    <td className="px-6 py-4 text-sm text-ink-muted">{instructor._count.courses}</td>
+                    <td className="px-6 py-4 text-sm text-ink-muted">{instructor.totalStudents}</td>
                     <td className="px-6 py-4">
                       {editingId === instructor.id ? (
                         <div className="flex items-center gap-2">
                           <div className="flex items-center gap-1">
-                            <span className="text-xs text-slate-500">Instructor:</span>
+                            <span className="text-xs text-ink-muted">Instructor:</span>
                             <input
                               type="number"
                               min="0"
                               max="100"
                               value={editRate}
                               onChange={e => setEditRate(Number(e.target.value))}
-                              className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-sm text-slate-300 focus:outline-none focus:border-teal-500/50 w-16"
+                              className="bg-canvas-card border border-hairline rounded-lg px-2 py-1 text-sm text-ink-muted focus:outline-none focus:border-teal-500/50 w-16"
                             />
-                            <span className="text-xs text-slate-500">%</span>
+                            <span className="text-xs text-ink-muted">%</span>
                           </div>
-                          <span className="text-xs text-slate-500">You: {100 - editRate}%</span>
+                          <span className="text-xs text-ink-muted">You: {100 - editRate}%</span>
                           <button
                             onClick={() => saveCommission(instructor.id)}
                             disabled={saving}
@@ -346,11 +346,11 @@ export default function AdminInstructorsPage() {
                       ) : (
                         <button
                           onClick={() => { setEditingId(instructor.id); setEditRate(instructor.commissionRate); }}
-                          className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                          className="text-sm text-ink-muted hover:text-ink transition-colors"
                         >
                           <span className="font-medium text-teal-400">{instructor.commissionRate}%</span>
-                          <span className="text-slate-600"> / </span>
-                          <span className="text-slate-500">{100 - instructor.commissionRate}% platform</span>
+                          <span className="text-ink-muted"> / </span>
+                          <span className="text-ink-muted">{100 - instructor.commissionRate}% platform</span>
                         </button>
                       )}
                     </td>
@@ -366,7 +366,7 @@ export default function AdminInstructorsPage() {
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => toggleActive(instructor.id, instructor.isActive)}
-                        className={`p-2 rounded-lg transition-colors ${instructor.isActive ? 'text-teal-400 hover:bg-teal-500/10' : 'text-slate-500 hover:bg-white/5'}`}
+                        className={`p-2 rounded-lg transition-colors ${instructor.isActive ? 'text-teal-400 hover:bg-teal-500/10' : 'text-ink-muted hover:bg-canvas-card'}`}
                         title={instructor.isActive ? 'Disable instructor' : 'Enable instructor'}
                       >
                         {instructor.isActive ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
@@ -378,18 +378,18 @@ export default function AdminInstructorsPage() {
                       Cancel. Used in the home-page "Who teaches" band on
                       /courses, and surfaces nowhere else. */}
                   {editingBioId === instructor.id && (
-                    <tr className="border-b border-white/[0.04] bg-white/[0.015]">
+                    <tr className="border-b border-hairline bg-canvas-card">
                       <td colSpan={6} className="px-6 py-5">
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-[160px_1fr]">
                           {/* Left: profile photo — upload OR paste URL,
                               with live preview. */}
                           <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-2">
                               Profile photo
                             </label>
                             {/* Live preview — falls back to a soft hint when the
                                 URL is empty or fails to load. */}
-                            <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                            <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-hairline bg-canvas-card">
                               {editImage.trim() ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -399,7 +399,7 @@ export default function AdminInstructorsPage() {
                                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
                                 />
                               ) : (
-                                <span className="text-[11px] text-slate-600">Preview</span>
+                                <span className="text-[11px] text-ink-muted">Preview</span>
                               )}
                             </div>
                             <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -415,7 +415,7 @@ export default function AdminInstructorsPage() {
                                 type="button"
                                 onClick={() => bioFileRef.current?.click()}
                                 disabled={bioUploading}
-                                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-slate-300 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-canvas-card px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-ink-muted hover:bg-canvas-card hover:text-navy transition-colors disabled:opacity-50"
                               >
                                 <Upload size={11} />
                                 {bioUploading ? 'Uploading…' : 'Upload'}
@@ -424,7 +424,7 @@ export default function AdminInstructorsPage() {
                                 <button
                                   type="button"
                                   onClick={() => setEditImage('')}
-                                  className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+                                  className="text-[11px] text-ink-muted hover:text-ink-muted transition-colors"
                                 >
                                   Clear
                                 </button>
@@ -440,12 +440,12 @@ export default function AdminInstructorsPage() {
                               value={editImage}
                               onChange={(e) => setEditImage(e.target.value)}
                               placeholder="…or paste a URL"
-                              className="mt-2 w-full bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 text-[11px] text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50"
+                              className="mt-2 w-full bg-canvas-card border border-hairline rounded-lg px-2.5 py-1.5 text-[11px] text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50"
                             />
                           </div>
                           {/* Right: bio textarea. */}
                           <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                            <label className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-2">
                               Bio
                             </label>
                             <textarea
@@ -454,22 +454,22 @@ export default function AdminInstructorsPage() {
                               placeholder="e.g. AI Lead, ex-OmanTel. Built X for Y, Z, A. 8 years shipping production ML for clients in the region."
                               rows={6}
                               maxLength={2000}
-                              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 resize-y"
+                              className="w-full bg-canvas-card border border-hairline rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 resize-y"
                               autoFocus
                             />
                           </div>
                         </div>
                         <div className="mt-4 flex items-center justify-between gap-4">
-                          <p className="text-[11px] text-slate-500">
-                            Shows in the <span className="text-slate-300">&quot;Who teaches&quot;</span> band on /courses. 1–2 sentences + a photo reads strongest.
-                            <span className="ml-2 text-slate-600">{editBio.length}/2000</span>
+                          <p className="text-[11px] text-ink-muted">
+                            Shows in the <span className="text-ink-muted">&quot;Who teaches&quot;</span> band on /courses. 1–2 sentences + a photo reads strongest.
+                            <span className="ml-2 text-ink-muted">{editBio.length}/2000</span>
                           </p>
                           <div className="flex gap-2">
                             <button
                               type="button"
                               onClick={cancelBioEditor}
                               disabled={savingBio}
-                              className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-200 transition-colors"
+                              className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-ink-muted hover:text-ink transition-colors"
                             >
                               Cancel
                             </button>
@@ -495,9 +495,9 @@ export default function AdminInstructorsPage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-6">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Revenue Split Guide</h3>
-        <p className="text-sm text-slate-500">
+      <div className="mt-6 rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-6">
+        <h3 className="text-xs font-bold uppercase tracking-widest text-ink-muted mb-2">Revenue Split Guide</h3>
+        <p className="text-sm text-ink-muted">
           The commission rate shows how much of each course sale goes to the instructor.
           For example, if set to 70%, the instructor receives 70% and FutureLine keeps 30%.
           This will apply when paid courses are enabled.
@@ -521,20 +521,20 @@ export default function AdminInstructorsPage() {
           {/* Backdrop */}
           <div
             onClick={closeAddModal}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-canvas-card backdrop-blur-sm"
             aria-hidden="true"
           />
           {/* Panel */}
           <form
             onSubmit={submitAdd}
-            className="relative z-10 mx-4 w-full max-w-lg rounded-xl border border-white/[0.08] bg-slate-950 p-7 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)]"
+            className="relative z-10 mx-4 w-full max-w-lg rounded-xl border border-hairline bg-slate-950 p-7 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)]"
           >
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
-                <h2 id="add-practitioner-title" className="text-xl font-black tracking-tight text-white">
+                <h2 id="add-practitioner-title" className="text-xl font-black tracking-tight text-navy">
                   Add Practitioner
                 </h2>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-ink-muted">
                   Creates a new instructor record that surfaces in the public &quot;Who teaches&quot; band on /courses.
                 </p>
               </div>
@@ -543,7 +543,7 @@ export default function AdminInstructorsPage() {
                 onClick={closeAddModal}
                 disabled={addSaving}
                 aria-label="Close"
-                className="p-1.5 text-slate-500 hover:text-white transition-colors disabled:opacity-50"
+                className="p-1.5 text-ink-muted hover:text-navy transition-colors disabled:opacity-50"
               >
                 <X size={18} />
               </button>
@@ -551,7 +551,7 @@ export default function AdminInstructorsPage() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
-                <label htmlFor="np-first" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                <label htmlFor="np-first" className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-1.5">
                   First name *
                 </label>
                 <input
@@ -561,12 +561,12 @@ export default function AdminInstructorsPage() {
                   onChange={(e) => updateAddField('firstName', e.target.value)}
                   required
                   maxLength={50}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  className="w-full rounded-lg border border-hairline bg-canvas-card px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-teal-500/50 focus:outline-none"
                   autoFocus
                 />
               </div>
               <div>
-                <label htmlFor="np-last" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                <label htmlFor="np-last" className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-1.5">
                   Last name *
                 </label>
                 <input
@@ -576,30 +576,30 @@ export default function AdminInstructorsPage() {
                   onChange={(e) => updateAddField('lastName', e.target.value)}
                   required
                   maxLength={50}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  className="w-full rounded-lg border border-hairline bg-canvas-card px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-teal-500/50 focus:outline-none"
                 />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="np-email" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
-                  Email <span className="text-slate-600 font-normal normal-case tracking-normal">(optional)</span>
+                <label htmlFor="np-email" className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-1.5">
+                  Email <span className="text-ink-muted font-normal normal-case tracking-normal">(optional)</span>
                 </label>
                 <input
                   id="np-email"
                   type="email"
                   value={addForm.email}
                   onChange={(e) => updateAddField('email', e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                  className="w-full rounded-lg border border-hairline bg-canvas-card px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-teal-500/50 focus:outline-none"
                   placeholder="sarah@example.com"
                 />
-                <p className="mt-1 text-[10px] text-slate-600">Used as the login email if they ever need to sign in. Leave blank to skip.</p>
+                <p className="mt-1 text-[10px] text-ink-muted">Used as the login email if they ever need to sign in. Leave blank to skip.</p>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                <label className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-1.5">
                   Profile photo
                 </label>
                 <div className="flex flex-wrap items-start gap-3">
                   {/* Live preview thumbnail */}
-                  <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                  <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-hairline bg-canvas-card">
                     {addForm.image.trim() ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -609,7 +609,7 @@ export default function AdminInstructorsPage() {
                         onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.2'; }}
                       />
                     ) : (
-                      <span className="text-[10px] text-slate-600">Preview</span>
+                      <span className="text-[10px] text-ink-muted">Preview</span>
                     )}
                   </div>
                   <div className="flex-1 min-w-0 space-y-2">
@@ -627,7 +627,7 @@ export default function AdminInstructorsPage() {
                         type="button"
                         onClick={() => addFileRef.current?.click()}
                         disabled={addUploading}
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-slate-300 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-canvas-card px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-ink-muted hover:bg-canvas-card hover:text-navy transition-colors disabled:opacity-50"
                       >
                         <Upload size={12} />
                         {addUploading ? 'Uploading…' : 'Upload photo'}
@@ -636,7 +636,7 @@ export default function AdminInstructorsPage() {
                         <button
                           type="button"
                           onClick={() => updateAddField('image', '')}
-                          className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+                          className="text-[11px] text-ink-muted hover:text-ink-muted transition-colors"
                         >
                           Clear
                         </button>
@@ -652,15 +652,15 @@ export default function AdminInstructorsPage() {
                       type="text"
                       value={addForm.image}
                       onChange={(e) => updateAddField('image', e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none"
+                      className="w-full rounded-lg border border-hairline bg-canvas-card px-3 py-1.5 text-xs text-ink-muted placeholder:text-ink-muted focus:border-teal-500/50 focus:outline-none"
                       placeholder="…or paste a hosted URL"
                     />
                   </div>
                 </div>
-                <p className="mt-2 text-[10px] text-slate-600">JPG, PNG, WebP, or GIF · max 5 MB</p>
+                <p className="mt-2 text-[10px] text-ink-muted">JPG, PNG, WebP, or GIF · max 5 MB</p>
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="np-bio" className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                <label htmlFor="np-bio" className="block text-[11px] font-bold uppercase tracking-widest text-ink-muted mb-1.5">
                   Bio
                 </label>
                 <textarea
@@ -669,10 +669,10 @@ export default function AdminInstructorsPage() {
                   onChange={(e) => updateAddField('bio', e.target.value)}
                   rows={3}
                   maxLength={2000}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-600 focus:border-teal-500/50 focus:outline-none resize-y"
+                  className="w-full rounded-lg border border-hairline bg-canvas-card px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted focus:border-teal-500/50 focus:outline-none resize-y"
                   placeholder="1–2 sentences with employer + a credential reads strongest."
                 />
-                <p className="mt-1 text-[10px] text-slate-600">{addForm.bio.length}/2000</p>
+                <p className="mt-1 text-[10px] text-ink-muted">{addForm.bio.length}/2000</p>
               </div>
             </div>
 
@@ -687,7 +687,7 @@ export default function AdminInstructorsPage() {
                 type="button"
                 onClick={closeAddModal}
                 disabled={addSaving}
-                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-200 transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-ink-muted hover:text-ink transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>

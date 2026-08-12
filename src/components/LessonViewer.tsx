@@ -86,8 +86,8 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
   return (
     <div className="space-y-4">
       {questions.map((q, qi) => (
-        <div key={qi} className="rounded-xl border border-white/[0.07] bg-slate-900/50 p-5">
-          <p className="font-semibold text-white text-sm mb-3">
+        <div key={qi} className="rounded-xl border border-hairline bg-canvas-alt p-5">
+          <p className="font-semibold text-navy text-sm mb-3">
             {qi + 1}. {q.question}
           </p>
           <div className="space-y-2">
@@ -95,13 +95,13 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
               if (!opt.trim()) return null;
               const isSelected = answers[qi] === oi;
               const isCorrect = q.correctIndex === oi;
-              let optionStyle = 'border-white/[0.08] bg-white/[0.02] hover:border-teal-500/40 text-slate-300';
+              let optionStyle = 'border-hairline bg-canvas-card hover:border-teal-500/40 text-ink-muted';
               if (submitted) {
                 if (isCorrect) optionStyle = 'border-green-500/40 bg-green-500/10 text-green-300';
                 else if (isSelected && !isCorrect) optionStyle = 'border-red-500/40 bg-red-500/10 text-red-300';
-                else optionStyle = 'border-white/[0.05] bg-white/[0.01] text-slate-500';
+                else optionStyle = 'border-hairline bg-canvas-card text-ink-muted';
               } else if (isSelected) {
-                optionStyle = 'border-teal-500/50 bg-teal-500/10 text-white';
+                optionStyle = 'border-teal-500/50 bg-teal-500/10 text-navy';
               }
 
               return (
@@ -111,7 +111,7 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
                   disabled={submitted}
                   className={`w-full text-left p-3 rounded-lg border text-sm transition-all flex items-center gap-3 ${optionStyle}`}
                 >
-                  <CircleDot size={15} className={isSelected ? 'text-teal-400 flex-shrink-0' : 'text-slate-600 flex-shrink-0'} />
+                  <CircleDot size={15} className={isSelected ? 'text-teal-400 flex-shrink-0' : 'text-ink-muted flex-shrink-0'} />
                   {opt}
                 </button>
               );
@@ -124,7 +124,7 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
         <button
           onClick={handleSubmit}
           disabled={!allAnswered}
-          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-40 uppercase tracking-widest"
+          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-40 uppercase tracking-widest"
         >
           Submit Answers
         </button>
@@ -213,22 +213,22 @@ export default function LessonViewer({
         const allDone = completedInModule === moduleLessons.length && moduleLessons.length > 0;
 
         return (
-          <div key={moduleName} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm overflow-hidden">
+          <div key={moduleName} className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm overflow-hidden">
             {/* Module header */}
             <button
               onClick={() => toggleModule(moduleName)}
-              className="w-full flex items-center justify-between px-5 py-4 bg-white/[0.02] hover:bg-white/[0.04] transition-colors text-left"
+              className="w-full flex items-center justify-between px-5 py-4 bg-canvas-card hover:bg-canvas-card transition-colors text-left"
             >
               <div className="flex items-center gap-3">
                 {isExpanded
                   ? <ChevronDown className="text-teal-400 flex-shrink-0" size={18} />
-                  : <ChevronRight className="text-slate-500 flex-shrink-0" size={18} />
+                  : <ChevronRight className="text-ink-muted flex-shrink-0" size={18} />
                 }
                 <div>
-                  <h3 className="font-bold text-white text-sm">
+                  <h3 className="font-bold text-navy text-sm">
                     Module {moduleIndex + 1}: {moduleName}
                   </h3>
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-[11px] text-ink-muted">
                     {moduleLessons.length} lessons &middot; {completedInModule}/{moduleLessons.length} completed
                   </span>
                 </div>
@@ -238,7 +238,7 @@ export default function LessonViewer({
 
             {/* Lessons */}
             {isExpanded && (
-              <div className="divide-y divide-white/[0.04]">
+              <div className="divide-y divide-hairline">
                 {moduleLessons.map((lesson) => {
                   const isActive = activeLesson === lesson.id;
                   const isQuiz = lesson.lessonType === 'QUIZ';
@@ -250,7 +250,7 @@ export default function LessonViewer({
                         className={`w-full text-left px-5 py-3 flex items-center gap-3 transition-all border-l-2 ${
                           isActive
                             ? 'bg-teal-500/[0.06] border-l-teal-400'
-                            : 'hover:bg-white/[0.02] border-l-transparent'
+                            : 'hover:bg-canvas-card border-l-transparent'
                         }`}
                       >
                         {completed.has(lesson.id) ? (
@@ -258,9 +258,9 @@ export default function LessonViewer({
                         ) : isQuiz ? (
                           <HelpCircle className="text-amber-400 flex-shrink-0" size={15} />
                         ) : (
-                          <Play className="text-slate-500 flex-shrink-0" size={15} />
+                          <Play className="text-ink-muted flex-shrink-0" size={15} />
                         )}
-                        <span className={`text-sm flex-1 ${isActive ? 'text-teal-300 font-semibold' : 'text-slate-400'}`}>
+                        <span className={`text-sm flex-1 ${isActive ? 'text-teal-300 font-semibold' : 'text-ink-muted'}`}>
                           {lesson.lessonTitle}
                         </span>
                         {isQuiz && (
@@ -272,14 +272,14 @@ export default function LessonViewer({
 
                       {/* Expanded lesson content */}
                       {isActive && (
-                        <div className="px-5 py-6 bg-slate-900/40 border-t border-white/[0.05]">
+                        <div className="px-5 py-6 bg-canvas-alt border-t border-hairline">
 
                           {/* Video */}
                           {!isQuiz && lesson.videoUrl && (() => {
                             const embed = getEmbedUrl(lesson.videoUrl);
                             if (embed) {
                               return (
-                                <div className="mb-6 rounded-xl overflow-hidden bg-black border border-white/[0.06]">
+                                <div className="mb-6 rounded-xl overflow-hidden bg-black border border-hairline">
                                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                                     <iframe
                                       src={embed.embedUrl}
@@ -293,7 +293,7 @@ export default function LessonViewer({
                               );
                             }
                             return (
-                              <div className="mb-6 bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex items-center gap-3 text-slate-500">
+                              <div className="mb-6 bg-canvas-card border border-hairline rounded-xl p-5 flex items-center gap-3 text-ink-muted">
                                 <Play size={18} />
                                 <span className="text-sm">Video content is available for this lesson.</span>
                               </div>
@@ -305,12 +305,12 @@ export default function LessonViewer({
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
                                 <StickyNote className="text-[#18a999]" size={16} />
-                                <h4 className="font-bold text-white text-xs uppercase tracking-widest">
+                                <h4 className="font-bold text-navy text-xs uppercase tracking-widest">
                                   {isQuiz ? 'Instructions' : 'Lesson Notes'}
                                 </h4>
                               </div>
                               <div className="rounded-xl border border-blue-500/10 bg-blue-500/[0.04] p-5">
-                                <p className="text-slate-300 leading-relaxed whitespace-pre-line text-sm">{lesson.content}</p>
+                                <p className="text-ink-muted leading-relaxed whitespace-pre-line text-sm">{lesson.content}</p>
                               </div>
                             </div>
                           )}
@@ -330,12 +330,12 @@ export default function LessonViewer({
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
                                 <Download className="text-[#18a999]" size={16} />
-                                <h4 className="font-bold text-white text-xs uppercase tracking-widest">Attachments</h4>
+                                <h4 className="font-bold text-navy text-xs uppercase tracking-widest">Attachments</h4>
                               </div>
                               <div className="space-y-2">
                                 {parseResources(lesson.resources).map((resource, i) => (
-                                  <div key={i} className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.06] rounded-lg p-3">
-                                    <FileText className="text-slate-500 flex-shrink-0" size={15} />
+                                  <div key={i} className="flex items-center gap-3 bg-canvas-card border border-hairline rounded-lg p-3">
+                                    <FileText className="text-ink-muted flex-shrink-0" size={15} />
                                     {resource.url ? (
                                       <a
                                         href={resource.url}
@@ -347,7 +347,7 @@ export default function LessonViewer({
                                         {resource.name}
                                       </a>
                                     ) : (
-                                      <span className="text-sm text-slate-400">{resource.name}</span>
+                                      <span className="text-sm text-ink-muted">{resource.name}</span>
                                     )}
                                   </div>
                                 ))}
@@ -357,7 +357,7 @@ export default function LessonViewer({
 
                           {/* Mark complete / completed state */}
                           {!isQuiz && (
-                            <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
+                            <div className="flex items-center justify-between pt-4 border-t border-hairline">
                               {completed.has(lesson.id) ? (
                                 <span className="flex items-center gap-2 text-teal-400 font-bold text-sm">
                                   <CheckCircle size={15} /> Completed
@@ -365,7 +365,7 @@ export default function LessonViewer({
                               ) : (
                                 <button
                                   onClick={() => markComplete(lesson.id)}
-                                  className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
+                                  className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                                 >
                                   Mark as Complete
                                 </button>
@@ -374,7 +374,7 @@ export default function LessonViewer({
                           )}
 
                           {isQuiz && completed.has(lesson.id) && (
-                            <div className="flex items-center gap-2 text-teal-400 font-bold text-sm pt-4 border-t border-white/[0.06]">
+                            <div className="flex items-center gap-2 text-teal-400 font-bold text-sm pt-4 border-t border-hairline">
                               <CheckCircle size={15} /> Completed
                             </div>
                           )}
@@ -390,9 +390,9 @@ export default function LessonViewer({
       })}
 
       {moduleNames.length === 0 && (
-        <div className="rounded-xl border border-white/[0.07] bg-slate-950/40 p-12 text-center">
+        <div className="rounded-xl border border-hairline bg-canvas-card p-12 text-center">
           <BookOpen className="text-slate-700 mx-auto mb-4" size={48} />
-          <p className="text-slate-500 text-sm">No lessons available for this course yet.</p>
+          <p className="text-ink-muted text-sm">No lessons available for this course yet.</p>
         </div>
       )}
     </div>

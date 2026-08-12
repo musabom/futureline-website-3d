@@ -34,20 +34,20 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
   return (
     <>
       <Header />
-      <div className="min-h-screen fl-dark-surface bg-[#030d1a]">
+      <div className="min-h-screen bg-canvas">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 text-slate-500 hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-ink-muted hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-8 transition-colors"
           >
             <ArrowLeft size={14} /> Back to Dashboard
           </Link>
 
           {/* Course header */}
           <div className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">{course.title}</h1>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mb-5 font-medium uppercase tracking-widest">
+            <h1 className="text-2xl md:text-3xl font-black text-navy mb-2 tracking-tight">{course.title}</h1>
+            <div className="flex flex-wrap items-center gap-4 text-xs text-ink-muted mb-5 font-medium uppercase tracking-widest">
               {course.instructor && (
                 <span className="flex items-center gap-1.5">
                   <Users size={12} /> {course.instructor.firstName} {course.instructor.lastName}
@@ -59,13 +59,13 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ sl
 
             {/* Progress bar */}
             <div className="flex items-center gap-3">
-              <div className="flex-1 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-canvas-card rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-teal-500 to-blue-600 rounded-full transition-all duration-500"
                   style={{ width: `${enrollment.progressPercentage}%` }}
                 />
               </div>
-              <span className="text-xs text-slate-500 font-bold tabular-nums shrink-0">{progress}%</span>
+              <span className="text-xs text-ink-muted font-bold tabular-nums shrink-0">{progress}%</span>
             </div>
           </div>
 

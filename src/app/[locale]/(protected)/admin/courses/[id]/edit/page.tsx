@@ -4,8 +4,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-const labelClass = 'block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2';
-const selectClass = 'input-field [&>option]:bg-slate-900';
+const labelClass = 'block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2';
+const selectClass = 'input-field [&>option]:bg-canvas-alt';
 
 export default function EditCoursePage() {
   const router = useRouter();
@@ -113,19 +113,19 @@ export default function EditCoursePage() {
   if (fetching) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-slate-500 text-sm font-medium animate-pulse">Loading course…</div>
+        <div className="text-ink-muted text-sm font-medium animate-pulse">Loading course…</div>
       </div>
     );
   }
 
   return (
     <div>
-      <Link href="/admin/courses" className="inline-flex items-center gap-2 text-slate-500 hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
+      <Link href="/admin/courses" className="inline-flex items-center gap-2 text-ink-muted hover:text-teal-400 text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
         <ArrowLeft size={14} /> Back to Courses
       </Link>
-      <h1 className="text-2xl font-black text-white tracking-tight mb-8">Edit Course</h1>
+      <h1 className="text-2xl font-black text-navy tracking-tight mb-8">Edit Course</h1>
 
-      <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-slate-950/40 backdrop-blur-sm p-8 max-w-4xl space-y-6">
+      <form onSubmit={handleSubmit} className="rounded-xl border border-hairline bg-canvas-card backdrop-blur-sm p-8 max-w-4xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
             <label className={labelClass}>Title</label>
@@ -150,7 +150,7 @@ export default function EditCoursePage() {
               <option value="IN_PERSON">In-Person</option>
               <option value="HYBRID">Hybrid</option>
             </select>
-            <p className="text-xs text-slate-600 mt-1.5">Where the course runs.</p>
+            <p className="text-xs text-ink-muted mt-1.5">Where the course runs.</p>
           </div>
           <div>
             <label className={labelClass}>Course Format</label>
@@ -159,7 +159,7 @@ export default function EditCoursePage() {
               <option value="SELF_PACED">Self-paced / recorded</option>
               <option value="WORKSHOP">Workshop (one-time event)</option>
             </select>
-            <p className="text-xs text-slate-600 mt-1.5">How the course runs in time. Self-paced courses skip dates.</p>
+            <p className="text-xs text-ink-muted mt-1.5">How the course runs in time. Self-paced courses skip dates.</p>
           </div>
           <div>
             <label className={labelClass}>Category</label>
@@ -180,11 +180,11 @@ export default function EditCoursePage() {
             <div className="flex gap-3 mb-4">
               <button type="button" onClick={() => handleFreeToggle(true)}
                 className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
-                  isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                  isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-hairline text-ink-muted hover:border-hairline hover:text-ink-muted'
                 }`}>Free</button>
               <button type="button" onClick={() => handleFreeToggle(false)}
                 className={`px-5 py-2 rounded-lg text-sm font-bold border transition-all ${
-                  !isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-white/[0.1] text-slate-500 hover:border-white/20 hover:text-slate-300'
+                  !isFree ? 'bg-teal-500/20 border-teal-500/40 text-teal-300' : 'border-hairline text-ink-muted hover:border-hairline hover:text-ink-muted'
                 }`}>Paid</button>
             </div>
             {isFree ? (
@@ -194,20 +194,20 @@ export default function EditCoursePage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Price (OMR)</label>
-                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
-                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                  <label className="block text-xs font-bold text-ink-muted mb-1.5">Price (OMR)</label>
+                  <div className="flex rounded-lg border border-hairline overflow-hidden focus-within:border-teal-500/50 bg-canvas-card">
+                    <span className="px-3 border-r border-hairline flex items-center text-xs font-bold text-ink-muted whitespace-nowrap">OMR</span>
                     <input name="price" type="number" step="0.001" min="0" value={form.price || ''} onChange={handleChange}
-                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-navy placeholder:text-ink-muted"
                       placeholder="0.000" required={!isFree} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1.5">Discount Price (OMR) — optional</label>
-                  <div className="flex rounded-lg border border-white/[0.1] overflow-hidden focus-within:border-teal-500/50 bg-white/[0.04]">
-                    <span className="px-3 border-r border-white/[0.08] flex items-center text-xs font-bold text-slate-500 whitespace-nowrap">OMR</span>
+                  <label className="block text-xs font-bold text-ink-muted mb-1.5">Discount Price (OMR) — optional</label>
+                  <div className="flex rounded-lg border border-hairline overflow-hidden focus-within:border-teal-500/50 bg-canvas-card">
+                    <span className="px-3 border-r border-hairline flex items-center text-xs font-bold text-ink-muted whitespace-nowrap">OMR</span>
                     <input name="discountPrice" type="number" step="0.001" min="0" value={form.discountPrice || ''} onChange={handleChange}
-                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-white placeholder:text-slate-600"
+                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-navy placeholder:text-ink-muted"
                       placeholder="0.000" />
                   </div>
                 </div>
@@ -239,7 +239,7 @@ export default function EditCoursePage() {
                   <option value="TBC">TBC (dates announced soon)</option>
                   <option value="COMPLETED">Past cohort (next one TBA)</option>
                 </select>
-                <p className="text-xs text-slate-600 mt-1.5">Catalog renders the right tag based on this.</p>
+                <p className="text-xs text-ink-muted mt-1.5">Catalog renders the right tag based on this.</p>
               </div>
               <div className="hidden md:block" />
               {form.scheduleStatus === 'SCHEDULED' && (
@@ -267,7 +267,7 @@ export default function EditCoursePage() {
           <div className="md:col-span-2">
             <label className={labelClass}>Marketing Video URL (optional)</label>
             <input name="marketingVideoUrl" value={form.marketingVideoUrl || ''} onChange={handleChange} className="input-field" placeholder="YouTube or Vimeo URL for course preview" />
-            <p className="text-xs text-slate-600 mt-1.5">Paste a Vimeo or YouTube link that will display on the course detail page</p>
+            <p className="text-xs text-ink-muted mt-1.5">Paste a Vimeo or YouTube link that will display on the course detail page</p>
           </div>
           <div>
             <label className={labelClass}>Status</label>
@@ -289,7 +289,7 @@ export default function EditCoursePage() {
               <option value="2">Featured — Position 2</option>
               <option value="3">Featured — Position 3</option>
             </select>
-            <p className="text-xs text-slate-600 mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
+            <p className="text-xs text-ink-muted mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
           </div>
         </div>
 
@@ -299,10 +299,10 @@ export default function EditCoursePage() {
             in NeuralPathway.tsx are used.  Grouped under a collapsed
             <details> so it doesn't clutter the form for the 99% of
             courses that won't be featured. */}
-        <details className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-5 group">
-          <summary className="cursor-pointer text-sm font-bold text-slate-300 uppercase tracking-widest list-none flex items-center justify-between">
-            Home-page feature highlights <span className="text-xs text-slate-500 normal-case tracking-normal font-normal">(optional — used when featured)</span>
-            <span className="text-slate-500 transition-transform group-open:rotate-45">+</span>
+        <details className="rounded-lg border border-hairline bg-canvas-card p-5 group">
+          <summary className="cursor-pointer text-sm font-bold text-ink-muted uppercase tracking-widest list-none flex items-center justify-between">
+            Home-page feature highlights <span className="text-xs text-ink-muted normal-case tracking-normal font-normal">(optional — used when featured)</span>
+            <span className="text-ink-muted transition-transform group-open:rotate-45">+</span>
           </summary>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -341,10 +341,10 @@ export default function EditCoursePage() {
               </div>
             ))}
           </div>
-          <p className="text-xs text-slate-600 mt-4">These appear on the home page Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
+          <p className="text-xs text-ink-muted mt-4">These appear on the home page Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
         </details>
 
-        <div className="flex gap-4 pt-4 border-t border-white/[0.06]">
+        <div className="flex gap-4 pt-4 border-t border-hairline">
           <button type="submit" disabled={loading} className="btn-primary">
             {loading ? 'Saving…' : 'Save Changes'}
           </button>

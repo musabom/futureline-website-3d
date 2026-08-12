@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen fl-dark-surface bg-[#030d1a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-block mb-6">
@@ -51,21 +51,21 @@ export default function ForgotPasswordPage() {
               FutureLine
             </span>
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-white">Forgot Password</h1>
-          <p className="text-slate-400 text-sm mt-2">
+          <h1 className="text-2xl font-black tracking-tight text-navy">Forgot Password</h1>
+          <p className="text-ink-muted text-sm mt-2">
             {submitted
               ? 'Check your email for a reset link'
               : 'Enter your email to receive a reset link'}
           </p>
         </div>
 
-        <div className="w-full max-w-md rounded-2xl border border-white/[0.07] bg-slate-950/60 backdrop-blur-xl p-8">
+        <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
           {submitted ? (
             <div>
               <div className="bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-3 rounded-lg mb-6 text-sm">
                 If an account exists with that email, we have sent a password reset link. Please check your inbox.
               </div>
-              <p className="text-center text-sm text-slate-400 mb-4">
+              <p className="text-center text-sm text-ink-muted mb-4">
                 Didn&apos;t receive the email? Check your spam folder or try again.
               </p>
               <button
@@ -85,14 +85,14 @@ export default function ForgotPasswordPage() {
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
                     Email Address
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 transition-colors"
+                    className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
                     placeholder="you@example.com"
                     required
                   />
@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {loading ? 'Sending...' : 'Send Reset Link'}
                 </button>
@@ -108,7 +108,7 @@ export default function ForgotPasswordPage() {
             </>
           )}
 
-          <p className="text-center text-sm text-slate-400 mt-6">
+          <p className="text-center text-sm text-ink-muted mt-6">
             Remember your password?{' '}
             <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
               Sign In

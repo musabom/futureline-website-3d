@@ -54,7 +54,7 @@ export default function HeroBullets() {
           className="flex items-start gap-3"
         >
           <CheckCircle2 size={18} className="text-[#18a999] flex-shrink-0 mt-0.5" />
-          <span className="text-slate-300 leading-relaxed">{point}</span>
+          <span className="text-ink-muted leading-relaxed">{point}</span>
         </li>
       ))}
     </ul>

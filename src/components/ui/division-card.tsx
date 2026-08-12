@@ -132,7 +132,7 @@ export default function DivisionCard({ variant, direction }: Props) {
                   <Icon size={11} className={cfg.badgeText} />
                   <span className={`text-[11px] font-semibold tracking-widest uppercase ${cfg.badgeText}`}>{cfg.badgeLabel}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white">{cfg.title}</h3>
+                <h3 className="text-2xl font-bold text-navy">{cfg.title}</h3>
               </div>
               <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 flex-shrink-0 ${cfg.iconBg}`}>
                 <Icon size={26} className={cfg.badgeText} />

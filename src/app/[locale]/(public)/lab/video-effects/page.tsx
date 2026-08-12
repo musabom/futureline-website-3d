@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function VideoEffectsLabPage() {
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       <section className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
@@ -27,7 +27,7 @@ export default function VideoEffectsLabPage() {
             <BrandedHeading as="h1" size="xl" className="mt-3">
               Apply Cinematic Effects to Your Video.
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink md:text-lg">
               Upload a short clip, pick a look, download the result. The
               processing pipeline runs on FFmpeg. The effect graphs were
               prototyped with AI — exactly the workflow FL Academy
@@ -37,7 +37,7 @@ export default function VideoEffectsLabPage() {
 
           <VideoEffectsClient />
 
-          <div className="mx-auto mt-12 max-w-2xl text-center text-xs text-white/45">
+          <div className="mx-auto mt-12 max-w-2xl text-center text-xs text-ink-muted">
             Max 50 MB · clipped to the first 30 seconds · MP4 output ·
             inspired by the Saudi visual artist{' '}
             <a

@@ -48,12 +48,12 @@ function Counter({ value, label }: { value: string; label: string }) {
   return (
     <div
       ref={ref}
-      className="translate-y-8 border-t border-white/15 pt-6 opacity-0"
+      className="translate-y-8 border-t border-hairline pt-6 opacity-0"
     >
-      <p className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
+      <p className="text-5xl font-semibold tracking-tight text-navy md:text-6xl">
         {value}
       </p>
-      <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">
+      <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">
         {label}
       </p>
     </div>
@@ -64,7 +64,7 @@ export function CaseStudy() {
   return (
     <section
       aria-label="By the numbers"
-      className="relative bg-brand-bg px-6 py-20 md:px-12 md:py-24"
+      className="relative bg-canvas px-6 py-20 md:px-12 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
         <aside className="md:col-span-5">
@@ -73,18 +73,18 @@ export function CaseStudy() {
             <BrandedHeading as="h2" size="xl">
               47% fail.
             </BrandedHeading>
-            <p className="mt-6 text-sm uppercase tracking-[0.25em] text-white/45">
+            <p className="mt-6 text-sm uppercase tracking-[0.25em] text-ink-muted">
               Industry rate · Your project won&apos;t
             </p>
 
-            <div className="mt-16 border-t border-white/15 pt-8">
-              <p className="font-mono text-xs uppercase tracking-[0.4em] text-white/40">
+            <div className="mt-16 border-t border-hairline pt-8">
+              <p className="font-mono text-xs uppercase tracking-[0.4em] text-ink-muted">
                 The cost of getting it wrong
               </p>
-              <p className="mt-4 text-7xl font-semibold tracking-tight text-white md:text-[10rem] md:leading-none">
+              <p className="mt-4 text-7xl font-semibold tracking-tight text-navy md:text-[10rem] md:leading-none">
                 $47k
               </p>
-              <p className="mt-4 max-w-xs text-base leading-relaxed text-white/65">
+              <p className="mt-4 max-w-xs text-base leading-relaxed text-ink">
                 Average spend on a failed digital transformation. Time, licences, and rework — gone.
               </p>
             </div>
@@ -104,15 +104,15 @@ export function CaseStudy() {
             <AnimatedText
               as="blockquote"
               variant="words"
-              className="text-3xl font-medium leading-[1.2] tracking-[-0.01em] text-white md:text-5xl"
+              className="text-3xl font-medium leading-[1.2] tracking-[-0.01em] text-navy md:text-5xl"
             >
               47% of digital transformation projects fail. Yours won&apos;t — because we build systems your team will actually use.
             </AnimatedText>
             <figcaption className="mt-12 flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-700 ring-1 ring-white/20" />
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-700 ring-1 ring-teal/25" />
               <div>
-                <p className="text-sm font-medium text-white">FutureLine</p>
-                <p className="text-xs text-white/55">
+                <p className="text-sm font-medium text-navy">FutureLine</p>
+                <p className="text-xs text-ink-muted">
                   The operator&apos;s approach to systems
                 </p>
               </div>
@@ -130,7 +130,7 @@ export function CaseStudy() {
             <AnimatedText
               as="p"
               variant="words"
-              className="mt-8 max-w-2xl text-xl leading-relaxed text-white/70 md:text-2xl"
+              className="mt-8 max-w-2xl text-xl leading-relaxed text-ink md:text-2xl"
             >
               Most transformations fail because they ship software, not systems people use. We start with the day-to-day — what your team actually does, what slows them down, where the data lives — then build the smallest thing that moves the needle. Live in weeks. Iterate from there.
             </AnimatedText>

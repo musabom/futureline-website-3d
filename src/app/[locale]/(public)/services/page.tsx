@@ -27,16 +27,16 @@ export default async function ServicesPage() {
   });
 
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
+      <section className="relative overflow-hidden border-b border-hairline">
         {/* Dark canvas backdrop with the signature 3D ribbon on the right side. */}
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
           <HeroRibbon3D color="#18A999" tilt={0.32} bloom={0.75} />
         </div>
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
+          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-canvas via-canvas/85 to-transparent md:via-canvas/55"
         />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 py-32 sm:px-6 md:py-44 lg:px-8">
@@ -52,7 +52,7 @@ export default async function ServicesPage() {
               <AnimatedText
                 as="p"
                 variant="words"
-                className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
+                className="mt-8 max-w-xl text-lg leading-relaxed text-ink md:text-xl"
                 delay={0.2}
               >
                 Four ways we build the digital infrastructure that lets your business scale without breaking. Done in weeks, not years. No recurring licence tax.
@@ -63,14 +63,14 @@ export default async function ServicesPage() {
                     href="#services-grid"
                     data-cursor="magnetic"
                     data-cursor-strength="22"
-                    className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                    className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
                     Browse services
                   </Link>
                   <Link
                     href="/audit"
                     data-cursor="hover"
-                    className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
+                    className="px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
                     Get a free audit →
                   </Link>
@@ -100,15 +100,15 @@ export default async function ServicesPage() {
             <BrandedHeading as="h2" size="xl">
               Our services.
             </BrandedHeading>
-            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-white/60 md:text-xl">
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
               Pick the one that matches where you&apos;re stuck. We start with a free audit either way.
             </p>
           </div>
 
           {services.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No services listed yet</p>
-              <p className="mt-3 text-sm text-white/55">Check back soon.</p>
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-muted">No services listed yet</p>
+              <p className="mt-3 text-sm text-ink-muted">Check back soon.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -117,7 +117,7 @@ export default async function ServicesPage() {
                 const num = String(i + 1).padStart(2, '0');
 
                 const cardClass =
-                  'group relative flex h-full flex-col overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-colors duration-300 hover:border-lab/40 hover:bg-white/[0.04]';
+                  'group relative flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas-card p-7 backdrop-blur-sm transition-colors duration-300 hover:border-lab/40 hover:bg-canvas-card';
 
                 const inner = (
                   <>
@@ -129,19 +129,19 @@ export default async function ServicesPage() {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-2xl font-semibold leading-[1.05] tracking-[-0.01em] text-white transition-colors group-hover:text-lab-light">
+                    <h3 className="text-2xl font-semibold leading-[1.05] tracking-[-0.01em] text-navy transition-colors group-hover:text-lab-light">
                       {service.title}
                     </h3>
-                    <p className="mt-5 flex-1 text-sm leading-relaxed text-white/55">
+                    <p className="mt-5 flex-1 text-sm leading-relaxed text-ink-muted">
                       {service.description}
                     </p>
-                    <div className="mt-8 flex items-center justify-between border-t border-white/[0.06] pt-5">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                    <div className="mt-8 flex items-center justify-between border-t border-hairline pt-5">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                         {service.pricingModel ?? 'Learn more'}
                       </span>
                       <ArrowRight
                         size={14}
-                        className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-lab"
+                        className="text-ink-muted transition-all group-hover:translate-x-1 group-hover:text-lab"
                       />
                     </div>
                   </>
@@ -163,7 +163,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* ── Enquiry ── */}
-      <section id="enquiry" className="border-t border-white/[0.06] px-4 py-32 sm:px-6 md:py-44 lg:px-8">
+      <section id="enquiry" className="border-t border-hairline px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <div className="mb-12 text-center">
@@ -171,7 +171,7 @@ export default async function ServicesPage() {
               <BrandedHeading as="h2" size="lg" className="mt-3">
                 Tell us what&apos;s slowing you down.
               </BrandedHeading>
-              <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
+              <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-ink-muted">
                 Send a quick brief. We&apos;ll come back with an honest read on whether we can help — and the smallest first move that moves the needle.
               </p>
             </div>

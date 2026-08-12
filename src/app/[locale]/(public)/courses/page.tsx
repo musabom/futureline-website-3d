@@ -31,7 +31,7 @@ const PILL_CLASS =
 function pillClass(active: boolean) {
   return active
     ? `${PILL_CLASS} border-academy/50 bg-academy/10 text-academy`
-    : `${PILL_CLASS} border-white/[0.12] text-white/55 hover:border-white/30 hover:text-white`;
+    : `${PILL_CLASS} border-hairline text-ink-muted hover:border-hairline hover:text-navy`;
 }
 
 // Why-this-works stats — 4 quick differentiators between hero and catalog.
@@ -256,7 +256,7 @@ export default async function CoursesPage({
   // led (cards first, marketing sections second), users scroll naturally.
 
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       {/* ── Catalog (page top — compact header + cards) ──
           Replaced the giant 3D hero with a tight inline header so the
           first row of course cards is visible above the fold on any
@@ -279,7 +279,7 @@ export default async function CoursesPage({
             <BrandedHeading as="h1" size="xl" className="mt-3">
               Learn Future AI Skills, Today.
             </BrandedHeading>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-ink-muted md:text-base">
               Cohort-paced courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach — so what you learn is what you can actually use.
             </p>
           </div>
@@ -299,7 +299,7 @@ export default async function CoursesPage({
                 {/* Search */}
                 <form method="GET" action="/courses" className="w-full">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" size={14} />
                     <input
                       name="search"
                       defaultValue={params.search}
@@ -314,7 +314,7 @@ export default async function CoursesPage({
 
                 {/* Level */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Level</span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">Level</span>
                   <div className="flex flex-wrap gap-2">
                     <Link href={buildHref({ level: '' })} className={pillClass(!params.level)} data-cursor="hover">All</Link>
                     {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
@@ -333,7 +333,7 @@ export default async function CoursesPage({
                 {/* Category */}
                 {categories.length > 0 && (
                   <div className="flex flex-col gap-2.5">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Category</span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">Category</span>
                     <div className="flex flex-wrap gap-2">
                       <Link href={buildHref({ category: '' })} className={pillClass(!params.category)} data-cursor="hover">All</Link>
                       {categories.map((cat) => (
@@ -352,7 +352,7 @@ export default async function CoursesPage({
 
                 {/* Delivery */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">Delivery</span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">Delivery</span>
                   <div className="flex flex-wrap gap-2">
                     <Link href={buildHref({ type: '' })} className={pillClass(!params.type)} data-cursor="hover">All</Link>
                     {[
@@ -374,8 +374,8 @@ export default async function CoursesPage({
 
                 {/* Auth-gated tabs */}
                 {session?.user && (
-                  <div className="flex flex-col gap-2.5 border-t border-white/[0.06] pt-5">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">View</span>
+                  <div className="flex flex-col gap-2.5 border-t border-hairline pt-5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">View</span>
                     <div className="flex flex-col gap-1">
                       {[
                         { key: 'all', label: 'All courses' },
@@ -387,7 +387,7 @@ export default async function CoursesPage({
                           className={`py-1 text-sm transition-colors ${
                             activeTab === key
                               ? 'text-academy'
-                              : 'text-white/55 hover:text-white'
+                              : 'text-ink-muted hover:text-navy'
                           }`}
                           data-cursor="hover"
                         >
@@ -404,8 +404,8 @@ export default async function CoursesPage({
             <div>
               {courses.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-32 text-center">
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-white/40">No courses found</p>
-                  <p className="mt-3 text-sm text-white/55">Try adjusting your filters.</p>
+                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-muted">No courses found</p>
+                  <p className="mt-3 text-sm text-ink-muted">Try adjusting your filters.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -445,12 +445,12 @@ export default async function CoursesPage({
                     key={course.id}
                     href={href}
                     data-cursor="hover"
-                    className="group flex h-full flex-col overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-colors duration-300 hover:border-academy/40 hover:bg-white/[0.04]"
+                    className="group flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas-card p-7 backdrop-blur-sm transition-colors duration-300 hover:border-academy/40 hover:bg-canvas-card"
                   >
                     <div className="mb-6 flex items-baseline justify-between">
                       <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">{num}</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
                           {course.level}
                         </span>
                         <span className="rounded-full border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-academy">
@@ -458,17 +458,17 @@ export default async function CoursesPage({
                         </span>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.01em] text-white transition-colors group-hover:text-academy-light">
+                    <h3 className="text-xl font-semibold leading-[1.15] tracking-[-0.01em] text-navy transition-colors group-hover:text-academy-light">
                       {course.title}
                     </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-white/55 line-clamp-3">
+                    <p className="mt-4 text-sm leading-relaxed text-ink-muted line-clamp-3">
                       {course.shortDescription}
                     </p>
                     {/* Instructor strip — shows "Taught by [name]" when an
                         instructor is attached. Backs the hero's "We teach what
                         we practice." claim with a concrete name per course. */}
                     {instructorName && (
-                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
                         Taught by <span className="text-academy/90">{instructorName}</span>
                       </p>
                     )}
@@ -483,13 +483,13 @@ export default async function CoursesPage({
                         {scheduleChip}
                       </p>
                     )}
-                    <div className="mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">
-                      <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                    <div className="mt-auto flex items-center justify-between border-t border-hairline pt-4">
+                      <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-ink-muted">
                         <Clock size={11} /> {course.durationHours}h
                       </span>
-                      <span className="flex items-center gap-2 text-sm font-semibold text-white">
+                      <span className="flex items-center gap-2 text-sm font-semibold text-navy">
                         {priceLabel}
-                        <ArrowRight size={13} className="text-white/30 transition-all group-hover:translate-x-1 group-hover:text-academy" />
+                        <ArrowRight size={13} className="text-ink-muted transition-all group-hover:translate-x-1 group-hover:text-academy" />
                       </span>
                     </div>
                       </Link>
@@ -511,7 +511,7 @@ export default async function CoursesPage({
           pillar, in a parallel-shape grid. */}
       <section
         id="where-it-pays"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
@@ -519,42 +519,42 @@ export default async function CoursesPage({
             <BrandedHeading as="h2" size="lg" className="mt-3">
               Skills Organizations Are Hiring For.
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink md:text-lg">
               Four practical outcomes AI proficiency unlocks. Here&apos;s where each gets applied — and the roles people get hired to do them.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             {PILLAR_PAYOFFS.map((p, i) => (
               <FadeUp key={p.name} delay={i * 0.08}>
-                <article className="flex h-full flex-col rounded-md border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm md:p-9">
+                <article className="flex h-full flex-col rounded-md border border-hairline bg-canvas-card p-7 backdrop-blur-sm md:p-9">
                   <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
                     {p.name}
                   </p>
-                  <h3 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-tight text-white md:text-3xl">
+                  <h3 className="mt-4 text-2xl font-semibold leading-[1.15] tracking-tight text-navy md:text-3xl">
                     {p.pitch}
                   </h3>
 
                   <div className="mt-7 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-x-10">
                     <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                         Where it’s applied
                       </p>
-                      <p className="mt-3 text-sm leading-relaxed text-white/70 md:text-base">
+                      <p className="mt-3 text-sm leading-relaxed text-ink md:text-base">
                         {p.sectors.join(' · ')}
                       </p>
                     </div>
                     <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                         What it pays
                       </p>
-                      <p className="mt-3 text-sm leading-relaxed text-white/70 md:text-base">
+                      <p className="mt-3 text-sm leading-relaxed text-ink md:text-base">
                         {p.earn}
                       </p>
                     </div>
                   </div>
 
                   <div className="mt-7">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                       Roles you could land
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -569,7 +569,7 @@ export default async function CoursesPage({
                     </div>
                   </div>
 
-                  <p className="mt-7 border-t border-white/[0.08] pt-5 text-sm italic leading-relaxed text-white/60 md:text-[15px]">
+                  <p className="mt-7 border-t border-hairline pt-5 text-sm italic leading-relaxed text-ink-muted md:text-[15px]">
                     {p.demand}
                   </p>
                 </article>
@@ -582,7 +582,7 @@ export default async function CoursesPage({
       {/* ── How it compares (Others vs FutureLine) ── */}
       <section
         id="how-it-compares"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
@@ -590,27 +590,27 @@ export default async function CoursesPage({
             <BrandedHeading as="h2" size="lg" className="mt-3">
               Others and FutureLine.
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink md:text-lg">
               Two honest paths. Pick the one that matches how you actually finish.
             </p>
           </div>
 
           {/* 2-column matrix: Category | Others | FutureLine. The FL column
               keeps the academy hairline + glow as the visual anchor. */}
-          <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
-            <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
+          <div className="overflow-hidden rounded-md border border-hairline bg-canvas-card">
+            <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-hairline bg-canvas-card px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
               <div className="col-span-12 md:col-span-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">Category</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">Category</p>
               </div>
               <div className="col-span-6 md:col-span-4">
-                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink md:text-base">
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-canvas-card" />
                   Others
                 </p>
               </div>
               <div className="col-span-6 md:col-span-4">
                 <p
-                  className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
+                  className="flex items-center gap-2 text-sm font-semibold tracking-tight text-navy md:text-base"
                   style={{ textShadow: '0 0 8px rgba(91,123,251,0.4)' }}
                 >
                   <span
@@ -624,24 +624,24 @@ export default async function CoursesPage({
             </div>
             {VS_ROWS.map((row, i) => (
               <FadeUp key={i} delay={i * 0.05}>
-                <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
+                <div className="grid grid-cols-12 items-start gap-3 border-b border-hairline px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
                   <div className="col-span-12 md:col-span-4">
                     <div className="flex items-baseline gap-3">
                       <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-academy/70">
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                      <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">{row.label}</h4>
+                      <h4 className="text-base font-semibold tracking-tight text-navy md:text-lg">{row.label}</h4>
                     </div>
                   </div>
                   <div className="col-span-6 md:col-span-4">
-                    <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.others}</p>
+                    <p className="text-sm leading-relaxed text-ink-muted md:text-base">{row.others}</p>
                   </div>
                   <div className="relative col-span-6 md:col-span-4">
                     <span
                       aria-hidden
                       className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-academy/40 via-academy/15 to-transparent md:block"
                     />
-                    <p className="text-sm font-medium leading-relaxed text-white md:text-base">{row.fl}</p>
+                    <p className="text-sm font-medium leading-relaxed text-navy md:text-base">{row.fl}</p>
                   </div>
                 </div>
               </FadeUp>
@@ -653,7 +653,7 @@ export default async function CoursesPage({
       {/* ── For teams — custom training band ── */}
       <section
         id="for-teams"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
           {/* Centered section header — same pattern as other sections. */}
@@ -662,7 +662,7 @@ export default async function CoursesPage({
             <BrandedHeading as="h2" size="lg" className="mt-3">
               Upskill Your Team With FutureLine.
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg">
               For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.
             </p>
           </div>
@@ -677,7 +677,7 @@ export default async function CoursesPage({
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-baseline gap-4 border-t border-white/[0.08] py-5 text-base text-white/80 md:text-lg"
+                  className="flex items-baseline gap-4 border-t border-hairline py-5 text-base text-ink md:text-lg"
                 >
                   <span aria-hidden className="font-mono text-xs tracking-[0.3em] text-academy">
                     {String(i + 1).padStart(2, '0')}
@@ -700,7 +700,7 @@ export default async function CoursesPage({
       {instructors.length > 0 && (
         <section
           id="instructors"
-          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+          className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto mb-8 max-w-3xl text-center md:mb-12">
@@ -708,7 +708,7 @@ export default async function CoursesPage({
               <BrandedHeading as="h2" size="lg" className="mt-3">
                 Learn From Practitioners.
               </BrandedHeading>
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink md:text-lg">
                 The people teaching ship the systems they teach — real builds, real clients, real critique. No curriculum read from a deck.
               </p>
             </div>
@@ -719,7 +719,7 @@ export default async function CoursesPage({
                   `${(inst.firstName ?? '')[0] ?? ''}${(inst.lastName ?? '')[0] ?? ''}`.toUpperCase() || '··';
                 return (
                   <FadeUp key={inst.id} delay={i * 0.06}>
-                    <div className="flex h-full flex-col rounded-md border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-academy/40 hover:bg-white/[0.04]">
+                    <div className="flex h-full flex-col rounded-md border border-hairline bg-canvas-card p-6 transition-colors hover:border-academy/40 hover:bg-canvas-card">
                       <div className="flex items-center gap-4">
                         {/* Profile photo (if admin uploaded one) or
                             initials monogram fallback. We use a plain
@@ -744,7 +744,7 @@ export default async function CoursesPage({
                           </div>
                         )}
                         <div className="min-w-0">
-                          <h3 className="truncate text-base font-semibold tracking-tight text-white md:text-lg">
+                          <h3 className="truncate text-base font-semibold tracking-tight text-navy md:text-lg">
                             {fullName}
                           </h3>
                           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-academy/80">
@@ -753,7 +753,7 @@ export default async function CoursesPage({
                         </div>
                       </div>
                       {inst.bio && (
-                        <p className="mt-5 text-sm leading-relaxed text-white/55">{inst.bio}</p>
+                        <p className="mt-5 text-sm leading-relaxed text-ink-muted">{inst.bio}</p>
                       )}
                     </div>
                   </FadeUp>
@@ -767,7 +767,7 @@ export default async function CoursesPage({
       {/* ── FAQ ── */}
       <section
         id="faq"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+        className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-3xl">
           <div className="mb-8 text-center md:mb-12">
@@ -780,25 +780,25 @@ export default async function CoursesPage({
             {FAQS.map((f, i) => (
               <details
                 key={i}
-                className="group border-t border-white/[0.08]"
+                className="group border-t border-hairline"
               >
                 <summary
                   className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-left"
                   data-cursor="hover"
                 >
-                  <span className="text-base font-medium leading-snug text-white md:text-lg">{f.q}</span>
+                  <span className="text-base font-medium leading-snug text-navy md:text-lg">{f.q}</span>
                   <span
                     aria-hidden
-                    className="mt-1 flex-shrink-0 font-mono text-xs text-white/45 transition-colors group-hover:text-academy group-open:rotate-45"
+                    className="mt-1 flex-shrink-0 font-mono text-xs text-ink-muted transition-colors group-hover:text-academy group-open:rotate-45"
                     style={{ transition: 'transform 220ms ease, color 220ms ease' }}
                   >
                     +
                   </span>
                 </summary>
-                <p className="pb-6 pr-8 text-sm leading-relaxed text-white/65 md:text-base">{f.a}</p>
+                <p className="pb-6 pr-8 text-sm leading-relaxed text-ink md:text-base">{f.a}</p>
               </details>
             ))}
-            <div className="border-t border-white/[0.08]" />
+            <div className="border-t border-hairline" />
           </div>
         </div>
       </section>
@@ -806,7 +806,7 @@ export default async function CoursesPage({
       {/* ── Enquiry ── */}
       <section
         id="enquiry"
-        className="scroll-mt-24 border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8"
+        className="scroll-mt-24 border-t border-hairline px-4 py-20 sm:px-6 md:py-28 lg:px-8"
       >
         <div className="mx-auto max-w-2xl">
           <FadeUp>
@@ -815,7 +815,7 @@ export default async function CoursesPage({
               <BrandedHeading as="h2" size="lg" className="mt-3">
                 Can&apos;t find what you need?
               </BrandedHeading>
-              <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-white/60">
+              <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-ink-muted">
                 A different schedule, a different topic, or training that doesn&apos;t fit a public cohort — tell us what you&apos;re working toward and we&apos;ll come back within a business day.
               </p>
             </div>

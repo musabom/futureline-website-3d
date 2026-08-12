@@ -29,7 +29,7 @@ const WHAT_YOU_GET = [
 
 export default function AuditPage() {
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       <section className="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
         {/* Subtle ambient teal glow behind the hero */}
         <div
@@ -48,7 +48,7 @@ export default function AuditPage() {
               <AnimatedText
                 as="p"
                 variant="words"
-                className="mt-8 max-w-lg text-base leading-relaxed text-white/70 md:text-lg"
+                className="mt-8 max-w-lg text-base leading-relaxed text-ink md:text-lg"
                 delay={0.15}
               >
                 Fill in your name and email and we&apos;ll come back with the smallest first move that pays for itself.
@@ -62,10 +62,10 @@ export default function AuditPage() {
                         <CheckCircle2 size={14} strokeWidth={2.25} />
                       </span>
                       <div>
-                        <h3 className="text-base font-semibold tracking-tight text-white md:text-lg">
+                        <h3 className="text-base font-semibold tracking-tight text-navy md:text-lg">
                           {item.title}
                         </h3>
-                        <p className="mt-1 max-w-sm text-sm leading-relaxed text-white/60 md:text-base">
+                        <p className="mt-1 max-w-sm text-sm leading-relaxed text-ink-muted md:text-base">
                           {item.body}
                         </p>
                       </div>
@@ -78,7 +78,7 @@ export default function AuditPage() {
             {/* Right — form */}
             <div className="lg:col-span-6">
               <FadeUp>
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-md md:p-9">
+                <div className="rounded-2xl border border-hairline bg-canvas-card p-7 backdrop-blur-md md:p-9">
                   <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.32em] text-lab">
                     Request a free audit
                   </p>

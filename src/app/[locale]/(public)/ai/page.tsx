@@ -63,15 +63,15 @@ export default async function AIPage() {
   const contactEmail = brand.contactEmail;
 
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
+      <section className="relative overflow-hidden border-b border-hairline">
         <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
           <HeroRibbon3D color="#18A999" tilt={0.32} bloom={0.78} />
         </div>
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
+          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-canvas via-canvas/85 to-transparent md:via-canvas/55"
         />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 py-32 sm:px-6 md:py-44 lg:px-8">
@@ -90,12 +90,12 @@ export default async function AIPage() {
               <AnimatedText
                 as="p"
                 variant="words"
-                className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
+                className="mt-8 max-w-xl text-lg leading-relaxed text-ink md:text-xl"
                 delay={0.2}
               >
                 Practical AI for businesses. We don&apos;t build AI for the sake of AI — every model and automation we ship solves a real problem and pays its way.
               </AnimatedText>
-              <p className="mt-4 max-w-xl text-sm text-white/40">
+              <p className="mt-4 max-w-xl text-sm text-ink-muted">
                 Our AI & Automation division is in active development. Get in touch to discuss your needs early.
               </p>
               <FadeUp delay={0.4}>
@@ -104,14 +104,14 @@ export default async function AIPage() {
                     href={`mailto:${contactEmail}?subject=FL%20AI%20Enquiry`}
                     data-cursor="magnetic"
                     data-cursor-strength="22"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
                     Get in touch <Mail size={15} />
                   </Link>
                   <Link
                     href="/courses"
                     data-cursor="hover"
-                    className="inline-flex items-center gap-1 px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
+                    className="inline-flex items-center gap-1 px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
                     Explore AI courses <ArrowRight size={14} />
                   </Link>
@@ -145,7 +145,7 @@ export default async function AIPage() {
             <AnimatedText
               as="p"
               variant="words"
-              className="mt-8 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl"
+              className="mt-8 max-w-xl text-lg leading-relaxed text-ink-muted md:text-xl"
               delay={0.15}
             >
               A preview of the AI-powered services we&apos;re preparing to launch.
@@ -156,7 +156,7 @@ export default async function AIPage() {
             {CAPABILITIES.map((c, i) => (
               <article
                 key={i}
-                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-12 md:gap-12 md:py-16"
+                className="relative grid grid-cols-12 gap-6 border-t border-hairline py-12 md:gap-12 md:py-16"
               >
                 <div className="col-span-12 md:col-span-3">
                   <p className="font-mono text-sm tracking-[0.3em] text-lab">
@@ -167,14 +167,14 @@ export default async function AIPage() {
                   <AnimatedText
                     as="h3"
                     variant="chars"
-                    className="text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-white md:text-[clamp(2rem,4vw,3.5rem)]"
+                    className="text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-navy md:text-[clamp(2rem,4vw,3.5rem)]"
                   >
                     {c.title}
                   </AnimatedText>
                   <AnimatedText
                     as="p"
                     variant="words"
-                    className="mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                    className="mt-6 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                     delay={0.1}
                   >
                     {c.body}
@@ -182,13 +182,13 @@ export default async function AIPage() {
                 </div>
               </article>
             ))}
-            <div className="border-t border-white/[0.08]" />
+            <div className="border-t border-hairline" />
           </div>
         </div>
       </section>
 
       {/* ── Vision + Stats split ── */}
-      <section className="border-t border-white/[0.06] px-4 py-32 sm:px-6 md:py-44 lg:px-8">
+      <section className="border-t border-hairline px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
@@ -196,7 +196,7 @@ export default async function AIPage() {
               <BrandedHeading as="h2" size="lg">
                 AI that works for your business.
               </BrandedHeading>
-              <p className="mt-8 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
+              <p className="mt-8 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
                 Our approach is practical and results-driven. We don&apos;t believe in AI for the sake of AI. Every solution is designed to solve a real problem, save time, and deliver measurable impact.
               </p>
 
@@ -204,7 +204,7 @@ export default async function AIPage() {
                 {VISION.map((item, i) => (
                   <li
                     key={i}
-                    className="flex items-baseline gap-4 border-t border-white/[0.08] py-4 text-sm text-white/75 md:text-base"
+                    className="flex items-baseline gap-4 border-t border-hairline py-4 text-sm text-ink md:text-base"
                   >
                     <span
                       aria-hidden
@@ -222,14 +222,14 @@ export default async function AIPage() {
               <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 md:gap-y-4">
                 {STATS.map((s, i) => (
                   <FadeUp key={i} delay={i * 0.08}>
-                    <div className="border-t border-white/[0.12] py-8">
-                      <p className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
+                    <div className="border-t border-hairline py-8">
+                      <p className="text-5xl font-semibold tracking-tight text-navy md:text-6xl">
                         {s.value}
                       </p>
-                      <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-white/85">
+                      <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-ink">
                         {s.label}
                       </p>
-                      <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">{s.sub}</p>
+                      <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">{s.sub}</p>
                     </div>
                   </FadeUp>
                 ))}
@@ -240,7 +240,7 @@ export default async function AIPage() {
       </section>
 
       {/* ── Closing CTA ── */}
-      <section className="border-t border-white/[0.06] px-4 py-32 sm:px-6 md:py-44 lg:px-8">
+      <section className="border-t border-hairline px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
@@ -249,7 +249,7 @@ export default async function AIPage() {
             <BrandedHeading as="h2" size="xl">
               Tell us where AI fits.
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
+            <p className="mx-auto mt-6 max-w-xl text-lg text-ink">
               Early enquiries get a free scoping call. We&apos;ll tell you up front whether AI is the right tool for your problem — or whether automation, dashboards, or a process fix would be cheaper and faster.
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
@@ -257,14 +257,14 @@ export default async function AIPage() {
                 href={`mailto:${contactEmail}?subject=FL%20AI%20Enquiry`}
                 data-cursor="magnetic"
                 data-cursor-strength="28"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
               >
                 Email us <Mail size={15} />
               </Link>
               <Link
                 href="/services/consultation"
                 data-cursor="hover"
-                className="px-4 py-4 text-sm text-white/70 transition-colors hover:text-white"
+                className="px-4 py-4 text-sm text-ink transition-colors hover:text-navy"
               >
                 Or book a free systems audit →
               </Link>

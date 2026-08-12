@@ -61,9 +61,9 @@ export default async function CourseDetailPage({
   const priceLabel = course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free';
 
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
+      <section className="relative overflow-hidden border-b border-hairline">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-academy-glow opacity-60"
@@ -72,7 +72,7 @@ export default async function CourseDetailPage({
           <Link
             href="/courses"
             data-cursor="hover"
-            className="mb-10 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45 transition-colors hover:text-academy"
+            className="mb-10 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.3em] text-ink-muted transition-colors hover:text-academy"
           >
             <ChevronLeft size={13} /> Course catalog
           </Link>
@@ -82,11 +82,11 @@ export default async function CourseDetailPage({
               {course.level}
             </span>
             {course.category && (
-              <span className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/65">
+              <span className="rounded-full border border-hairline bg-canvas-card px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-ink">
                 {course.category}
               </span>
             )}
-            <span className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/65">
+            <span className="rounded-full border border-hairline bg-canvas-card px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-ink">
               {course.deliveryType.replace('_', ' ')}
             </span>
           </div>
@@ -98,14 +98,14 @@ export default async function CourseDetailPage({
           <AnimatedText
             as="p"
             variant="words"
-            className="mt-8 max-w-2xl text-lg leading-relaxed text-white/65 md:text-xl"
+            className="mt-8 max-w-2xl text-lg leading-relaxed text-ink md:text-xl"
             delay={0.15}
           >
             {course.shortDescription || `Learn ${course.title} with FutureLine.`}
           </AnimatedText>
 
           <FadeUp delay={0.3}>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
               <span className="flex items-center gap-2">
                 <Clock size={13} /> {course.durationHours}h of content
               </span>
@@ -155,7 +155,7 @@ export default async function CourseDetailPage({
                     <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-academy">
                       Preview
                     </p>
-                    <div className="aspect-video overflow-hidden rounded-md border border-white/[0.08] bg-black">
+                    <div className="aspect-video overflow-hidden rounded-md border border-hairline bg-black">
                       <iframe
                         src={
                           course.marketingVideoUrl.includes('youtube.com') ||
@@ -189,7 +189,7 @@ export default async function CourseDetailPage({
                     <BrandedHeading as="h2" size="md">
                       What you&apos;ll learn.
                     </BrandedHeading>
-                    <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-white/70 md:text-lg">
+                    <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-ink md:text-lg">
                       {course.fullDescription}
                     </p>
                   </div>
@@ -199,14 +199,14 @@ export default async function CourseDetailPage({
 
             {/* ── Right: enrolment card ── */}
             <aside className="lg:col-span-1">
-              <div className="sticky top-24 overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm">
-                <div className="relative flex h-40 items-center justify-center border-b border-white/[0.06] bg-gradient-to-br from-academy/15 via-black to-black">
-                  <BookOpen className="text-white/15" size={36} />
+              <div className="sticky top-24 overflow-hidden rounded-md border border-hairline bg-canvas-card backdrop-blur-sm">
+                <div className="relative flex h-40 items-center justify-center border-b border-hairline bg-gradient-to-br from-academy/15 via-canvas to-canvas">
+                  <BookOpen className="text-ink-muted" size={36} />
                   <div className="absolute bottom-3 left-3 flex items-center gap-2">
                     <span className="rounded-full border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-academy">
                       {course.level}
                     </span>
-                    <span className="rounded-full border border-white/15 bg-black/50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/75 backdrop-blur-md">
+                    <span className="rounded-full border border-hairline bg-canvas-card px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-ink backdrop-blur-md">
                       {course.durationHours}h
                     </span>
                   </div>
@@ -214,15 +214,15 @@ export default async function CourseDetailPage({
 
                 <div className="space-y-6 p-6">
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                       Price
                     </p>
                     <div className="mt-2 flex items-baseline gap-3">
-                      <span className="text-4xl font-semibold tracking-tight text-white">
+                      <span className="text-4xl font-semibold tracking-tight text-navy">
                         {priceLabel}
                       </span>
                       {course.discountPrice && course.discountPrice < course.price && (
-                        <span className="text-sm text-white/35 line-through">
+                        <span className="text-sm text-ink-muted line-through">
                           {formatPrice(course.price)}
                         </span>
                       )}
@@ -235,7 +235,7 @@ export default async function CourseDetailPage({
                     price={course.discountPrice ?? course.price}
                   />
 
-                  <div className="space-y-2.5 border-t border-white/[0.06] pt-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">
+                  <div className="space-y-2.5 border-t border-hairline pt-5 font-mono text-[11px] uppercase tracking-[0.25em] text-ink-muted">
                     <div className="flex items-center gap-2">
                       <Clock size={12} /> {course.durationHours} hours of content
                     </div>

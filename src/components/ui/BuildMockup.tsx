@@ -35,10 +35,10 @@ export interface BuildTileData {
 function ChromeBar() {
   return (
     <div className="mb-4 flex items-center gap-1.5">
-      <span className="h-2 w-2 rounded-full bg-white/15" />
-      <span className="h-2 w-2 rounded-full bg-white/15" />
-      <span className="h-2 w-2 rounded-full bg-white/15" />
-      <span className="ml-2 h-2 flex-1 rounded-full bg-white/[0.04]" />
+      <span className="h-2 w-2 rounded-full bg-canvas-card" />
+      <span className="h-2 w-2 rounded-full bg-canvas-card" />
+      <span className="h-2 w-2 rounded-full bg-canvas-card" />
+      <span className="ml-2 h-2 flex-1 rounded-full bg-canvas-card" />
     </div>
   );
 }
@@ -51,15 +51,15 @@ function DashboardMockup() {
         {[0, 1, 2].map((i) => (
           <div
             key={i}
-            className="rounded border border-white/[0.06] bg-white/[0.02] px-2 py-2"
+            className="rounded border border-hairline bg-canvas-card px-2 py-2"
           >
             <span className="block h-1 w-6 rounded-full bg-lab/60" />
-            <span className="mt-1.5 block h-2 w-8 rounded-sm bg-white/45" />
-            <span className="mt-1 block h-1 w-5 rounded-full bg-white/15" />
+            <span className="mt-1.5 block h-2 w-8 rounded-sm bg-canvas-card" />
+            <span className="mt-1 block h-1 w-5 rounded-full bg-canvas-card" />
           </div>
         ))}
       </div>
-      <div className="mb-3 rounded border border-white/[0.06] bg-white/[0.02] p-2">
+      <div className="mb-3 rounded border border-hairline bg-canvas-card p-2">
         <svg viewBox="0 0 100 30" className="h-8 w-full" preserveAspectRatio="none">
           <path
             d="M0,22 Q15,18 25,20 T50,12 T75,15 T100,8"
@@ -79,8 +79,8 @@ function DashboardMockup() {
         {[0, 1, 2].map((i) => (
           <div key={i} className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-lab/70" />
-            <span className="h-1.5 flex-1 rounded-full bg-white/[0.06]" />
-            <span className="h-1.5 w-8 rounded-full bg-white/[0.1]" />
+            <span className="h-1.5 flex-1 rounded-full bg-canvas-card" />
+            <span className="h-1.5 w-8 rounded-full bg-canvas-card" />
           </div>
         ))}
       </div>
@@ -91,25 +91,25 @@ function DashboardMockup() {
 function MobileMockup() {
   return (
     <div className="flex h-full items-center justify-center">
-      <div className="relative h-full max-h-[200px] w-[110px] overflow-hidden rounded-xl border border-white/[0.1] bg-black/40 p-2">
-        <div className="mx-auto mb-2 h-1 w-8 rounded-full bg-white/15" />
+      <div className="relative h-full max-h-[200px] w-[110px] overflow-hidden rounded-xl border border-hairline bg-canvas-card p-2">
+        <div className="mx-auto mb-2 h-1 w-8 rounded-full bg-canvas-card" />
         <div className="mb-2 flex items-center justify-between">
-          <span className="h-1 w-4 rounded-full bg-white/20" />
-          <span className="h-1 w-3 rounded-full bg-white/20" />
+          <span className="h-1 w-4 rounded-full bg-canvas-card" />
+          <span className="h-1 w-3 rounded-full bg-canvas-card" />
         </div>
-        <div className="mb-2 rounded bg-white/[0.04] p-1.5">
+        <div className="mb-2 rounded bg-canvas-card p-1.5">
           <span className="block h-1 w-12 rounded-full bg-lab/70" />
-          <span className="mt-0.5 block h-1 w-8 rounded-full bg-white/20" />
+          <span className="mt-0.5 block h-1 w-8 rounded-full bg-canvas-card" />
         </div>
         {[0, 1, 2].map((i) => (
           <div
             key={i}
-            className="mb-1.5 flex items-center gap-1.5 rounded border border-white/[0.05] bg-white/[0.02] px-1.5 py-1"
+            className="mb-1.5 flex items-center gap-1.5 rounded border border-hairline bg-canvas-card px-1.5 py-1"
           >
             <span className="h-2 w-2 rounded-sm bg-lab/40" />
             <div className="flex-1 space-y-0.5">
-              <span className="block h-1 w-full rounded-full bg-white/15" />
-              <span className="block h-1 w-1/2 rounded-full bg-white/[0.06]" />
+              <span className="block h-1 w-full rounded-full bg-canvas-card" />
+              <span className="block h-1 w-1/2 rounded-full bg-canvas-card" />
             </div>
           </div>
         ))}
@@ -128,31 +128,31 @@ function PortalMockup() {
     <div className="flex h-full flex-col">
       <ChromeBar />
       <div className="flex flex-1 gap-2">
-        <div className="w-1/3 space-y-1.5 rounded border border-white/[0.06] bg-white/[0.02] p-2">
+        <div className="w-1/3 space-y-1.5 rounded border border-hairline bg-canvas-card p-2">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-sm bg-lab/40" />
-              <span className="h-1 flex-1 rounded-full bg-white/15" />
+              <span className="h-1 flex-1 rounded-full bg-canvas-card" />
             </div>
           ))}
         </div>
         <div className="flex-1 space-y-1.5">
-          <div className="rounded border border-white/[0.06] bg-white/[0.02] p-2">
+          <div className="rounded border border-hairline bg-canvas-card p-2">
             <span className="block h-1.5 w-2/3 rounded-full bg-lab/65" />
-            <span className="mt-1.5 block h-1 w-full rounded-full bg-white/15" />
-            <span className="mt-0.5 block h-1 w-1/2 rounded-full bg-white/[0.08]" />
+            <span className="mt-1.5 block h-1 w-full rounded-full bg-canvas-card" />
+            <span className="mt-0.5 block h-1 w-1/2 rounded-full bg-canvas-card" />
             <div className="mt-2 flex items-center gap-1.5">
               <span className="rounded-full bg-lab/15 px-1.5 py-0.5 text-[7px] font-mono uppercase tracking-widest text-lab">
                 Active
               </span>
-              <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 text-[7px] font-mono uppercase tracking-widest text-white/50">
+              <span className="rounded-full bg-canvas-card px-1.5 py-0.5 text-[7px] font-mono uppercase tracking-widest text-ink-muted">
                 Draft
               </span>
             </div>
           </div>
-          <div className="rounded border border-white/[0.06] bg-white/[0.02] p-2">
-            <span className="block h-1 w-1/2 rounded-full bg-white/20" />
-            <span className="mt-1 block h-1 w-full rounded-full bg-white/[0.08]" />
+          <div className="rounded border border-hairline bg-canvas-card p-2">
+            <span className="block h-1 w-1/2 rounded-full bg-canvas-card" />
+            <span className="mt-1 block h-1 w-full rounded-full bg-canvas-card" />
           </div>
         </div>
       </div>
@@ -164,10 +164,10 @@ function CrmMockup() {
   return (
     <div className="flex h-full flex-col">
       <ChromeBar />
-      <div className="mb-2 flex items-center gap-3 border-b border-white/[0.06] pb-1">
+      <div className="mb-2 flex items-center gap-3 border-b border-hairline pb-1">
         <span className="block h-1 w-8 rounded-full bg-lab" />
-        <span className="block h-1 w-6 rounded-full bg-white/15" />
-        <span className="block h-1 w-7 rounded-full bg-white/15" />
+        <span className="block h-1 w-6 rounded-full bg-canvas-card" />
+        <span className="block h-1 w-7 rounded-full bg-canvas-card" />
       </div>
       <div className="flex-1 space-y-1.5">
         {[
@@ -178,12 +178,12 @@ function CrmMockup() {
         ].map((row, i) => (
           <div
             key={i}
-            className="flex items-center gap-2 rounded border border-white/[0.05] bg-white/[0.02] px-2 py-1.5"
+            className="flex items-center gap-2 rounded border border-hairline bg-canvas-card px-2 py-1.5"
           >
             <span className="h-3 w-3 rounded-full bg-lab/35" />
             <div className="flex-1 space-y-0.5">
-              <span className="block h-1 w-1/2 rounded-full bg-white/30" />
-              <span className="block h-1 w-1/3 rounded-full bg-white/[0.08]" />
+              <span className="block h-1 w-1/2 rounded-full bg-canvas-card" />
+              <span className="block h-1 w-1/3 rounded-full bg-canvas-card" />
             </div>
             <span
               className={[
@@ -192,7 +192,7 @@ function CrmMockup() {
                   ? 'bg-lab/15 text-lab'
                   : row.status === 'pending'
                     ? 'bg-amber-400/15 text-amber-400/80'
-                    : 'bg-white/[0.06] text-white/40',
+                    : 'bg-canvas-card text-ink-muted',
               ].join(' ')}
             >
               {row.status}
@@ -228,7 +228,7 @@ function BuildTileBody({
 }) {
   const Mockup = MOCKUP_MAP[kind];
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.02] text-left transition-all duration-500 hover:border-lab/35 hover:bg-white/[0.04]">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-hairline bg-canvas-card text-left transition-all duration-500 hover:border-lab/35 hover:bg-canvas-card">
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -239,7 +239,7 @@ function BuildTileBody({
       />
       <div
         aria-hidden
-        className="relative aspect-[16/10] overflow-hidden border-b border-white/[0.05] bg-gradient-to-br from-lab/[0.04] via-transparent to-transparent p-4"
+        className="relative aspect-[16/10] overflow-hidden border-b border-hairline bg-gradient-to-br from-lab/[0.04] via-transparent to-transparent p-4"
       >
         <Mockup />
       </div>
@@ -247,19 +247,19 @@ function BuildTileBody({
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-lab/85">
           {industry}
         </p>
-        <h3 className="mt-3 text-lg font-semibold tracking-tight text-white">
+        <h3 className="mt-3 text-lg font-semibold tracking-tight text-navy">
           {title}
         </h3>
         {/* Subtitle takes natural height — no flex-1. With flex-1 (flex: 1 1 0%
             = flex-shrink: 1), a row-uniform grid height + outer overflow-hidden
             could clip the last line on cards with shorter subtitles. */}
-        <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
           {subtitle}
         </p>
         {/* mt-auto pushes the footer to the bottom of the flex container
             regardless of subtitle height — gives the column its alignment
             without putting the subtitle at flex-shrink risk. */}
-        <div className="mt-auto flex items-center gap-1.5 border-t border-white/[0.05] pt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 transition-colors duration-300 group-hover:text-lab">
+        <div className="mt-auto flex items-center gap-1.5 border-t border-hairline pt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted transition-colors duration-300 group-hover:text-lab">
           {clickable ? 'See the build' : 'Custom build'}
           <ArrowRight
             size={11}
@@ -326,7 +326,7 @@ function BuildDetailModal({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[100] overflow-y-auto bg-black/75 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-canvas-card backdrop-blur-sm"
       style={{
         animation: 'build-modal-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1)',
       }}
@@ -339,7 +339,7 @@ function BuildDetailModal({
       >
         {/* Panel */}
         <div
-          className="relative w-full max-w-3xl rounded-2xl border border-white/10 bg-[#070707] shadow-[0_50px_140px_-20px_rgba(0,0,0,0.85),0_0_40px_-10px_rgba(24,169,153,0.25)]"
+          className="relative w-full max-w-3xl rounded-2xl border border-hairline bg-[#070707] shadow-[0_50px_140px_-20px_rgba(0,0,0,0.85),0_0_40px_-10px_rgba(24,169,153,0.25)]"
           style={{
             animation: 'build-modal-pop 320ms cubic-bezier(0.22, 1, 0.36, 1)',
           }}
@@ -349,17 +349,17 @@ function BuildDetailModal({
           onClick={onClose}
           aria-label="Close"
           data-cursor="hover"
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/70 backdrop-blur-md transition-all duration-200 hover:border-white/30 hover:bg-black/85 hover:text-white"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-canvas-card text-ink backdrop-blur-md transition-all duration-200 hover:border-hairline hover:bg-canvas-card hover:text-navy"
         >
           <X size={16} strokeWidth={2.25} />
         </button>
 
         {/* Hero strip — mockup + identity */}
-        <div className="grid grid-cols-1 gap-6 border-b border-white/[0.08] p-7 md:grid-cols-12 md:p-10">
+        <div className="grid grid-cols-1 gap-6 border-b border-hairline p-7 md:grid-cols-12 md:p-10">
           <div className="md:col-span-5">
             <div
               aria-hidden
-              className="aspect-[16/10] overflow-hidden rounded-lg border border-white/[0.08] bg-gradient-to-br from-lab/[0.06] via-transparent to-transparent p-4"
+              className="aspect-[16/10] overflow-hidden rounded-lg border border-hairline bg-gradient-to-br from-lab/[0.06] via-transparent to-transparent p-4"
             >
               <Mockup />
             </div>
@@ -370,42 +370,42 @@ function BuildDetailModal({
             </p>
             <h2
               id="build-modal-title"
-              className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl"
+              className="mt-3 text-2xl font-semibold tracking-tight text-navy md:text-3xl"
             >
               {tile.title}
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+            <p className="mt-4 text-base leading-relaxed text-ink md:text-lg">
               {tile.detail.lead}
             </p>
           </div>
         </div>
 
         {/* Who it's for */}
-        <div className="grid grid-cols-1 gap-6 border-b border-white/[0.06] p-7 md:grid-cols-12 md:p-10">
+        <div className="grid grid-cols-1 gap-6 border-b border-hairline p-7 md:grid-cols-12 md:p-10">
           <div className="md:col-span-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-lab">
               Who it’s for
             </p>
           </div>
-          <p className="text-base leading-relaxed text-white/75 md:col-span-9 md:text-lg">
+          <p className="text-base leading-relaxed text-ink md:col-span-9 md:text-lg">
             {tile.detail.whoItsFor}
           </p>
         </div>
 
         {/* Replaces */}
-        <div className="grid grid-cols-1 gap-6 border-b border-white/[0.06] p-7 md:grid-cols-12 md:p-10">
+        <div className="grid grid-cols-1 gap-6 border-b border-hairline p-7 md:grid-cols-12 md:p-10">
           <div className="md:col-span-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-lab">
               Replaces
             </p>
           </div>
-          <p className="text-base leading-relaxed text-white/65 md:col-span-9 md:text-lg">
+          <p className="text-base leading-relaxed text-ink md:col-span-9 md:text-lg">
             {tile.detail.replaces}
           </p>
         </div>
 
         {/* Features */}
-        <div className="grid grid-cols-1 gap-6 border-b border-white/[0.06] p-7 md:grid-cols-12 md:p-10">
+        <div className="grid grid-cols-1 gap-6 border-b border-hairline p-7 md:grid-cols-12 md:p-10">
           <div className="md:col-span-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-lab">
               What it does
@@ -415,7 +415,7 @@ function BuildDetailModal({
             {tile.detail.features.map((f, i) => (
               <li
                 key={i}
-                className="flex items-start gap-3 text-base leading-relaxed text-white/85 md:text-lg"
+                className="flex items-start gap-3 text-base leading-relaxed text-ink md:text-lg"
               >
                 <span
                   aria-hidden
@@ -430,7 +430,7 @@ function BuildDetailModal({
         </div>
 
         {/* Results */}
-        <div className="grid grid-cols-1 gap-6 border-b border-white/[0.06] p-7 md:grid-cols-12 md:p-10">
+        <div className="grid grid-cols-1 gap-6 border-b border-hairline p-7 md:grid-cols-12 md:p-10">
           <div className="md:col-span-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-lab">
               Typical results
@@ -440,7 +440,7 @@ function BuildDetailModal({
             {tile.detail.results.map((r, i) => (
               <li
                 key={i}
-                className="border-l-2 border-lab/40 pl-4 text-base leading-relaxed text-white/85 md:text-lg"
+                className="border-l-2 border-lab/40 pl-4 text-base leading-relaxed text-ink md:text-lg"
               >
                 {r}
               </li>
@@ -450,7 +450,7 @@ function BuildDetailModal({
 
         {/* CTA */}
         <div className="flex flex-wrap items-center justify-between gap-4 p-7 md:p-10">
-          <p className="max-w-md text-sm leading-relaxed text-white/55 md:text-base">
+          <p className="max-w-md text-sm leading-relaxed text-ink-muted md:text-base">
             This is one example. Your build will be shaped around your team —
             not this template.
           </p>
@@ -459,7 +459,7 @@ function BuildDetailModal({
             onClick={onClose}
             data-cursor="magnetic"
             data-cursor-strength="22"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
           >
             Get a free audit
             <ArrowRight size={14} />

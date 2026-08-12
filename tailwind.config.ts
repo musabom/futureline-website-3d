@@ -24,6 +24,22 @@ const config: Config = {
           DEFAULT: '#2DD4BF',
           light: '#5EEAD4',
         },
+        // Light-surface palette for the redesigned public pages.
+        // Additive on purpose: every existing dark token is left untouched so
+        // unconverted pages keep rendering correctly while the redesign lands
+        // one surface at a time. Reads as `bg-canvas text-ink border-hairline`.
+        canvas: {
+          DEFAULT: '#F7FAFA',
+          alt: '#EEF5F4',
+          card: '#FFFFFF',
+        },
+        ink: {
+          // Body text is the brand navy rather than a neutral black — it is
+          // what keeps the light theme feeling like FutureLine.
+          DEFAULT: '#0F1E3D',
+          muted: '#5B6B78',
+        },
+        hairline: 'rgba(15, 30, 61, 0.10)',
         // Two-pole accent system (Lab vs Academy)
         lab: {
           DEFAULT: '#18A999',

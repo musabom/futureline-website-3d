@@ -1,13 +1,14 @@
 /**
- * CanvasBoundary — renders `fallback` if a WebGL scene fails to mount.
+ * CanvasBoundary — renders `fallback` if the WebGL scene fails to mount.
  *
- * WebGL context creation fails for real reasons: blocklisted drivers, GPU
- * process crashes, too many live contexts on one page, headless/CI browsers.
- * A thrown error inside <Canvas> would otherwise take down the whole route,
- * so each scene gets its own boundary and degrades to a static visual.
+ * This is the React replacement for the prototype's
+ * `initWebGL().catch(() => initParticles())`. Context creation can fail for
+ * reasons that have nothing to do with our code — no GPU, a blocklisted
+ * driver, too many live contexts on the page, or WebGL disabled outright —
+ * and a hero that renders nothing at all is a much worse outcome than a
+ * simpler animation.
  *
- * Must be a class component — React has no hook equivalent of
- * componentDidCatch.
+ * Must be a class component: error boundaries have no hooks equivalent.
  */
 'use client'
 
@@ -30,8 +31,8 @@ export class CanvasBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    // Surface it — a silently missing hero is worse than a noisy console.
-    console.warn('[CanvasBoundary] WebGL scene failed, showing fallback:', error, info)
+    // Worth surfacing: this means real visitors are seeing the fallback.
+    console.warn('[CanvasBoundary] WebGL scene failed, using fallback:', error, info)
   }
 
   render() {

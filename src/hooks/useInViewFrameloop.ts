@@ -1,11 +1,18 @@
 /**
- * useInViewFrameloop — an R3F <Canvas frameloop> value that renders only when
- * the scene is actually on screen and the tab is visible.
+ * useInViewFrameloop — an R3F <Canvas frameloop> value that animates only
+ * while the scene is on screen and the tab is visible.
  *
- * R3F's frameloop prop is reactive: flipping it to 'never' stops the render
- * loop entirely, useFrame callbacks included. That makes this the idiomatic
+ * R3F's frameloop prop is reactive, which makes this the idiomatic
  * replacement for hand-rolled IntersectionObserver + visibilitychange gating
  * around a raw rAF loop.
+ *
+ * Pauses to 'demand', deliberately not 'never'. With 'never' R3F does not
+ * render *at all* — not even an initial frame — so a scene that mounts while
+ * paused shows an empty canvas rather than a still image. 'demand' draws once
+ * on mount and then only on invalidation, so a paused scene holds a static
+ * frame. That matters whenever a canvas mounts in a background tab, and it is
+ * also what makes the scene visible immediately on scroll-in instead of one
+ * frame late.
  *
  * Worth applying to existing canvases too — a <Canvas> left at
  * frameloop="always" keeps rendering at 60fps while the user reads a section
@@ -18,7 +25,7 @@ import { useEffect, useState, type RefObject } from 'react'
 export function useInViewFrameloop(
   ref: RefObject<HTMLElement | null>,
   { rootMargin = '200px' }: { rootMargin?: string } = {},
-): 'always' | 'never' {
+): 'always' | 'demand' {
   const [onScreen, setOnScreen] = useState(false)
   const [tabVisible, setTabVisible] = useState(true)
 
@@ -46,5 +53,5 @@ export function useInViewFrameloop(
     return () => document.removeEventListener('visibilitychange', onChange)
   }, [])
 
-  return onScreen && tabVisible ? 'always' : 'never'
+  return onScreen && tabVisible ? 'always' : 'demand'
 }

@@ -11,6 +11,164 @@
     "courses": "Courses",
     "signIn": "Sign In",
     "getStarted": "Get Started",
-    "readinessAssessment": "Readiness assessment"
+    "readinessAssessment": "Readiness assessment",
+    "dashboard": "Dashboard",
+    "signOut": "Sign out"
+  },
+  "hero": {
+    "eyebrow": "AI Consulting · Applications · Training",
+    "tagline": "DESIGN · DEPLOY · EVOLVE",
+    "lede": "An Omani company turning AI from talk into practice — we advise, we build, and we train, in Arabic and English side by side.",
+    "primaryCta": "Get an AI readiness assessment",
+    "secondaryCta": "What we offer",
+    "chips": {
+      "consulting": "AI Consulting",
+      "apps": "Apps & AI agents",
+      "training": "Training & Vibe Coding",
+      "bilingual": "+ English"
+    }
+  },
+  "story": {
+    "heading": "How we work: we advise, we build, we train",
+    "act1": {
+      "kicker": "01 — We advise",
+      "title": "Every organisation asks the same question: where do we begin?",
+      "body": "We assess your AI readiness, find the highest-return use cases, and map an adoption roadmap — with safe-use policy and data governance from day one."
+    },
+    "act2": {
+      "kicker": "02 — We build",
+      "title": "A working prototype in days, not months.",
+      "body": "Custom applications, AI agents for repetitive operations, and MVPs that prove the case — including closed-premise builds where data never leaves your walls."
+    },
+    "act3": {
+      "kicker": "03 — We train",
+      "title": "Then we hand you the keys.",
+      "body": "Applied AI training and the Vibe Coding programme — from idea to deployed product with no programming background — so your people lead AI themselves."
+    },
+    "labels": {
+      "consulting": "AI Consulting",
+      "applications": "Custom Applications",
+      "agents": "AI Agents",
+      "training": "Training & Enablement"
+    }
+  },
+  "visionMission": {
+    "visionKicker": "Our Vision",
+    "vision": "Making everyone a leader in AI.",
+    "missionKicker": "Our Mission",
+    "mission": "We turn AI from talk into practice — advising, building, and training, so that every person and organisation can design their own solutions and deploy them safely, in their own language, inside their own walls."
+  },
+  "differentiators": {
+    "heading": "What makes us different",
+    "buildTeach": {
+      "title": "We build and we teach",
+      "body": "A working solution, and a team able to carry it forward."
+    },
+    "speed": {
+      "title": "Days, not months",
+      "body": "We take an idea to a working prototype fast, then prove the case."
+    },
+    "bilingual": {
+      "title": "Arabic + English",
+      "body": "AI knowledge in the language your team actually thinks in."
+    },
+    "onPremise": {
+      "title": "Inside your walls",
+      "body": "The Safe Build Protocol, for closed premises and sensitive data."
+    }
+  },
+  "pillars": {
+    "eyebrow": "What we offer",
+    "heading": "Three pillars: we advise, we build, we train",
+    "lede": "Start where you need us most — or take the full journey, from the first question to leading AI yourselves.",
+    "consulting": {
+      "title": "Consulting",
+      "cta": "Start here",
+      "points": [
+        "AI readiness assessment for the organisation",
+        "Highest-return use cases and opportunities",
+        "Adoption roadmap with measures of impact",
+        "Safe-use policy and data governance"
+      ]
+    },
+    "applications": {
+      "title": "Building Applications",
+      "cta": "Build with us",
+      "points": [
+        "Custom applications and systems for organisations",
+        "AI agents and automation for repetitive operations",
+        "Working MVPs that prove the case before major investment",
+        "Fast, lightweight solutions for individuals and founders",
+        "The Safe Build Protocol for closed premises and sensitive data"
+      ]
+    },
+    "training": {
+      "title": "Training & Enablement",
+      "cta": "Get trained",
+      "points": [
+        "Applied AI training for individuals and teams",
+        "Vibe Coding: idea to deployed product, no programming background",
+        "Safe and responsible AI workshops",
+        "Programme licensing and train-the-trainer"
+      ]
+    }
+  },
+  "audiences": {
+    "eyebrow": "Who we serve",
+    "heading": "From closed government networks to a founder with an idea",
+    "lede": "AI that fits your constraints — your data, your language, your walls.",
+    "government": {
+      "title": "Government entities",
+      "body": "AI inside closed environments, where data cannot leave the premises. Built under the Safe Build Protocol."
+    },
+    "universities": {
+      "title": "Universities & institutes",
+      "body": "Real AI capability in students and academic staff — with programmes you can license and run yourselves."
+    },
+    "private": {
+      "title": "Private sector",
+      "body": "Raising team productivity and automating operations, with agents and applications shaped to how you already work."
+    },
+    "founders": {
+      "title": "Individuals & founders",
+      "body": "Anyone with an idea and no development team. We take it to a working product, then teach you to evolve it."
+    }
+  },
+  "cta": {
+    "eyebrow": "Get started",
+    "heading": "Ready to lead AI — not just talk about it?",
+    "lede": "Request an AI readiness assessment: a straight look at where AI pays off for you first, and how quickly we can prove it.",
+    "submit": "Request my readiness assessment",
+    "messageLabel": "Where do you want AI to help first?",
+    "messagePlaceholder": "A process to automate, an app idea, training for your team, a use case to assess…"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Straight answers, no jargon",
+    "items": [
+      {
+        "question": "Our data can't leave our premises. Can you still build for us?",
+        "answer": "Yes — that is what our Safe Build Protocol is for. We build inside closed environments for government entities and organisations with sensitive data, so nothing ever leaves your walls."
+      },
+      {
+        "question": "Do you work in Arabic?",
+        "answer": "Arabic and English side by side — consulting, training, and the products themselves. Most AI knowledge today never reaches the people who need it in the language they think in; we close that gap."
+      },
+      {
+        "question": "What is the Vibe Coding programme?",
+        "answer": "It takes you from an idea to a deployed product with no programming background. You finish the programme with a real, published product rather than a certificate."
+      },
+      {
+        "question": "How fast can we see something working?",
+        "answer": "Days, not months. We take an idea to a working prototype quickly, prove the case, and only then talk about larger investment."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Making everyone a leader in AI.",
+    "location": "Muscat, Sultanate of Oman",
+    "whatWeOffer": "What we offer",
+    "company": "Company",
+    "rights": "All rights reserved."
   }
 }

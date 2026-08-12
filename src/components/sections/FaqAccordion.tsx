@@ -8,31 +8,34 @@
  * Emits FAQPage JSON-LD from the same array it renders, so the structured
  * data can never drift from what's on screen.
  */
-import { HOME_FAQ, faqJsonLd } from '@/content/home';
+import { getTranslations } from 'next-intl/server';
+import { faqJsonLd, type FaqItem } from '@/content/home';
 
-export function FaqAccordion() {
+export async function FaqAccordion() {
+  const t = await getTranslations('faq');
+  const items = t.raw('items') as FaqItem[];
   return (
     <section id="faq" aria-labelledby="faq-heading" className="relative py-20 md:py-28">
       <script
         type="application/ld+json"
         // Static, developer-authored content — no user input reaches this.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(items)) }}
       />
       <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="mb-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-teal">
-            FAQ
+            {t('eyebrow')}
           </p>
           <h2
             id="faq-heading"
             className="font-display text-4xl font-bold tracking-tight text-navy md:text-5xl"
           >
-            Straight answers, no jargon
+            {t('heading')}
           </h2>
         </div>
 
         <div className="space-y-3">
-          {HOME_FAQ.map((item, i) => (
+          {items.map((item, i) => (
             <details
               key={item.question}
               open={i === 0}

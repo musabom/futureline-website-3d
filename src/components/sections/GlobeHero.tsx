@@ -8,19 +8,21 @@
  * Layers, back to front: aurora glow → WebGL globe → perspective grid floor →
  * floating chips → copy.
  */
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
 import { ArrowRight, MessageSquare, Code2, GraduationCap, Globe } from 'lucide-react';
 import GlobeHeroScene from './GlobeHeroCanvasLazy';
 import { DecodeText } from '@/components/ui/DecodeText';
 
 const CHIPS = [
-  { icon: MessageSquare, label: 'AI Consulting', pos: 'left-[6%] top-[26%]', delay: '0s' },
-  { icon: Code2, label: 'Apps & AI agents', pos: 'right-[7%] top-[22%]', delay: '1.2s' },
-  { icon: GraduationCap, label: 'Training & Vibe Coding', pos: 'right-[9%] bottom-[24%]', delay: '0.6s' },
-  { icon: Globe, label: 'عربي + English', pos: 'left-[8%] bottom-[26%]', delay: '1.8s', arabic: true },
-];
+  { key: 'consulting', icon: MessageSquare, pos: 'left-[6%] top-[26%]', delay: '0s', arabic: false },
+  { key: 'apps', icon: Code2, pos: 'right-[7%] top-[22%]', delay: '1.2s', arabic: false },
+  { key: 'training', icon: GraduationCap, pos: 'right-[9%] bottom-[24%]', delay: '0.6s', arabic: false },
+  { key: 'bilingual', icon: Globe, pos: 'left-[8%] bottom-[26%]', delay: '1.8s', arabic: true },
+] as const;
 
-export function GlobeHero() {
+export async function GlobeHero() {
+  const t = await getTranslations('hero');
   return (
     <section
       id="top"
@@ -45,9 +47,9 @@ export function GlobeHero() {
       {/* Floating chips. Hidden below lg — they collide with the copy on
           narrow screens, and they're decorative reinforcement, not content. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-        {CHIPS.map(({ icon: Icon, label, pos, delay, arabic }) => (
+        {CHIPS.map(({ icon: Icon, key, pos, delay, arabic }) => (
           <span
-            key={label}
+            key={key}
             className={`fl-glass-strong absolute ${pos} inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-display text-sm font-semibold text-ink fl-elev-2 motion-safe:animate-chip-bob`}
             style={{ animationDelay: delay }}
           >
@@ -57,10 +59,10 @@ export function GlobeHero() {
                 <span dir="rtl" lang="ar" className="font-arabic">
                   عربي
                 </span>
-                <span>+ English</span>
+                <span>{t('chips.bilingual')}</span>
               </>
             ) : (
-              label
+              t(`chips.${key}`)
             )}
           </span>
         ))}
@@ -70,7 +72,7 @@ export function GlobeHero() {
       <div className="relative z-10 flex flex-col items-center text-center">
         <p className="fl-glass-strong mb-7 inline-flex items-center gap-2.5 rounded-pill px-4 py-2 font-display text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-navy fl-elev-1">
           <span className="h-1.5 w-1.5 rounded-full bg-teal motion-safe:animate-pulse-ring" />
-          AI Consulting · Applications · Training
+          {t('eyebrow')}
         </p>
 
         <h1
@@ -81,14 +83,11 @@ export function GlobeHero() {
         </h1>
 
         <DecodeText
-          text="DESIGN · DEPLOY · EVOLVE"
+          text={t('tagline')}
           className="mb-6 font-display text-[clamp(0.9rem,2vw,1.25rem)] font-semibold tracking-[0.4em] text-teal"
         />
 
-        <p className="mb-9 max-w-xl text-lg leading-relaxed text-ink-muted">
-          An Omani company turning AI from talk into practice — we advise, we build, and we
-          train, in Arabic and English side by side.
-        </p>
+        <p className="mb-9 max-w-xl text-lg leading-relaxed text-ink-muted">{t('lede')}</p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
@@ -96,7 +95,7 @@ export function GlobeHero() {
             className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-7 py-3.5 font-display text-base font-semibold text-white shadow-[0_10px_24px_-8px_rgba(24,169,153,0.5)] transition-transform duration-300 hover:-translate-y-0.5"
             data-cursor="magnetic"
           >
-            Get an AI readiness assessment
+            {t('primaryCta')}
             <ArrowRight
               size={18}
               className="transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180"
@@ -112,7 +111,7 @@ export function GlobeHero() {
             className="fl-glass-strong inline-flex items-center justify-center rounded-pill px-7 py-3.5 font-display text-base font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5 fl-elev-1"
             data-cursor="hover"
           >
-            What we offer
+            {t('secondaryCta')}
           </Link>
         </div>
       </div>

@@ -15,30 +15,14 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import ThreeActStoryScene from './ThreeActStoryCanvasLazy';
 
-export const STORY_ACTS = [
-  {
-    kicker: '01 — We advise',
-    title: 'Every organisation asks the same question: where do we begin?',
-    body: 'We assess your AI readiness, find the highest-return use cases, and map an adoption roadmap — with safe-use policy and data governance from day one.',
-  },
-  {
-    kicker: '02 — We build',
-    title: 'A working prototype in days, not months.',
-    body: 'Custom applications, AI agents for repetitive operations, and MVPs that prove the case — including closed-premise builds where data never leaves your walls.',
-  },
-  {
-    kicker: '03 — We train',
-    title: 'Then we hand you the keys.',
-    body: 'Applied AI training and the Vibe Coding programme — from idea to deployed product with no programming background — so your people lead AI themselves.',
-  },
-];
+const ACT_KEYS = ['act1', 'act2', 'act3'] as const;
+const LABEL_KEYS = ['consulting', 'applications', 'agents', 'training'] as const;
 
-/** Labels projected onto the four cluster hubs during act 3. */
-const CLUSTER_LABELS = ['AI Consulting', 'Custom Applications', 'AI Agents', 'Training & Enablement'];
 
 /** Caption visibility bands: [fadeInStart, fadeInEnd, fadeOutStart, fadeOutEnd]. */
 const BANDS: [number, number, number, number][] = [
@@ -53,6 +37,13 @@ const smooth = (p: number, a: number, b: number) => {
 };
 
 export function ThreeActStory() {
+  const t = useTranslations('story');
+  const acts = ACT_KEYS.map((k) => ({
+    key: k,
+    kicker: t(`${k}.kicker`),
+    title: t(`${k}.title`),
+    body: t(`${k}.body`),
+  }));
   const sectionRef = useRef<HTMLElement>(null);
   const captionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLElement | null)[]>([]);
@@ -62,7 +53,7 @@ export function ThreeActStory() {
 
   const { progressRef } = useSectionProgress(sectionRef, {
     end: '+=300%',
-    steps: STORY_ACTS.length,
+    steps: ACT_KEYS.length,
     // Only fires when the index changes, so this is 3 renders for the whole
     // scrub rather than one per frame.
     onStep: setActiveAct,
@@ -95,11 +86,11 @@ export function ThreeActStory() {
         className="relative py-20 md:py-28"
       >
         <h2 id="story-heading" className="sr-only">
-          How we work
+          {t('heading')}
         </h2>
         <div className="mx-auto max-w-2xl space-y-14 px-6">
-          {STORY_ACTS.map((act) => (
-            <div key={act.kicker}>
+          {acts.map((act) => (
+            <div key={act.key}>
               <p className="mb-3 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
                 {act.kicker}
               </p>
@@ -122,22 +113,22 @@ export function ThreeActStory() {
       className="relative flex h-screen w-full items-center justify-center overflow-hidden"
     >
       <h2 id="story-heading" className="sr-only">
-        How we work: we advise, we build, we train
+        {t('heading')}
       </h2>
 
       <ThreeActStoryScene progressRef={progressRef} labelRefs={labelRefs} />
 
       {/* Cluster labels — positioned each frame by the canvas. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-20">
-        {CLUSTER_LABELS.map((label, i) => (
+        {LABEL_KEYS.map((labelKey, i) => (
           <span
-            key={label}
+            key={labelKey}
             ref={(el) => {
               labelRefs.current[i] = el;
             }}
             className="fl-glass-strong absolute left-0 top-0 whitespace-nowrap rounded-pill px-4 py-2 font-display text-sm font-semibold text-ink opacity-0 fl-elev-2"
           >
-            {label}
+            {t(`labels.${labelKey}`)}
           </span>
         ))}
       </div>
@@ -145,9 +136,9 @@ export function ThreeActStory() {
       {/* Captions. Server rendered so the copy is crawlable even though the
           scrub controls their opacity. */}
       <div className="pointer-events-none relative z-20 w-full">
-        {STORY_ACTS.map((act, i) => (
+        {acts.map((act, i) => (
           <div
-            key={act.kicker}
+            key={act.key}
             ref={(el) => {
               captionRefs.current[i] = el;
             }}

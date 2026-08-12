@@ -22,13 +22,11 @@
 'use client';
 
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
-const VISION_EN = 'Making everyone a leader in AI.';
 const VISION_AR = 'أن يكون الجميع قائدًا في الذكاء الاصطناعي.';
-const MISSION_EN =
-  'We turn AI from talk into practice — advising, building, and training, so that every person and organisation can design their own solutions and deploy them safely, in their own language, inside their own walls.';
 
 const smooth = (p: number, a: number, b: number) => {
   const t = Math.min(1, Math.max(0, (p - a) / (b - a)));
@@ -36,6 +34,9 @@ const smooth = (p: number, a: number, b: number) => {
 };
 
 export function VisionMission() {
+  const t = useTranslations('visionMission');
+  const VISION_EN = t('vision');
+  const MISSION_EN = t('mission');
   const sectionRef = useRef<HTMLElement>(null);
   const visionKickerRef = useRef<HTMLParagraphElement>(null);
   const missionKickerRef = useRef<HTMLParagraphElement>(null);
@@ -114,7 +115,7 @@ export function VisionMission() {
         <div className="mx-auto max-w-3xl space-y-14 px-6 text-center">
           <div>
             <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
-              Our Vision
+              {t('visionKicker')}
             </p>
             <h2
               id="vision-heading"
@@ -128,7 +129,7 @@ export function VisionMission() {
           </div>
           <div>
             <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
-              Our Mission
+              {t('missionKicker')}
             </p>
             <p className="font-display text-2xl font-semibold leading-relaxed text-navy">
               {MISSION_EN}
@@ -161,7 +162,7 @@ export function VisionMission() {
           ref={visionKickerRef}
           className="mb-4 inline-block font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal opacity-0"
         >
-          Our Vision
+          {t('visionKicker')}
         </p>
         <h2
           id="vision-heading"
@@ -199,7 +200,7 @@ export function VisionMission() {
           ref={missionKickerRef}
           className="mb-4 inline-block font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal opacity-0"
         >
-          Our Mission
+          {t('missionKicker')}
         </p>
         <p className="font-display text-[clamp(1.45rem,3.1vw,2.25rem)] font-semibold leading-[1.5] tracking-[-0.01em] text-navy">
           {missionWords.map((word, i) => (

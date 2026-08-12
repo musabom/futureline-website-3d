@@ -4,15 +4,42 @@
  * audit is the entry point, not a service choice), no required message —
  * just first name, last name, email, and an optional one-liner.
  *
- * Posts to /api/leads with source='FL Audit Request' so submissions show
- * up in /admin/leads tagged distinctly from generic service enquiries.
+ * Posts to /api/leads. `enquiryType` and `source` are overridable so the
+ * same form can serve more than one funnel and still be told apart in
+ * /admin/leads — the defaults reproduce the original /audit behaviour
+ * exactly, so existing callers are unaffected.
+ *
+ * Input chrome comes from the shared .fl-* classes, which have light
+ * variants scoped under .fl-light. So this renders correctly on both the
+ * dark /audit page and the light redesign surfaces with no variant prop and
+ * no second copy to keep in sync — only the handful of hard-coded colours
+ * in the success panel and helper text need `tone`.
  */
 'use client';
 
 import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 
-export default function AuditEnquiryForm() {
+interface Props {
+  /** Stored on the lead so funnels are distinguishable in /admin/leads. */
+  enquiryType?: string;
+  source?: string;
+  /** Colour scheme for the copy this component owns. */
+  tone?: 'dark' | 'light';
+  submitLabel?: string;
+  messageLabel?: string;
+  messagePlaceholder?: string;
+}
+
+export default function AuditEnquiryForm({
+  enquiryType = 'Systems Audit',
+  source = 'FL Audit Request',
+  tone = 'dark',
+  submitLabel = 'Request my free audit',
+  messageLabel = 'What slows you down?',
+  messagePlaceholder = 'One line is enough. Paper trails, spreadsheet chaos, manual approvals…',
+}: Props = {}) {
+  const light = tone === 'light';
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -33,8 +60,8 @@ export default function AuditEnquiryForm() {
         body: JSON.stringify({
           ...form,
           message: form.message.trim() || 'No detail provided — requested a systems audit.',
-          tourType: 'Systems Audit',
-          source: 'FL Audit Request',
+          tourType: enquiryType,
+          source,
         }),
       });
       if (res.ok) {
@@ -57,19 +84,33 @@ export default function AuditEnquiryForm() {
 
   if (status === 'sent') {
     return (
-      <div className="rounded-lg border border-lab/30 bg-lab/[0.04] p-10 text-center">
-        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-lab/30 bg-lab/10">
-          <CheckCircle size={24} className="text-lab" />
+      <div
+        className={`rounded-lg border p-10 text-center ${
+          light ? 'border-teal/25 bg-teal/[0.06]' : 'border-lab/30 bg-lab/[0.04]'
+        }`}
+      >
+        <div
+          className={`mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full ${
+            light ? 'border border-teal/30 bg-teal/10' : 'border border-lab/30 bg-lab/10'
+          }`}
+        >
+          <CheckCircle size={24} className={light ? 'text-teal' : 'text-lab'} />
         </div>
-        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
-          Audit request received.
+        <h3
+          className={`mb-2 text-2xl font-semibold tracking-[-0.01em] ${
+            light ? 'font-display text-ink' : 'text-white'
+          }`}
+        >
+          Request received.
         </h3>
-        <p className="mb-8 text-sm leading-relaxed text-white/60">
+        <p className={`mb-8 text-sm leading-relaxed ${light ? 'text-ink-muted' : 'text-white/60'}`}>
           We&apos;ll review your details and be in touch within one business day to schedule a 30-minute call.
         </p>
         <button
           onClick={() => setStatus('idle')}
-          className="font-mono text-[11px] uppercase tracking-[0.3em] text-lab transition-colors hover:text-lab-light"
+          className={`font-mono text-[11px] uppercase tracking-[0.3em] transition-colors ${
+            light ? 'text-teal hover:text-teal-dark' : 'text-lab hover:text-lab-light'
+          }`}
           data-cursor="hover"
         >
           Submit another →
@@ -125,7 +166,7 @@ export default function AuditEnquiryForm() {
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label className="fl-label" htmlFor="ae-company">
-            Company <span className="text-white/40">(optional)</span>
+            Company <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
           </label>
           <input
             id="ae-company"
@@ -138,7 +179,7 @@ export default function AuditEnquiryForm() {
         </div>
         <div>
           <label className="fl-label" htmlFor="ae-phone">
-            Phone <span className="text-white/40">(optional)</span>
+            Phone <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
           </label>
           <input
             id="ae-phone"
@@ -153,7 +194,7 @@ export default function AuditEnquiryForm() {
 
       <div>
         <label className="fl-label" htmlFor="ae-message">
-          What slows you down? <span className="text-white/40">(optional)</span>
+          {messageLabel} <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
         </label>
         <textarea
           id="ae-message"
@@ -161,7 +202,7 @@ export default function AuditEnquiryForm() {
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           className="fl-textarea"
-          placeholder="One line is enough. Paper trails, spreadsheet chaos, manual approvals…"
+          placeholder={messagePlaceholder}
         />
       </div>
 
@@ -173,16 +214,16 @@ export default function AuditEnquiryForm() {
         data-cursor-strength="22"
       >
         <Send size={15} />
-        {status === 'sending' ? 'Submitting…' : 'Request my free audit'}
+        {status === 'sending' ? 'Submitting…' : submitLabel}
       </button>
 
       {status === 'error' && (
-        <p className="pt-1 text-center text-xs text-red-400/90">
+        <p className={`pt-1 text-center text-xs ${light ? 'text-red-600' : 'text-red-400/90'}`}>
           Something went wrong. Please try again.
         </p>
       )}
 
-      <p className="pt-2 text-center text-[11px] leading-relaxed text-white/45">
+      <p className={`pt-2 text-center text-[11px] leading-relaxed ${light ? 'text-ink-muted' : 'text-white/45'}`}>
         No commitment. No pitch deck. We&apos;ll come back with an honest read on what to fix first.
       </p>
     </form>

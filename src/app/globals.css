@@ -237,6 +237,37 @@ select.fl-input > option {
     background: rgba(24, 169, 153, 0.25);
     color: #0f1e3d;
   }
+
+  /* Light variants of the shared form primitives.
+     Scoping these rather than adding a variant prop means AuditEnquiryForm
+     and friends render correctly on a light surface without touching their
+     markup — so /audit keeps its current dark styling byte-for-byte and
+     there is no second copy of the form to keep in sync. */
+  .fl-light .fl-label {
+    @apply text-ink-muted;
+  }
+
+  .fl-light .fl-input,
+  .fl-light .fl-textarea,
+  .fl-light .fl-select {
+    @apply border-hairline bg-canvas-card text-ink placeholder:text-ink-muted/60
+           focus:border-teal/60 focus:ring-teal/20;
+  }
+
+  .fl-light .fl-select > option,
+  .fl-light select.fl-input > option {
+    background: #fff;
+    color: #0f1e3d;
+  }
+
+  .fl-light .fl-submit {
+    @apply bg-gradient-to-r from-navy via-teal to-mint text-white
+           hover:opacity-95;
+  }
+
+  .fl-light .fl-submit-ghost {
+    @apply border-hairline text-ink hover:border-teal/50 hover:text-navy;
+  }
 }
 
 @keyframes wordBounce {

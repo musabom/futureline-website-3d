@@ -7,7 +7,15 @@
 import { useEffect, useState } from 'react'
 
 export function usePrefersReducedMotion(): boolean {
-  const [prefers, setPrefers] = useState<boolean>(false)
+  // Lazy initialiser rather than useState(false): on the client the correct
+  // value is known before first paint, so a section that renders a static
+  // layout under reduced motion does so immediately instead of showing one
+  // animated frame first. Still returns false during SSR, so server and
+  // client markup match.
+  const [prefers, setPrefers] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  })
 
   useEffect(() => {
     if (typeof window === 'undefined') return

@@ -67,7 +67,7 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
       <button
         onClick={handleFreeEnroll}
         disabled={loading}
-        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
       >
         {loading ? 'Processing…' : 'Enrol for Free'}
       </button>
@@ -78,35 +78,35 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
     <div className="space-y-3">
       <button
         onClick={handleBankTransferOpen}
-        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
       >
         Pay via Bank Transfer
       </button>
 
       <button
         disabled
-        className="w-full py-2.5 px-4 rounded-lg border border-white/[0.08] text-slate-600 text-sm font-semibold cursor-not-allowed bg-white/[0.02] flex items-center justify-center gap-2"
+        className="w-full py-2.5 px-4 rounded-lg border border-hairline text-ink-muted text-sm font-semibold cursor-not-allowed bg-canvas-card flex items-center justify-center gap-2"
       >
         <CreditCard size={14} />
         <span>Credit Card</span>
-        <span className="text-[10px] bg-slate-800 text-slate-500 px-2 py-0.5 rounded-full uppercase tracking-widest">Coming Soon</span>
+        <span className="text-[10px] bg-slate-800 text-ink-muted px-2 py-0.5 rounded-full uppercase tracking-widest">Coming Soon</span>
       </button>
 
       {showQR && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="rounded-2xl border border-white/[0.07] bg-slate-950/90 backdrop-blur-xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-canvas-card backdrop-blur-sm p-4">
+          <div className="rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
             {submitted ? (
               <div className="text-center space-y-4 py-4">
                 <div className="w-14 h-14 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mx-auto">
                   <CheckCircle className="text-teal-400" size={28} />
                 </div>
-                <h3 className="text-lg font-black text-white tracking-tight">Request Submitted</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
+                <h3 className="text-lg font-black text-navy tracking-tight">Request Submitted</h3>
+                <p className="text-sm text-ink-muted leading-relaxed">
                   Your enrolment request is pending admin approval. You will receive access within 12 hours.
                 </p>
                 <button
                   onClick={() => { setShowQR(false); setSubmitted(false); }}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                 >
                   Close
                 </button>
@@ -114,10 +114,10 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
             ) : (
               <>
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-black text-white tracking-tight">Bank Transfer Payment</h3>
+                  <h3 className="text-base font-black text-navy tracking-tight">Bank Transfer Payment</h3>
                   <button
                     onClick={() => setShowQR(false)}
-                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-white/[0.08] text-slate-500 hover:text-white hover:border-white/20 transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-hairline text-ink-muted hover:text-navy hover:border-hairline transition-colors"
                   >
                     <X size={14} />
                   </button>
@@ -130,7 +130,7 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
                 <button
                   onClick={handleSubmitBankTransfer}
                   disabled={loading}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
                 >
                   {loading ? 'Submitting…' : 'I Have Paid — Submit My Request'}
                 </button>

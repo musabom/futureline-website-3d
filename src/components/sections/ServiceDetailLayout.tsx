@@ -11,7 +11,6 @@
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import { ChevronDown, Check, X, Layers } from 'lucide-react';
-import HeroRibbon3D from './HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { BrandedHeading } from '@/components/ui/BrandedHeading';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
@@ -153,17 +152,17 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   const innerRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="border-t border-white/[0.08]">
+    <div className="border-t border-hairline">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         className="group flex w-full items-start justify-between gap-6 py-6 text-left"
         data-cursor="hover"
       >
-        <span className="text-base font-medium leading-snug text-white md:text-lg">{q}</span>
+        <span className="text-base font-medium leading-snug text-navy md:text-lg">{q}</span>
         <ChevronDown
           size={18}
-          className="mt-1 flex-shrink-0 text-white/45 transition-transform duration-300 group-hover:text-lab"
+          className="mt-1 flex-shrink-0 text-ink-muted transition-transform duration-300 group-hover:text-lab"
           style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
         />
       </button>
@@ -173,7 +172,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         style={{ maxHeight: open ? `${innerRef.current?.scrollHeight ?? 600}px` : '0px' }}
       >
         <div ref={innerRef}>
-          <p className="pb-6 pr-12 text-sm leading-relaxed text-white/60 md:text-base">{a}</p>
+          <p className="pb-6 pr-12 text-sm leading-relaxed text-ink-muted md:text-base">{a}</p>
         </div>
       </div>
     </div>
@@ -212,22 +211,25 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
   ];
 
   return (
-    <main className="fl-dark-surface bg-brand-bg">
+    <main className="bg-canvas">
       <PageScrollSpy sections={spySections} />
       {/* ── Hero ── */}
-      <section id="top" className="relative overflow-hidden border-b border-white/[0.06]">
-        <div className="absolute inset-y-0 right-0 z-0 w-full md:w-1/2">
-          <HeroRibbon3D color="#18A999" tilt={0.35} bloom={0.75} />
-        </div>
+      <section id="top" className="relative overflow-hidden border-b border-hairline">
+        {/* HeroRibbon3D removed from this hero for now. Its Bloom +
+            Vignette pipeline renders opaque and is tuned for a black page,
+            so on the light canvas it reads as a grey slab rather than a
+            ribbon. Making it work here is a design job (a light-appropriate
+            postprocessing chain, or a different visual), not a colour swap —
+            so the hero stands on its typography until that is done. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black via-black/85 to-transparent md:via-black/55"
+          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-canvas via-canvas/85 to-transparent md:via-canvas/60"
         />
         {/* Huge faded page-number watermark — editorial layout cue,
             sits behind the hero text and the 3D ribbon. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-2 z-[2] hidden select-none items-center font-black tracking-tighter text-white/[0.025] md:flex"
+          className="pointer-events-none absolute inset-y-0 right-2 z-[2] hidden select-none items-center font-black tracking-tighter text-navy/[0.025] md:flex"
           style={{ fontSize: 'clamp(14rem, 26vw, 28rem)', lineHeight: 0.85 }}
         >
           {data.pageNumber}
@@ -251,7 +253,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               <AnimatedText
                 as="p"
                 variant="words"
-                className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 md:text-xl"
+                className="mt-8 max-w-xl text-lg leading-relaxed text-ink md:text-xl"
                 delay={0.2}
               >
                 {data.subhead}
@@ -262,14 +264,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                     href="/audit"
                     data-cursor="magnetic"
                     data-cursor-strength="22"
-                    className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                    className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
                     Get a free systems audit
                   </Link>
                   <Link
                     href="#how-we-work"
                     data-cursor="hover"
-                    className="px-3 py-3 text-sm text-white/70 transition-colors hover:text-white"
+                    className="px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
                     See how it works ↓
                   </Link>
@@ -296,13 +298,13 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             {data.painPoints.map((p, i) => (
               <article
                 key={i}
-                className="relative grid grid-cols-12 gap-6 border-t border-white/[0.08] py-8 md:gap-12 md:py-10"
+                className="relative grid grid-cols-12 gap-6 border-t border-hairline py-8 md:gap-12 md:py-10"
               >
                 <div className="col-span-12 md:col-span-3">
                   <p className="font-mono text-sm tracking-[0.3em] text-lab">
                     {String(i + 1).padStart(2, '0')}
                   </p>
-                  <p className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+                  <p className="mt-3 text-3xl font-semibold tracking-tight text-navy md:text-4xl">
                     {p.stat}
                   </p>
                 </div>
@@ -310,14 +312,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   <AnimatedText
                     as="h3"
                     variant="chars"
-                    className="text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-white md:text-[clamp(1.75rem,3.5vw,3.25rem)]"
+                    className="text-3xl font-semibold leading-[1.05] tracking-[-0.01em] text-navy md:text-[clamp(1.75rem,3.5vw,3.25rem)]"
                   >
                     {p.headline}
                   </AnimatedText>
                   <AnimatedText
                     as="p"
                     variant="words"
-                    className="mt-6 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                    className="mt-6 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                     delay={0.1}
                   >
                     {p.body}
@@ -330,7 +332,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Process / how we work ── */}
-      <section id="how-we-work" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+      <section id="how-we-work" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-12">
             <SectionEyebrow>How we work</SectionEyebrow>
@@ -341,7 +343,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               <AnimatedText
                 as="p"
                 variant="words"
-                className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg"
+                className="mt-6 max-w-2xl text-base leading-relaxed text-ink md:text-lg"
                 delay={0.15}
               >
                 {data.processSubhead}
@@ -352,24 +354,24 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 lg:grid-cols-4">
             {data.process.map((step, i) => (
               <FadeUp key={i} delay={i * 0.08}>
-                <div className="border-t border-white/[0.12] py-8">
+                <div className="border-t border-hairline py-8">
                   <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
                     {step.when}
                   </p>
-                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.01em] text-white">
+                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.01em] text-navy">
                     {String(i + 1).padStart(2, '0')} · {step.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-relaxed text-white/55">{step.body}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-ink-muted">{step.body}</p>
                 </div>
               </FadeUp>
             ))}
           </div>
 
           {data.techStack && (
-            <div className="mt-9 border-t border-white/[0.08] pt-5 md:mt-10">
-              <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.3em] text-white/45">
+            <div className="mt-9 border-t border-hairline pt-5 md:mt-10">
+              <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.3em] text-ink-muted">
                 <span className="text-lab">Built on</span>
-                <span className="text-white/70 normal-case tracking-normal">{data.techStack}</span>
+                <span className="text-ink normal-case tracking-normal">{data.techStack}</span>
               </p>
             </div>
           )}
@@ -377,7 +379,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       </section>
 
       {/* ── Deliverables ── */}
-      <section id="what-you-get" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+      <section id="what-you-get" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
@@ -385,7 +387,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               <BrandedHeading as="h2" size="lg">
                 {data.deliverablesHeading ?? 'Built to last.'}
               </BrandedHeading>
-              <p className="mt-8 max-w-md text-base leading-relaxed text-white/55 md:text-lg">
+              <p className="mt-8 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
                 Every system ships with what you actually need on day one — not bolted-on later, not behind a future upsell.
               </p>
             </div>
@@ -393,7 +395,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               {data.deliverables.map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-baseline gap-4 border-t border-white/[0.08] py-5 text-base text-white/80 md:text-lg"
+                  className="flex items-baseline gap-4 border-t border-hairline py-5 text-base text-ink md:text-lg"
                 >
                   <span
                     aria-hidden
@@ -417,7 +419,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.recentBuilds && data.recentBuilds.tiles.length > 0 && (
         <section
           id="recent-builds"
-          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+          className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
@@ -429,7 +431,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <AnimatedText
                   as="p"
                   variant="words"
-                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                   delay={0.15}
                 >
                   {data.recentBuilds.intro}
@@ -439,7 +441,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
             <RecentBuildsGrid tiles={data.recentBuilds.tiles} />
 
-            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-white/35 md:mt-8">
+            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted md:mt-8">
               Stylized previews — examples of what we ship, not specific client work
             </p>
           </div>
@@ -452,7 +454,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.buildVsBuy && data.buildVsBuy.rows.length > 0 && (
         <section
           id="build-buy-hire"
-          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+          className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
@@ -464,7 +466,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <AnimatedText
                   as="p"
                   variant="words"
-                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                   delay={0.15}
                 >
                   {data.buildVsBuy.intro}
@@ -472,29 +474,29 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               )}
             </div>
 
-            <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+            <div className="overflow-hidden rounded-md border border-hairline bg-canvas-card">
               {/* Column headers — Category / SaaS / Hire / FutureLine */}
-              <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-white/[0.12] bg-black/90 px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
+              <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-hairline bg-canvas-card px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
                 <div className="col-span-12 md:col-span-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                     Category
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
-                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
-                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink md:text-base">
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-canvas-card" />
                     {data.buildVsBuy.saasHeader ?? 'Buy SaaS'}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
-                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/70 md:text-base">
-                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-white/30" />
+                  <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink md:text-base">
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-canvas-card" />
                     {data.buildVsBuy.hireHeader ?? 'Hire developer'}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
                   <p
-                    className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white md:text-base"
+                    className="flex items-center gap-2 text-sm font-semibold tracking-tight text-navy md:text-base"
                     style={{ textShadow: '0 0 8px rgba(24,169,153,0.4)' }}
                   >
                     <span
@@ -509,29 +511,29 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
               {data.buildVsBuy.rows.map((row, i) => (
                 <FadeUp key={i} delay={i * 0.05}>
-                  <div className="grid grid-cols-12 items-start gap-3 border-b border-white/[0.06] px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
+                  <div className="grid grid-cols-12 items-start gap-3 border-b border-hairline px-5 py-6 last:border-b-0 md:gap-4 md:px-8 md:py-7">
                     <div className="col-span-12 md:col-span-3">
                       <div className="flex items-baseline gap-3">
                         <span aria-hidden className="font-mono text-[11px] tracking-[0.25em] text-lab/70">
                           {String(i + 1).padStart(2, '0')}
                         </span>
-                        <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">
+                        <h4 className="text-base font-semibold tracking-tight text-navy md:text-lg">
                           {row.label}
                         </h4>
                       </div>
                     </div>
                     <div className="col-span-4 md:col-span-3">
-                      <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.saas}</p>
+                      <p className="text-sm leading-relaxed text-ink-muted md:text-base">{row.saas}</p>
                     </div>
                     <div className="col-span-4 md:col-span-3">
-                      <p className="text-sm leading-relaxed text-white/55 md:text-base">{row.hire}</p>
+                      <p className="text-sm leading-relaxed text-ink-muted md:text-base">{row.hire}</p>
                     </div>
                     <div className="relative col-span-4 md:col-span-3">
                       <span
                         aria-hidden
                         className="absolute -left-3 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-lab/40 via-lab/15 to-transparent md:block"
                       />
-                      <p className="text-sm font-medium leading-relaxed text-white md:text-base">
+                      <p className="text-sm font-medium leading-relaxed text-navy md:text-base">
                         {row.futureline}
                       </p>
                     </div>
@@ -550,7 +552,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.commitment && (
         <section
           id="the-engagement"
-          className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8"
+          className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8"
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
@@ -562,7 +564,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <AnimatedText
                   as="p"
                   variant="words"
-                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                   delay={0.15}
                 >
                   {data.commitment.intro}
@@ -597,7 +599,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                     {data.commitment.weDo.map((item, i) => (
                       <li
                         key={i}
-                        className="flex items-baseline gap-3 text-base leading-relaxed text-white/85 md:text-lg"
+                        className="flex items-baseline gap-3 text-base leading-relaxed text-ink md:text-lg"
                       >
                         <span
                           aria-hidden
@@ -614,7 +616,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
               {/* What you do */}
               <FadeUp delay={0.1}>
-                <div className="relative h-full overflow-hidden rounded-xl border border-white/15 bg-white/[0.03] p-7 md:p-9">
+                <div className="relative h-full overflow-hidden rounded-xl border border-hairline bg-canvas-card p-7 md:p-9">
                   <span
                     aria-hidden
                     className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -626,32 +628,32 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   <div className="mb-6 flex items-center gap-3">
                     <span
                       aria-hidden
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-white/[0.06] font-mono text-[10px] font-bold uppercase tracking-widest text-white/75"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline bg-canvas-card font-mono text-[10px] font-bold uppercase tracking-widest text-ink"
                     >
                       You
                     </span>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-white/65">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-ink">
                       What you do
                     </p>
                   </div>
                   <ul className="space-y-4">
                     {data.commitment.youDo.map((entry, i) => (
-                      <li key={i} className="border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
-                        <p className="text-base font-medium leading-relaxed text-white md:text-lg">
+                      <li key={i} className="border-t border-hairline pt-3 first:border-t-0 first:pt-0">
+                        <p className="text-base font-medium leading-relaxed text-navy md:text-lg">
                           {entry.item}
                         </p>
-                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">
+                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.28em] text-ink-muted">
                           {entry.time}
                         </p>
                       </li>
                     ))}
                   </ul>
                   {data.commitment.youDoTotal && (
-                    <div className="mt-7 border-t border-white/15 pt-5">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-white/55">
+                    <div className="mt-7 border-t border-hairline pt-5">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink-muted">
                         Total ask
                       </p>
-                      <p className="mt-2 text-base font-semibold leading-snug text-white md:text-lg">
+                      <p className="mt-2 text-base font-semibold leading-snug text-navy md:text-lg">
                         {data.commitment.youDoTotal}
                       </p>
                     </div>
@@ -665,7 +667,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Compare (optional): "Off-the-shelf vs. built for you" ── */}
       {data.compare && data.compare.rows.length > 0 && (
-        <section id="why-not-saas" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="why-not-saas" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
               <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
@@ -676,7 +678,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <AnimatedText
                   as="p"
                   variant="words"
-                  className="mt-8 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
+                  className="mt-8 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg"
                   delay={0.15}
                 >
                   {data.compare.intro}
@@ -687,19 +689,19 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             {/* Compare grid — each row is a category, with the SaaS reality
                 on the left (faded white, ❌) and the FutureLine outcome on
                 the right (brand teal, ✓). */}
-            <div className="overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.015]">
+            <div className="overflow-hidden rounded-md border border-hairline bg-canvas-card">
               {/* Column headers — sticky on tall screens so the user always
                   knows which column is which while reading rows. */}
-              <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-white/[0.12] bg-black/90 px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
+              <div className="sticky top-0 z-10 grid grid-cols-12 gap-4 border-b border-hairline bg-canvas-card px-6 py-6 backdrop-blur-md md:px-10 md:py-7">
                 <div className="col-span-12 md:col-span-3">
                   <div className="flex items-center gap-3">
                     <span
                       aria-hidden
-                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55"
+                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas-card text-ink-muted"
                     >
                       <Layers size={15} strokeWidth={2} />
                     </span>
-                    <p className="text-base font-semibold tracking-tight text-white/75 md:text-xl">
+                    <p className="text-base font-semibold tracking-tight text-ink md:text-xl">
                       Category
                     </p>
                   </div>
@@ -708,11 +710,11 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   <div className="flex items-center gap-3">
                     <span
                       aria-hidden
-                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/55"
+                      className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas-card text-ink-muted"
                     >
                       <X size={16} strokeWidth={2.5} />
                     </span>
-                    <p className="text-base font-semibold tracking-tight text-white/70 md:text-xl">
+                    <p className="text-base font-semibold tracking-tight text-ink md:text-xl">
                       {data.compare.leftHeader ?? 'Off-the-shelf SaaS'}
                     </p>
                   </div>
@@ -726,7 +728,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                     >
                       <Check size={16} strokeWidth={2.5} />
                     </span>
-                    <p className="text-base font-semibold tracking-tight text-white md:text-xl">
+                    <p className="text-base font-semibold tracking-tight text-navy md:text-xl">
                       {data.compare.rightHeader ?? 'FutureLine custom build'}
                     </p>
                   </div>
@@ -738,7 +740,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   so the "answer" column reads as the highlighted one. */}
               {data.compare.rows.map((row, i) => (
                 <FadeUp key={i} delay={i * 0.05}>
-                  <div className="grid grid-cols-12 items-start gap-4 border-b border-white/[0.06] px-6 py-7 last:border-b-0 md:px-10 md:py-9">
+                  <div className="grid grid-cols-12 items-start gap-4 border-b border-hairline px-6 py-7 last:border-b-0 md:px-10 md:py-9">
                     <div className="col-span-12 md:col-span-3">
                       <div className="flex items-baseline gap-3">
                         <span
@@ -747,13 +749,13 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                         >
                           {String(i + 1).padStart(2, '0')}
                         </span>
-                        <h4 className="text-base font-semibold tracking-tight text-white md:text-lg">
+                        <h4 className="text-base font-semibold tracking-tight text-navy md:text-lg">
                           {row.label}
                         </h4>
                       </div>
                     </div>
                     <div className="col-span-6 md:col-span-4">
-                      <p className="text-sm leading-relaxed text-white/55 md:text-base">
+                      <p className="text-sm leading-relaxed text-ink-muted md:text-base">
                         {row.saas}
                       </p>
                     </div>
@@ -762,7 +764,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                         aria-hidden
                         className="absolute -left-4 top-1 hidden h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-lab/40 via-lab/15 to-transparent md:block"
                       />
-                      <p className="text-sm font-medium leading-relaxed text-white md:text-base">
+                      <p className="text-sm font-medium leading-relaxed text-navy md:text-base">
                         {row.futureline}
                       </p>
                     </div>
@@ -776,7 +778,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Stats (optional) ── */}
       {data.stats && data.stats.length > 0 && (
-        <section id="by-the-numbers" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="by-the-numbers" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>By the numbers</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
@@ -792,14 +794,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             >
               {data.stats.map((s, i) => (
                 <FadeUp key={i} delay={i * 0.08}>
-                  <div className="border-t border-white/[0.12] pt-6">
-                    <p className="text-6xl font-semibold tracking-tight text-white md:text-7xl">
+                  <div className="border-t border-hairline pt-6">
+                    <p className="text-6xl font-semibold tracking-tight text-navy md:text-7xl">
                       {s.value}
                     </p>
-                    <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-white/85">
+                    <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-ink">
                       {s.label}
                     </p>
-                    <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">{s.sub}</p>
+                    <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">{s.sub}</p>
                   </div>
                 </FadeUp>
               ))}
@@ -810,7 +812,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── Industries (optional) ── */}
       {data.industries && data.industries.length > 0 && (
-        <section id="where-it-fits" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="where-it-fits" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Where it fits</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
@@ -833,12 +835,12 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   >
                     <div
                       className={[
-                        'h-full rounded-md border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-lab/30 hover:bg-white/[0.04]',
+                        'h-full rounded-md border border-hairline bg-canvas-card p-6 transition-colors hover:border-lab/30 hover:bg-canvas-card',
                         isLastOdd ? 'md:mx-auto md:max-w-xl' : '',
                       ].join(' ')}
                     >
-                      <h3 className="text-base font-semibold tracking-tight text-white">{ind.name}</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-white/55">{ind.pain}</p>
+                      <h3 className="text-base font-semibold tracking-tight text-navy">{ind.name}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-ink-muted">{ind.pain}</p>
                     </div>
                   </FadeUp>
                 );
@@ -850,7 +852,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
 
       {/* ── FAQ (optional) ── */}
       {data.faqs && data.faqs.length > 0 && (
-        <section id="common-questions" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+        <section id="common-questions" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <SectionEyebrow>Common questions</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
@@ -860,14 +862,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               {data.faqs.map((f, i) => (
                 <FaqItem key={i} q={f.q} a={f.a} />
               ))}
-              <div className="border-t border-white/[0.08]" />
+              <div className="border-t border-hairline" />
             </div>
           </div>
         </section>
       )}
 
       {/* ── Closing CTA ── */}
-      <section id="start" className="scroll-mt-24 border-t border-white/[0.06] px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+      <section id="start" className="scroll-mt-24 border-t border-hairline px-4 py-20 sm:px-6 md:py-28 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
@@ -876,7 +878,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             <BrandedHeading as="h2" size="xl">
               {data.cta?.headline ?? 'Ready when you are.'}
             </BrandedHeading>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
+            <p className="mx-auto mt-6 max-w-xl text-lg text-ink">
               {data.cta?.sub ?? "A free systems audit. No commitment. Just an honest look at what's slowing you down."}
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
@@ -884,7 +886,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 href={data.cta?.primary.href ?? '/audit'}
                 data-cursor="magnetic"
                 data-cursor-strength="28"
-                className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
               >
                 {data.cta?.primary.label ?? 'Get a free audit'}
               </Link>
@@ -892,7 +894,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 <Link
                   href={data.cta.secondary.href}
                   data-cursor="hover"
-                  className="px-4 py-4 text-sm text-white/70 transition-colors hover:text-white"
+                  className="px-4 py-4 text-sm text-ink transition-colors hover:text-navy"
                 >
                   {data.cta.secondary.label} →
                 </Link>

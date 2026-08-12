@@ -61,7 +61,7 @@ export function PageScrollSpy({ sections }: { sections: ScrollSpySection[] }) {
                   aria-hidden="true"
                   className={[
                     'block h-1.5 rounded-full transition-all duration-300',
-                    isActive ? 'w-6 bg-lab' : 'w-3 bg-white/25 group-hover:bg-white/55',
+                    isActive ? 'w-6 bg-lab' : 'w-3 bg-canvas-card group-hover:bg-canvas-card',
                   ].join(' ')}
                   style={isActive ? { boxShadow: '0 0 10px 2px rgba(24,169,153,0.55)' } : undefined}
                 />
@@ -70,7 +70,7 @@ export function PageScrollSpy({ sections }: { sections: ScrollSpySection[] }) {
                     'whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.28em] transition-all duration-300',
                     isActive
                       ? 'text-lab opacity-100'
-                      : 'text-white/55 opacity-0 group-hover:opacity-100',
+                      : 'text-ink-muted opacity-0 group-hover:opacity-100',
                   ].join(' ')}
                 >
                   {s.label}

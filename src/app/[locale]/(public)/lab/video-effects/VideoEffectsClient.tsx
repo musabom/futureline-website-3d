@@ -129,7 +129,7 @@ export function VideoEffectsClient() {
   };
 
   return (
-    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-md md:p-10">
+    <div className="rounded-2xl border border-hairline bg-canvas-card p-7 backdrop-blur-md md:p-10">
       {/* Step 1 — upload */}
       {status === 'idle' && (
         <div
@@ -138,15 +138,15 @@ export function VideoEffectsClient() {
             e.stopPropagation();
           }}
           onDrop={onDrop}
-          className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.12] bg-white/[0.015] px-6 py-16 text-center transition-colors hover:border-lab/40 hover:bg-white/[0.03]"
+          className="flex flex-col items-center justify-center rounded-xl border border-dashed border-hairline bg-canvas-card px-6 py-16 text-center transition-colors hover:border-lab/40 hover:bg-canvas-card"
         >
           <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-lab/30 bg-lab/10 text-lab">
             <Film size={22} />
           </div>
-          <h2 className="text-xl font-semibold text-white md:text-2xl">
+          <h2 className="text-xl font-semibold text-navy md:text-2xl">
             Drop a video, or click to pick one.
           </h2>
-          <p className="mt-2 max-w-md text-sm text-white/55">
+          <p className="mt-2 max-w-md text-sm text-ink-muted">
             MP4 / MOV / WebM up to 50&nbsp;MB. The first 30 seconds get processed.
           </p>
           <input
@@ -176,15 +176,15 @@ export function VideoEffectsClient() {
               src={inputPreviewUrl}
               controls
               muted
-              className="aspect-video w-full rounded-lg border border-white/[0.06] bg-black object-contain"
+              className="aspect-video w-full rounded-lg border border-hairline bg-black object-contain"
             />
             <div className="flex flex-col justify-between gap-4">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-lab">
                   Loaded
                 </p>
-                <p className="mt-2 truncate text-sm font-medium text-white">{file?.name}</p>
-                <p className="mt-1 text-xs text-white/45">
+                <p className="mt-2 truncate text-sm font-medium text-navy">{file?.name}</p>
+                <p className="mt-1 text-xs text-ink-muted">
                   {file ? `${(file.size / 1024 / 1024).toFixed(1)} MB · ${file.type}` : ''}
                 </p>
               </div>
@@ -192,7 +192,7 @@ export function VideoEffectsClient() {
                 type="button"
                 onClick={reset}
                 disabled={status === 'processing'}
-                className="inline-flex items-center gap-1.5 self-start rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/70 transition-colors hover:border-white/[0.2] hover:text-white disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 self-start rounded-full border border-hairline bg-canvas-card px-4 py-2 text-xs font-medium text-ink transition-colors hover:border-hairline hover:text-navy disabled:opacity-50"
               >
                 <X size={12} /> Choose a different file
               </button>
@@ -217,16 +217,16 @@ export function VideoEffectsClient() {
                       'rounded-lg border p-4 text-left transition-all disabled:opacity-50',
                       selected
                         ? 'border-lab/55 bg-lab/[0.08] shadow-[0_0_0_1px_rgba(24,169,153,0.2)]'
-                        : 'border-white/[0.08] bg-white/[0.02] hover:border-white/[0.18]',
+                        : 'border-hairline bg-canvas-card hover:border-hairline',
                     ].join(' ')}
                   >
                     <div className="flex items-baseline justify-between gap-2">
-                      <span className={`text-sm font-semibold ${selected ? 'text-lab' : 'text-white'}`}>
+                      <span className={`text-sm font-semibold ${selected ? 'text-lab' : 'text-navy'}`}>
                         {eff.label}
                       </span>
                       {selected && <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-lab">selected</span>}
                     </div>
-                    <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                    <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
                       {eff.description}
                     </p>
                   </button>
@@ -236,14 +236,14 @@ export function VideoEffectsClient() {
           </div>
 
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-white/45">
+            <p className="text-xs text-ink-muted">
               Processing runs server-side via FFmpeg. Typical time: 10–30s.
             </p>
             <button
               type="button"
               onClick={submit}
               disabled={status === 'processing'}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-white/90 disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-canvas-card disabled:opacity-60"
             >
               {status === 'processing' ? (
                 <>
@@ -266,14 +266,14 @@ export function VideoEffectsClient() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <div>
-              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/45">
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
                 Before
               </p>
               <video
                 src={inputPreviewUrl}
                 controls
                 muted
-                className="aspect-video w-full rounded-lg border border-white/[0.06] bg-black object-contain"
+                className="aspect-video w-full rounded-lg border border-hairline bg-black object-contain"
               />
             </div>
             <div>
@@ -293,14 +293,14 @@ export function VideoEffectsClient() {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white/75 transition-colors hover:border-white/[0.2] hover:text-white"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-hairline bg-canvas-card px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-hairline hover:text-navy"
             >
               <RotateCcw size={13} /> Try another video
             </button>
             <a
               href={resultUrl}
               download
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-white/90"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-colors hover:bg-canvas-card"
             >
               <Download size={14} /> Download
             </a>
@@ -317,7 +317,7 @@ export function VideoEffectsClient() {
           <button
             type="button"
             onClick={reset}
-            className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-red-200 hover:text-white"
+            className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-red-200 hover:text-navy"
           >
             <RotateCcw size={12} /> Start over
           </button>

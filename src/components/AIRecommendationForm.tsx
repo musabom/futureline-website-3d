@@ -128,14 +128,14 @@ export default function AIRecommendationForm() {
       {searched && (
         <div className="mt-14">
           {results.length === 0 ? (
-            <p className="text-center text-sm text-white/55">
+            <p className="text-center text-sm text-ink-muted">
               No matching courses found. Try adjusting your preferences.
             </p>
           ) : (
             <>
               <div className="mb-10 flex items-center justify-center gap-3">
                 <div className="h-px w-10 bg-academy" />
-                <h3 className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/85">
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink">
                   Recommended for you
                 </h3>
                 <div className="h-px w-10 bg-academy" />
@@ -146,31 +146,31 @@ export default function AIRecommendationForm() {
                     href={`/courses/${course.slug}`}
                     key={course.id}
                     data-cursor="hover"
-                    className="group flex flex-col overflow-hidden rounded-md border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm transition-all duration-300 hover:border-academy/40 hover:bg-white/[0.04]"
+                    className="group flex flex-col overflow-hidden rounded-md border border-hairline bg-canvas-card backdrop-blur-sm transition-all duration-300 hover:border-academy/40 hover:bg-canvas-card"
                   >
-                    <div className="relative flex h-28 items-center justify-center border-b border-white/[0.06] bg-gradient-to-br from-academy/10 via-black to-black">
-                      <BookOpen className="text-white/15" size={28} />
+                    <div className="relative flex h-28 items-center justify-center border-b border-hairline bg-gradient-to-br from-academy/10 via-black to-black">
+                      <BookOpen className="text-ink-muted" size={28} />
                     </div>
                     <div className="flex flex-1 flex-col p-5">
                       <div className="mb-3 flex items-center gap-2">
                         <span className="rounded border border-academy/30 bg-academy/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-academy">
                           {course.deliveryType.replace('_', ' ')}
                         </span>
-                        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted">
                           {course.level}
                         </span>
                       </div>
-                      <h4 className="mb-2 text-sm font-semibold leading-snug text-white transition-colors group-hover:text-academy-light">
+                      <h4 className="mb-2 text-sm font-semibold leading-snug text-navy transition-colors group-hover:text-academy-light">
                         {course.title}
                       </h4>
-                      <p className="mb-4 line-clamp-2 flex-1 text-xs leading-relaxed text-white/55">
+                      <p className="mb-4 line-clamp-2 flex-1 text-xs leading-relaxed text-ink-muted">
                         {course.shortDescription}
                       </p>
-                      <div className="flex items-center justify-between border-t border-white/[0.06] pt-3">
-                        <span className="text-sm font-semibold text-white">
+                      <div className="flex items-center justify-between border-t border-hairline pt-3">
+                        <span className="text-sm font-semibold text-navy">
                           {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
                         </span>
-                        <span className="flex items-center gap-1 text-xs text-white/40">
+                        <span className="flex items-center gap-1 text-xs text-ink-muted">
                           <Clock size={11} /> {course.durationHours}h
                         </span>
                       </div>

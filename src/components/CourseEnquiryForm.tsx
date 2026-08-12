@@ -38,10 +38,10 @@ export default function CourseEnquiryForm() {
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-academy/30 bg-academy/10">
           <CheckCircle size={24} className="text-academy" />
         </div>
-        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
+        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-navy">
           Request submitted.
         </h3>
-        <p className="mb-8 text-sm leading-relaxed text-white/55">
+        <p className="mb-8 text-sm leading-relaxed text-ink-muted">
           Our team will review your request and get back to you within one business day.
         </p>
         <button

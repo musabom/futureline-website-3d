@@ -25,7 +25,7 @@ export function MarqueeStrip({
   return (
     <div
       aria-hidden="true"
-      className={`relative w-full overflow-hidden border-y border-white/10 bg-black py-8 ${className}`}
+      className={`relative w-full overflow-hidden border-y border-hairline bg-black py-8 ${className}`}
     >
       <div
         className="flex w-max gap-12 whitespace-nowrap will-change-transform"
@@ -41,7 +41,7 @@ export function MarqueeStrip({
             {items.map((label, i) => (
               <span
                 key={`${copy}-${i}`}
-                className="flex shrink-0 items-center gap-12 text-3xl font-medium uppercase tracking-tight text-white/55 md:text-5xl"
+                className="flex shrink-0 items-center gap-12 text-3xl font-medium uppercase tracking-tight text-ink-muted md:text-5xl"
               >
                 <span>{label}</span>
                 <span className="text-brand-accent/70">{separator}</span>

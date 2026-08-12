@@ -38,10 +38,10 @@ export default function ServiceEnquiryForm() {
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-lab/30 bg-lab/10">
           <CheckCircle size={24} className="text-lab" />
         </div>
-        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
+        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-navy">
           Enquiry submitted.
         </h3>
-        <p className="mb-8 text-sm leading-relaxed text-white/55">
+        <p className="mb-8 text-sm leading-relaxed text-ink-muted">
           Our team will review your request and be in touch within one business day.
         </p>
         <button

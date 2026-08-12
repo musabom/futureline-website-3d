@@ -207,8 +207,8 @@ function MetricCard({ card, active }: { card: CardDef; active: boolean }) {
         {displayValue}
       </div>
 
-      <div className="text-sm font-bold text-white mb-1">{card.label}</div>
-      <div className="text-xs text-slate-500">{card.sub}</div>
+      <div className="text-sm font-bold text-navy mb-1">{card.label}</div>
+      <div className="text-xs text-ink-muted">{card.sub}</div>
     </div>
   );
 }

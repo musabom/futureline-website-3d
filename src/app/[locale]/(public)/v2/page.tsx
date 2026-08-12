@@ -11,6 +11,7 @@
 import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
+import { ThreeActStory } from '@/components/sections/ThreeActStory';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { ThreePillars } from '@/components/sections/ThreePillars';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
@@ -33,6 +34,7 @@ export default function V2Page() {
 
       {/* z-10 keeps content above the fixed ambient mesh. */}
       <div className="relative z-10">
+        <ThreeActStory />
         <DifferentiatorStrip />
         <ThreePillars />
         <WhoWeServe />

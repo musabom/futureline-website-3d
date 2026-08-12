@@ -1,8 +1,21 @@
+/**
+ * Root layout — owns <html>/<body> for the whole app.
+ *
+ * The html tag lives here rather than in [locale]/layout.tsx because files
+ * outside the locale tree (not-found.tsx, global-error.tsx) still need a root
+ * layout; without one Next fails the build with "doesn't have a root layout".
+ * The locale is read from next-intl's request context (resolved by the
+ * middleware) so lang/dir are still correct per request — which is what makes
+ * Arabic render RTL.
+ */
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk, Noto_Sans_Arabic } from 'next/font/google';
 import { GeistMono } from 'geist/font/mono';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 import './globals.css';
 import { Providers } from '@/components/Providers';
+import { localeDirection, type Locale } from '@/i18n/routing';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
@@ -30,14 +43,20 @@ export const metadata: Metadata = {
   description: 'AI-driven solutions, professional training, and intelligent digital services.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const dir = localeDirection[locale as Locale] ?? 'ltr';
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={dir}
       className={`${inter.variable} ${spaceGrotesk.variable} ${notoArabic.variable} ${GeistMono.variable}`}
     >
       <body className="font-sans antialiased">
-        <Providers>{children}</Providers>
+        <NextIntlClientProvider>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

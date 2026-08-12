@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import createIntlMiddleware from 'next-intl/middleware';
+import { routing, locales } from '@/i18n/routing';
 
 function addSecurityHeaders(response: NextResponse) {
   response.headers.set('X-Frame-Options', 'DENY');
@@ -22,30 +24,64 @@ function addSecurityHeaders(response: NextResponse) {
   return response;
 }
 
+const intlMiddleware = createIntlMiddleware(routing);
+
+/**
+ * Strips a leading locale segment so route guards can match on the
+ * locale-independent path. With localePrefix 'as-needed' English URLs have no
+ * prefix at all, so /admin and /ar/admin must both be recognised as admin.
+ */
+function stripLocale(pathname: string) {
+  const segments = pathname.split('/');
+  if (locales.includes(segments[1] as (typeof locales)[number])) {
+    return '/' + segments.slice(2).join('/');
+  }
+  return pathname;
+}
+
+/** Preserves the caller's locale prefix when redirecting to an app route. */
+function localeAwareUrl(path: string, request: NextRequest) {
+  const segments = request.nextUrl.pathname.split('/');
+  const prefix = locales.includes(segments[1] as (typeof locales)[number])
+    ? `/${segments[1]}`
+    : '';
+  return new URL(`${prefix}${path}`, request.url);
+}
+
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const pathWithoutLocale = stripLocale(request.nextUrl.pathname);
+
+  // Auth guard runs before locale rewriting: an unauthenticated visitor to
+  // /ar/admin should be redirected to /ar/login, not rewritten first.
+  if (pathWithoutLocale.startsWith('/admin')) {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || process.env.SESSION_SECRET,
     });
 
     if (!token) {
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = localeAwareUrl('/login', request);
       loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
       return addSecurityHeaders(NextResponse.redirect(loginUrl));
     }
 
     if ((token as any).role !== 'ADMIN') {
-      return addSecurityHeaders(NextResponse.redirect(new URL('/dashboard', request.url)));
+      return addSecurityHeaders(
+        NextResponse.redirect(localeAwareUrl('/dashboard', request))
+      );
     }
   }
 
-  const response = NextResponse.next();
-  return addSecurityHeaders(response);
+  // next-intl resolves the locale and rewrites to the [locale] segment.
+  return addSecurityHeaders(intlMiddleware(request));
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|images/).*)',
+    // Skip: API routes (must not be locale-rewritten), Next internals, and
+    // anything with a file extension. That last exclusion matters — public
+    // assets like /hero.mp4 and /favicon.ico would otherwise be rewritten to
+    // /en/hero.mp4 and 500.
+    '/((?!api|_next/static|_next/image|.*\\..*).*)',
   ],
 };

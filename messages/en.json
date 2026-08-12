@@ -1,0 +1,16 @@
+{
+  "common": {
+    "languageSwitcher": "Language",
+    "skipToContent": "Skip to main content"
+  },
+  "nav": {
+    "whatWeOffer": "What we offer",
+    "vision": "Vision",
+    "whoWeServe": "Who we serve",
+    "faq": "FAQ",
+    "courses": "Courses",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "readinessAssessment": "Readiness assessment"
+  }
+}

@@ -37,19 +37,30 @@ interface Options {
   steps?: number
   /** Fires only when the active step index changes. */
   onStep?: (index: number) => void
+  /**
+   * Fires on every scroll update with progress 0→1.
+   *
+   * Use this — not a WebGL frame loop — to drive scroll-linked DOM. It fires
+   * from ScrollTrigger regardless of whether any canvas is rendering, so
+   * copy stays visible when a scene is paused offscreen, in a background
+   * tab, or has fallen back because WebGL is unavailable.
+   */
+  onProgress?: (progress: number) => void
 }
 
 export function useSectionProgress(
   ref: RefObject<HTMLElement | null>,
-  { end = '+=300%', pin = true, scrub = 0.9, steps, onStep }: Options = {},
+  { end = '+=300%', pin = true, scrub = 0.9, steps, onStep, onProgress }: Options = {},
 ) {
   const progressRef = useRef(0)
   const stepRef = useRef(-1)
   const reduced = usePrefersReducedMotion()
 
-  // Keep the latest onStep without re-creating the trigger every render.
+  // Keep the latest callbacks without re-creating the trigger every render.
   const onStepRef = useRef(onStep)
   onStepRef.current = onStep
+  const onProgressRef = useRef(onProgress)
+  onProgressRef.current = onProgress
 
   useEffect(() => {
     const el = ref.current
@@ -62,6 +73,10 @@ export function useSectionProgress(
       return
     }
 
+    // Paint once up front so a section that loads mid-scroll isn't blank
+    // until the first scroll event.
+    onProgressRef.current?.(0)
+
     const trigger = ScrollTrigger.create({
       trigger: el,
       start: 'top top',
@@ -71,6 +86,7 @@ export function useSectionProgress(
       scrub,
       onUpdate: (self) => {
         progressRef.current = self.progress
+        onProgressRef.current?.(self.progress)
         if (!steps) return
         const idx = Math.min(steps - 1, Math.floor(self.progress * steps))
         if (idx !== stepRef.current) {

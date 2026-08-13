@@ -14,6 +14,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   Brain,
@@ -637,6 +638,7 @@ export default function NeuralPathway({
 }: {
   featuredCourses?: NeuralFeaturedCourse[];
 } = {}) {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const activeTopicRef = useRef(0);
   // 0..1 — how "settled" the active topic is. Spikes to 1 on change, lerped.
@@ -742,8 +744,12 @@ export default function NeuralPathway({
 
   const handleTopicClick = (idx: number) => {
     const t = mergedTOPICS[idx];
+    // Client-side nav instead of a hard reload — matters now that this
+    // section can be mounted directly on /courses, where a card's href
+    // (always /courses, see mergedTOPICS above) equals the current page;
+    // router.push there is an inert no-op instead of a full page reload.
     if (t.href) {
-      window.location.href = t.href;
+      router.push(t.href);
     }
   };
 

@@ -277,23 +277,25 @@ export default function EditCoursePage() {
               <option value="ARCHIVED">Archived</option>
             </select>
           </div>
-          {/* Feature on home — maps to the 3 admin-controlled positions in
-              the home page NeuralPathway scene. Only one course per slot;
-              assigning to a slot another course holds will transparently
-              clear the prior holder (newest assignment wins). */}
+          {/* Feature on /courses — maps to the 3 admin-controlled positions
+              in the /courses page's NeuralPathway scene (moved off the home
+              page — label/copy updated to match, field name unchanged).
+              Only one course per slot; assigning to a slot another course
+              holds will transparently clear the prior holder (newest
+              assignment wins). */}
           <div>
-            <label className={labelClass}>Feature on home page</label>
+            <label className={labelClass}>Feature on courses page</label>
             <select name="featuredSlot" value={form.featuredSlot ?? ''} onChange={handleChange} className={selectClass}>
               <option value="">Not featured</option>
               <option value="1">Featured — Position 1</option>
               <option value="2">Featured — Position 2</option>
               <option value="3">Featured — Position 3</option>
             </select>
-            <p className="text-xs text-ink-muted mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
+            <p className="text-xs text-ink-muted mt-1.5">Shows on the /courses page's Academy scene. Only one course per position.</p>
           </div>
         </div>
 
-        {/* ── Home-page "What you'll learn" overrides ──────────────
+        {/* ── Courses-page "What you'll learn" overrides ───────────
             Optional. Only rendered when this course is in a featured
             slot. If left blank, the slot's hardcoded default bullets
             in NeuralPathway.tsx are used.  Grouped under a collapsed
@@ -301,7 +303,7 @@ export default function EditCoursePage() {
             courses that won't be featured. */}
         <details className="rounded-lg border border-hairline bg-canvas-card p-5 group">
           <summary className="cursor-pointer text-sm font-bold text-ink-muted uppercase tracking-widest list-none flex items-center justify-between">
-            Home-page feature highlights <span className="text-xs text-ink-muted normal-case tracking-normal font-normal">(optional — used when featured)</span>
+            Courses-page feature highlights <span className="text-xs text-ink-muted normal-case tracking-normal font-normal">(optional — used when featured)</span>
             <span className="text-ink-muted transition-transform group-open:rotate-45">+</span>
           </summary>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -341,7 +343,7 @@ export default function EditCoursePage() {
               </div>
             ))}
           </div>
-          <p className="text-xs text-ink-muted mt-4">These appear on the home page Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
+          <p className="text-xs text-ink-muted mt-4">These appear on the /courses page&apos;s Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
         </details>
 
         <div className="flex gap-4 pt-4 border-t border-hairline">

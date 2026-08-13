@@ -253,27 +253,29 @@ export default function NewCoursePage() {
               <option value="ARCHIVED">Archived</option>
             </select>
           </div>
-          {/* Feature on home — same slot system as edit form. Newest
-              assignment wins (API transactionally clears the prior holder). */}
+          {/* Feature on /courses — same slot system as edit form. Newest
+              assignment wins (API transactionally clears the prior holder).
+              Moved from the home page to the /courses page's Academy
+              spotlight — label/copy updated to match, field name unchanged. */}
           <div>
-            <label className={labelClass}>Feature on home page</label>
+            <label className={labelClass}>Feature on courses page</label>
             <select name="featuredSlot" value={form.featuredSlot ?? ''} onChange={handleChange} className={selectClass}>
               <option value="">Not featured</option>
               <option value="1">Featured — Position 1</option>
               <option value="2">Featured — Position 2</option>
               <option value="3">Featured — Position 3</option>
             </select>
-            <p className="text-xs text-ink-muted mt-1.5">Shows on the home page Academy scene. Only one course per position.</p>
+            <p className="text-xs text-ink-muted mt-1.5">Shows on the /courses page's Academy scene. Only one course per position.</p>
           </div>
         </div>
 
-        {/* ── Home-page "What you'll learn" overrides ──────────────
+        {/* ── Courses-page "What you'll learn" overrides ───────────
             Same collapsible group as the edit form. Renders only when
             this course is featured. Empty values fall back to slot
             defaults in NeuralPathway.tsx. */}
         <details className="rounded-lg border border-hairline bg-canvas-card p-5 group">
           <summary className="cursor-pointer text-sm font-bold text-ink-muted uppercase tracking-widest list-none flex items-center justify-between">
-            Home-page feature highlights <span className="text-xs text-ink-muted normal-case tracking-normal font-normal">(optional — used when featured)</span>
+            Courses-page feature highlights <span className="text-xs text-ink-muted normal-case tracking-normal font-normal">(optional — used when featured)</span>
             <span className="text-ink-muted transition-transform group-open:rotate-45">+</span>
           </summary>
           <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -313,7 +315,7 @@ export default function NewCoursePage() {
               </div>
             ))}
           </div>
-          <p className="text-xs text-ink-muted mt-4">These appear on the home page Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
+          <p className="text-xs text-ink-muted mt-4">These appear on the /courses page&apos;s Academy scene&apos;s right-hand &quot;What you&apos;ll learn&quot; card when this course is featured. Leave blank to inherit the slot&apos;s defaults.</p>
         </details>
 
         <div className="flex gap-4 pt-4 border-t border-hairline">

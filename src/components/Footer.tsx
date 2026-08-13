@@ -83,9 +83,9 @@ export default function Footer() {
           <FooterCol
             title="Company"
             links={[
-              { label: 'Vision & Mission', href: '/#vision' },
+              { label: 'Vision & Mission', href: '/about' },
               { label: 'Who we serve', href: '/#who-we-serve' },
-              { label: 'FAQ', href: '/#faq' },
+              { label: 'FAQ', href: '/faq' },
               { label: 'Readiness assessment', href: '/#audit' },
             ]}
           />

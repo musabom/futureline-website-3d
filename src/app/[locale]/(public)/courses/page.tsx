@@ -10,6 +10,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { BrandedHeading } from '@/components/ui/BrandedHeading';
+import NeuralPathway from '@/components/sections/NeuralPathwayLazy';
 
 export const dynamic = 'force-dynamic';
 
@@ -234,6 +235,39 @@ export default async function CoursesPage({
   ]);
 
   const categories = categoryRows.map((r) => r.category).filter(Boolean) as string[];
+
+  // FL Academy spotlight (NeuralPathway) — moved here from the home page so
+  // the homepage isn't one long stack of sections. Same admin-driven
+  // featuredSlot query as before; the admin "Feature on home page" control
+  // (admin/courses/[id]/edit, admin/courses/new) needs no changes since it
+  // only writes the featuredSlot field, decoupled from which page reads it.
+  const featuredCourseRows = await prisma.course.findMany({
+    where: {
+      featuredSlot: { not: null },
+      status: 'PUBLISHED',
+      approvalStatus: 'APPROVED',
+    },
+    select: {
+      featuredSlot: true,
+      title: true,
+      shortDescription: true,
+      slug: true,
+      highlightStatValue: true,
+      highlightStatLabel: true,
+      highlightBullets: true,
+    },
+  });
+  const featuredCourses = featuredCourseRows
+    .filter((c): c is typeof c & { featuredSlot: number } => c.featuredSlot !== null)
+    .map((c) => ({
+      slot: c.featuredSlot,
+      title: c.title,
+      shortDescription: c.shortDescription,
+      slug: c.slug,
+      highlightStatValue: c.highlightStatValue || undefined,
+      highlightStatLabel: c.highlightStatLabel || undefined,
+      highlightBullets: c.highlightBullets.length > 0 ? c.highlightBullets : undefined,
+    }));
 
   function buildHref(overrides: Record<string, string | undefined>) {
     const next: Record<string, string> = {};
@@ -501,6 +535,16 @@ export default async function CoursesPage({
           </div>
         </div>
       </section>
+
+      {/* ── FL Academy spotlight (NeuralPathway) ──────────────────────
+          Moved from the home page (was stacked at the bottom of an
+          already-long homepage). Placed AFTER the catalog cards rather
+          than at the top of this page — the catalog was deliberately
+          moved above the fold here (see comment on the "Catalog" section
+          above), and a full pinned 3D scene at the very top would undo
+          that. Admin-featured courses (featuredSlot) still drive its
+          card content; every card's click still lands on /courses. */}
+      <NeuralPathway featuredCourses={featuredCourses} />
 
       {/* ── Where these skills get paid (per-pillar payoff cards) ──
           Replaces the old vague "Skills the market actually pays for"

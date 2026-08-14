@@ -100,7 +100,7 @@ export async function GlobeHero() {
             />
           </Link>
           <Link
-            href="#services"
+            href="/get-started"
             className="fl-glass-strong inline-flex items-center justify-center rounded-pill px-7 py-3.5 font-display text-base font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5 fl-elev-1"
             data-cursor="hover"
           >
@@ -109,10 +109,12 @@ export async function GlobeHero() {
         </div>
       </div>
 
-      {/* Scroll cue */}
+      {/* Scroll cue — used to scroll to the #services section on this page;
+          that section (ThreePillars) moved to /get-started, so this is now
+          a real link there instead of an in-page anchor. */}
       <Link
-        href="#services"
-        aria-label="Scroll to what we offer"
+        href="/get-started"
+        aria-label="See what we offer"
         className="absolute bottom-6 left-1/2 z-10 flex h-10 w-6 -translate-x-1/2 justify-center rounded-pill border-[1.6px] border-navy/25"
       >
         <span

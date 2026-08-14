@@ -67,8 +67,8 @@ export default function Footer() {
           <FooterCol
             title="What we offer"
             links={[
-              { label: 'Consulting', href: '/#services' },
-              { label: 'Building Applications', href: '/#services' },
+              { label: 'Consulting', href: '/get-started?pillar=consulting' },
+              { label: 'Building Applications', href: '/get-started?pillar=applications' },
               { label: 'Training & Enablement', href: '/courses' },
             ]}
           />

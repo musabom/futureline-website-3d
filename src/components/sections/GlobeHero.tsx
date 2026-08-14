@@ -10,15 +10,17 @@
  */
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
-import { ArrowRight, MessageSquare, Code2, GraduationCap, Globe } from 'lucide-react';
+import { ArrowRight, MessageSquare, Code2, GraduationCap } from 'lucide-react';
 import GlobeHeroScene from './GlobeHeroCanvasLazy';
 import { DecodeText } from '@/components/ui/DecodeText';
 
+// One chip per pillar. There used to be a 4th "bilingual" chip pairing an
+// Arabic word with "+ English" — dropped along with the rest of the
+// Arabic/RTL system rather than reworked into new marketing copy.
 const CHIPS = [
-  { key: 'consulting', icon: MessageSquare, pos: 'left-[6%] top-[26%]', delay: '0s', arabic: false },
-  { key: 'apps', icon: Code2, pos: 'right-[7%] top-[22%]', delay: '1.2s', arabic: false },
-  { key: 'training', icon: GraduationCap, pos: 'right-[9%] bottom-[24%]', delay: '0.6s', arabic: false },
-  { key: 'bilingual', icon: Globe, pos: 'left-[8%] bottom-[26%]', delay: '1.8s', arabic: true },
+  { key: 'consulting', icon: MessageSquare, pos: 'left-[6%] top-[26%]', delay: '0s' },
+  { key: 'apps', icon: Code2, pos: 'right-[7%] top-[22%]', delay: '1.2s' },
+  { key: 'training', icon: GraduationCap, pos: 'right-[9%] bottom-[24%]', delay: '0.6s' },
 ] as const;
 
 export async function GlobeHero() {
@@ -47,23 +49,14 @@ export async function GlobeHero() {
       {/* Floating chips. Hidden below lg — they collide with the copy on
           narrow screens, and they're decorative reinforcement, not content. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-        {CHIPS.map(({ icon: Icon, key, pos, delay, arabic }) => (
+        {CHIPS.map(({ icon: Icon, key, pos, delay }) => (
           <span
             key={key}
             className={`fl-glass-strong absolute ${pos} inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-display text-sm font-semibold text-ink fl-elev-2 motion-safe:animate-chip-bob`}
             style={{ animationDelay: delay }}
           >
             <Icon size={17} strokeWidth={1.8} className="text-teal" />
-            {arabic ? (
-              <>
-                <span dir="rtl" lang="ar" className="font-arabic">
-                  عربي
-                </span>
-                <span>{t('chips.bilingual')}</span>
-              </>
-            ) : (
-              t(`chips.${key}`)
-            )}
+            {t(`chips.${key}`)}
           </span>
         ))}
       </div>

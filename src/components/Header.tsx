@@ -18,7 +18,6 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { scrollToHash } from '@/lib/scroll';
 
 export default function Header() {
@@ -110,7 +109,6 @@ export default function Header() {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <LocaleSwitcher />
             {session ? (
               <>
                 <Link
@@ -178,9 +176,6 @@ export default function Header() {
               </Link>
             ))}
             <div className="my-2 h-px bg-hairline" />
-            <div className="px-3 py-2">
-              <LocaleSwitcher />
-            </div>
             {session ? (
               <>
                 <Link

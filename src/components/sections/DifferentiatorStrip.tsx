@@ -8,7 +8,10 @@
 import { getTranslations } from 'next-intl/server';
 import { Stagger } from '@/components/motion/Stagger';
 
-const KEYS = ['buildTeach', 'speed', 'bilingual', 'onPremise'] as const;
+// Was 4 cards (buildTeach, speed, bilingual, onPremise) — 'bilingual' was
+// dropped along with Arabic/RTL support rather than replaced with a new
+// claim, so the grid drops to 3 columns to match.
+const KEYS = ['buildTeach', 'speed', 'onPremise'] as const;
 
 export async function DifferentiatorStrip() {
   const t = await getTranslations('differentiators');
@@ -23,7 +26,7 @@ export async function DifferentiatorStrip() {
           {t('heading')}
         </h2>
 
-        <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid gap-6 sm:grid-cols-3">
           {KEYS.map((key) => (
             <div
               key={key}

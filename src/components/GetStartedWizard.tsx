@@ -1,22 +1,26 @@
 /**
  * GetStartedWizard — the 3-pillars entry points (Consulting / Building
- * Applications / Training), reorganized into one coherent 3-step flow
- * instead of 3 separate CTAs pointing at 2 different destinations
- * (Consulting + Applications both used to go to /#audit, Training went
- * straight to /courses with no shared funnel).
+ * Applications / Training), reorganized into one coherent flow instead of
+ * 3 separate CTAs pointing at 2 different destinations (Consulting +
+ * Applications both used to go to /#audit, Training went straight to
+ * /courses with no shared funnel).
  *
- * Step 1 — pick one of the three pillars (same copy as ThreePillars,
- *          read from the shared `pillars.*` i18n namespace).
- * Step 2 — the remaining required details for that pillar.
- * Step 3 — a real NextAuth sign-in/sign-up (not a guest form — the
- *          site's other lead forms are guest/no-account; this flow is
+ * Step 1 — plain intro, no options (by request — the landing page carries
+ *          no decisions, just the "what is this" framing).
+ * Step 2 — pick one of the three pillars, as a vertical stacked list (by
+ *          request — moved off step 1, and off the side-by-side grid it
+ *          used to be). Copy is the same pillars.* i18n namespace as
+ *          ThreePillars.
+ * Step 3 — the remaining required details for that pillar.
+ * Step 4 — a real NextAuth sign-in/sign-up (not a guest form — the site's
+ *          other lead forms are guest/no-account; this flow is
  *          deliberately different), then a review + final submit.
  *
- * Submits to the same POST /api/leads pipeline every other enquiry form
- * on the site uses, tagged with a distinct `source` per pillar so it's
+ * Submits to the same POST /api/leads pipeline every other enquiry form on
+ * the site uses, tagged with a distinct `source` per pillar so it's
  * distinguishable in /admin/leads — nothing about the backend, /audit,
- * /courses, /login, or /register changes; this is a new, additive
- * front door onto the same lead pipeline and the same auth system.
+ * /courses, /login, or /register changes; this is a new, additive front
+ * door onto the same lead pipeline and the same auth system.
  */
 'use client';
 
@@ -43,7 +47,8 @@ const PILLARS = [
 
 type PillarKey = (typeof PILLARS)[number]['key'];
 
-const STEP_LABELS = ['Pick an option', 'Your details', 'Confirm'];
+const STEP_LABELS = ['Get started', 'Pick an option', 'Your details', 'Confirm'];
+const LAST_STEP = STEP_LABELS.length;
 
 function isPillarKey(v: string | null): v is PillarKey {
   return !!v && PILLARS.some((p) => p.key === v);
@@ -57,7 +62,7 @@ function WizardInner() {
   const searchParams = useSearchParams();
   const { data: session, status: sessionStatus } = useSession();
 
-  const step = Math.min(3, Math.max(1, Number(searchParams.get('step')) || 1));
+  const step = Math.min(LAST_STEP, Math.max(1, Number(searchParams.get('step')) || 1));
   const [pillar, setPillar] = useState<PillarKey | null>(
     isPillarKey(searchParams.get('pillar')) ? (searchParams.get('pillar') as PillarKey) : null
   );
@@ -84,14 +89,18 @@ function WizardInner() {
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  function handleStep1Continue() {
-    if (!pillar) return;
-    goToStep(2, pillar);
+  function handleIntroContinue() {
+    goToStep(2, pillar ?? undefined);
   }
 
-  function handleStep2Submit(e: React.FormEvent) {
+  function handleOptionsContinue() {
+    if (!pillar) return;
+    goToStep(3, pillar);
+  }
+
+  function handleDetailsSubmit(e: React.FormEvent) {
     e.preventDefault();
-    goToStep(3, pillar ?? undefined);
+    goToStep(4, pillar ?? undefined);
   }
 
   async function handleAuthSubmit(e: React.FormEvent) {
@@ -177,7 +186,7 @@ function WizardInner() {
         </div>
 
         {/* Step indicator */}
-        <ol className="mb-12 flex items-center justify-center gap-2 sm:gap-4">
+        <ol className="mb-12 flex flex-wrap items-center justify-center gap-2 sm:gap-4">
           {STEP_LABELS.map((label, i) => {
             const n = i + 1;
             const active = n === step;
@@ -204,16 +213,34 @@ function WizardInner() {
                     {label}
                   </span>
                 </div>
-                {n < 3 && <span aria-hidden className="h-px w-6 bg-hairline sm:w-10" />}
+                {n < LAST_STEP && <span aria-hidden className="h-px w-6 bg-hairline sm:w-10" />}
               </li>
             );
           })}
         </ol>
 
-        {/* ── Step 1 — pick a pillar ── */}
+        {/* ── Step 1 — intro, no options ── */}
         {step === 1 && (
-          <div>
-            <div className="grid gap-5 sm:grid-cols-3">
+          <div className="mx-auto max-w-md text-center">
+            <p className="mb-8 text-sm leading-relaxed text-ink-muted">
+              We&apos;ll ask what you need, then a few details, then confirm — no account required until the very last step.
+            </p>
+            <button
+              type="button"
+              onClick={handleIntroContinue}
+              className="fl-submit"
+              data-cursor="magnetic"
+            >
+              {t('continue')}
+              <ArrowRight size={15} className="rtl:rotate-180" />
+            </button>
+          </div>
+        )}
+
+        {/* ── Step 2 — pick a pillar, vertical list ── */}
+        {step === 2 && (
+          <div className="mx-auto max-w-2xl">
+            <div className="flex flex-col gap-4">
               {PILLARS.map(({ key, icon: Icon }) => {
                 const selected = pillar === key;
                 return (
@@ -221,7 +248,7 @@ function WizardInner() {
                     key={key}
                     type="button"
                     onClick={() => setPillar(key)}
-                    className={`flex h-full flex-col rounded-card border p-6 text-start transition-colors ${
+                    className={`flex items-start gap-4 rounded-card border p-6 text-start transition-colors ${
                       selected
                         ? 'border-teal bg-teal/[0.06] ring-1 ring-teal'
                         : 'border-hairline bg-canvas-card hover:border-teal/40'
@@ -229,35 +256,46 @@ function WizardInner() {
                     data-cursor="hover"
                   >
                     <div
-                      className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl ${
+                      className={`inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${
                         selected ? 'bg-teal text-white' : 'bg-teal/10 text-teal'
                       }`}
                     >
                       <Icon size={20} strokeWidth={1.8} aria-hidden />
                     </div>
-                    <h3 className="mb-2 font-display text-base font-bold text-navy">
-                      {tp(`${key}.title`)}
-                    </h3>
-                    <ul className="space-y-1.5">
-                      {(tp.raw(`${key}.points`) as string[]).slice(0, 2).map((point) => (
-                        <li key={point} className="relative ps-4 text-xs leading-relaxed text-ink-muted">
-                          <span
-                            aria-hidden
-                            className="absolute start-0 top-[0.5em] h-1 w-1 rounded-full bg-teal"
-                          />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
+                    <div>
+                      <h3 className="mb-2 font-display text-base font-bold text-navy">
+                        {tp(`${key}.title`)}
+                      </h3>
+                      <ul className="space-y-1.5">
+                        {(tp.raw(`${key}.points`) as string[]).slice(0, 2).map((point) => (
+                          <li key={point} className="relative ps-4 text-xs leading-relaxed text-ink-muted">
+                            <span
+                              aria-hidden
+                              className="absolute start-0 top-[0.5em] h-1 w-1 rounded-full bg-teal"
+                            />
+                            {point}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </button>
                 );
               })}
             </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex items-center justify-between">
               <button
                 type="button"
-                onClick={handleStep1Continue}
+                onClick={() => goToStep(1, pillar ?? undefined)}
+                className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
+                data-cursor="hover"
+              >
+                <ArrowLeft size={15} className="rtl:rotate-180" />
+                {t('back')}
+              </button>
+              <button
+                type="button"
+                onClick={handleOptionsContinue}
                 disabled={!pillar}
                 className="fl-submit"
                 data-cursor="magnetic"
@@ -269,9 +307,9 @@ function WizardInner() {
           </div>
         )}
 
-        {/* ── Step 2 — remaining required details ── */}
-        {step === 2 && pillar && (
-          <form onSubmit={handleStep2Submit} className="space-y-5">
+        {/* ── Step 3 — remaining required details ── */}
+        {step === 3 && pillar && (
+          <form onSubmit={handleDetailsSubmit} className="space-y-5">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label className="fl-label" htmlFor="gs-firstName">First name *</label>
@@ -348,7 +386,7 @@ function WizardInner() {
             <div className="flex items-center justify-between pt-2">
               <button
                 type="button"
-                onClick={() => goToStep(1, pillar)}
+                onClick={() => goToStep(2, pillar)}
                 className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
                 data-cursor="hover"
               >
@@ -363,8 +401,8 @@ function WizardInner() {
           </form>
         )}
 
-        {/* ── Step 3 — sign in / sign up, then confirm ── */}
-        {step === 3 && pillar && (
+        {/* ── Step 4 — sign in / sign up, then confirm ── */}
+        {step === 4 && pillar && (
           <div>
             {sessionStatus === 'loading' && (
               <p className="text-center text-sm text-ink-muted">Checking your session…</p>
@@ -447,7 +485,7 @@ function WizardInner() {
 
                 <button
                   type="button"
-                  onClick={() => goToStep(2, pillar)}
+                  onClick={() => goToStep(3, pillar)}
                   className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
                   data-cursor="hover"
                 >
@@ -500,7 +538,7 @@ function WizardInner() {
 
                 <button
                   type="button"
-                  onClick={() => goToStep(2, pillar)}
+                  onClick={() => goToStep(3, pillar)}
                   className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
                   data-cursor="hover"
                 >

@@ -170,5 +170,13 @@
     "whatWeOffer": "What we offer",
     "company": "Company",
     "rights": "All rights reserved."
+  },
+  "getStarted": {
+    "eyebrow": "Get started",
+    "heading": "Where should we begin?",
+    "lede": "Pick where you need us most — we'll take it from there.",
+    "continue": "Continue",
+    "back": "Back",
+    "stepLabel": "Step {step} of 3"
   }
 }

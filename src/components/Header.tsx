@@ -42,10 +42,11 @@ export default function Header() {
   }, []);
 
   // Anchors point at home-page sections; absolute so they work from any route.
-  // '/about' and '/faq' are real routes (no anchor field), not same-page
-  // anchors — Vision & Mission and the FAQ moved off the home page.
+  // '/about', '/get-started' and '/faq' are real routes (no anchor field),
+  // not same-page anchors — Vision & Mission, the 3 options, and the FAQ
+  // all moved off the home page.
   const navLinks = [
-    { href: '/#services', label: t('whatWeOffer'), anchor: '#services' },
+    { href: '/get-started', label: t('whatWeOffer') },
     { href: '/about', label: t('vision') },
     { href: '/#who-we-serve', label: t('whoWeServe'), anchor: '#who-we-serve' },
     { href: '/courses', label: t('courses') },

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
-import { ThreePillars } from '@/components/sections/ThreePillars';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
 import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 
@@ -10,6 +9,12 @@ import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 // featured-course Prisma read lived here. NeuralPathway (+ that query) has
 // moved to /courses — see that page for the admin `featuredSlot` wiring.
 // Home can now render statically/cached again.
+//
+// ThreePillars (the 3 option cards) was removed from here by request — the
+// options live on /get-started (page 2 of that flow) now instead. Header,
+// Footer, and the hero's "What we offer" CTA all point there instead of
+// the old #services in-page anchor — see the /get-started page for where
+// the options actually render (vertically, one after another).
 
 export const metadata: Metadata = {
   title: 'FutureLine.ai — AI Consulting · Applications · Training',
@@ -35,7 +40,6 @@ export default function Home() {
 
       <div className="relative z-10">
         <DifferentiatorStrip />
-        <ThreePillars />
         <WhoWeServe />
         <ReadinessCTA />
       </div>

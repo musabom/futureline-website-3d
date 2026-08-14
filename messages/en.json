@@ -18,14 +18,13 @@
   "hero": {
     "eyebrow": "AI Consulting · Applications · Training",
     "tagline": "DESIGN · DEPLOY · EVOLVE",
-    "lede": "An Omani company turning AI from talk into practice — we advise, we build, and we train, in Arabic and English side by side.",
+    "lede": "An Omani company turning AI from talk into practice — we advise, we build, and we train.",
     "primaryCta": "Get an AI readiness assessment",
     "secondaryCta": "What we offer",
     "chips": {
       "consulting": "AI Consulting",
       "apps": "Apps & AI agents",
-      "training": "Training & Vibe Coding",
-      "bilingual": "+ English"
+      "training": "Training & Vibe Coding"
     }
   },
   "story": {
@@ -67,10 +66,6 @@
     "speed": {
       "title": "Days, not months",
       "body": "We take an idea to a working prototype fast, then prove the case."
-    },
-    "bilingual": {
-      "title": "Arabic + English",
-      "body": "AI knowledge in the language your team actually thinks in."
     },
     "onPremise": {
       "title": "Inside your walls",
@@ -149,10 +144,6 @@
       {
         "question": "Our data can't leave our premises. Can you still build for us?",
         "answer": "Yes — that is what our Safe Build Protocol is for. We build inside closed environments for government entities and organisations with sensitive data, so nothing ever leaves your walls."
-      },
-      {
-        "question": "Do you work in Arabic?",
-        "answer": "Arabic and English side by side — consulting, training, and the products themselves. Most AI knowledge today never reaches the people who need it in the language they think in; we close that gap."
       },
       {
         "question": "What is the Vibe Coding programme?",

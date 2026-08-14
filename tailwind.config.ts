@@ -97,9 +97,6 @@ const config: Config = {
         mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
         // Display face for headings and the wordmark treatment.
         display: ['var(--font-display)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
-        // Arabic face — Inter and Space Grotesk have no Arabic coverage, so
-        // any Arabic string without this renders as tofu.
-        arabic: ['var(--font-arabic)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         pill: '999px',

@@ -20,11 +20,6 @@ export const HOME_FAQ: FaqItem[] = [
       'Yes — that is what our Safe Build Protocol is for. We build inside closed environments for government entities and organisations with sensitive data, so nothing ever leaves your walls.',
   },
   {
-    question: 'Do you work in Arabic?',
-    answer:
-      'Arabic and English side by side — consulting, training, and the products themselves. Most AI knowledge today never reaches the people who need it in the language they think in; we close that gap.',
-  },
-  {
     question: 'What is the Vibe Coding programme?',
     answer:
       'It takes you from an idea to a deployed product with no programming background. You finish the programme with a real, published product rather than a certificate.',

@@ -4,9 +4,8 @@
  * Choreography, in scroll order:
  *   1. "OUR VISION" arrives oversized and settles into place
  *   2. the vision statement resolves word by word out of blur
- *   3. the Arabic mirror line fades in beneath it
- *   4. vision lifts away, "OUR MISSION" arrives oversized and settles
- *   5. the mission reveals as a reading scrub — each word lights from ghost
+ *   3. vision lifts away, "OUR MISSION" arrives oversized and settles
+ *   4. the mission reveals as a reading scrub — each word lights from ghost
  *      grey to full navy, with the current word tinted teal
  *
  * The oversized-arrival applies to the *headings only*; the statements
@@ -26,8 +25,6 @@ import { useTranslations } from 'next-intl';
 import { useSectionProgress } from '@/hooks/useSectionProgress';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
-const VISION_AR = 'أن يكون الجميع قائدًا في الذكاء الاصطناعي.';
-
 const smooth = (p: number, a: number, b: number) => {
   const t = Math.min(1, Math.max(0, (p - a) / (b - a)));
   return t * t * (3 - 2 * t);
@@ -42,7 +39,6 @@ export function VisionMission() {
   const missionKickerRef = useRef<HTMLParagraphElement>(null);
   const visionStageRef = useRef<HTMLDivElement>(null);
   const missionStageRef = useRef<HTMLDivElement>(null);
-  const arabicRef = useRef<HTMLParagraphElement>(null);
   const visionWordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const missionWordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const reduced = usePrefersReducedMotion();
@@ -67,10 +63,6 @@ export function VisionMission() {
       el.style.transform = `translateY(${((1 - t) * 26).toFixed(1)}px)`;
       el.style.filter = `blur(${((1 - t) * 10).toFixed(1)}px)`;
     });
-
-    if (arabicRef.current) {
-      arabicRef.current.style.opacity = smooth(p, 0.34, 0.42).toFixed(3);
-    }
 
     // Crossfade the two statements.
     const out = smooth(p, 0.46, 0.56);
@@ -123,9 +115,6 @@ export function VisionMission() {
             >
               {VISION_EN}
             </h2>
-            <p dir="rtl" lang="ar" className="font-arabic text-xl text-teal">
-              {VISION_AR}
-            </p>
           </div>
           <div>
             <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
@@ -181,14 +170,6 @@ export function VisionMission() {
             </span>
           ))}
         </h2>
-        <p
-          ref={arabicRef}
-          dir="rtl"
-          lang="ar"
-          className="font-arabic text-[clamp(1.15rem,2.4vw,1.5rem)] font-medium text-teal opacity-0"
-        >
-          {VISION_AR}
-        </p>
       </div>
 
       {/* Mission */}

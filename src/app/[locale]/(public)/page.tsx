@@ -14,11 +14,11 @@ import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 export const metadata: Metadata = {
   title: 'FutureLine.ai — AI Consulting · Applications · Training',
   description:
-    'An Omani company turning AI from talk into practice — we advise, we build, and we train, in Arabic and English. AI consulting, custom applications and AI agents, and applied training including the Vibe Coding programme. Muscat, Sultanate of Oman.',
+    'An Omani company turning AI from talk into practice — we advise, we build, and we train. AI consulting, custom applications and AI agents, and applied training including the Vibe Coding programme. Muscat, Sultanate of Oman.',
   openGraph: {
     title: 'FutureLine.ai — Making everyone a leader in AI',
     description:
-      'AI consulting, applications and training, in Arabic and English. Muscat, Sultanate of Oman.',
+      'AI consulting, applications and training. Muscat, Sultanate of Oman.',
     type: 'website',
     url: '/',
   },

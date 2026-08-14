@@ -59,15 +59,8 @@ export default function Footer() {
             <p className="max-w-xs font-display text-base font-semibold text-navy">
               Making everyone a leader in AI.
             </p>
-            <p className="mt-2 max-w-xs text-sm text-ink-muted" dir="rtl" lang="ar">
-              <span className="font-arabic">أن يكون الجميع قائدًا في الذكاء الاصطناعي.</span>
-            </p>
             <p className="mt-5 text-sm text-ink-muted">
               Muscat, Sultanate of Oman
-              <span aria-hidden> · </span>
-              <span dir="rtl" lang="ar" className="font-arabic">
-                مسقط، سلطنة عُمان
-              </span>
             </p>
           </div>
 

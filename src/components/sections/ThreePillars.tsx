@@ -11,10 +11,16 @@ import { MessageSquare, Code2, GraduationCap, ArrowRight } from 'lucide-react';
 import { Stagger } from '@/components/motion/Stagger';
 import { TiltCard } from '@/components/motion/TiltCard';
 
+// Each pillar now opens the /get-started wizard pre-selected to that
+// option, instead of 2 pillars sharing one anchor (/#audit) and the 3rd
+// jumping straight to a different page (/courses) with no shared funnel.
+// /#audit and /courses themselves are untouched and still reachable
+// directly (Header/Footer, hero CTA) — this only changes where these 3
+// specific cards point.
 const PILLARS = [
-  { key: 'consulting', icon: MessageSquare, href: '/#audit' },
-  { key: 'applications', icon: Code2, href: '/#audit' },
-  { key: 'training', icon: GraduationCap, href: '/courses' },
+  { key: 'consulting', icon: MessageSquare, href: '/get-started?pillar=consulting' },
+  { key: 'applications', icon: Code2, href: '/get-started?pillar=applications' },
+  { key: 'training', icon: GraduationCap, href: '/get-started?pillar=training' },
 ] as const;
 
 export async function ThreePillars() {

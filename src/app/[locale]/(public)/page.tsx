@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
-import { ServiceHighlights } from '@/components/sections/ServiceHighlights';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
 import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
@@ -11,11 +10,18 @@ import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 // moved to /courses — see that page for the admin `featuredSlot` wiring.
 // Home can now render statically/cached again.
 //
-// ThreePillars (the 3 option cards) was removed from here by request — the
-// options live on /get-started (page 2 of that flow) now instead. Header,
+// ThreePillars (the 3 pillar cards) was removed from here by request — the
+// options live on /get-started (page 2 of that flow) instead. Header,
 // Footer, and the hero's "What we offer" CTA all point there instead of
-// the old #services in-page anchor — see the /get-started page for where
-// the options actually render (vertically, one after another).
+// the old #services in-page anchor.
+//
+// ServiceHighlights (the 3 hero chips — AI Consulting / Apps & AI agents /
+// Training & Vibe Coding, briefly given their own section here) was removed
+// from home too, by the same request extended further: don't duplicate the
+// service cards on the home page at all — /get-started already shows the
+// same 3 categories, in more detail, vertically. ServiceHighlights.tsx is
+// left in place (unused component, no functional risk) in case it's wanted
+// again.
 
 export const metadata: Metadata = {
   title: 'FutureLine.ai — AI Consulting · Applications · Training',
@@ -40,7 +46,6 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-        <ServiceHighlights />
         <DifferentiatorStrip />
         <WhoWeServe />
         <ReadinessCTA />

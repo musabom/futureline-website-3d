@@ -1,18 +1,18 @@
 import type { Metadata } from 'next';
-import GetStartedWizard from '@/components/GetStartedWizard';
+import { PillarPicker } from '@/components/get-started/PillarPicker';
 
 export const metadata: Metadata = {
   title: 'Get Started — FutureLine.ai',
   description:
-    'Pick where you need FutureLine most — consulting, building applications, or training — and tell us the details in three quick steps.',
+    'Pick where you need FutureLine most — consulting, building applications, or training.',
   openGraph: {
     title: 'Get Started — FutureLine.ai',
-    description: 'Pick an option, share the details, confirm — in three quick steps.',
+    description: 'Pick where you need FutureLine most.',
     type: 'website',
     url: '/get-started',
   },
 };
 
 export default function GetStartedPage() {
-  return <GetStartedWizard />;
+  return <PillarPicker />;
 }

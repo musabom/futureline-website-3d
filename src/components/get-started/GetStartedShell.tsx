@@ -1,27 +1,51 @@
 /**
- * GetStartedShell — shared header + step indicator for the 3 /get-started
- * routes (picker, details, confirm). Each is a REAL separate page/route
- * (not step state on one page, by explicit request) — this shell exists
- * only to avoid triplicating the eyebrow/heading/lede and progress-dots
- * markup across 3 files; it renders no navigation logic itself.
+ * GetStartedShell — shared header + 4-step navigation for the journey.
  *
- * `step` is purely presentational — which of the 3 /get-started pages is
- * currently active. Page 1 of the overall journey is the home page's own
- * hero (untouched, a different route/design entirely) and isn't counted
- * here.
+ * The 4 steps span 4 REAL separate routes (not step state on one page):
+ *   1. /                       — the home page hero (untouched)
+ *   2. /get-started            — pick an option
+ *   3. /get-started/details    — your details + email/login
+ *   4. /get-started/confirm    — confirmation
+ *
+ * The numbered circles are real navigation: any step you've already
+ * passed is a clickable <Link> back to that page. The current step and
+ * steps ahead of you are not links — you can't skip the option picker
+ * and land on a details form with no pillar, and you can't jump to the
+ * confirmation without submitting.
+ *
+ * The hero (step 1) doesn't render this shell — it keeps its own design
+ * untouched by request — but it is still counted and shown here as a
+ * completed step, so the navigation reads as 4 pages rather than 3.
  */
 'use client';
 
+import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { Check } from 'lucide-react';
 
-const STEP_LABELS = ['Pick an option', 'Your details', 'Confirm'];
+const STEPS = [
+  { label: 'Start', href: () => '/' },
+  {
+    label: 'Pick an option',
+    href: (pillar?: string) => (pillar ? `/get-started?pillar=${pillar}` : '/get-started'),
+  },
+  {
+    label: 'Your details',
+    href: (pillar?: string) =>
+      pillar ? `/get-started/details?pillar=${pillar}` : '/get-started/details',
+  },
+  { label: 'Confirm', href: () => '/get-started/confirm' },
+] as const;
 
 export function GetStartedShell({
   step,
+  pillar,
   children,
 }: {
-  step: 1 | 2 | 3;
+  /** Which of the 4 journey pages is active. 1 is the home hero. */
+  step: 2 | 3 | 4;
+  /** Carried through so back-links preserve the picked option. */
+  pillar?: string;
   children: React.ReactNode;
 }) {
   const t = useTranslations('getStarted');
@@ -39,40 +63,66 @@ export function GetStartedShell({
           <p className="text-lg text-ink-muted">{t('lede')}</p>
         </div>
 
-        <ol className="mb-12 flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-          {STEP_LABELS.map((label, i) => {
-            const n = i + 1;
-            const active = n === step;
-            const done = n < step;
-            return (
-              <li key={label} className="flex items-center gap-2 sm:gap-4">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full font-mono text-xs font-semibold transition-colors ${
-                      done
-                        ? 'bg-teal text-white'
-                        : active
-                          ? 'border-2 border-teal text-teal'
-                          : 'border border-hairline text-ink-muted'
-                    }`}
-                  >
-                    {done ? <Check size={13} /> : n}
-                  </span>
-                  <span
-                    className={`hidden font-display text-sm font-medium sm:inline ${
-                      active ? 'text-navy' : 'text-ink-muted'
-                    }`}
-                  >
-                    {label}
-                  </span>
-                </div>
-                {n < STEP_LABELS.length && (
-                  <span aria-hidden className="h-px w-6 bg-hairline sm:w-10" />
-                )}
-              </li>
-            );
-          })}
-        </ol>
+        <nav aria-label="Progress" className="mb-12">
+          <ol className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
+            {STEPS.map(({ label, href }, i) => {
+              const n = i + 1;
+              const active = n === step;
+              const done = n < step;
+
+              const circle = (
+                <span
+                  className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full font-mono text-xs font-semibold transition-colors ${
+                    done
+                      ? 'bg-teal text-white'
+                      : active
+                        ? 'border-2 border-teal text-teal'
+                        : 'border border-hairline text-ink-muted'
+                  }`}
+                >
+                  {done ? <Check size={13} /> : n}
+                </span>
+              );
+
+              const text = (
+                <span
+                  className={`hidden font-display text-sm font-medium sm:inline ${
+                    active ? 'text-navy' : 'text-ink-muted'
+                  }`}
+                >
+                  {label}
+                </span>
+              );
+
+              return (
+                <li key={label} className="flex items-center gap-2 sm:gap-4">
+                  {done ? (
+                    <Link
+                      href={href(pillar)}
+                      className="flex items-center gap-2 transition-opacity hover:opacity-70"
+                      aria-label={`Back to step ${n}: ${label}`}
+                      data-cursor="hover"
+                    >
+                      {circle}
+                      {text}
+                    </Link>
+                  ) : (
+                    <div
+                      className="flex items-center gap-2"
+                      aria-current={active ? 'step' : undefined}
+                    >
+                      {circle}
+                      {text}
+                    </div>
+                  )}
+                  {n < STEPS.length && (
+                    <span aria-hidden className="h-px w-6 bg-hairline sm:w-10" />
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
 
         {children}
       </div>

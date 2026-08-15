@@ -17,7 +17,7 @@ import { GetStartedShell } from './GetStartedShell';
 
 export function ConfirmPanel() {
   return (
-    <GetStartedShell step={3}>
+    <GetStartedShell step={4}>
       <div className="mx-auto max-w-md rounded-card border border-teal/25 bg-teal/[0.06] p-10 text-center">
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-teal/30 bg-teal/10">
           <CheckCircle size={24} className="text-teal" />

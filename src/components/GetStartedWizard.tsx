@@ -5,16 +5,24 @@
  * Applications both used to go to /#audit, Training went straight to
  * /courses with no shared funnel).
  *
- * Step 1 — plain intro, no options (by request — the landing page carries
- *          no decisions, just the "what is this" framing).
- * Step 2 — pick one of the three pillars, as a vertical stacked list (by
- *          request — moved off step 1, and off the side-by-side grid it
- *          used to be). Copy is the same pillars.* i18n namespace as
- *          ThreePillars.
- * Step 3 — the remaining required details for that pillar.
- * Step 4 — a real NextAuth sign-in/sign-up (not a guest form — the site's
- *          other lead forms are guest/no-account; this flow is
- *          deliberately different), then a review + final submit.
+ * Page 1 of the overall journey is the home page's own hero (untouched,
+ * lives in GlobeHero.tsx) — this component starts at what's now "page 2":
+ *
+ * Step 1 ("page 2") — pick one of the three pillars, as a vertical stacked
+ *          list. Copy is the same pillars.* i18n namespace as ThreePillars.
+ * Step 2 ("page 3") — everything else in one page: the remaining required
+ *          details for that pillar, AND a real NextAuth sign-in/sign-up
+ *          (not a guest form — the site's other lead forms are guest/no-
+ *          account; this flow is deliberately different), submitted
+ *          together as a single action.
+ *
+ * A standalone intro step used to precede the picker (no options, just
+ * copy + a Continue button) — removed: the home page's hero now serves
+ * that framing role, so landing straight on the picker when arriving from
+ * "What we offer" avoids a redundant extra click.
+ *
+ * "Page 4" (a further page, styled from a reference image) is not built
+ * yet — pending that image from the user.
  *
  * Submits to the same POST /api/leads pipeline every other enquiry form on
  * the site uses, tagged with a distinct `source` per pillar so it's
@@ -47,7 +55,7 @@ const PILLARS = [
 
 type PillarKey = (typeof PILLARS)[number]['key'];
 
-const STEP_LABELS = ['Get started', 'Pick an option', 'Your details', 'Confirm'];
+const STEP_LABELS = ['Pick an option', 'Your details'];
 const LAST_STEP = STEP_LABELS.length;
 
 function isPillarKey(v: string | null): v is PillarKey {
@@ -78,9 +86,8 @@ function WizardInner() {
   const [authMode, setAuthMode] = useState<'signin' | 'register'>('signin');
   const [authForm, setAuthForm] = useState({ email: '', password: '', confirmPassword: '' });
   const [authError, setAuthError] = useState('');
-  const [authLoading, setAuthLoading] = useState(false);
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'sent' | 'error'>('idle');
 
   function goToStep(next: number, nextPillar?: PillarKey) {
     const params = new URLSearchParams(searchParams.toString());
@@ -89,83 +96,86 @@ function WizardInner() {
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  function handleIntroContinue() {
-    goToStep(2, pillar ?? undefined);
-  }
-
   function handleOptionsContinue() {
     if (!pillar) return;
-    goToStep(3, pillar);
+    goToStep(2, pillar);
   }
 
-  function handleDetailsSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    goToStep(4, pillar ?? undefined);
+  async function submitLead(email: string) {
+    const pillarLabel = pillar ? tp(`${pillar}.title`) : 'General';
+    const res = await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: details.firstName || session?.user?.firstName || 'Customer',
+        lastName: details.lastName || session?.user?.lastName || '',
+        email,
+        phone: details.phone,
+        company: details.company,
+        tourType: pillarLabel,
+        message: details.message.trim() || `Requested via Get Started — ${pillarLabel}`,
+        source: `FL Get Started — ${pillarLabel}`,
+      }),
+    });
+    if (!res.ok) throw new Error('lead submit failed');
   }
 
-  async function handleAuthSubmit(e: React.FormEvent) {
+  // Combined page: details + (if not already signed in) sign-in/sign-up,
+  // then submit the lead — one action instead of a separate review step.
+  async function handleCombinedSubmit(e: React.FormEvent) {
     e.preventDefault();
     setAuthError('');
-    setAuthLoading(true);
-    try {
-      if (authMode === 'register') {
-        if (authForm.password !== authForm.confirmPassword) {
-          setAuthError('Passwords do not match');
-          setAuthLoading(false);
-          return;
-        }
-        const res = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstName: details.firstName,
-            lastName: details.lastName,
-            email: authForm.email,
-            password: authForm.password,
-            confirmPassword: authForm.confirmPassword,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          setAuthError(data.error || 'Registration failed');
-          setAuthLoading(false);
-          return;
-        }
-      }
-      const result = await signIn('credentials', {
-        email: authForm.email,
-        password: authForm.password,
-        redirect: false,
-      });
-      if (result?.error) {
-        setAuthError(authMode === 'register' ? 'Account created, but sign-in failed — try signing in below.' : 'Invalid email or password');
-      }
-    } catch {
-      setAuthError('Something went wrong. Please try again.');
-    }
-    setAuthLoading(false);
-  }
+    setSubmitStatus('submitting');
 
-  async function handleFinalSubmit() {
-    if (!session?.user?.email) return;
-    setSubmitStatus('sending');
-    const pillarLabel = pillar ? tp(`${pillar}.title`) : 'General';
+    let email = session?.user?.email ?? null;
+
+    if (!email) {
+      try {
+        if (authMode === 'register') {
+          if (authForm.password !== authForm.confirmPassword) {
+            setAuthError('Passwords do not match');
+            setSubmitStatus('idle');
+            return;
+          }
+          const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              firstName: details.firstName,
+              lastName: details.lastName,
+              email: authForm.email,
+              password: authForm.password,
+              confirmPassword: authForm.confirmPassword,
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            setAuthError(data.error || 'Registration failed');
+            setSubmitStatus('idle');
+            return;
+          }
+        }
+        const result = await signIn('credentials', {
+          email: authForm.email,
+          password: authForm.password,
+          redirect: false,
+        });
+        if (result?.error) {
+          setAuthError(authMode === 'register' ? 'Account created, but sign-in failed — try signing in below.' : 'Invalid email or password');
+          setSubmitStatus('idle');
+          return;
+        }
+        email = authForm.email;
+      } catch {
+        setAuthError('Something went wrong. Please try again.');
+        setSubmitStatus('idle');
+        return;
+      }
+    }
+
     try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: details.firstName || session.user.firstName || 'Customer',
-          lastName: details.lastName || session.user.lastName || '',
-          email: session.user.email,
-          phone: details.phone,
-          company: details.company,
-          tourType: pillarLabel,
-          message: details.message.trim() || `Requested via Get Started — ${pillarLabel}`,
-          source: `FL Get Started — ${pillarLabel}`,
-        }),
-      });
-      setSubmitStatus(res.ok ? 'sent' : 'error');
+      await submitLead(email);
+      setSubmitStatus('sent');
     } catch {
       setSubmitStatus('error');
     }
@@ -219,26 +229,8 @@ function WizardInner() {
           })}
         </ol>
 
-        {/* ── Step 1 — intro, no options ── */}
+        {/* ── Step 1 ("page 2") — pick a pillar, vertical list ── */}
         {step === 1 && (
-          <div className="mx-auto max-w-md text-center">
-            <p className="mb-8 text-sm leading-relaxed text-ink-muted">
-              We&apos;ll ask what you need, then a few details, then confirm — no account required until the very last step.
-            </p>
-            <button
-              type="button"
-              onClick={handleIntroContinue}
-              className="fl-submit"
-              data-cursor="magnetic"
-            >
-              {t('continue')}
-              <ArrowRight size={15} className="rtl:rotate-180" />
-            </button>
-          </div>
-        )}
-
-        {/* ── Step 2 — pick a pillar, vertical list ── */}
-        {step === 2 && (
           <div className="mx-auto max-w-2xl">
             <div className="flex flex-col gap-4">
               {PILLARS.map(({ key, icon: Icon }) => {
@@ -283,16 +275,7 @@ function WizardInner() {
               })}
             </div>
 
-            <div className="mt-8 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => goToStep(1, pillar ?? undefined)}
-                className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
-                data-cursor="hover"
-              >
-                <ArrowLeft size={15} className="rtl:rotate-180" />
-                {t('back')}
-              </button>
+            <div className="mt-8 flex justify-center">
               <button
                 type="button"
                 onClick={handleOptionsContinue}
@@ -307,9 +290,9 @@ function WizardInner() {
           </div>
         )}
 
-        {/* ── Step 3 — remaining required details ── */}
-        {step === 3 && pillar && (
-          <form onSubmit={handleDetailsSubmit} className="space-y-5">
+        {/* ── Step 2 ("page 3") — details + email/login + submit, one page ── */}
+        {step === 2 && pillar && submitStatus !== 'sent' && (
+          <form onSubmit={handleCombinedSubmit} className="mx-auto max-w-2xl space-y-5">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label className="fl-label" htmlFor="gs-firstName">First name *</label>
@@ -374,7 +357,7 @@ function WizardInner() {
               </label>
               <textarea
                 id="gs-message"
-                rows={4}
+                rows={3}
                 required
                 value={details.message}
                 onChange={(e) => setDetails({ ...details, message: e.target.value })}
@@ -383,34 +366,19 @@ function WizardInner() {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
-              <button
-                type="button"
-                onClick={() => goToStep(2, pillar)}
-                className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
-                data-cursor="hover"
-              >
-                <ArrowLeft size={15} className="rtl:rotate-180" />
-                {t('back')}
-              </button>
-              <button type="submit" className="fl-submit" data-cursor="magnetic">
-                {t('continue')}
-                <ArrowRight size={15} className="rtl:rotate-180" />
-              </button>
-            </div>
-          </form>
-        )}
-
-        {/* ── Step 4 — sign in / sign up, then confirm ── */}
-        {step === 4 && pillar && (
-          <div>
             {sessionStatus === 'loading' && (
               <p className="text-center text-sm text-ink-muted">Checking your session…</p>
             )}
 
+            {sessionStatus !== 'loading' && session && (
+              <p className="rounded-lg border border-teal/25 bg-teal/[0.06] px-4 py-3 text-sm text-ink">
+                Signed in as <strong>{session.user?.email}</strong>
+              </p>
+            )}
+
             {sessionStatus !== 'loading' && !session && (
-              <div className="mx-auto max-w-md rounded-card border border-hairline bg-canvas-card p-8">
-                <div className="mb-6 flex justify-center gap-6 border-b border-hairline pb-4">
+              <div className="border-t border-hairline pt-5">
+                <div className="mb-5 flex justify-center gap-6">
                   <button
                     type="button"
                     onClick={() => setAuthMode('signin')}
@@ -431,13 +399,7 @@ function WizardInner() {
                   </button>
                 </div>
 
-                {authError && (
-                  <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600">
-                    {authError}
-                  </div>
-                )}
-
-                <form onSubmit={handleAuthSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
                     <label className="fl-label" htmlFor="gs-auth-email">Email *</label>
                     <input
@@ -463,7 +425,7 @@ function WizardInner() {
                     />
                   </div>
                   {authMode === 'register' && (
-                    <div>
+                    <div className="sm:col-span-2">
                       <label className="fl-label" htmlFor="gs-auth-confirm">Confirm password *</label>
                       <input
                         id="gs-auth-confirm"
@@ -476,91 +438,62 @@ function WizardInner() {
                       />
                     </div>
                   )}
-                  <button type="submit" disabled={authLoading} className="fl-submit w-full justify-center">
-                    {authLoading
-                      ? authMode === 'register' ? 'Creating account…' : 'Signing in…'
-                      : authMode === 'register' ? 'Create account & continue' : 'Sign in & continue'}
-                  </button>
-                </form>
-
-                <button
-                  type="button"
-                  onClick={() => goToStep(3, pillar)}
-                  className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
-                  data-cursor="hover"
-                >
-                  <ArrowLeft size={15} className="rtl:rotate-180" />
-                  {t('back')}
-                </button>
-              </div>
-            )}
-
-            {sessionStatus !== 'loading' && session && submitStatus !== 'sent' && (
-              <div className="mx-auto max-w-md">
-                <div className="mb-6 rounded-card border border-hairline bg-canvas-card p-6">
-                  <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-teal">
-                    Review
-                  </p>
-                  <dl className="space-y-3 text-sm">
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-ink-muted">Option</dt>
-                      <dd className="text-end font-medium text-navy">{tp(`${pillar}.title`)}</dd>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-ink-muted">Name</dt>
-                      <dd className="text-end font-medium text-navy">
-                        {details.firstName} {details.lastName}
-                      </dd>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-ink-muted">Signed in as</dt>
-                      <dd className="text-end font-medium text-navy">{session.user?.email}</dd>
-                    </div>
-                  </dl>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={handleFinalSubmit}
-                  disabled={submitStatus === 'sending'}
-                  className="fl-submit w-full justify-center"
-                  data-cursor="magnetic"
-                >
-                  <Send size={15} />
-                  {submitStatus === 'sending' ? 'Submitting…' : 'Confirm & submit'}
-                </button>
-
-                {submitStatus === 'error' && (
-                  <p className="pt-3 text-center text-xs text-red-600">
-                    Something went wrong. Please try again.
-                  </p>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => goToStep(3, pillar)}
-                  className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
-                  data-cursor="hover"
-                >
-                  <ArrowLeft size={15} className="rtl:rotate-180" />
-                  {t('back')}
-                </button>
               </div>
             )}
 
-            {submitStatus === 'sent' && (
-              <div className="mx-auto max-w-md rounded-card border border-teal/25 bg-teal/[0.06] p-10 text-center">
-                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-teal/30 bg-teal/10">
-                  <CheckCircle size={24} className="text-teal" />
-                </div>
-                <h3 className="mb-2 font-display text-2xl font-semibold tracking-[-0.01em] text-ink">
-                  Request received.
-                </h3>
-                <p className="mb-8 text-sm leading-relaxed text-ink-muted">
-                  We&apos;ll review your details and be in touch within one business day.
-                </p>
+            {authError && (
+              <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600">
+                {authError}
               </div>
             )}
+
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => goToStep(1, pillar)}
+                className="inline-flex items-center gap-1.5 font-display text-sm font-semibold text-ink-muted transition-colors hover:text-navy"
+                data-cursor="hover"
+              >
+                <ArrowLeft size={15} className="rtl:rotate-180" />
+                {t('back')}
+              </button>
+              <button
+                type="submit"
+                disabled={submitStatus === 'submitting'}
+                className="fl-submit"
+                data-cursor="magnetic"
+              >
+                <Send size={15} />
+                {submitStatus === 'submitting'
+                  ? 'Submitting…'
+                  : session
+                    ? 'Confirm & submit'
+                    : authMode === 'register'
+                      ? 'Create account & submit'
+                      : 'Sign in & submit'}
+              </button>
+            </div>
+
+            {submitStatus === 'error' && (
+              <p className="pt-1 text-center text-xs text-red-600">
+                Something went wrong. Please try again.
+              </p>
+            )}
+          </form>
+        )}
+
+        {step === 2 && submitStatus === 'sent' && (
+          <div className="mx-auto max-w-md rounded-card border border-teal/25 bg-teal/[0.06] p-10 text-center">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-teal/30 bg-teal/10">
+              <CheckCircle size={24} className="text-teal" />
+            </div>
+            <h3 className="mb-2 font-display text-2xl font-semibold tracking-[-0.01em] text-ink">
+              Request received.
+            </h3>
+            <p className="mb-8 text-sm leading-relaxed text-ink-muted">
+              We&apos;ll review your details and be in touch within one business day.
+            </p>
           </div>
         )}
       </div>

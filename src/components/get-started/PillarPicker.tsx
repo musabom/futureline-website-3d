@@ -40,7 +40,7 @@ function PickerInner() {
   }
 
   return (
-    <GetStartedShell step={1}>
+    <GetStartedShell step={2} pillar={pillar ?? undefined}>
       <div className="mx-auto max-w-2xl">
         <div className="flex flex-col gap-4">
           {PILLARS.map(({ key, icon: Icon }) => {

@@ -51,7 +51,7 @@ function DetailsInner() {
   // rendering a broken form with no pillar-specific copy.
   if (!pillar) {
     return (
-      <GetStartedShell step={2}>
+      <GetStartedShell step={3}>
         <div className="mx-auto max-w-md text-center">
           <p className="mb-6 text-sm text-ink-muted">Pick an option first.</p>
           <Link href="/get-started" className="fl-submit" data-cursor="magnetic">
@@ -142,7 +142,7 @@ function DetailsInner() {
   }
 
   return (
-    <GetStartedShell step={2}>
+    <GetStartedShell step={3} pillar={pillar}>
       <form onSubmit={handleSubmit} className="mx-auto max-w-2xl space-y-5">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>

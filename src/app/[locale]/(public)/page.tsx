@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
+import { ServiceHighlights } from '@/components/sections/ServiceHighlights';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
 import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
@@ -39,6 +40,7 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
+        <ServiceHighlights />
         <DifferentiatorStrip />
         <WhoWeServe />
         <ReadinessCTA />

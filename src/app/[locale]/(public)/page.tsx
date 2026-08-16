@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
 import { ThreeActStory } from '@/components/sections/ThreeActStory';
+import { VisionMission } from '@/components/sections/VisionMission';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
 import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
@@ -24,11 +25,12 @@ import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 // left in place (unused component, no functional risk) in case it's wanted
 // again.
 //
-// ThreeActStory ("01 we advise / 02 we build / 03 we train", the pinned
-// GSAP scroll-scrub section) is BACK here, in its original repo position
-// right after the hero — it was briefly moved to /about during the page
-// split, and the user asked for it back where it belongs. It is not
-// duplicated: /about now carries VisionMission alone.
+// ThreeActStory ("01 we advise / 02 we build / 03 we train") and
+// VisionMission are both BACK here, in their original repo positions
+// after the hero — they were briefly moved to /about during the page
+// split, and the user asked for each back in turn. Neither is
+// duplicated: the /about route is gone, and the Header/Footer "Vision"
+// links now point at the #vision anchor on this page.
 
 export const metadata: Metadata = {
   title: 'FutureLine.ai — AI Consulting · Applications · Training',
@@ -54,6 +56,7 @@ export default function Home() {
 
       <div className="relative z-10">
         <ThreeActStory />
+        <VisionMission />
         <DifferentiatorStrip />
         <WhoWeServe />
         <ReadinessCTA />

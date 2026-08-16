@@ -142,22 +142,12 @@ export default function Header() {
                 </button>
               </>
             ) : (
-              <>
-                <Link href="/login" className={linkClass} data-cursor="hover">
-                  {t('signIn')}
-                </Link>
-                {/* /audit, not the old /#audit anchor — the ReadinessCTA
-                    section was removed from the home page, so that anchor
-                    no longer exists. Same form, on its own route. */}
-                <Link
-                  href="/audit"
-                  data-cursor="magnetic"
-                  data-cursor-strength="18"
-                  className="rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-4 py-2 font-display text-[13px] font-semibold text-white transition-opacity hover:opacity-95"
-                >
-                  {t('readinessAssessment')}
-                </Link>
-              </>
+              /* The "Readiness assessment" CTA that sat next to Sign In was
+                 removed by request. /audit is still reachable from the
+                 footer and from the Get Started flow. */
+              <Link href="/login" className={linkClass} data-cursor="hover">
+                {t('signIn')}
+              </Link>
             )}
           </div>
 
@@ -216,22 +206,15 @@ export default function Header() {
                 </button>
               </>
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {t('signIn')}
-                </Link>
-                <Link
-                  href="/audit"
-                  className="mt-1 rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-4 py-2.5 text-center font-display text-sm font-semibold text-white"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {t('readinessAssessment')}
-                </Link>
-              </>
+              /* Readiness assessment CTA removed here too, matching the
+                 desktop header. */
+              <Link
+                href="/login"
+                className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
+                onClick={() => setMobileOpen(false)}
+              >
+                {t('signIn')}
+              </Link>
             )}
           </div>
         )}

@@ -79,7 +79,7 @@ export default function Footer() {
               { label: 'Vision & Mission', href: '/#story' },
               { label: 'Who we serve', href: '/#who-we-serve' },
               { label: 'FAQ', href: '/faq' },
-              { label: 'Readiness assessment', href: '/#audit' },
+              { label: 'Readiness assessment', href: '/audit' },
             ]}
           />
         </div>

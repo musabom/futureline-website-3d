@@ -146,9 +146,11 @@ export default function Header() {
                 <Link href="/login" className={linkClass} data-cursor="hover">
                   {t('signIn')}
                 </Link>
+                {/* /audit, not the old /#audit anchor — the ReadinessCTA
+                    section was removed from the home page, so that anchor
+                    no longer exists. Same form, on its own route. */}
                 <Link
-                  href="/#audit"
-                  onClick={(e) => onAnchorClick(e, '#audit')}
+                  href="/audit"
                   data-cursor="magnetic"
                   data-cursor-strength="18"
                   className="rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-4 py-2 font-display text-[13px] font-semibold text-white transition-opacity hover:opacity-95"
@@ -223,12 +225,9 @@ export default function Header() {
                   {t('signIn')}
                 </Link>
                 <Link
-                  href="/#audit"
+                  href="/audit"
                   className="mt-1 rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-4 py-2.5 text-center font-display text-sm font-semibold text-white"
-                  onClick={(e) => {
-                    onAnchorClick(e, '#audit');
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => setMobileOpen(false)}
                 >
                   {t('readinessAssessment')}
                 </Link>

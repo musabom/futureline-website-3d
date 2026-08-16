@@ -4,7 +4,6 @@ import { GlobeHero } from '@/components/sections/GlobeHero';
 import { ThreeActStory } from '@/components/sections/ThreeActStory';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
-import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 
 // Note: this page used to be force-dynamic solely because NeuralPathway's
 // featured-course Prisma read lived here. NeuralPathway (+ that query) has
@@ -59,7 +58,6 @@ export default function Home() {
         <ThreeActStory />
         <DifferentiatorStrip />
         <WhoWeServe />
-        <ReadinessCTA />
       </div>
     </main>
   );

@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { scrollToHash } from '@/lib/scroll';
 
 export default function Header() {
@@ -110,6 +111,10 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            {/* Language switcher sits inside the nav, alongside the links,
+                rather than over with the auth buttons — placed here by
+                request. */}
+            <LocaleSwitcher />
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -179,6 +184,12 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            {/* Same switcher in the mobile menu — the desktop nav is hidden
+                below md, so without this there'd be no way to change
+                language on a phone. */}
+            <div className="px-3 py-2">
+              <LocaleSwitcher />
+            </div>
             <div className="my-2 h-px bg-hairline" />
             {session ? (
               <>

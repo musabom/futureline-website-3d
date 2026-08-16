@@ -8,6 +8,7 @@
 
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { MessageSquare, Code2, GraduationCap, ArrowRight } from 'lucide-react';
 import { GetStartedShell } from './GetStartedShell';
@@ -27,6 +28,9 @@ function isPillarKey(v: string | null): v is PillarKey {
 function PickerInner() {
   const t = useTranslations('getStarted');
   const tp = useTranslations('pillars');
+  // Reuses hero.primaryCta so the readiness-assessment label stays a single
+  // source of truth after moving off the hero.
+  const th = useTranslations('hero');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -93,6 +97,28 @@ function PickerInner() {
             {t('continue')}
             <ArrowRight size={15} className="rtl:rotate-180" />
           </button>
+        </div>
+
+        {/* AI readiness assessment — moved here from the home page hero by
+            request. Points at the standalone /audit route rather than the
+            home page's #audit anchor, since that section is on a different
+            page from here. Same form, same lead pipeline, unchanged. */}
+        <div className="mt-10 border-t border-hairline pt-8 text-center">
+          <p className="mb-4 text-sm text-ink-muted">
+            Not sure which one you need?
+          </p>
+          <Link
+            href="/audit"
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-7 py-3.5 font-display text-base font-semibold text-white shadow-[0_10px_24px_-8px_rgba(24,169,153,0.5)] transition-transform duration-300 hover:-translate-y-0.5"
+            data-cursor="magnetic"
+          >
+            {th('primaryCta')}
+            <ArrowRight
+              size={18}
+              className="transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180"
+              aria-hidden
+            />
+          </Link>
         </div>
       </div>
     </GetStartedShell>

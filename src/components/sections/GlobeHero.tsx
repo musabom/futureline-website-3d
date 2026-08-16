@@ -61,13 +61,19 @@ export async function GlobeHero() {
 
         <p className="mb-9 max-w-xl text-lg leading-relaxed text-ink-muted">{t('lede')}</p>
 
+        {/* The "Get an AI readiness assessment" primary CTA used to sit
+            here, linking to the #audit section. Moved to /get-started by
+            request — the readiness assessment is offered there now, and
+            this hero keeps a single CTA into that flow. The #audit
+            section itself still exists at the bottom of this page and is
+            still reachable (header CTA, footer link, /audit route). */}
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
-            href="#audit"
+            href="/get-started"
             className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-pill bg-gradient-to-r from-navy via-teal to-mint px-7 py-3.5 font-display text-base font-semibold text-white shadow-[0_10px_24px_-8px_rgba(24,169,153,0.5)] transition-transform duration-300 hover:-translate-y-0.5"
             data-cursor="magnetic"
           >
-            {t('primaryCta')}
+            {t('secondaryCta')}
             <ArrowRight
               size={18}
               className="transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180"
@@ -77,13 +83,6 @@ export async function GlobeHero() {
               aria-hidden
               className="absolute inset-y-0 left-[-70%] w-[45%] -skew-x-12 bg-gradient-to-r from-transparent via-white/45 to-transparent motion-safe:animate-sheen"
             />
-          </Link>
-          <Link
-            href="/get-started"
-            className="fl-glass-strong inline-flex items-center justify-center rounded-pill px-7 py-3.5 font-display text-base font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5 fl-elev-1"
-            data-cursor="hover"
-          >
-            {t('secondaryCta')}
           </Link>
         </div>
       </div>

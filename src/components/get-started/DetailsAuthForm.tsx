@@ -16,7 +16,11 @@ import { useTranslations } from 'next-intl';
 import { ArrowLeft, Send } from 'lucide-react';
 import { GetStartedShell } from './GetStartedShell';
 
-const PILLAR_KEYS = ['consulting', 'applications', 'training'] as const;
+// 'readiness' is the AI Readiness Assessment option — not one of the 3
+// company pillars, so its copy comes from getStarted.* rather than
+// pillars.*. Kept in the same list so it flows through this page and into
+// the same lead pipeline as the others.
+const PILLAR_KEYS = ['consulting', 'applications', 'training', 'readiness'] as const;
 type PillarKey = (typeof PILLAR_KEYS)[number];
 
 function isPillarKey(v: string | null): v is PillarKey {
@@ -117,7 +121,8 @@ function DetailsInner() {
       }
     }
 
-    const pillarLabel = tp(`${pillar}.title`);
+    // Readiness copy lives under getStarted.*, the 3 pillars under pillars.*
+    const pillarLabel = pillar === 'readiness' ? t('readiness.title') : tp(`${pillar}.title`);
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
@@ -205,6 +210,7 @@ function DetailsInner() {
             {pillar === 'consulting' && 'What would you like assessed? *'}
             {pillar === 'applications' && 'What are you trying to build? *'}
             {pillar === 'training' && 'Who needs training, and on what? *'}
+            {pillar === 'readiness' && 'Where do you want AI to help first? *'}
           </label>
           <textarea
             id="gs-message"

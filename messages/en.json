@@ -168,6 +168,13 @@
     "lede": "Pick where you need us most — we'll take it from there.",
     "continue": "Continue",
     "back": "Back",
-    "stepLabel": "Step {step} of 3"
+    "stepLabel": "Step {step} of 3",
+    "readiness": {
+      "title": "AI Readiness Assessment",
+      "points": [
+        "A straight look at where AI pays off for you first",
+        "No commitment — an honest read on what to fix first"
+      ]
+    }
   }
 }

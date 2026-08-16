@@ -44,7 +44,19 @@ const smooth = (p: number, a: number, b: number) => {
   return t * t * (3 - 2 * t)
 }
 
-/** Hub positions for the four service clusters, narrowed on tall stages. */
+/**
+ * Hub positions for the service clusters, narrowed on tall stages.
+ *
+ * The first four are the services; the fifth is the Vision, added as a
+ * peer item by request. It sits top-centre: horizontally between the two
+ * upper service hubs and clear of the centred caption block below.
+ *
+ * Its y is deliberately only slightly above the upper pair (1.15). The
+ * label projection adds +0.95 to hub y, and with the camera at z=7 /
+ * fov 45 the visible half-height is ~2.9 — so a hub much above ~1.4
+ * pushes its label off the top edge, and the sticky 64px header eats
+ * more of that margin again.
+ */
 export function clusterPositions(aspect: number): [number, number, number][] {
   const spread = Math.min(1, aspect / 1.9)
   return (
@@ -53,6 +65,7 @@ export function clusterPositions(aspect: number): [number, number, number][] {
       [2.3, 1.05, -0.5],
       [-2.1, -1.2, -0.4],
       [2.2, -1.15, -0.2],
+      [0, 1.32, -0.45],
     ] as [number, number, number][]
   ).map(([x, y, z]) => [x * spread, y, z])
 }
@@ -102,7 +115,7 @@ export function ThreeActStoryCanvas({ progressRef, labelRefs }: Props) {
 
       // Sum of three uniforms ≈ gaussian, so clusters look organic rather
       // than like uniformly filled boxes.
-      const c = clusters[i % 4]
+      const c = clusters[i % clusters.length]
       const j = () => (rng() + rng() + rng() - 1.5) * 0.55
       cluster.set([c[0] + j(), c[1] + j(), c[2] + j() * 0.6], i * 3)
 
@@ -118,7 +131,9 @@ export function ThreeActStoryCanvas({ progressRef, labelRefs }: Props) {
 
     const wireGeo = new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(RADIUS, 2))
 
-    // Links between the four hubs, drawn in act 3.
+    // Links between the hubs, drawn in act 3. 4 is the Vision hub — wired
+    // to both upper service hubs so it reads as part of the same network
+    // rather than a detached label floating above it.
     const pairs: [number, number][] = [
       [0, 1],
       [1, 3],
@@ -126,6 +141,8 @@ export function ThreeActStoryCanvas({ progressRef, labelRefs }: Props) {
       [2, 0],
       [0, 3],
       [1, 2],
+      [0, 4],
+      [1, 4],
     ]
     const linePos = new Float32Array(pairs.length * 6)
     pairs.forEach(([a, b], i) => {

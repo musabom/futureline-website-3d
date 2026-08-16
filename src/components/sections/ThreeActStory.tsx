@@ -21,7 +21,10 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import ThreeActStoryScene from './ThreeActStoryCanvasLazy';
 
 const ACT_KEYS = ['act1', 'act2', 'act3'] as const;
-const LABEL_KEYS = ['consulting', 'applications', 'agents', 'training'] as const;
+// 'vision' is the 5th cluster hub — the Vision rendered as a peer item
+// alongside the services, by request. Order must match clusterPositions()
+// in ThreeActStoryCanvas, which projects these labels from those hubs.
+const LABEL_KEYS = ['consulting', 'applications', 'agents', 'training', 'vision'] as const;
 
 
 /** Caption visibility bands: [fadeInStart, fadeInEnd, fadeOutStart, fadeOutEnd]. */
@@ -169,22 +172,6 @@ export function ThreeActStory() {
               {act.title}
             </h3>
             <p className="mx-auto max-w-[480px] text-lg text-ink-muted">{act.body}</p>
-
-            {/* Vision & Mission capstone — only on the final act. */}
-            {i === acts.length - 1 && (
-              <div className="mx-auto mt-8 max-w-[520px] border-t border-hairline pt-7">
-                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-[0.32em] text-teal">
-                  {tv('visionKicker')}
-                </p>
-                <p className="mb-5 font-display text-[clamp(1.15rem,2.4vw,1.6rem)] font-bold leading-snug tracking-tight text-navy">
-                  {tv('vision')}
-                </p>
-                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-[0.32em] text-teal">
-                  {tv('missionKicker')}
-                </p>
-                <p className="text-sm leading-relaxed text-ink-muted">{tv('mission')}</p>
-              </div>
-            )}
           </div>
         ))}
       </div>

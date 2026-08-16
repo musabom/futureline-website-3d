@@ -48,7 +48,7 @@ export default function Header() {
   // again (the /about route it briefly lived on has been removed).
   const navLinks = [
     { href: '/get-started', label: t('whatWeOffer') },
-    { href: '/#vision', label: t('vision'), anchor: '#vision' },
+    { href: '/#story', label: t('vision'), anchor: '#story' },
     { href: '/#who-we-serve', label: t('whoWeServe'), anchor: '#who-we-serve' },
     { href: '/courses', label: t('courses') },
     { href: '/faq', label: t('faq') },

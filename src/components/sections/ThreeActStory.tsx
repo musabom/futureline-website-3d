@@ -38,6 +38,10 @@ const smooth = (p: number, a: number, b: number) => {
 
 export function ThreeActStory() {
   const t = useTranslations('story');
+  // Vision & Mission render as the capstone of the final act ("then we hand
+  // you the keys") rather than as their own section below — by request. The
+  // copy still comes from the visionMission namespace, unchanged.
+  const tv = useTranslations('visionMission');
   const acts = ACT_KEYS.map((k) => ({
     key: k,
     kicker: t(`${k}.kicker`),
@@ -100,6 +104,20 @@ export function ThreeActStory() {
               <p className="text-lg text-ink-muted">{act.body}</p>
             </div>
           ))}
+
+          {/* Same Vision & Mission capstone as the scrubbed version. */}
+          <div className="border-t border-hairline pt-10">
+            <p className="mb-2 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
+              {tv('visionKicker')}
+            </p>
+            <p className="mb-6 font-display text-2xl font-bold leading-snug tracking-tight text-navy">
+              {tv('vision')}
+            </p>
+            <p className="mb-2 font-display text-sm font-semibold uppercase tracking-[0.32em] text-teal">
+              {tv('missionKicker')}
+            </p>
+            <p className="text-lg leading-relaxed text-ink-muted">{tv('mission')}</p>
+          </div>
         </div>
       </section>
     );
@@ -151,6 +169,22 @@ export function ThreeActStory() {
               {act.title}
             </h3>
             <p className="mx-auto max-w-[480px] text-lg text-ink-muted">{act.body}</p>
+
+            {/* Vision & Mission capstone — only on the final act. */}
+            {i === acts.length - 1 && (
+              <div className="mx-auto mt-8 max-w-[520px] border-t border-hairline pt-7">
+                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-[0.32em] text-teal">
+                  {tv('visionKicker')}
+                </p>
+                <p className="mb-5 font-display text-[clamp(1.15rem,2.4vw,1.6rem)] font-bold leading-snug tracking-tight text-navy">
+                  {tv('vision')}
+                </p>
+                <p className="mb-2 font-display text-xs font-semibold uppercase tracking-[0.32em] text-teal">
+                  {tv('missionKicker')}
+                </p>
+                <p className="text-sm leading-relaxed text-ink-muted">{tv('mission')}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>

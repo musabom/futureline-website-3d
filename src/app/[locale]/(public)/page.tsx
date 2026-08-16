@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { AmbientMesh } from '@/components/ui/AmbientMesh';
 import { GlobeHero } from '@/components/sections/GlobeHero';
 import { ThreeActStory } from '@/components/sections/ThreeActStory';
-import { VisionMission } from '@/components/sections/VisionMission';
 import { DifferentiatorStrip } from '@/components/sections/DifferentiatorStrip';
 import { WhoWeServe } from '@/components/sections/WhoWeServe';
 import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
@@ -25,12 +24,14 @@ import { ReadinessCTA } from '@/components/sections/ReadinessCTA';
 // left in place (unused component, no functional risk) in case it's wanted
 // again.
 //
-// ThreeActStory ("01 we advise / 02 we build / 03 we train") and
-// VisionMission are both BACK here, in their original repo positions
-// after the hero — they were briefly moved to /about during the page
-// split, and the user asked for each back in turn. Neither is
-// duplicated: the /about route is gone, and the Header/Footer "Vision"
-// links now point at the #vision anchor on this page.
+// ThreeActStory ("01 we advise / 02 we build / 03 we train") is back here
+// in its original repo position after the hero. Vision & Mission is NOT a
+// separate section any more — by request it renders as the capstone of
+// that story's final act ("then we hand you the keys"), inside
+// ThreeActStory itself. VisionMission.tsx is now unused but left in
+// place. The /about route it briefly lived on has been removed; the
+// Header/Footer "Vision" links point at the story section, which is
+// where the vision copy now lives.
 
 export const metadata: Metadata = {
   title: 'FutureLine.ai — AI Consulting · Applications · Training',
@@ -56,7 +57,6 @@ export default function Home() {
 
       <div className="relative z-10">
         <ThreeActStory />
-        <VisionMission />
         <DifferentiatorStrip />
         <WhoWeServe />
         <ReadinessCTA />

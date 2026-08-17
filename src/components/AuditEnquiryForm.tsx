@@ -6,18 +6,17 @@
  *
  * Posts to /api/leads. `enquiryType` and `source` are overridable so the
  * same form can serve more than one funnel and still be told apart in
- * /admin/leads — the defaults reproduce the original /audit behaviour
- * exactly, so existing callers are unaffected.
+ * /admin/leads.
  *
- * Input chrome comes from the shared .fl-* classes, which have light
- * variants scoped under .fl-light. So this renders correctly on both the
- * dark /audit page and the light redesign surfaces with no variant prop and
- * no second copy to keep in sync — only the handful of hard-coded colours
- * in the success panel and helper text need `tone`.
+ * All display strings come from the `audit.form` i18n namespace, so the form
+ * renders in Arabic under /ar. Input chrome comes from the shared .fl-*
+ * classes; only the handful of hard-coded colours in the success panel and
+ * helper text need `tone`.
  */
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Send, CheckCircle } from 'lucide-react';
 
 interface Props {
@@ -26,19 +25,14 @@ interface Props {
   source?: string;
   /** Colour scheme for the copy this component owns. */
   tone?: 'dark' | 'light';
-  submitLabel?: string;
-  messageLabel?: string;
-  messagePlaceholder?: string;
 }
 
 export default function AuditEnquiryForm({
   enquiryType = 'Systems Audit',
   source = 'FL Audit Request',
   tone = 'dark',
-  submitLabel = 'Request my free audit',
-  messageLabel = 'What slows you down?',
-  messagePlaceholder = 'One line is enough. Paper trails, spreadsheet chaos, manual approvals…',
 }: Props = {}) {
+  const t = useTranslations('audit.form');
   const light = tone === 'light';
   const [form, setForm] = useState({
     firstName: '',
@@ -101,10 +95,10 @@ export default function AuditEnquiryForm({
             light ? 'font-display text-ink' : 'text-white'
           }`}
         >
-          Request received.
+          {t('successTitle')}
         </h3>
         <p className={`mb-8 text-sm leading-relaxed ${light ? 'text-ink-muted' : 'text-white/60'}`}>
-          We&apos;ll review your details and be in touch within one business day to schedule a 30-minute call.
+          {t('successBody')}
         </p>
         <button
           onClick={() => setStatus('idle')}
@@ -113,7 +107,7 @@ export default function AuditEnquiryForm({
           }`}
           data-cursor="hover"
         >
-          Submit another →
+          {t('submitAnother')}
         </button>
       </div>
     );
@@ -123,7 +117,7 @@ export default function AuditEnquiryForm({
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
-          <label className="fl-label" htmlFor="ae-firstName">First name *</label>
+          <label className="fl-label" htmlFor="ae-firstName">{t('firstName')} *</label>
           <input
             id="ae-firstName"
             type="text"
@@ -131,11 +125,11 @@ export default function AuditEnquiryForm({
             value={form.firstName}
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
             className="fl-input"
-            placeholder="First name"
+            placeholder={t('firstNamePlaceholder')}
           />
         </div>
         <div>
-          <label className="fl-label" htmlFor="ae-lastName">Last name *</label>
+          <label className="fl-label" htmlFor="ae-lastName">{t('lastName')} *</label>
           <input
             id="ae-lastName"
             type="text"
@@ -143,13 +137,13 @@ export default function AuditEnquiryForm({
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             className="fl-input"
-            placeholder="Last name"
+            placeholder={t('lastNamePlaceholder')}
           />
         </div>
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="ae-email">Email *</label>
+        <label className="fl-label" htmlFor="ae-email">{t('email')} *</label>
         <input
           id="ae-email"
           type="email"
@@ -157,7 +151,7 @@ export default function AuditEnquiryForm({
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           className="fl-input"
-          placeholder="you@example.com"
+          placeholder={t('emailPlaceholder')}
         />
       </div>
 
@@ -166,7 +160,7 @@ export default function AuditEnquiryForm({
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label className="fl-label" htmlFor="ae-company">
-            Company <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
+            {t('company')} <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>{t('optional')}</span>
           </label>
           <input
             id="ae-company"
@@ -174,12 +168,12 @@ export default function AuditEnquiryForm({
             value={form.company}
             onChange={(e) => setForm({ ...form, company: e.target.value })}
             className="fl-input"
-            placeholder="Acme Co."
+            placeholder={t('companyPlaceholder')}
           />
         </div>
         <div>
           <label className="fl-label" htmlFor="ae-phone">
-            Phone <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
+            {t('phone')} <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>{t('optional')}</span>
           </label>
           <input
             id="ae-phone"
@@ -194,7 +188,7 @@ export default function AuditEnquiryForm({
 
       <div>
         <label className="fl-label" htmlFor="ae-message">
-          {messageLabel} <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>(optional)</span>
+          {t('messageLabel')} <span className={light ? 'text-ink-muted/70' : 'text-white/40'}>{t('optional')}</span>
         </label>
         <textarea
           id="ae-message"
@@ -202,7 +196,7 @@ export default function AuditEnquiryForm({
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           className="fl-textarea"
-          placeholder={messagePlaceholder}
+          placeholder={t('messagePlaceholder')}
         />
       </div>
 
@@ -214,17 +208,17 @@ export default function AuditEnquiryForm({
         data-cursor-strength="22"
       >
         <Send size={15} />
-        {status === 'sending' ? 'Submitting…' : submitLabel}
+        {status === 'sending' ? t('submitting') : t('submit')}
       </button>
 
       {status === 'error' && (
         <p className={`pt-1 text-center text-xs ${light ? 'text-red-600' : 'text-red-400/90'}`}>
-          Something went wrong. Please try again.
+          {t('error')}
         </p>
       )}
 
       <p className={`pt-2 text-center text-[11px] leading-relaxed ${light ? 'text-ink-muted' : 'text-white/45'}`}>
-        No commitment. No pitch deck. We&apos;ll come back with an honest read on what to fix first.
+        {t('disclaimer')}
       </p>
     </form>
   );

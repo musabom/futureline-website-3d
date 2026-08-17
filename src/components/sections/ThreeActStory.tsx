@@ -21,10 +21,10 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import ThreeActStoryScene from './ThreeActStoryCanvasLazy';
 
 const ACT_KEYS = ['act1', 'act2', 'act3'] as const;
-// 'vision' is the 5th cluster hub — the Vision rendered as a peer item
-// alongside the services, by request. Order must match clusterPositions()
-// in ThreeActStoryCanvas, which projects these labels from those hubs.
-const LABEL_KEYS = ['consulting', 'applications', 'agents', 'training', 'vision'] as const;
+// The 4 service clusters. Order must match clusterPositions() in
+// ThreeActStoryCanvas, which projects these labels from those hubs.
+// (A 5th "Vision" pill was briefly added here and then removed by request.)
+const LABEL_KEYS = ['consulting', 'applications', 'agents', 'training'] as const;
 
 
 /** Caption visibility bands: [fadeInStart, fadeInEnd, fadeOutStart, fadeOutEnd]. */

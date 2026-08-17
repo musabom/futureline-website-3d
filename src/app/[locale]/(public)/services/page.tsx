@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 import { ArrowRight } from 'lucide-react';
 import ServiceEnquiryForm from '@/components/ServiceEnquiryForm';
@@ -21,6 +22,7 @@ const SERVICE_SLUGS: Record<string, string> = {
 };
 
 export default async function ServicesPage() {
+  const t = await getTranslations('services');
   const services = await prisma.service.findMany({
     where: { status: 'ACTIVE' },
     orderBy: [{ featured: 'desc' }, { createdAt: 'asc' }],
@@ -47,7 +49,7 @@ export default async function ServicesPage() {
                 FL · Lab
               </p>
               <BrandedHeading as="h1" size="xl">
-                Systems that earn their keep.
+                {t('heading')}
               </BrandedHeading>
               <AnimatedText
                 as="p"
@@ -55,7 +57,7 @@ export default async function ServicesPage() {
                 className="mt-8 max-w-xl text-lg leading-relaxed text-ink md:text-xl"
                 delay={0.2}
               >
-                Four ways we build the digital infrastructure that lets your business scale without breaking. Done in weeks, not years. No recurring licence tax.
+                {t('lede')}
               </AnimatedText>
               <FadeUp delay={0.4}>
                 <div className="mt-12 flex flex-wrap items-center gap-3">
@@ -65,14 +67,14 @@ export default async function ServicesPage() {
                     data-cursor-strength="22"
                     className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
-                    Browse services
+                    {t('browse')}
                   </Link>
                   <Link
                     href="/audit"
                     data-cursor="hover"
                     className="px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
-                    Get a free audit →
+                    {t('freeAudit')}
                   </Link>
                 </div>
               </FadeUp>
@@ -87,7 +89,7 @@ export default async function ServicesPage() {
           'Custom Software',
           'Automations',
           'Consultation',
-          'Systems Built for Scale',
+          t('marqueeTagline'),
         ]}
         speed={32}
       />
@@ -96,19 +98,19 @@ export default async function ServicesPage() {
       <section id="services-grid" className="px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-16 max-w-3xl text-center md:mb-24">
-            <SectionEyebrow>Available now</SectionEyebrow>
+            <SectionEyebrow>{t('gridEyebrow')}</SectionEyebrow>
             <BrandedHeading as="h2" size="xl">
-              Our services.
+              {t('gridHeading')}
             </BrandedHeading>
             <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted md:text-xl">
-              Pick the one that matches where you&apos;re stuck. We start with a free audit either way.
+              {t('gridLede')}
             </p>
           </div>
 
           {services.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-muted">No services listed yet</p>
-              <p className="mt-3 text-sm text-ink-muted">Check back soon.</p>
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-muted">{t('empty')}</p>
+              <p className="mt-3 text-sm text-ink-muted">{t('emptyBody')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -125,7 +127,7 @@ export default async function ServicesPage() {
                       <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-lab">{num}</span>
                       {service.featured && (
                         <span className="rounded-full border border-lab/30 bg-lab/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-lab">
-                          Featured
+                          {t('featured')}
                         </span>
                       )}
                     </div>
@@ -137,7 +139,7 @@ export default async function ServicesPage() {
                     </p>
                     <div className="mt-8 flex items-center justify-between border-t border-hairline pt-5">
                       <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
-                        {service.pricingModel ?? 'Learn more'}
+                        {service.pricingModel ?? t('learnMore')}
                       </span>
                       <ArrowRight
                         size={14}
@@ -167,12 +169,12 @@ export default async function ServicesPage() {
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <div className="mb-12 text-center">
-              <SectionEyebrow>Get in touch</SectionEyebrow>
+              <SectionEyebrow>{t('enquiryEyebrow')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg" className="mt-3">
-                Tell us what&apos;s slowing you down.
+                {t('enquiryHeading')}
               </BrandedHeading>
               <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-ink-muted">
-                Send a quick brief. We&apos;ll come back with an honest read on whether we can help — and the smallest first move that moves the needle.
+                {t('enquiryLede')}
               </p>
             </div>
           </FadeUp>

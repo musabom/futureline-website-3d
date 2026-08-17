@@ -263,5 +263,89 @@
       "body": "We'll review your details and be in touch within one business day.",
       "backHome": "Back to home →"
     }
+  },
+  "audit": {
+    "metaTitle": "Get a free systems audit — FutureLine",
+    "metaDescription": "Tell us what slows you down. We come back with an honest read on what to fix first. No commitment, no pitch deck, no obligation.",
+    "eyebrow": "Free systems audit",
+    "heading": "Tell us what slows you down.",
+    "lede": "Fill in your name and email and we'll come back with the smallest first move that pays for itself.",
+    "whatYouGet": [
+      {
+        "title": "A 30-minute call",
+        "body": "We map your day-to-day, identify the biggest manual touchpoints, and ask the questions a vendor demo never will."
+      },
+      {
+        "title": "A written read",
+        "body": "A short report — plain English — on the three highest-leverage fixes, the rough cost of each, and what they would save."
+      },
+      {
+        "title": "No pitch deck",
+        "body": "If the answer is \"you don't need us\", we'll say so. No commission, no upsell, no commitment."
+      }
+    ],
+    "formEyebrow": "Request a free audit",
+    "formHeading": "Start with your details.",
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "company": "Company",
+      "phone": "Phone",
+      "optional": "(optional)",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "emailPlaceholder": "you@example.com",
+      "companyPlaceholder": "Acme Co.",
+      "messageLabel": "What slows you down?",
+      "messagePlaceholder": "One line is enough. Paper trails, spreadsheet chaos, manual approvals…",
+      "submit": "Request my free audit",
+      "submitting": "Submitting…",
+      "error": "Something went wrong. Please try again.",
+      "disclaimer": "No commitment. No pitch deck. We'll come back with an honest read on what to fix first.",
+      "successTitle": "Request received.",
+      "successBody": "We'll review your details and be in touch within one business day to schedule a 30-minute call.",
+      "submitAnother": "Submit another →"
+    }
+  },
+  "services": {
+    "heading": "Systems that earn their keep.",
+    "lede": "Four ways we build the digital infrastructure that lets your business scale without breaking. Done in weeks, not years. No recurring licence tax.",
+    "browse": "Browse services",
+    "freeAudit": "Get a free audit →",
+    "marqueeTagline": "Systems Built for Scale",
+    "gridEyebrow": "Available now",
+    "gridHeading": "Our services.",
+    "gridLede": "Pick the one that matches where you're stuck. We start with a free audit either way.",
+    "empty": "No services listed yet",
+    "emptyBody": "Check back soon.",
+    "featured": "Featured",
+    "learnMore": "Learn more",
+    "enquiryEyebrow": "Get in touch",
+    "enquiryHeading": "Tell us what's slowing you down.",
+    "enquiryLede": "Send a quick brief. We'll come back with an honest read on whether we can help — and the smallest first move that moves the needle."
+  },
+  "serviceForm": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "firstNamePlaceholder": "First name",
+    "lastNamePlaceholder": "Last name",
+    "emailPlaceholder": "you@example.com",
+    "serviceInterest": "Service interest",
+    "selectService": "Select a service",
+    "digitalisation": "Digitalisation",
+    "customSoftware": "Custom Software",
+    "automations": "Automations",
+    "consultation": "Consultation",
+    "other": "Other",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what's slowing you down.",
+    "submit": "Submit enquiry",
+    "submitting": "Submitting…",
+    "error": "Something went wrong. Please try again.",
+    "successTitle": "Enquiry submitted.",
+    "successBody": "Our team will review your request and be in touch within one business day.",
+    "submitAnother": "Submit another →"
   }
 }

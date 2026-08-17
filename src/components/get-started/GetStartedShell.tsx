@@ -24,17 +24,17 @@ import { useTranslations } from 'next-intl';
 import { Check } from 'lucide-react';
 
 const STEPS = [
-  { label: 'Start', href: () => '/' },
+  { key: 'start', href: () => '/' },
   {
-    label: 'Pick an option',
+    key: 'pick',
     href: (pillar?: string) => (pillar ? `/get-started?pillar=${pillar}` : '/get-started'),
   },
   {
-    label: 'Your details',
+    key: 'details',
     href: (pillar?: string) =>
       pillar ? `/get-started/details?pillar=${pillar}` : '/get-started/details',
   },
-  { label: 'Confirm', href: () => '/get-started/confirm' },
+  { key: 'confirm', href: () => '/get-started/confirm' },
 ] as const;
 
 export function GetStartedShell({
@@ -65,10 +65,11 @@ export function GetStartedShell({
 
         <nav aria-label="Progress" className="mb-12">
           <ol className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-            {STEPS.map(({ label, href }, i) => {
+            {STEPS.map(({ key, href }, i) => {
               const n = i + 1;
               const active = n === step;
               const done = n < step;
+              const label = t(`steps.${key}`);
 
               const circle = (
                 <span
@@ -95,7 +96,7 @@ export function GetStartedShell({
               );
 
               return (
-                <li key={label} className="flex items-center gap-2 sm:gap-4">
+                <li key={key} className="flex items-center gap-2 sm:gap-4">
                   {done ? (
                     <Link
                       href={href(pillar)}

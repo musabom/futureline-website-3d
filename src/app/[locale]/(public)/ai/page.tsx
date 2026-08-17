@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Mail, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 import { getBrandSettings } from '@/lib/brand';
 import HeroRibbon3D from '@/components/sections/HeroRibbon3DLazy';
 import { AnimatedText } from '@/components/ui/AnimatedText';
@@ -12,30 +11,56 @@ import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('ai');
-  return {
-    title: t('metaTitle'),
-    description: t('metaDescription'),
-    openGraph: {
-      title: t('metaTitle'),
-      description: t('metaDescription'),
-      type: 'website',
-      url: '/ai',
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: 'AI & Automation — FutureLine | Intelligent Business Solutions',
+  description:
+    'AI-powered solutions to help businesses automate processes, gain insights, and operate smarter. Machine learning, process automation, and AI-powered analytics.',
+  openGraph: {
+    title: 'AI & Automation — FutureLine',
+    description:
+      'AI-powered solutions to help businesses automate processes, gain insights, and operate smarter.',
+    type: 'website',
+    url: '/ai',
+  },
+};
 
+const CAPABILITIES = [
+  {
+    title: 'Machine Learning',
+    body:
+      'Custom ML models that learn and adapt to your business data — predictive analytics, anomaly detection, recommendation engines, classifiers trained on your reality.',
+  },
+  {
+    title: 'Process Automation',
+    body:
+      'Intelligent automation that streamlines workflows and decisions across your organisation. Approvals routed, exceptions escalated, audit trail built in.',
+  },
+  {
+    title: 'AI-Powered Analytics',
+    body:
+      'Turn raw data into actionable insights with AI-driven dashboards, reports, and decision support — natural language queries on top of your operational data.',
+  },
+];
 
+const VISION = [
+  'Custom AI models tailored to your industry and data',
+  'Automation of repetitive tasks and decision-making',
+  'Integration with your existing tools and workflows',
+  'Ongoing support and model improvement',
+  'Plain-English explanations of what the model is doing',
+  'Human escalation paths on every automated decision',
+];
 
+const STATS = [
+  { value: '50+', label: 'AI projects planned', sub: 'In active scoping across industries we serve.' },
+  { value: '98%', label: 'Target satisfaction', sub: 'Designed so the system pays for itself, fast.' },
+  { value: '5+', label: 'Industries served', sub: 'Oil & gas, construction, public sector, education, SME ops.' },
+  { value: '24/7', label: 'AI-powered systems', sub: 'Always-on automation with human escalation built in.' },
+];
 
 export default async function AIPage() {
-  const t = await getTranslations('ai');
   const brand = await getBrandSettings();
   const contactEmail = brand.contactEmail;
-  const capabilities = t.raw('capabilities') as { title: string; body: string }[];
-  const visionPoints = t.raw('visionPoints') as string[];
-  const stats = t.raw('stats') as { value: string; label: string; sub: string }[];
 
   return (
     <main className="bg-canvas">
@@ -60,7 +85,7 @@ export default async function AIPage() {
                 FL · Lab · AI & Automation
               </p>
               <BrandedHeading as="h1" size="xl">
-                {t('heading')}
+                Useful, not magic.
               </BrandedHeading>
               <AnimatedText
                 as="p"
@@ -68,10 +93,10 @@ export default async function AIPage() {
                 className="mt-8 max-w-xl text-lg leading-relaxed text-ink md:text-xl"
                 delay={0.2}
               >
-                {t('lede')}
+                Practical AI for businesses. We don&apos;t build AI for the sake of AI — every model and automation we ship solves a real problem and pays its way.
               </AnimatedText>
               <p className="mt-4 max-w-xl text-sm text-ink-muted">
-                {t('developing')}
+                Our AI & Automation division is in active development. Get in touch to discuss your needs early.
               </p>
               <FadeUp delay={0.4}>
                 <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -81,14 +106,14 @@ export default async function AIPage() {
                     data-cursor-strength="22"
                     className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
-                    {t('getInTouch')} <Mail size={15} />
+                    Get in touch <Mail size={15} />
                   </Link>
                   <Link
                     href="/courses"
                     data-cursor="hover"
                     className="inline-flex items-center gap-1 px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
-                    {t('exploreCourses')} <ArrowRight size={14} />
+                    Explore AI courses <ArrowRight size={14} />
                   </Link>
                 </div>
               </FadeUp>
@@ -98,7 +123,14 @@ export default async function AIPage() {
       </section>
 
       <MarqueeStrip
-        items={t.raw('marquee') as string[]}
+        items={[
+          'Machine Learning',
+          'Process Automation',
+          'AI Analytics',
+          'LLM Integration',
+          'Human-in-the-loop',
+          'Built to be explainable',
+        ]}
         speed={32}
       />
 
@@ -106,9 +138,9 @@ export default async function AIPage() {
       <section className="px-4 py-32 sm:px-6 md:py-44 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 md:mb-24">
-            <SectionEyebrow>{t('capEyebrow')}</SectionEyebrow>
+            <SectionEyebrow>What we&apos;re building</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {t('capHeading')}
+              AI capabilities.
             </BrandedHeading>
             <AnimatedText
               as="p"
@@ -116,12 +148,12 @@ export default async function AIPage() {
               className="mt-8 max-w-xl text-lg leading-relaxed text-ink-muted md:text-xl"
               delay={0.15}
             >
-              {t('capLede')}
+              A preview of the AI-powered services we&apos;re preparing to launch.
             </AnimatedText>
           </div>
 
           <div className="space-y-0">
-            {capabilities.map((c, i) => (
+            {CAPABILITIES.map((c, i) => (
               <article
                 key={i}
                 className="relative grid grid-cols-12 gap-6 border-t border-hairline py-12 md:gap-12 md:py-16"
@@ -160,16 +192,16 @@ export default async function AIPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
-              <SectionEyebrow>{t('visionEyebrow')}</SectionEyebrow>
+              <SectionEyebrow>The vision</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
-                {t('visionHeading')}
+                AI that works for your business.
               </BrandedHeading>
               <p className="mt-8 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
-                {t('visionBody')}
+                Our approach is practical and results-driven. We don&apos;t believe in AI for the sake of AI. Every solution is designed to solve a real problem, save time, and deliver measurable impact.
               </p>
 
               <ul className="mt-10">
-                {visionPoints.map((item, i) => (
+                {VISION.map((item, i) => (
                   <li
                     key={i}
                     className="flex items-baseline gap-4 border-t border-hairline py-4 text-sm text-ink md:text-base"
@@ -188,7 +220,7 @@ export default async function AIPage() {
 
             <div className="md:col-span-7">
               <div className="grid grid-cols-1 gap-x-12 md:grid-cols-2 md:gap-y-4">
-                {stats.map((s, i) => (
+                {STATS.map((s, i) => (
                   <FadeUp key={i} delay={i * 0.08}>
                     <div className="border-t border-hairline py-8">
                       <p className="text-5xl font-semibold tracking-tight text-navy md:text-6xl">
@@ -212,13 +244,13 @@ export default async function AIPage() {
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
-              {t('ctaEyebrow')}
+              Start the conversation
             </p>
             <BrandedHeading as="h2" size="xl">
-              {t('ctaHeading')}
+              Tell us where AI fits.
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-xl text-lg text-ink">
-              {t('ctaBody')}
+              Early enquiries get a free scoping call. We&apos;ll tell you up front whether AI is the right tool for your problem — or whether automation, dashboards, or a process fix would be cheaper and faster.
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -227,14 +259,14 @@ export default async function AIPage() {
                 data-cursor-strength="28"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
               >
-                {t('emailUs')} <Mail size={15} />
+                Email us <Mail size={15} />
               </Link>
               <Link
                 href="/services/consultation"
                 data-cursor="hover"
                 className="px-4 py-4 text-sm text-ink transition-colors hover:text-navy"
               >
-                {t('bookAudit')}
+                Or book a free systems audit →
               </Link>
             </div>
           </FadeUp>

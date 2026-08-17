@@ -28,21 +28,21 @@
     }
   },
   "story": {
-    "heading": "How we work: we advise, we build, we train",
+    "heading": "How we work, our vision, and our mission",
     "act1": {
       "kicker": "01 — We advise",
       "title": "Every organisation asks the same question: where do we begin?",
       "body": "We assess your AI readiness, find the highest-return use cases, and map an adoption roadmap — with safe-use policy and data governance from day one."
     },
     "act2": {
-      "kicker": "02 — We build",
-      "title": "A working prototype in days, not months.",
-      "body": "Custom applications, AI agents for repetitive operations, and MVPs that prove the case — including closed-premise builds where data never leaves your walls."
+      "kicker": "02 — Our Vision",
+      "title": "Making everyone a leader in AI.",
+      "body": "Not a handful of specialists — everyone. People and organisations who can shape AI themselves, rather than wait for someone else to do it for them."
     },
     "act3": {
-      "kicker": "03 — We train",
-      "title": "Then we hand you the keys.",
-      "body": "Applied AI training and the Vibe Coding programme — from idea to deployed product with no programming background — so your people lead AI themselves."
+      "kicker": "03 — Our Mission",
+      "title": "We turn AI from talk into practice.",
+      "body": "Advising, building, and training — so that every person and organisation can design their own solutions and deploy them safely, in their own language, inside their own walls."
     },
     "labels": {
       "consulting": "AI Consulting",
@@ -147,12 +147,40 @@
         "answer": "Yes — that is what our Safe Build Protocol is for. We build inside closed environments for government entities and organisations with sensitive data, so nothing ever leaves your walls."
       },
       {
+        "question": "How do we start working with you?",
+        "answer": "With a free AI readiness assessment. We look at where AI pays off for you first and come back within one business day with an honest read on what to fix first — no commitment and no pitch deck."
+      },
+      {
+        "question": "How fast can we see something working?",
+        "answer": "Days, not months. We take an idea to a working prototype quickly, prove the case, and only then talk about larger investment. A scoped prototype typically runs two to six weeks depending on how many systems it has to touch."
+      },
+      {
+        "question": "What does a project cost?",
+        "answer": "The readiness assessment is free. Beyond that, a scoped prototype typically starts around OMR 1,500, and larger builds are quoted per engagement once scope is clear. Training is priced separately — public course cohorts run OMR 100–500 per seat, and team training is a single fixed price rather than a per-seat licence."
+      },
+      {
+        "question": "Who owns the code and the data?",
+        "answer": "You do. You keep full ownership of the systems we build for you and of everything they process. There is no licence tax and no lock-in to us as a vendor."
+      },
+      {
+        "question": "What happens after handover?",
+        "answer": "We hand over the working system, the source, and the documentation — and we train your team to run it. Support and iteration afterwards are available as a separate arrangement rather than assumed."
+      },
+      {
+        "question": "Do you work with organisations outside Oman?",
+        "answer": "Yes. We are based in Muscat and work across the GCC in person, and remotely beyond it. Training can be delivered on-site, remote, or hybrid."
+      },
+      {
         "question": "What is the Vibe Coding programme?",
         "answer": "It takes you from an idea to a deployed product with no programming background. You finish the programme with a real, published product rather than a certificate."
       },
       {
-        "question": "How fast can we see something working?",
-        "answer": "Days, not months. We take an idea to a working prototype quickly, prove the case, and only then talk about larger investment."
+        "question": "Do you train teams as well as individuals?",
+        "answer": "Both. Individuals join public cohorts; teams get a syllabus designed around the work they actually do, delivered on-site or remotely, with a manager debrief afterwards on what the team learned and what to deploy next."
+      },
+      {
+        "question": "Do you work in Arabic?",
+        "answer": "Arabic and English side by side — consulting, training, and the products themselves. Most AI knowledge never reaches the people who need it in the language they think in; we close that gap."
       }
     ]
   },
@@ -161,7 +189,18 @@
     "location": "Muscat, Sultanate of Oman",
     "whatWeOffer": "What we offer",
     "company": "Company",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "links": {
+      "consulting": "Consulting",
+      "applications": "Building Applications",
+      "training": "Training & Enablement",
+      "visionMission": "Vision & Mission",
+      "whoWeServe": "Who we serve",
+      "faq": "FAQ",
+      "readiness": "Readiness assessment",
+      "courses": "Courses",
+      "audit": "Systems audit"
+    }
   },
   "getStarted": {
     "eyebrow": "Get started",
@@ -176,6 +215,53 @@
         "A straight look at where AI pays off for you first",
         "No commitment — an honest read on what to fix first"
       ]
+    },
+    "steps": {
+      "start": "Start",
+      "pick": "Pick an option",
+      "details": "Your details",
+      "confirm": "Confirm"
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "company": "Company",
+      "phone": "Phone",
+      "optional": "(optional)",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "companyPlaceholder": "Acme Co.",
+      "messagePlaceholder": "A few sentences is enough — we'll follow up with the right questions.",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "signIn": "Sign in",
+      "createAccount": "Create account",
+      "signedInAs": "Signed in as",
+      "pickFirst": "Pick an option first.",
+      "chooseOption": "Choose an option",
+      "submitting": "Submitting…",
+      "confirmSubmit": "Confirm & submit",
+      "createAndSubmit": "Create account & submit",
+      "signInAndSubmit": "Sign in & submit",
+      "checkingSession": "Checking your session…",
+      "passwordMismatch": "Passwords do not match",
+      "registrationFailed": "Registration failed",
+      "invalidCredentials": "Invalid email or password",
+      "createdButSignInFailed": "Account created, but sign-in failed — try signing in below.",
+      "genericError": "Something went wrong. Please try again.",
+      "submitError": "Something went wrong submitting your request. Please try again."
+    },
+    "questions": {
+      "consulting": "What would you like assessed?",
+      "applications": "What are you trying to build?",
+      "training": "Who needs training, and on what?",
+      "readiness": "Where do you want AI to help first?"
+    },
+    "done": {
+      "title": "Request received.",
+      "body": "We'll review your details and be in touch within one business day.",
+      "backHome": "Back to home →"
     }
   }
 }

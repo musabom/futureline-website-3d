@@ -6,6 +6,7 @@
  * stays in Arabic when navigating.
  */
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 
 interface FooterColProps {
@@ -36,7 +37,8 @@ function FooterCol({ title, links }: FooterColProps) {
   );
 }
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations('footer');
   const year = new Date().getFullYear();
 
   return (
@@ -57,46 +59,44 @@ export default function Footer() {
               </span>
             </Link>
             <p className="max-w-xs font-display text-base font-semibold text-navy">
-              Making everyone a leader in AI.
+              {t('tagline')}
             </p>
-            <p className="mt-5 text-sm text-ink-muted">
-              Muscat, Sultanate of Oman
-            </p>
+            <p className="mt-5 text-sm text-ink-muted">{t('location')}</p>
           </div>
 
           <FooterCol
-            title="What we offer"
+            title={t('whatWeOffer')}
             links={[
-              { label: 'Consulting', href: '/get-started?pillar=consulting' },
-              { label: 'Building Applications', href: '/get-started?pillar=applications' },
-              { label: 'Training & Enablement', href: '/courses' },
+              { label: t('links.consulting'), href: '/get-started?pillar=consulting' },
+              { label: t('links.applications'), href: '/get-started?pillar=applications' },
+              { label: t('links.training'), href: '/courses' },
             ]}
           />
 
           <FooterCol
-            title="Company"
+            title={t('company')}
             links={[
-              { label: 'Vision & Mission', href: '/#story' },
-              { label: 'Who we serve', href: '/#who-we-serve' },
-              { label: 'FAQ', href: '/faq' },
-              { label: 'Readiness assessment', href: '/audit' },
+              { label: t('links.visionMission'), href: '/#story' },
+              { label: t('links.whoWeServe'), href: '/#who-we-serve' },
+              { label: t('links.faq'), href: '/faq' },
+              { label: t('links.readiness'), href: '/audit' },
             ]}
           />
         </div>
 
         <div className="mt-14 flex flex-col gap-3 border-t border-hairline pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {year} FutureLine.ai. All rights reserved.</p>
+          <p>&copy; {year} FutureLine.ai. {t('rights')}</p>
           {/* No privacy/terms routes exist in the app yet — deliberately not
               linked rather than pointing at a 404. */}
           <p>
             <Link href="/courses" className="transition-colors hover:text-teal">
-              Courses
+              {t('links.courses')}
             </Link>
             <span aria-hidden className="mx-2">
               ·
             </span>
             <Link href="/audit" className="transition-colors hover:text-teal">
-              Systems audit
+              {t('links.audit')}
             </Link>
           </p>
         </div>

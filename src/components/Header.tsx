@@ -131,14 +131,14 @@ export default function Header() {
                   className={linkClass}
                   data-cursor="hover"
                 >
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className={linkClass}
                   data-cursor="hover"
                 >
-                  Sign out
+                  {t('signOut')}
                 </button>
               </>
             ) : (
@@ -196,13 +196,13 @@ export default function Header() {
                   className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className="rounded-md px-3 py-2.5 text-start font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
                 >
-                  Sign out
+                  {t('signOut')}
                 </button>
               </>
             ) : (

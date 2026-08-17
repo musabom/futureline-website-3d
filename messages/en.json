@@ -347,5 +347,77 @@
     "successTitle": "Enquiry submitted.",
     "successBody": "Our team will review your request and be in touch within one business day.",
     "submitAnother": "Submit another →"
+  },
+  "ai": {
+    "metaTitle": "AI & Automation — FutureLine | Intelligent Business Solutions",
+    "metaDescription": "AI-powered solutions to help businesses automate processes, gain insights, and operate smarter. Machine learning, process automation, and AI-powered analytics.",
+    "heading": "Useful, not magic.",
+    "lede": "Practical AI for businesses. We don't build AI for the sake of AI — every model and automation we ship solves a real problem and pays its way.",
+    "developing": "Our AI & Automation division is in active development. Get in touch to discuss your needs early.",
+    "getInTouch": "Get in touch",
+    "exploreCourses": "Explore AI courses",
+    "capEyebrow": "What we're building",
+    "capHeading": "AI capabilities.",
+    "capLede": "A preview of the AI-powered services we're preparing to launch.",
+    "capabilities": [
+      {
+        "title": "Machine Learning",
+        "body": "Custom ML models that learn and adapt to your business data — predictive analytics, anomaly detection, recommendation engines, classifiers trained on your reality."
+      },
+      {
+        "title": "Process Automation",
+        "body": "Intelligent automation that streamlines workflows and decisions across your organisation. Approvals routed, exceptions escalated, audit trail built in."
+      },
+      {
+        "title": "AI-Powered Analytics",
+        "body": "Turn raw data into actionable insights with AI-driven dashboards, reports, and decision support — natural language queries on top of your operational data."
+      }
+    ],
+    "visionEyebrow": "The vision",
+    "visionHeading": "AI that works for your business.",
+    "visionBody": "Our approach is practical and results-driven. We don't believe in AI for the sake of AI. Every solution is designed to solve a real problem, save time, and deliver measurable impact.",
+    "visionPoints": [
+      "Custom AI models tailored to your industry and data",
+      "Automation of repetitive tasks and decision-making",
+      "Integration with your existing tools and workflows",
+      "Ongoing support and model improvement",
+      "Plain-English explanations of what the model is doing",
+      "Human escalation paths on every automated decision"
+    ],
+    "stats": [
+      {
+        "value": "50+",
+        "label": "AI projects planned",
+        "sub": "In active scoping across industries we serve."
+      },
+      {
+        "value": "98%",
+        "label": "Target satisfaction",
+        "sub": "Designed so the system pays for itself, fast."
+      },
+      {
+        "value": "5+",
+        "label": "Industries served",
+        "sub": "Oil & gas, construction, public sector, education, SME ops."
+      },
+      {
+        "value": "24/7",
+        "label": "AI-powered systems",
+        "sub": "Always-on automation with human escalation built in."
+      }
+    ],
+    "ctaEyebrow": "Start the conversation",
+    "ctaHeading": "Tell us where AI fits.",
+    "ctaBody": "Early enquiries get a free scoping call. We'll tell you up front whether AI is the right tool for your problem — or whether automation, dashboards, or a process fix would be cheaper and faster.",
+    "emailUs": "Email us",
+    "bookAudit": "Or book a free systems audit →",
+    "marquee": [
+      "Machine Learning",
+      "Process Automation",
+      "AI Analytics",
+      "LLM Integration",
+      "Human-in-the-loop",
+      "Built to be explainable"
+    ]
   }
 }

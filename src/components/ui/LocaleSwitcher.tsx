@@ -31,15 +31,16 @@ export function LocaleSwitcher({ tone = 'light' }: { tone?: 'light' | 'dark' }) 
 
   const light = tone === 'light'
 
+  // No pill/border/background: this sits inline in the nav next to plain
+  // text links, so it matches their weight, size and colour rather than
+  // reading as a separate control.
   return (
-    <div
-      className={`inline-flex items-center gap-1.5 rounded-pill border px-3 py-1.5 ${
-        light ? 'border-hairline bg-canvas-card' : 'border-white/15 bg-white/[0.04]'
-      }`}
-      role="group"
-      aria-label="Language"
-    >
-      <Globe size={14} aria-hidden className="text-teal" />
+    <div className="inline-flex items-center gap-1.5" role="group" aria-label="Language">
+      <Globe
+        size={14}
+        aria-hidden
+        className={light ? 'text-ink-muted' : 'text-white/60'}
+      />
       {OPTIONS.map(({ loc, label }, i) => (
         <span key={loc} className="inline-flex items-center gap-1.5">
           {i > 0 && (
@@ -53,7 +54,8 @@ export function LocaleSwitcher({ tone = 'light' }: { tone?: 'light' | 'dark' }) 
             dir={loc === 'ar' ? 'rtl' : 'ltr'}
             aria-current={loc === active ? 'true' : undefined}
             onClick={() => router.replace(pathname, { locale: loc })}
-            className={`rounded-pill text-sm font-semibold transition-colors ${
+            // Mirrors Header's linkClass so it reads as one of the nav items.
+            className={`text-[13px] font-medium transition-colors ${
               loc === 'ar' ? 'font-arabic' : 'font-display'
             } ${
               loc === active

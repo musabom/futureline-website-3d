@@ -249,7 +249,8 @@
       "invalidCredentials": "Invalid email or password",
       "createdButSignInFailed": "Account created, but sign-in failed — try signing in below.",
       "genericError": "Something went wrong. Please try again.",
-      "submitError": "Something went wrong submitting your request. Please try again."
+      "submitError": "Something went wrong submitting your request. Please try again.",
+      "submit": "Submit"
     },
     "questions": {
       "consulting": "What would you like assessed?",

@@ -2,8 +2,10 @@
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 function ResetPasswordForm() {
+  const t = useTranslations('auth');
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -17,11 +19,11 @@ function ResetPasswordForm() {
     return (
       <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
         <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
-          Invalid reset link. The link may be missing or malformed.
+          {t('reset.invalidLink')}
         </div>
         <p className="text-center text-sm text-ink-muted">
           <Link href="/forgot-password" className="text-teal-400 hover:text-teal-300 font-semibold">
-            Request a new reset link
+            {t('reset.requestNew')}
           </Link>
         </p>
       </div>
@@ -33,12 +35,12 @@ function ResetPasswordForm() {
     setError('');
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters.');
+      setError(t('reset.errorTooShort'));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError(t('reset.errorMismatch'));
       return;
     }
 
@@ -54,14 +56,14 @@ function ResetPasswordForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Failed to reset password.');
+        setError(data.error || t('reset.errorFailed'));
         setLoading(false);
         return;
       }
 
       setSuccess(true);
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError(t('reset.errorGeneric'));
     } finally {
       setLoading(false);
     }
@@ -71,13 +73,13 @@ function ResetPasswordForm() {
     return (
       <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
         <div className="bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-3 rounded-lg mb-6 text-sm">
-          Your password has been reset successfully!
+          {t('reset.successMessage')}
         </div>
         <Link
           href="/login"
           className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity block text-center"
         >
-          Sign In
+          {t('reset.signIn')}
         </Link>
       </div>
     );
@@ -94,28 +96,28 @@ function ResetPasswordForm() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-            New Password
+            {t('reset.newPasswordLabel')}
           </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-            placeholder="At least 6 characters"
+            placeholder={t('reset.newPasswordPlaceholder')}
             required
             minLength={6}
           />
         </div>
         <div>
           <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-            Confirm Password
+            {t('reset.confirmPasswordLabel')}
           </label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-            placeholder="Repeat your password"
+            placeholder={t('reset.confirmPasswordPlaceholder')}
             required
             minLength={6}
           />
@@ -125,13 +127,13 @@ function ResetPasswordForm() {
           disabled={loading}
           className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          {loading ? 'Resetting...' : 'Reset Password'}
+          {loading ? t('reset.submitting') : t('reset.submit')}
         </button>
       </form>
 
       <p className="text-center text-sm text-ink-muted mt-6">
         <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
-          Back to Sign In
+          {t('reset.backToSignIn')}
         </Link>
       </p>
     </div>
@@ -139,6 +141,7 @@ function ResetPasswordForm() {
 }
 
 export default function ResetPasswordPage() {
+  const t = useTranslations('auth');
   return (
     <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -156,13 +159,13 @@ export default function ResetPasswordPage() {
               FutureLine
             </span>
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">Reset Password</h1>
-          <p className="text-ink-muted text-sm mt-2">Enter your new password below</p>
+          <h1 className="text-2xl font-black tracking-tight text-navy">{t('reset.title')}</h1>
+          <p className="text-ink-muted text-sm mt-2">{t('reset.subtitle')}</p>
         </div>
         <Suspense
           fallback={
             <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8 text-center text-ink-muted">
-              Loading...
+              {t('reset.loading')}
             </div>
           }
         >

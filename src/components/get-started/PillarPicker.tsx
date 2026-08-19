@@ -4,27 +4,22 @@
  * /get-started/details route (not a step-state change) with the pick
  * carried as ?pillar=.
  *
- * Four options: the 3 company pillars (copy from the shared pillars.*
- * namespace, same as ThreePillars) plus the AI Readiness Assessment,
- * which moved off the home page hero by request. Readiness is a real
- * option here rather than a link out to /audit, so choosing it stays
- * inside this flow and lands in the same lead pipeline as the others —
- * its copy lives under getStarted.readiness since it isn't one of the
- * three company pillars.
+ * Three options: the 3 company pillars (copy from the shared pillars.*
+ * namespace, same as ThreePillars). The AI Readiness Assessment option
+ * was removed by request.
  */
 'use client';
 
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { MessageSquare, Code2, GraduationCap, ClipboardCheck, ArrowRight } from 'lucide-react';
+import { MessageSquare, Code2, GraduationCap, ArrowRight } from 'lucide-react';
 import { GetStartedShell } from './GetStartedShell';
 
 const OPTIONS = [
   { key: 'consulting', icon: MessageSquare, ns: 'pillars' },
   { key: 'applications', icon: Code2, ns: 'pillars' },
   { key: 'training', icon: GraduationCap, ns: 'pillars' },
-  { key: 'readiness', icon: ClipboardCheck, ns: 'getStarted' },
 ] as const;
 
 type PillarKey = (typeof OPTIONS)[number]['key'];

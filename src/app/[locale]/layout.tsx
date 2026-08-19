@@ -4,9 +4,10 @@
  * (src/app/layout.tsx); see the note there for why.
  */
 import { notFound } from 'next/navigation';
-import { hasLocale } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
+import { HtmlLangSync } from '@/components/HtmlLangSync';
 
 /** Pre-render both locale shells at build time. */
 export function generateStaticParams() {
@@ -27,5 +28,17 @@ export default async function LocaleLayout({
   // rendering for the whole subtree.
   setRequestLocale(locale);
 
-  return <>{children}</>;
+  // Provide messages HERE (not only in the root layout). A client-side
+  // language switch re-renders this [locale] layout but NOT the root layout,
+  // so the root's NextIntlClientProvider would keep serving the previous
+  // locale's messages to client components. This inner provider re-renders
+  // with the switched locale, and HtmlLangSync flips <html lang/dir> to match.
+  const messages = await getMessages();
+
+  return (
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <HtmlLangSync locale={locale} />
+      {children}
+    </NextIntlClientProvider>
+  );
 }

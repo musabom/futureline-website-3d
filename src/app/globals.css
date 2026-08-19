@@ -25,25 +25,6 @@
     overflow: hidden;
   }
 
-  /* Hide native cursor when CustomCursor is active (only on fine pointers + no reduced motion) */
-  @media (pointer: fine) {
-    html.cursor-custom,
-    html.cursor-custom body,
-    html.cursor-custom a,
-    html.cursor-custom button,
-    html.cursor-custom [role='button'] {
-      cursor: none;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html.cursor-custom,
-      html.cursor-custom body,
-      html.cursor-custom a,
-      html.cursor-custom button {
-        cursor: auto;
-      }
-    }
-  }
-
   /* Selection — light canvas default. */
   ::selection {
     background: rgba(24, 169, 153, 0.25);

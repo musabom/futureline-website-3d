@@ -1,33 +1,43 @@
 /**
- * ConfirmPanel — /get-started/confirm (page 4).
+ * ConfirmPanel — /get-started/confirm (final step).
  *
- * PLACEHOLDER — the real design for this page is meant to come from a
- * reference image the user is sending; it hasn't arrived yet. This is a
- * plain, working confirmation screen (same copy the flow already used
- * post-submit) so the route exists and the full journey is navigable and
- * testable in the meantime. Replace the content below once the image
- * reference lands — the route itself shouldn't need to change.
+ * Request-received confirmation. This is where the visitor lands after
+ * signing in (Google or email) at /get-started/signin. It tells them their
+ * request is in and we'll be in touch, then clears the stashed request from
+ * sessionStorage so a later visit doesn't re-show stale state.
  */
 'use client';
 
+import { useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { GetStartedShell } from './GetStartedShell';
 
 export function ConfirmPanel() {
   const t = useTranslations('getStarted');
 
+  // The request was stashed on the details step to survive the sign-in hop.
+  // The journey ends here, so clear it — nothing downstream needs it.
+  useEffect(() => {
+    try {
+      sessionStorage.removeItem('fl.getStarted.request');
+    } catch {
+      /* sessionStorage unavailable — nothing to clean up */
+    }
+  }, []);
+
   return (
-    <GetStartedShell step={4}>
-      <div className="mx-auto max-w-md rounded-card border border-teal/25 bg-teal/[0.06] p-10 text-center">
-        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-teal/30 bg-teal/10">
-          <CheckCircle size={24} className="text-teal" />
+    <main className="fl-light relative flex min-h-screen flex-col items-center justify-center bg-canvas px-6 py-20 text-ink">
+      <div className="w-full max-w-md rounded-card border border-teal/25 bg-teal/[0.06] p-10 text-center">
+        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-teal/30 bg-teal/10">
+          <CheckCircle size={28} className="text-teal" />
         </div>
-        <h2 className="mb-2 font-display text-2xl font-semibold tracking-[-0.01em] text-ink">
+        <h1 className="mb-3 font-display text-3xl font-bold tracking-tight text-navy">
           {t('done.title')}
-        </h2>
-        <p className="mb-8 text-sm leading-relaxed text-ink-muted">{t('done.body')}</p>
+        </h1>
+        <p className="mx-auto mb-8 max-w-sm text-sm leading-relaxed text-ink-muted">
+          {t('done.body')}
+        </p>
         <Link
           href="/"
           className="font-mono text-[11px] uppercase tracking-[0.3em] text-teal transition-colors hover:text-teal-dark"
@@ -36,6 +46,6 @@ export function ConfirmPanel() {
           {t('done.backHome')}
         </Link>
       </div>
-    </GetStartedShell>
+    </main>
   );
 }

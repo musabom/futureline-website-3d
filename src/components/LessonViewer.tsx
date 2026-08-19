@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { BookOpen, CheckCircle, Play, FileText, ChevronDown, ChevronRight, Download, StickyNote, HelpCircle, CircleDot } from 'lucide-react';
 
 interface Question {
@@ -72,6 +73,7 @@ function parseResources(resources: string): { name: string; url: string }[] {
 }
 
 function QuizView({ questions, onComplete }: { questions: Question[]; onComplete: () => void }) {
+  const t = useTranslations('lessonViewer');
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -126,7 +128,7 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
           disabled={!allAnswered}
           className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-40 uppercase tracking-widest"
         >
-          Submit Answers
+          {t('submitAnswers')}
         </button>
       ) : (
         <div className={`rounded-xl p-5 border text-sm font-semibold ${
@@ -134,14 +136,14 @@ function QuizView({ questions, onComplete }: { questions: Question[]; onComplete
             ? 'bg-green-500/10 border-green-500/20 text-green-400'
             : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
         }`}>
-          You scored {score} out of {questions.length}
-          {score === questions.length ? ' — Perfect!' : ''}
+          {t('score', { score, total: questions.length })}
+          {score === questions.length ? t('perfectSuffix') : ''}
           {score < questions.length && (
             <button
               onClick={() => { setSubmitted(false); setAnswers({}); }}
               className="block mt-2 text-xs font-bold underline underline-offset-2 opacity-80 hover:opacity-100"
             >
-              Try Again
+              {t('tryAgain')}
             </button>
           )}
         </div>
@@ -161,6 +163,7 @@ export default function LessonViewer({
   progressPercentage: number;
   totalLessons: number;
 }) {
+  const t = useTranslations('lessonViewer');
   const completedCount = Math.floor((progressPercentage / 100) * totalLessons);
   const [completed, setCompleted] = useState<Set<string>>(
     new Set(lessons.slice(0, completedCount).map((l) => l.id))
@@ -226,10 +229,10 @@ export default function LessonViewer({
                 }
                 <div>
                   <h3 className="font-bold text-navy text-sm">
-                    Module {moduleIndex + 1}: {moduleName}
+                    {t('moduleLabel', { number: moduleIndex + 1, name: moduleName })}
                   </h3>
                   <span className="text-[11px] text-ink-muted">
-                    {moduleLessons.length} lessons &middot; {completedInModule}/{moduleLessons.length} completed
+                    {t('moduleLessons', { count: moduleLessons.length, done: completedInModule, total: moduleLessons.length })}
                   </span>
                 </div>
               </div>
@@ -265,7 +268,7 @@ export default function LessonViewer({
                         </span>
                         {isQuiz && (
                           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 uppercase tracking-widest">
-                            Quiz
+                            {t('quiz')}
                           </span>
                         )}
                       </button>
@@ -295,7 +298,7 @@ export default function LessonViewer({
                             return (
                               <div className="mb-6 bg-canvas-card border border-hairline rounded-xl p-5 flex items-center gap-3 text-ink-muted">
                                 <Play size={18} />
-                                <span className="text-sm">Video content is available for this lesson.</span>
+                                <span className="text-sm">{t('videoAvailable')}</span>
                               </div>
                             );
                           })()}
@@ -306,7 +309,7 @@ export default function LessonViewer({
                               <div className="flex items-center gap-2 mb-3">
                                 <StickyNote className="text-[#18a999]" size={16} />
                                 <h4 className="font-bold text-navy text-xs uppercase tracking-widest">
-                                  {isQuiz ? 'Instructions' : 'Lesson Notes'}
+                                  {isQuiz ? t('instructions') : t('lessonNotes')}
                                 </h4>
                               </div>
                               <div className="rounded-xl border border-blue-500/10 bg-blue-500/[0.04] p-5">
@@ -330,7 +333,7 @@ export default function LessonViewer({
                             <div className="mb-6">
                               <div className="flex items-center gap-2 mb-3">
                                 <Download className="text-[#18a999]" size={16} />
-                                <h4 className="font-bold text-navy text-xs uppercase tracking-widest">Attachments</h4>
+                                <h4 className="font-bold text-navy text-xs uppercase tracking-widest">{t('attachments')}</h4>
                               </div>
                               <div className="space-y-2">
                                 {parseResources(lesson.resources).map((resource, i) => (
@@ -360,14 +363,14 @@ export default function LessonViewer({
                             <div className="flex items-center justify-between pt-4 border-t border-hairline">
                               {completed.has(lesson.id) ? (
                                 <span className="flex items-center gap-2 text-teal-400 font-bold text-sm">
-                                  <CheckCircle size={15} /> Completed
+                                  <CheckCircle size={15} /> {t('completed')}
                                 </span>
                               ) : (
                                 <button
                                   onClick={() => markComplete(lesson.id)}
                                   className="px-5 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                                 >
-                                  Mark as Complete
+                                  {t('markComplete')}
                                 </button>
                               )}
                             </div>
@@ -375,7 +378,7 @@ export default function LessonViewer({
 
                           {isQuiz && completed.has(lesson.id) && (
                             <div className="flex items-center gap-2 text-teal-400 font-bold text-sm pt-4 border-t border-hairline">
-                              <CheckCircle size={15} /> Completed
+                              <CheckCircle size={15} /> {t('completed')}
                             </div>
                           )}
                         </div>
@@ -392,7 +395,7 @@ export default function LessonViewer({
       {moduleNames.length === 0 && (
         <div className="rounded-xl border border-hairline bg-canvas-card p-12 text-center">
           <BookOpen className="text-slate-700 mx-auto mb-4" size={48} />
-          <p className="text-ink-muted text-sm">No lessons available for this course yet.</p>
+          <p className="text-ink-muted text-sm">{t('noLessons')}</p>
         </div>
       )}
     </div>

@@ -2,10 +2,12 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { signIn } from 'next-auth/react';
 
 export default function RegisterPage() {
+  const t = useTranslations('auth');
   const router = useRouter();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -19,7 +21,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('register.errorMismatch'));
       return;
     }
 
@@ -35,7 +37,7 @@ export default function RegisterPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Registration failed');
+        setError(data.error || t('register.errorFailed'));
         setLoading(false);
         return;
       }
@@ -44,7 +46,7 @@ export default function RegisterPage() {
       router.push('/dashboard');
       router.refresh();
     } catch {
-      setError('Something went wrong');
+      setError(t('register.errorGeneric'));
       setLoading(false);
     }
   };
@@ -66,8 +68,8 @@ export default function RegisterPage() {
               FutureLine
             </span>
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">Create Account</h1>
-          <p className="text-ink-muted text-sm mt-2">Start your learning journey</p>
+          <h1 className="text-2xl font-black tracking-tight text-navy">{t('register.title')}</h1>
+          <p className="text-ink-muted text-sm mt-2">{t('register.subtitle')}</p>
         </div>
 
         <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
@@ -81,7 +83,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                  First Name
+                  {t('register.firstNameLabel')}
                 </label>
                 <input
                   type="text"
@@ -93,7 +95,7 @@ export default function RegisterPage() {
               </div>
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                  Last Name
+                  {t('register.lastNameLabel')}
                 </label>
                 <input
                   type="text"
@@ -106,7 +108,7 @@ export default function RegisterPage() {
             </div>
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                Email
+                {t('register.emailLabel')}
               </label>
               <input
                 type="email"
@@ -118,7 +120,7 @@ export default function RegisterPage() {
             </div>
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                Password
+                {t('register.passwordLabel')}
               </label>
               <input
                 type="password"
@@ -131,7 +133,7 @@ export default function RegisterPage() {
             </div>
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                Confirm Password
+                {t('register.confirmPasswordLabel')}
               </label>
               <input
                 type="password"
@@ -147,14 +149,14 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? t('register.submitting') : t('register.submit')}
             </button>
           </form>
 
           <p className="text-center text-sm text-ink-muted mt-6">
-            Already have an account?{' '}
+            {t('register.haveAccount')}{' '}
             <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
-              Sign in
+              {t('register.signIn')}
             </Link>
           </p>
         </div>

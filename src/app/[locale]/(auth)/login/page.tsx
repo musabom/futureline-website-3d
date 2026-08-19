@@ -3,9 +3,11 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 
 export default function LoginPage() {
+  const t = useTranslations('auth');
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +26,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError('Invalid email or password');
+      setError(t('login.errorInvalid'));
       setLoading(false);
     } else {
       const sessionRes = await fetch('/api/auth/session');
@@ -57,8 +59,8 @@ export default function LoginPage() {
               FutureLine
             </span>
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">Welcome Back</h1>
-          <p className="text-ink-muted text-sm mt-2">Sign in to your account</p>
+          <h1 className="text-2xl font-black tracking-tight text-navy">{t('login.title')}</h1>
+          <p className="text-ink-muted text-sm mt-2">{t('login.subtitle')}</p>
         </div>
 
         <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
@@ -71,7 +73,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                Email
+                {t('login.emailLabel')}
               </label>
               <input
                 type="email"
@@ -85,7 +87,7 @@ export default function LoginPage() {
             </div>
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                Password
+                {t('login.passwordLabel')}
               </label>
               <input
                 type="password"
@@ -102,7 +104,7 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? t('login.submitting') : t('login.submit')}
             </button>
           </form>
 
@@ -111,14 +113,14 @@ export default function LoginPage() {
               href="/forgot-password"
               className="text-sm text-teal-400 hover:text-teal-300 font-semibold transition-colors"
             >
-              Forgot your password?
+              {t('login.forgotPassword')}
             </Link>
           </div>
 
           <p className="text-center text-sm text-ink-muted mt-6">
-            Don&apos;t have an account?{' '}
+            {t('login.noAccount')}{' '}
             <Link href="/register" className="text-teal-400 hover:text-teal-300 font-semibold">
-              Create one
+              {t('login.createOne')}
             </Link>
           </p>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/utils';
 import { BookOpen, Clock, Loader2 } from 'lucide-react';
@@ -19,6 +20,7 @@ interface RecommendedCourse {
 }
 
 export default function AIRecommendationForm() {
+  const t = useTranslations('aiRecommend');
   const [goal, setGoal] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
   const [deliveryPref, setDeliveryPref] = useState('');
@@ -45,7 +47,7 @@ export default function AIRecommendationForm() {
       setResults(data.recommendations || []);
       setSearched(true);
     } catch {
-      alert('Failed to get recommendations');
+      alert(t('failed'));
     } finally {
       setLoading(false);
     }
@@ -55,19 +57,19 @@ export default function AIRecommendationForm() {
     <div>
       <form onSubmit={handleSubmit} className="mx-auto grid max-w-2xl grid-cols-1 gap-5 md:grid-cols-2">
         <div className="md:col-span-2">
-          <label className="fl-label" htmlFor="ai-goal">What is your goal?</label>
+          <label className="fl-label" htmlFor="ai-goal">{t('goalLabel')}</label>
           <input
             id="ai-goal"
             type="text"
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
-            placeholder="e.g., Learn AI, Become a web developer, Improve cybersecurity skills"
+            placeholder={t('goalPlaceholder')}
             className="fl-input"
             required
           />
         </div>
         <div>
-          <label className="fl-label" htmlFor="ai-skill">Your skill level</label>
+          <label className="fl-label" htmlFor="ai-skill">{t('skillLabel')}</label>
           <select
             id="ai-skill"
             value={skillLevel}
@@ -75,34 +77,34 @@ export default function AIRecommendationForm() {
             className="fl-select"
             required
           >
-            <option value="">Select level</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
+            <option value="">{t('selectLevel')}</option>
+            <option value="Beginner">{t('beginner')}</option>
+            <option value="Intermediate">{t('intermediate')}</option>
+            <option value="Advanced">{t('advanced')}</option>
           </select>
         </div>
         <div>
-          <label className="fl-label" htmlFor="ai-delivery">Delivery preference</label>
+          <label className="fl-label" htmlFor="ai-delivery">{t('deliveryLabel')}</label>
           <select
             id="ai-delivery"
             value={deliveryPref}
             onChange={(e) => setDeliveryPref(e.target.value)}
             className="fl-select"
           >
-            <option value="">No preference</option>
-            <option value="ONLINE">Online</option>
-            <option value="IN_PERSON">In-Person</option>
-            <option value="HYBRID">Hybrid</option>
+            <option value="">{t('noPreference')}</option>
+            <option value="ONLINE">{t('online')}</option>
+            <option value="IN_PERSON">{t('inPerson')}</option>
+            <option value="HYBRID">{t('hybrid')}</option>
           </select>
         </div>
         <div>
-          <label className="fl-label" htmlFor="ai-budget">Maximum budget</label>
+          <label className="fl-label" htmlFor="ai-budget">{t('budgetLabel')}</label>
           <input
             id="ai-budget"
             type="number"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
-            placeholder="e.g., 500"
+            placeholder={t('budgetPlaceholder')}
             className="fl-input"
           />
         </div>
@@ -116,10 +118,10 @@ export default function AIRecommendationForm() {
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin" size={16} /> Analysing…
+                <Loader2 className="animate-spin" size={16} /> {t('analysing')}
               </>
             ) : (
-              'Get recommendations'
+              t('getRecommendations')
             )}
           </button>
         </div>
@@ -129,14 +131,14 @@ export default function AIRecommendationForm() {
         <div className="mt-14">
           {results.length === 0 ? (
             <p className="text-center text-sm text-ink-muted">
-              No matching courses found. Try adjusting your preferences.
+              {t('noResults')}
             </p>
           ) : (
             <>
               <div className="mb-10 flex items-center justify-center gap-3">
                 <div className="h-px w-10 bg-academy" />
                 <h3 className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink">
-                  Recommended for you
+                  {t('recommendedForYou')}
                 </h3>
                 <div className="h-px w-10 bg-academy" />
               </div>
@@ -168,10 +170,10 @@ export default function AIRecommendationForm() {
                       </p>
                       <div className="flex items-center justify-between border-t border-hairline pt-3">
                         <span className="text-sm font-semibold text-navy">
-                          {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : 'Free'}
+                          {course.price > 0 ? formatPrice(course.discountPrice ?? course.price) : t('free')}
                         </span>
                         <span className="flex items-center gap-1 text-xs text-ink-muted">
-                          <Clock size={11} /> {course.durationHours}h
+                          <Clock size={11} /> {course.durationHours}{t('hoursSuffix')}
                         </span>
                       </div>
                     </div>

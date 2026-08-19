@@ -10,6 +10,7 @@
 
 import Link from 'next/link';
 import { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { ChevronDown, Check, X, Layers } from 'lucide-react';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { BrandedHeading } from '@/components/ui/BrandedHeading';
@@ -180,34 +181,36 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
+  const t = useTranslations('serviceDetail');
+
   // Sections list for the scroll-spy is built dynamically so optional
   // blocks (compare/stats/industries/faqs) only appear when present.
   const spySections = [
-    { id: 'why-it-matters', label: 'Why it matters' },
-    { id: 'how-we-work', label: 'How we work' },
-    { id: 'what-you-get', label: 'What you get' },
+    { id: 'why-it-matters', label: t('spy.whyItMatters') },
+    { id: 'how-we-work', label: t('spy.howWeWork') },
+    { id: 'what-you-get', label: t('spy.whatYouGet') },
     ...(data.recentBuilds && data.recentBuilds.tiles.length > 0
-      ? [{ id: 'recent-builds', label: 'Recent builds' }]
+      ? [{ id: 'recent-builds', label: t('spy.recentBuilds') }]
       : []),
     ...(data.buildVsBuy && data.buildVsBuy.rows.length > 0
-      ? [{ id: 'build-buy-hire', label: 'Build, buy, or hire?' }]
+      ? [{ id: 'build-buy-hire', label: t('spy.buildBuyHire') }]
       : []),
     ...(data.commitment
-      ? [{ id: 'the-engagement', label: 'The engagement' }]
+      ? [{ id: 'the-engagement', label: t('spy.theEngagement') }]
       : []),
     ...(data.compare && data.compare.rows.length > 0
-      ? [{ id: 'why-not-saas', label: 'Why not SaaS?' }]
+      ? [{ id: 'why-not-saas', label: t('spy.whyNotSaas') }]
       : []),
     ...(data.stats && data.stats.length > 0
-      ? [{ id: 'by-the-numbers', label: 'By the numbers' }]
+      ? [{ id: 'by-the-numbers', label: t('spy.byTheNumbers') }]
       : []),
     ...(data.industries && data.industries.length > 0
-      ? [{ id: 'where-it-fits', label: 'Where it fits' }]
+      ? [{ id: 'where-it-fits', label: t('spy.whereItFits') }]
       : []),
     ...(data.faqs && data.faqs.length > 0
-      ? [{ id: 'common-questions', label: 'Common questions' }]
+      ? [{ id: 'common-questions', label: t('spy.commonQuestions') }]
       : []),
-    { id: 'start', label: 'Start' },
+    { id: 'start', label: t('spy.start') },
   ];
 
   return (
@@ -266,14 +269,14 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                     data-cursor-strength="22"
                     className="rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
                   >
-                    Get a free systems audit
+                    {t('heroAuditCta')}
                   </Link>
                   <Link
                     href="#how-we-work"
                     data-cursor="hover"
                     className="px-3 py-3 text-sm text-ink transition-colors hover:text-navy"
                   >
-                    See how it works ↓
+                    {t('heroSeeHow')}
                   </Link>
                 </div>
               </FadeUp>
@@ -288,9 +291,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <section id="why-it-matters" className="scroll-mt-24 px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-12">
-            <SectionEyebrow>Why it matters</SectionEyebrow>
+            <SectionEyebrow>{t('eyebrowWhyItMatters')}</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {data.painHeading ?? 'The cost of staying manual.'}
+              {data.painHeading ?? t('painHeadingDefault')}
             </BrandedHeading>
           </div>
 
@@ -335,9 +338,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       <section id="how-we-work" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 md:mb-12">
-            <SectionEyebrow>How we work</SectionEyebrow>
+            <SectionEyebrow>{t('eyebrowHowWeWork')}</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {data.processHeading ?? 'Live in weeks.'}
+              {data.processHeading ?? t('processHeadingDefault')}
             </BrandedHeading>
             {data.processSubhead && (
               <AnimatedText
@@ -370,7 +373,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
           {data.techStack && (
             <div className="mt-9 border-t border-hairline pt-5 md:mt-10">
               <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.3em] text-ink-muted">
-                <span className="text-lab">Built on</span>
+                <span className="text-lab">{t('builtOn')}</span>
                 <span className="text-ink normal-case tracking-normal">{data.techStack}</span>
               </p>
             </div>
@@ -383,12 +386,12 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
             <div className="md:col-span-5">
-              <SectionEyebrow>What you get</SectionEyebrow>
+              <SectionEyebrow>{t('eyebrowWhatYouGet')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
-                {data.deliverablesHeading ?? 'Built to last.'}
+                {data.deliverablesHeading ?? t('deliverablesHeadingDefault')}
               </BrandedHeading>
               <p className="mt-8 max-w-md text-base leading-relaxed text-ink-muted md:text-lg">
-                Every system ships with what you actually need on day one — not bolted-on later, not behind a future upsell.
+                {t('deliverablesIntro')}
               </p>
             </div>
             <ul className="md:col-span-7">
@@ -423,7 +426,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
-              <SectionEyebrow>{data.recentBuilds.eyebrow ?? 'Recent builds'}</SectionEyebrow>
+              <SectionEyebrow>{data.recentBuilds.eyebrow ?? t('recentBuildsEyebrowDefault')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
                 {data.recentBuilds.headline}
               </BrandedHeading>
@@ -442,7 +445,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
             <RecentBuildsGrid tiles={data.recentBuilds.tiles} />
 
             <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted md:mt-8">
-              Stylized previews — examples of what we ship, not specific client work
+              {t('recentBuildsDisclaimer')}
             </p>
           </div>
         </section>
@@ -458,7 +461,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
-              <SectionEyebrow>{data.buildVsBuy.eyebrow ?? 'Decision framework'}</SectionEyebrow>
+              <SectionEyebrow>{data.buildVsBuy.eyebrow ?? t('buildVsBuyEyebrowDefault')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
                 {data.buildVsBuy.headline}
               </BrandedHeading>
@@ -479,19 +482,19 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
               <div className="sticky top-0 z-10 grid grid-cols-12 gap-3 border-b border-hairline bg-canvas-card px-5 py-5 backdrop-blur-md md:px-8 md:py-6">
                 <div className="col-span-12 md:col-span-3">
                   <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-muted">
-                    Category
+                    {t('category')}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
                   <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink md:text-base">
                     <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-canvas-card" />
-                    {data.buildVsBuy.saasHeader ?? 'Buy SaaS'}
+                    {data.buildVsBuy.saasHeader ?? t('buildVsBuySaasDefault')}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
                   <p className="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink md:text-base">
                     <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-canvas-card" />
-                    {data.buildVsBuy.hireHeader ?? 'Hire developer'}
+                    {data.buildVsBuy.hireHeader ?? t('buildVsBuyHireDefault')}
                   </p>
                 </div>
                 <div className="col-span-4 md:col-span-3">
@@ -556,7 +559,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         >
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
-              <SectionEyebrow>{data.commitment.eyebrow ?? 'The engagement'}</SectionEyebrow>
+              <SectionEyebrow>{data.commitment.eyebrow ?? t('commitmentEyebrowDefault')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
                 {data.commitment.headline}
               </BrandedHeading>
@@ -592,7 +595,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       FL
                     </span>
                     <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-lab">
-                      What we do
+                      {t('whatWeDo')}
                     </p>
                   </div>
                   <ul className="space-y-3.5">
@@ -630,10 +633,10 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       aria-hidden
                       className="flex h-8 w-8 items-center justify-center rounded-full border border-hairline bg-canvas-card font-mono text-[10px] font-bold uppercase tracking-widest text-ink"
                     >
-                      You
+                      {t('youBadge')}
                     </span>
                     <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-ink">
-                      What you do
+                      {t('whatYouDo')}
                     </p>
                   </div>
                   <ul className="space-y-4">
@@ -651,7 +654,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                   {data.commitment.youDoTotal && (
                     <div className="mt-7 border-t border-hairline pt-5">
                       <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink-muted">
-                        Total ask
+                        {t('totalAsk')}
                       </p>
                       <p className="mt-2 text-base font-semibold leading-snug text-navy md:text-lg">
                         {data.commitment.youDoTotal}
@@ -670,7 +673,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <section id="why-not-saas" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 max-w-3xl md:mb-12">
-              <SectionEyebrow>{data.compare.eyebrow ?? 'Why not just buy SaaS?'}</SectionEyebrow>
+              <SectionEyebrow>{data.compare.eyebrow ?? t('compareEyebrowDefault')}</SectionEyebrow>
               <BrandedHeading as="h2" size="lg">
                 {data.compare.headline}
               </BrandedHeading>
@@ -702,7 +705,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       <Layers size={15} strokeWidth={2} />
                     </span>
                     <p className="text-base font-semibold tracking-tight text-ink md:text-xl">
-                      Category
+                      {t('category')}
                     </p>
                   </div>
                 </div>
@@ -715,7 +718,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       <X size={16} strokeWidth={2.5} />
                     </span>
                     <p className="text-base font-semibold tracking-tight text-ink md:text-xl">
-                      {data.compare.leftHeader ?? 'Off-the-shelf SaaS'}
+                      {data.compare.leftHeader ?? t('compareLeftDefault')}
                     </p>
                   </div>
                 </div>
@@ -729,7 +732,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                       <Check size={16} strokeWidth={2.5} />
                     </span>
                     <p className="text-base font-semibold tracking-tight text-navy md:text-xl">
-                      {data.compare.rightHeader ?? 'FutureLine custom build'}
+                      {data.compare.rightHeader ?? t('compareRightDefault')}
                     </p>
                   </div>
                 </div>
@@ -780,9 +783,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.stats && data.stats.length > 0 && (
         <section id="by-the-numbers" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <SectionEyebrow>By the numbers</SectionEyebrow>
+            <SectionEyebrow>{t('eyebrowByTheNumbers')}</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {data.statsHeading ?? 'What clients gain.'}
+              {data.statsHeading ?? t('statsHeadingDefault')}
             </BrandedHeading>
             <div
               className={[
@@ -814,9 +817,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.industries && data.industries.length > 0 && (
         <section id="where-it-fits" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <SectionEyebrow>Where it fits</SectionEyebrow>
+            <SectionEyebrow>{t('eyebrowWhereItFits')}</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {data.industriesHeading ?? 'Built for your industry.'}
+              {data.industriesHeading ?? t('industriesHeadingDefault')}
             </BrandedHeading>
             {/* Industries grid — 2 cols on md+ (not 3) so wider cards
                 give the substantial pain copy room to breathe. For an
@@ -854,9 +857,9 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
       {data.faqs && data.faqs.length > 0 && (
         <section id="common-questions" className="scroll-mt-24 border-t border-hairline px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <SectionEyebrow>Common questions</SectionEyebrow>
+            <SectionEyebrow>{t('eyebrowCommonQuestions')}</SectionEyebrow>
             <BrandedHeading as="h2" size="lg">
-              {data.faqsHeading ?? 'Things we hear.'}
+              {data.faqsHeading ?? t('faqsHeadingDefault')}
             </BrandedHeading>
             <div className="mt-10">
               {data.faqs.map((f, i) => (
@@ -873,13 +876,13 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-lab">
-              {data.cta?.eyebrow ?? '05 — Start'}
+              {data.cta?.eyebrow ?? t('ctaEyebrowDefault')}
             </p>
             <BrandedHeading as="h2" size="xl">
-              {data.cta?.headline ?? 'Ready when you are.'}
+              {data.cta?.headline ?? t('ctaHeadingDefault')}
             </BrandedHeading>
             <p className="mx-auto mt-6 max-w-xl text-lg text-ink">
-              {data.cta?.sub ?? "A free systems audit. No commitment. Just an honest look at what's slowing you down."}
+              {data.cta?.sub ?? t('ctaSubDefault')}
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -888,7 +891,7 @@ export function ServiceDetailLayout({ data }: { data: ServiceDetailData }) {
                 data-cursor-strength="28"
                 className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
               >
-                {data.cta?.primary.label ?? 'Get a free audit'}
+                {data.cta?.primary.label ?? t('ctaPrimaryDefault')}
               </Link>
               {data.cta?.secondary && (
                 <Link

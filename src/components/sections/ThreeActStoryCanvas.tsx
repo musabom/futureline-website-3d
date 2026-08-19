@@ -198,7 +198,13 @@ export function ThreeActStoryCanvas({ progressRef, labelRefs }: Props) {
         const el = labels[i]
         const hub = scene.clusters[i]
         if (!el || !hub) continue
-        vec.set(hub[0], hub[1] + 0.95, hub[2]).applyMatrix4(group.matrixWorld).project(camera)
+        // Offset the label AWAY from the vertical centre: the top two hubs
+        // push their pill up, the bottom two push down. Keeps all four out at
+        // the constellation's edges so they never drift onto the centred
+        // caption (the old `+ 0.95` for every hub lifted the lower pair onto
+        // the copy — worse with the longer Arabic text).
+        const yOffset = hub[1] >= 0 ? 0.95 : -0.95
+        vec.set(hub[0], hub[1] + yOffset, hub[2]).applyMatrix4(group.matrixWorld).project(camera)
         const sx = (vec.x * 0.5 + 0.5) * size.width
         const sy = (-vec.y * 0.5 + 0.5) * size.height
         el.style.transform = `translate(${sx.toFixed(1)}px, ${sy.toFixed(1)}px) translate(-50%, -50%)`

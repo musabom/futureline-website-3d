@@ -13,3 +13,6 @@ next-env.d.ts
 # Local editor/agent tooling
 .claude/
 .mcp.json
+
+# Local git backup bundles — large binaries, never commit
+*.bundle

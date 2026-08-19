@@ -4,8 +4,8 @@
  * The 4 steps span 4 REAL separate routes (not step state on one page):
  *   1. /                       — the home page hero (untouched)
  *   2. /get-started            — pick an option
- *   3. /get-started/details    — your details + email/login
- *   4. /get-started/confirm    — confirmation
+ *   3. /get-started/details    — write your request + Submit
+ *   4. /get-started/signin     — sign in (Google or email)
  *
  * The numbered circles are real navigation: any step you've already
  * passed is a clickable <Link> back to that page. The current step and
@@ -34,7 +34,11 @@ const STEPS = [
     href: (pillar?: string) =>
       pillar ? `/get-started/details?pillar=${pillar}` : '/get-started/details',
   },
-  { key: 'confirm', href: () => '/get-started/confirm' },
+  {
+    key: 'signin',
+    href: (pillar?: string) =>
+      pillar ? `/get-started/signin?pillar=${pillar}` : '/get-started/signin',
+  },
 ] as const;
 
 export function GetStartedShell({

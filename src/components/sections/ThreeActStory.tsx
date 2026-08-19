@@ -139,7 +139,10 @@ export function ThreeActStory() {
 
       <ThreeActStoryScene progressRef={progressRef} labelRefs={labelRefs} />
 
-      {/* Cluster labels — positioned each frame by the canvas. */}
+      {/* Cluster labels — projected each frame from the 3D hubs. The canvas
+          offsets the top pair upward and the bottom pair downward, so all
+          four sit at the constellation's edges and clear the centred
+          caption (see the yOffset note in ThreeActStoryCanvas). */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-20">
         {LABEL_KEYS.map((labelKey, i) => (
           <span

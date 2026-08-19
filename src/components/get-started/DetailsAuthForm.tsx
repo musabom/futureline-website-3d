@@ -3,17 +3,13 @@
  *
  * Stripped down by request to a single field — the pillar-specific question
  * ("Where do you want AI to help first?" etc.) — plus a Submit button. The
- * name / email / company / phone inputs and the sign-in/create-account
- * (login) block were all removed.
+ * name / email / company / phone inputs were removed.
  *
- * Consequence, accepted on the record: with no email or name collected,
- * submissions can't carry contact details. The lead pipeline (/api/leads)
- * still requires a name + email, so we send placeholder identity values so
- * the button works and the message + which service still reach /admin/leads
- * — but there is no way to reply to whoever submits. Restore the fields if
- * contactable leads are needed again (see git history for the full form).
- *
- * On success, navigates to the real /get-started/confirm route.
+ * Submit no longer writes a lead here. Instead it stashes the request in
+ * sessionStorage and forwards to /get-started/signin, where the visitor
+ * identifies themselves (Google or email) — so the request can be tied to
+ * a real person and followed up. This also sidesteps the old failure where
+ * posting to /api/leads errored when no database was configured.
  */
 'use client';
 
@@ -21,7 +17,7 @@ import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, Send } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GetStartedShell } from './GetStartedShell';
 
 // 'readiness' is the AI Readiness Assessment option — not one of the 3
@@ -37,7 +33,6 @@ function isPillarKey(v: string | null): v is PillarKey {
 
 function DetailsInner() {
   const t = useTranslations('getStarted');
-  const tp = useTranslations('pillars');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -45,8 +40,6 @@ function DetailsInner() {
   const pillar = isPillarKey(pillarParam) ? pillarParam : null;
 
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
 
   // No valid pillar in the URL — e.g. someone bookmarked/typed this route
   // directly without going through the picker. Send them there instead of
@@ -64,36 +57,19 @@ function DetailsInner() {
     );
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
-    setSubmitting(true);
-
-    // Readiness copy lives under getStarted.*, the 3 pillars under pillars.*
-    const pillarLabel = pillar === 'readiness' ? t('readiness.title') : tp(`${pillar}.title`);
+    // Carry the request across to the sign-in step so it isn't lost on the
+    // hop and can be persisted once the visitor authenticates.
     try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          // Placeholder identity — the name/email/phone/company fields were
-          // removed from this form, but /api/leads still requires a name and
-          // a valid email. These make the lead land in /admin/leads (tagged
-          // by service via `source`) even though it carries no real contact.
-          firstName: 'Anonymous',
-          lastName: '(Get Started)',
-          email: 'anonymous@futureline.ai',
-          tourType: pillarLabel,
-          message: message.trim() || `Requested via Get Started — ${pillarLabel}`,
-          source: `FL Get Started — ${pillarLabel}`,
-        }),
-      });
-      if (!res.ok) throw new Error('lead submit failed');
-      router.push('/get-started/confirm');
+      sessionStorage.setItem(
+        'fl.getStarted.request',
+        JSON.stringify({ pillar, message: message.trim() }),
+      );
     } catch {
-      setError(t('form.submitError'));
-      setSubmitting(false);
+      /* sessionStorage unavailable (e.g. private mode) — proceed anyway */
     }
+    router.push(`/get-started/signin?pillar=${pillar}`);
   }
 
   return (
@@ -114,12 +90,6 @@ function DetailsInner() {
           />
         </div>
 
-        {error && (
-          <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600">
-            {error}
-          </div>
-        )}
-
         <div className="flex items-center justify-between pt-2">
           <Link
             href={`/get-started?pillar=${pillar}`}
@@ -129,9 +99,9 @@ function DetailsInner() {
             <ArrowLeft size={15} className="rtl:rotate-180" />
             {t('back')}
           </Link>
-          <button type="submit" disabled={submitting} className="fl-submit" data-cursor="magnetic">
-            <Send size={15} />
-            {submitting ? t('form.submitting') : t('form.submit')}
+          <button type="submit" className="fl-submit !w-auto px-8" data-cursor="magnetic">
+            {t('form.submit')}
+            <ArrowRight size={15} className="rtl:rotate-180" />
           </button>
         </div>
       </form>

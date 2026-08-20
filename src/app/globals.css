@@ -216,6 +216,34 @@ select.fl-input > option {
     color: transparent;
   }
 
+  /* Wordmark with a bright specular light-sweep travelling left→right. A
+     narrow highlight band (first layer) is animated across the base teal
+     gradient (second layer); both are clipped to the text so the letters
+     briefly catch the light as it passes. */
+  .fl-text-sweep {
+    background-image:
+      linear-gradient(
+        105deg,
+        transparent 38%,
+        rgba(255, 255, 255, 0.5) 46%,
+        rgba(200, 255, 248, 0.95) 50%,
+        rgba(255, 255, 255, 0.5) 54%,
+        transparent 62%
+      ),
+      linear-gradient(90deg, #0f1e3d 0%, #18a999 28%, #2dd4bf 50%, #18a999 72%, #0f1e3d 100%);
+    background-size:
+      260% 100%,
+      100% 100%;
+    background-position:
+      -60% 0,
+      0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: fl-text-sweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
   /* Light-surface selection colour, scoped so dark pages keep theirs. */
   .fl-light ::selection {
     background: rgba(24, 169, 153, 0.25);
@@ -231,6 +259,32 @@ select.fl-input > option {
   .fl-dark-surface ::selection {
     background: rgba(24, 169, 153, 0.35);
     color: #fff;
+  }
+}
+
+/* Respect reduced-motion: hold the wordmark still (no sweeping highlight). */
+@media (prefers-reduced-motion: reduce) {
+  .fl-text-sweep {
+    animation: none;
+  }
+}
+
+/* Hero wordmark light-sweep: slides the highlight band across, holds, repeats. */
+@keyframes fl-text-sweep {
+  0% {
+    background-position:
+      -60% 0,
+      0 0;
+  }
+  55% {
+    background-position:
+      160% 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      160% 0,
+      0 0;
   }
 }
 

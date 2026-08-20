@@ -17,7 +17,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { scrollToHash } from '@/lib/scroll';
 
@@ -26,6 +26,12 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const t = useTranslations('nav');
+  const pathname = usePathname();
+
+  // The home hero is dark, so over it (top of the home page, before the nav
+  // gains its glass background) the nav text flips to light so it stays
+  // readable — same transparent bar, same items, just legible on dark.
+  const overDarkHero = pathname === '/' && !scrolled && !mobileOpen;
 
   // Transparent over the hero, glass + hairline once past the fold.
   useEffect(() => {
@@ -61,11 +67,17 @@ export default function Header() {
     'sticky top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500',
     scrolled || mobileOpen
       ? 'fl-glass-strong border-b border-hairline'
-      : 'bg-transparent border-b border-transparent',
+      : overDarkHero
+        ? // Over the dark hero: 30% transparent (70% opaque) dark glass, so
+          // the hero behind is slightly visible through the bar, aligned with
+          // the section behind it.
+          'bg-[#081a2e]/70 backdrop-blur-md border-b border-white/10'
+        : 'bg-transparent border-b border-transparent',
   ].join(' ');
 
-  const linkClass =
-    'font-display text-[13px] font-medium text-ink-muted transition-colors hover:text-navy';
+  const linkClass = overDarkHero
+    ? 'font-display text-[13px] font-medium text-white/85 transition-colors hover:text-white'
+    : 'font-display text-[13px] font-medium text-ink-muted transition-colors hover:text-navy';
 
   /** Same-page anchors: drive Lenis rather than letting the browser jump. */
   const onAnchorClick = (e: React.MouseEvent, anchor?: string) => {
@@ -94,7 +106,11 @@ export default function Header() {
               className="h-[30px] w-[30px] drop-shadow-[0_4px_8px_rgba(24,169,153,0.35)]"
               priority
             />
-            <span className="font-display text-lg font-bold tracking-tight text-navy">
+            <span
+              className={`font-display text-lg font-bold tracking-tight ${
+                overDarkHero ? 'text-white' : 'text-navy'
+              }`}
+            >
               FutureLine
             </span>
           </Link>
@@ -114,7 +130,7 @@ export default function Header() {
             {/* Language switcher sits inside the nav, alongside the links,
                 rather than over with the auth buttons — placed here by
                 request. */}
-            <LocaleSwitcher />
+            <LocaleSwitcher tone={overDarkHero ? 'dark' : 'light'} />
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -152,7 +168,9 @@ export default function Header() {
           </div>
 
           <button
-            className="p-2 text-ink-muted transition-colors hover:text-navy md:hidden"
+            className={`p-2 transition-colors md:hidden ${
+              overDarkHero ? 'text-white/85 hover:text-white' : 'text-ink-muted hover:text-navy'
+            }`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}

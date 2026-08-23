@@ -55,9 +55,10 @@ public/
 - **CUSTOMER**: Browse, purchase, access courses, track progress
 
 ## Seed Data Credentials
-- Admin: musabalsabahi@hotmail.com / GreatOman@123
-- Instructor: instructor@futureline.com / instructor123
-- Customer: customer@futureline.com / customer123
+Local development accounts are created by `prisma/seed.ts` (see that file for
+the throwaway dev logins). Never commit real credentials to this repo — it is
+public. Production credentials live only in the deployment platform's secrets
+manager, and any credential that was ever committed here must be rotated.
 
 ## Lead Model
 - Uses separate `firstName` and `lastName` fields (not a single `name` field)

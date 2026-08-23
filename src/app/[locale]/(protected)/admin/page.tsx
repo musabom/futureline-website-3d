@@ -199,7 +199,7 @@ export default async function AdminDashboard() {
           <div className="flex items-end gap-2 h-40">
             {revenueTrend.map((day) => (
               <div key={day.label} className="flex-1 flex flex-col items-center justify-end h-full">
-                <span className="text-xs font-semibold text-ink-muted mb-1">{day.amount > 0 ? formatPrice(day.amount) : '$0'}</span>
+                <span className="text-xs font-semibold text-ink-muted mb-1">{formatPrice(day.amount)}</span>
                 <div
                   className="w-full bg-green-500/70 rounded-t-md transition-all"
                   style={{ height: `${(day.amount / maxRevenue) * 100}%`, minHeight: day.amount > 0 ? '8px' : '2px' }}

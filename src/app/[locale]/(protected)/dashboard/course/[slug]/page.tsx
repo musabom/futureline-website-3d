@@ -4,7 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import Header from '@/components/Header';
 import LessonViewer from '@/components/LessonViewer';
 import { ArrowLeft, Users } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 export const dynamic = 'force-dynamic';
 

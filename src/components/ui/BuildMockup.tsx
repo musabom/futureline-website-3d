@@ -12,7 +12,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowRight, X, Check } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 type BuildKind = 'dashboard' | 'mobile' | 'portal' | 'crm';
 

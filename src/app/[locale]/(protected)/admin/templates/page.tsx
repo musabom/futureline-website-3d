@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, ArrowLeft, X, FileText, Check } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 const TEMPLATE_TYPES = ['WELCOME', 'PROPOSAL', 'FOLLOW_UP', 'CLOSING', 'THANK_YOU', 'CUSTOM'];
 

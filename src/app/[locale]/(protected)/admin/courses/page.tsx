@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Plus, Search, Edit, Trash2, Eye, CheckCircle, XCircle, Clock, RotateCcw } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 

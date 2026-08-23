@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 import { prisma } from './prisma';
 import { rateLimit } from './rateLimit';
 
@@ -98,12 +99,60 @@ export const authOptions: NextAuthOptions = {
     error: '/get-started/signin',
   },
   callbacks: {
-    async jwt({ token, user }) {
+    // Persist Google (OAuth) sign-ins to the User table. There is no NextAuth
+    // adapter (jwt strategy), so without this a Google user would have a
+    // session whose id is the Google `sub` — matching no User row — and every
+    // downstream prisma.user lookup (checkout, change-password, enrolment)
+    // would fail. Upsert by email links to an existing credentials account of
+    // the same email rather than creating a duplicate.
+    async signIn({ user, account }) {
+      if (account?.provider !== 'google') return true;
+      const email = user.email;
+      if (!email) return false;
+
+      const existing = await prisma.user.findUnique({
+        where: { email },
+        select: { isActive: true },
+      });
+      if (existing && !existing.isActive) return false; // deactivated account
+
+      if (!existing) {
+        const nameParts = (user.name ?? '').trim().split(/\s+/).filter(Boolean);
+        // Random password — Google users authenticate via OAuth, never with a
+        // password, but the column is required and credentials login must fail.
+        const randomPassword = await bcrypt.hash(randomBytes(24).toString('hex'), 12);
+        await prisma.user.create({
+          data: {
+            email,
+            firstName: nameParts[0] ?? '',
+            lastName: nameParts.slice(1).join(' '),
+            image: (user as any).image ?? null,
+            password: randomPassword,
+            role: 'CUSTOMER',
+          },
+        });
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       if (user) {
-        // Credentials sign-in carries role/firstName/lastName. Google (OAuth)
-        // only gives us name/email/image, so derive names from `name` and
-        // default the role — otherwise the session would read "undefined
-        // undefined" and have no role.
+        // Google: resolve the token to the real DB row (created/linked in the
+        // signIn callback) so session.user.id is a valid User id, not the
+        // Google `sub`.
+        if (account?.provider === 'google' && user.email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+            select: { id: true, role: true, firstName: true, lastName: true },
+          });
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+            token.firstName = dbUser.firstName;
+            token.lastName = dbUser.lastName;
+            return token;
+          }
+        }
+        // Credentials sign-in carries role/firstName/lastName.
         const nameParts = (user.name ?? '').trim().split(/\s+/).filter(Boolean);
         token.id = user.id;
         token.role = (user as any).role ?? token.role ?? 'CUSTOMER';

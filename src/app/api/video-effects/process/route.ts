@@ -28,6 +28,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { randomBytes } from 'crypto';
 import { spawn } from 'child_process';
+import { rateLimit, getRateLimitHeaders } from '@/lib/rateLimit';
 
 const MAX_BYTES = 50 * 1024 * 1024; // 50 MB
 const FFMPEG_TIMEOUT_MS = 60_000; // 60s — hard upper bound
@@ -81,6 +82,17 @@ const PRESETS: Record<string, { label: string; filter: string }> = {
 export async function POST(req: Request) {
   let inputPath = '';
   try {
+    // Public endpoint (powers the /lab/video-effects demo), but ffmpeg is
+    // expensive and writes to disk — rate-limit per IP to curb abuse.
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const rl = await rateLimit(`video-effects:${ip}`, 5, 5 * 60 * 1000);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again in a few minutes.' },
+        { status: 429, headers: getRateLimitHeaders(rl.remaining, rl.resetIn) },
+      );
+    }
+
     const formData = await req.formData();
     const file = formData.get('file');
     const preset = String(formData.get('preset') ?? 'glow');

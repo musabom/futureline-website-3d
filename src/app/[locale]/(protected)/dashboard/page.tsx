@@ -1,23 +1,25 @@
 import { requireAuth } from '@/lib/requireAuth';
 import { prisma } from '@/lib/prisma';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { formatPrice } from '@/lib/utils';
 import { BookOpen, CheckCircle, ShoppingCart, ArrowRight } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { getLocale } from 'next-intl/server';
 import Header from '@/components/Header';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
   const session = await requireAuth();
+  const locale = await getLocale();
 
+  // Keep the active locale on role-based redirects (localePrefix 'always').
   if (session.user.role === 'ADMIN') {
-    const { redirect } = await import('next/navigation');
-    redirect('/admin');
+    redirect(`/${locale}/admin`);
   }
 
   if (session.user.role === 'INSTRUCTOR') {
-    const { redirect } = await import('next/navigation');
-    redirect('/instructor');
+    redirect(`/${locale}/instructor`);
   }
 
   const enrollments = await prisma.enrollment.findMany({

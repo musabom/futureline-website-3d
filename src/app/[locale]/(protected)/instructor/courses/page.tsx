@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Plus, Search, Edit, Trash2, Eye, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 export default function InstructorCoursesPage() {

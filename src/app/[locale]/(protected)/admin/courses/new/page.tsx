@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { slugify } from '@/lib/utils';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 const labelClass = 'block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2';
 const selectClass = 'input-field [&>option]:bg-canvas-alt';
@@ -36,7 +36,7 @@ export default function NewCoursePage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({
+    setForm((prev: typeof form) => ({
       ...prev,
       [name]: value,
       ...(name === 'title' ? { slug: slugify(value) } : {}),
@@ -45,8 +45,8 @@ export default function NewCoursePage() {
 
   const handleFreeToggle = (free: boolean) => {
     setIsFree(free);
-    if (free) setForm(prev => ({ ...prev, price: '0', discountPrice: '' }));
-    else setForm(prev => ({ ...prev, price: '' }));
+    if (free) setForm((prev: typeof form) => ({ ...prev, price: '0', discountPrice: '' }));
+    else setForm((prev: typeof form) => ({ ...prev, price: '' }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

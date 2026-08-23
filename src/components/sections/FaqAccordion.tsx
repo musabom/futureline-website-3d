@@ -18,8 +18,9 @@ export async function FaqAccordion() {
     <section id="faq" aria-labelledby="faq-heading" className="relative py-20 md:py-28">
       <script
         type="application/ld+json"
-        // Static, developer-authored content — no user input reaches this.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(items)) }}
+        // Escape '<' so a '</script>' in any FAQ string can't break out of the
+        // script element, even though today the content is developer-authored.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(items)).replace(/</g, '\\u003c') }}
       />
       <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[0.8fr_1.2fr]">
         <div>

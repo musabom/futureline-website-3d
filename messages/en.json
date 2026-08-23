@@ -237,6 +237,8 @@
       "google": "Continue with Google",
       "or": "or",
       "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
       "password": "Password",
       "continue": "Continue",
       "submitting": "Signing in…",

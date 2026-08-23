@@ -10,6 +10,17 @@ export async function POST(req: Request) {
 
     const { enrollmentId, progressPercentage } = await req.json();
 
+    if (typeof enrollmentId !== 'string' || !enrollmentId) {
+      return NextResponse.json({ error: 'Invalid enrollmentId' }, { status: 400 });
+    }
+    // Guard against undefined/NaN/negative — an unvalidated value flows
+    // straight into a numeric DB column (NaN throws) and the completed flag.
+    const pct = Number(progressPercentage);
+    if (!Number.isFinite(pct)) {
+      return NextResponse.json({ error: 'Invalid progressPercentage' }, { status: 400 });
+    }
+    const clamped = Math.max(0, Math.min(100, pct));
+
     const enrollment = await prisma.enrollment.findUnique({ where: { id: enrollmentId } });
     if (!enrollment || enrollment.userId !== session.user.id) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -18,8 +29,8 @@ export async function POST(req: Request) {
     await prisma.enrollment.update({
       where: { id: enrollmentId },
       data: {
-        progressPercentage: Math.min(100, progressPercentage),
-        completed: progressPercentage >= 100,
+        progressPercentage: clamped,
+        completed: clamped >= 100,
       },
     });
 

@@ -25,8 +25,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     const instructorCut = Number(amount);
-    const platformRate = 1 - instructor.commissionRate / 100;
-    const platformCut = instructorCut * (platformRate / (instructor.commissionRate / 100));
+    if (!Number.isFinite(instructorCut) || instructorCut <= 0) {
+      return NextResponse.json({ error: 'Amount must be a positive number' }, { status: 400 });
+    }
+    // commissionRate is the instructor's share (%). A 0% rate makes the
+    // platform-cut formula below divide by zero → Infinity, so reject it.
+    if (!instructor.commissionRate || instructor.commissionRate <= 0) {
+      return NextResponse.json(
+        { error: 'Instructor commission rate must be greater than 0 to log a payout' },
+        { status: 400 },
+      );
+    }
+    const commissionFraction = instructor.commissionRate / 100;
+    const platformRate = 1 - commissionFraction;
+    const platformCut = instructorCut * (platformRate / commissionFraction);
 
     const targetCourseId = courseId || (await prisma.course.findFirst({
       where: { instructorId },

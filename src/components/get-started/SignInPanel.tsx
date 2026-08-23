@@ -58,6 +58,8 @@ function SignInInner() {
   const pillar = searchParams.get('pillar') ?? undefined;
 
   const [view, setView] = useState<'choice' | 'email'>('choice');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -113,6 +115,36 @@ function SignInInner() {
     e.preventDefault();
     setError('');
     setLoading(true);
+
+    // Get-started is for new visitors, so create an account first. If the email
+    // already exists, /api/auth/register returns 400 "Email already registered"
+    // — fall through to a normal credentials login (correct password) or show
+    // an invalid-credentials error (wrong password).
+    try {
+      const reg = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword: password,
+        }),
+      });
+      if (!reg.ok) {
+        const data = await reg.json().catch(() => ({}));
+        const msg: string = data?.error ?? '';
+        if (msg && !/already registered/i.test(msg)) {
+          setError(msg);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch {
+      /* network error — fall through to signIn, which will surface its own error */
+    }
+
     const res = await signIn('credentials', { email, password, redirect: false });
     if (res?.error) {
       setError(t('signin.invalid'));
@@ -202,6 +234,37 @@ function SignInInner() {
             <p className="mb-8 text-center text-sm text-ink-muted">{t('signin.lede')}</p>
 
             <form onSubmit={handleEmail} className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="fl-label" htmlFor="gs-firstName">
+                    {t('signin.firstName')}
+                  </label>
+                  <input
+                    id="gs-firstName"
+                    type="text"
+                    required
+                    autoFocus
+                    autoComplete="given-name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="fl-input"
+                  />
+                </div>
+                <div>
+                  <label className="fl-label" htmlFor="gs-lastName">
+                    {t('signin.lastName')}
+                  </label>
+                  <input
+                    id="gs-lastName"
+                    type="text"
+                    required
+                    autoComplete="family-name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="fl-input"
+                  />
+                </div>
+              </div>
               <div>
                 <label className="fl-label" htmlFor="gs-email">
                   {t('signin.email')}
@@ -210,7 +273,6 @@ function SignInInner() {
                   id="gs-email"
                   type="email"
                   required
-                  autoFocus
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

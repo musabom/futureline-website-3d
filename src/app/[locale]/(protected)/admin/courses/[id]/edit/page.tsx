@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 const labelClass = 'block text-xs font-bold text-ink-muted uppercase tracking-widest mb-2';
 const selectClass = 'input-field [&>option]:bg-canvas-alt';
@@ -18,9 +18,16 @@ export default function EditCoursePage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`/api/admin/courses/${params.id}`).then(r => r.json()),
-      fetch('/api/admin/users?role=INSTRUCTOR').then(r => r.json()),
+      fetch(`/api/admin/courses/${params.id}`).then(r => (r.ok ? r.json() : null)),
+      fetch('/api/admin/users?role=INSTRUCTOR').then(r => (r.ok ? r.json() : [])),
     ]).then(([course, insts]) => {
+      // Bail out if the course fetch failed or returned an error object rather
+      // than a real course — otherwise the form fills with garbage.
+      if (!course || typeof course !== 'object' || typeof course.price !== 'number') {
+        setInstructors(Array.isArray(insts) ? insts : []);
+        setFetching(false);
+        return;
+      }
       const free = course.price === 0;
       setIsFree(free);
       setForm({
@@ -43,9 +50,9 @@ export default function EditCoursePage() {
         highlightBullet3: course.highlightBullets?.[2] || '',
         highlightBullet4: course.highlightBullets?.[3] || '',
       });
-      setInstructors(insts);
+      setInstructors(Array.isArray(insts) ? insts : []);
       setFetching(false);
-    });
+    }).catch(() => setFetching(false));
   }, [params.id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

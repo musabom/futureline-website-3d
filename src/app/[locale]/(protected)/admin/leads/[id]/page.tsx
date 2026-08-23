@@ -5,7 +5,7 @@ import {
   ArrowLeft, Mail, Phone, Clock, Tag, User, MessageSquare,
   FileText, Send, Calendar, ChevronDown, Trash2, Plus
 } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 const STAGES = [
   { value: 'NEW', label: 'New', color: 'bg-blue-500/10 border-blue-500/20 text-blue-400' },
@@ -51,10 +51,13 @@ export default function LeadDetailPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchLead = () => {
-    fetch(`/api/admin/leads/${params.id}`).then(r => r.json()).then(data => {
-      if (data.id) setLead(data);
-      setLoading(false);
-    });
+    fetch(`/api/admin/leads/${params.id}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (data && data.id) setLead(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false)); // never leave the page stuck on the spinner
   };
 
   useEffect(() => {

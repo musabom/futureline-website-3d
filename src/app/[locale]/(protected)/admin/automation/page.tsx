@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, ArrowLeft, X, Zap, Clock, ArrowRight, ToggleLeft, ToggleRight, Play } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 const TRIGGER_TYPES = [
   { value: 'STAGE_CHANGE', label: 'Lead stage changes' },

@@ -20,7 +20,13 @@ export type Locale = (typeof locales)[number]
 export const routing = defineRouting({
   locales,
   defaultLocale: 'en',
-  localePrefix: 'as-needed',
+  localePrefix: 'always',
+  // NOTE: switched from 'as-needed' to 'always'. next-intl 4.13.x + Next 15.5.12
+  // has a defect where 'as-needed' emits a rewrite (/en) AND a 307 to '/' on the
+  // same response for the default locale, causing an infinite redirect loop that
+  // took the entire English site down (only /ar worked). 'always' resolves it and
+  // auto-redirects old unprefixed URLs (/courses -> /en/courses), so inbound links
+  // still work. Revisit 'as-needed' once the upstream incompatibility is fixed.
 })
 
 /** Text direction per locale — drives <html dir> and RTL-aware layout. */

@@ -8,7 +8,7 @@
  */
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronDown, Check, X, Layers } from 'lucide-react';

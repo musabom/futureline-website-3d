@@ -14,7 +14,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const { goal, skillLevel, deliveryPref, budget } = await req.json();
+    const body = await req.json();
+    // Coerce to primitives — a non-string goal/level/etc would crash
+    // .toLowerCase() below, and non-string filter values would inject
+    // unintended Prisma operators into `where`.
+    const goal = typeof body?.goal === 'string' ? body.goal : '';
+    const skillLevel = typeof body?.skillLevel === 'string' ? body.skillLevel : '';
+    const deliveryPref = typeof body?.deliveryPref === 'string' ? body.deliveryPref : '';
+    const budget = typeof body?.budget === 'number' && Number.isFinite(body.budget) ? body.budget : null;
 
     const where: any = { status: 'PUBLISHED', approvalStatus: 'APPROVED' };
 

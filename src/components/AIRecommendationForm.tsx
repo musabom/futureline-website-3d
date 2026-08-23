@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { formatPrice } from '@/lib/utils';
 import { BookOpen, Clock, Loader2 } from 'lucide-react';
 

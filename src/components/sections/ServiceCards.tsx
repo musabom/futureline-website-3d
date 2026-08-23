@@ -8,7 +8,7 @@
  */
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ArrowRight } from 'lucide-react';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { BrandedHeading } from '@/components/ui/BrandedHeading';

@@ -171,7 +171,7 @@ export default function HeroRibbon3D({
         dpr={[1, 2]}
         frameloop="always"
         camera={{ position: [0, 0, 5], fov: 50 }}
-        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
         // If WebGL context creation fails, canvas silently doesn't mount;
         // the fallback gradient behind us stays visible. No crash.
         onCreated={(state) => {
@@ -182,7 +182,9 @@ export default function HeroRibbon3D({
           });
         }}
       >
-        <color attach="background" args={['#000000']} />
+        {/* No <color attach="background">: an opaque clear colour makes
+            this canvas a solid slab wherever it is dropped. Alpha instead,
+            so it composites onto the page's own background. */}
         <ambientLight intensity={0.05} />
         <IdleCamera />
         <Ribbon color={color} tilt={tilt} />

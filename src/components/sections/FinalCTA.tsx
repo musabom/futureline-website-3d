@@ -6,7 +6,7 @@
  */
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/routing';
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { FadeUp } from '@/components/motion/FadeUp'
 import { BrandedHeading } from '@/components/ui/BrandedHeading'
@@ -62,7 +62,7 @@ export function FinalCTA() {
     <section
       ref={sectionRef}
       id="start"
-      className="relative overflow-hidden bg-brand-bg px-6 py-24 md:py-36"
+      className="relative overflow-hidden bg-canvas px-6 py-24 md:py-36"
     >
       <div
         aria-hidden="true"
@@ -111,7 +111,7 @@ export function FinalCTA() {
             )}
           </div>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
+          <p className="mx-auto mt-6 max-w-xl text-lg text-ink">
             A free systems audit. No commitment. Just an honest look at what&apos;s slowing you down — and the smallest fix that moves the needle.
           </p>
           <div className="mt-10 flex items-center justify-center gap-2">
@@ -119,14 +119,14 @@ export function FinalCTA() {
               href="/audit"
               data-cursor="magnetic"
               data-cursor-strength="28"
-              className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-white/90"
+              className="rounded-full bg-white px-8 py-4 text-sm font-medium text-black transition-colors hover:bg-canvas-card"
             >
               Get a free audit
             </Link>
             <Link
               href="/services"
               data-cursor="hover"
-              className="ml-2 px-4 py-4 text-sm text-white/70 transition-colors hover:text-white"
+              className="ml-2 px-4 py-4 text-sm text-ink transition-colors hover:text-navy"
             >
               Browse services →
             </Link>

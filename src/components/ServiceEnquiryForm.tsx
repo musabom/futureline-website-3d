@@ -1,8 +1,10 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Send, CheckCircle } from 'lucide-react';
 
 export default function ServiceEnquiryForm() {
+  const t = useTranslations('serviceForm');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -38,18 +40,18 @@ export default function ServiceEnquiryForm() {
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-lab/30 bg-lab/10">
           <CheckCircle size={24} className="text-lab" />
         </div>
-        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
-          Enquiry submitted.
+        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-navy">
+          {t('successTitle')}
         </h3>
-        <p className="mb-8 text-sm leading-relaxed text-white/55">
-          Our team will review your request and be in touch within one business day.
+        <p className="mb-8 text-sm leading-relaxed text-ink-muted">
+          {t('successBody')}
         </p>
         <button
           onClick={() => setStatus('idle')}
           className="font-mono text-[11px] uppercase tracking-[0.3em] text-lab transition-colors hover:text-lab-light"
           data-cursor="hover"
         >
-          Submit another →
+          {t('submitAnother')}
         </button>
       </div>
     );
@@ -59,7 +61,7 @@ export default function ServiceEnquiryForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
-          <label className="fl-label" htmlFor="se-firstName">First name *</label>
+          <label className="fl-label" htmlFor="se-firstName">{t('firstName')} *</label>
           <input
             id="se-firstName"
             type="text"
@@ -67,11 +69,11 @@ export default function ServiceEnquiryForm() {
             value={form.firstName}
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
             className="fl-input"
-            placeholder="First name"
+            placeholder={t('firstNamePlaceholder')}
           />
         </div>
         <div>
-          <label className="fl-label" htmlFor="se-lastName">Last name *</label>
+          <label className="fl-label" htmlFor="se-lastName">{t('lastName')} *</label>
           <input
             id="se-lastName"
             type="text"
@@ -79,13 +81,13 @@ export default function ServiceEnquiryForm() {
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             className="fl-input"
-            placeholder="Last name"
+            placeholder={t('lastNamePlaceholder')}
           />
         </div>
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="se-email">Email *</label>
+        <label className="fl-label" htmlFor="se-email">{t('email')} *</label>
         <input
           id="se-email"
           type="email"
@@ -93,12 +95,12 @@ export default function ServiceEnquiryForm() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           className="fl-input"
-          placeholder="you@example.com"
+          placeholder={t('emailPlaceholder')}
         />
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="se-service">Service interest *</label>
+        <label className="fl-label" htmlFor="se-service">{t('serviceInterest')} *</label>
         <select
           id="se-service"
           required
@@ -106,17 +108,17 @@ export default function ServiceEnquiryForm() {
           onChange={(e) => setForm({ ...form, tourType: e.target.value })}
           className="fl-select"
         >
-          <option value="">Select a service</option>
-          <option value="Digitalisation">Digitalisation</option>
-          <option value="Custom Software">Custom Software</option>
-          <option value="Automations">Automations</option>
-          <option value="Consultation">Consultation</option>
-          <option value="Other">Other</option>
+          <option value="">{t('selectService')}</option>
+          <option value="Digitalisation">{t('digitalisation')}</option>
+          <option value="Custom Software">{t('customSoftware')}</option>
+          <option value="Automations">{t('automations')}</option>
+          <option value="Consultation">{t('consultation')}</option>
+          <option value="Other">{t('other')}</option>
         </select>
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="se-message">Message *</label>
+        <label className="fl-label" htmlFor="se-message">{t('message')} *</label>
         <textarea
           id="se-message"
           required
@@ -124,7 +126,7 @@ export default function ServiceEnquiryForm() {
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           className="fl-textarea"
-          placeholder="Tell us what's slowing you down."
+          placeholder={t('messagePlaceholder')}
         />
       </div>
 
@@ -136,12 +138,12 @@ export default function ServiceEnquiryForm() {
         data-cursor-strength="20"
       >
         <Send size={15} />
-        {status === 'sending' ? 'Submitting…' : 'Submit enquiry'}
+        {status === 'sending' ? t('submitting') : t('submit')}
       </button>
 
       {status === 'error' && (
         <p className="pt-1 text-center text-xs text-red-400/90">
-          Something went wrong. Please try again.
+          {t('error')}
         </p>
       )}
     </form>

@@ -1,0 +1,1877 @@
+{
+  "common": {
+    "languageSwitcher": "Language",
+    "skipToContent": "Skip to main content"
+  },
+  "nav": {
+    "whatWeOffer": "What we offer",
+    "vision": "Vision",
+    "whoWeServe": "Who we serve",
+    "faq": "FAQ",
+    "courses": "Courses",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "readinessAssessment": "Readiness assessment",
+    "dashboard": "Dashboard",
+    "signOut": "Sign out"
+  },
+  "hero": {
+    "eyebrow": "AI Consulting · Applications · Training",
+    "tagline": "DESIGN · DEPLOY · EVOLVE",
+    "lede": "An Omani company turning AI from talk into practice — we advise, we build, and we train.",
+    "primaryCta": "Get an AI readiness assessment",
+    "secondaryCta": "What we offer",
+    "chips": {
+      "consulting": "AI Consulting",
+      "apps": "Apps & AI agents",
+      "training": "Training & Vibe Coding"
+    }
+  },
+  "story": {
+    "heading": "How we work, our vision, and our mission",
+    "act1": {
+      "kicker": "01 — We advise",
+      "title": "Every organisation asks the same question: where do we begin?",
+      "body": "We assess your AI readiness, find the highest-return use cases, and map an adoption roadmap — with safe-use policy and data governance from day one."
+    },
+    "act2": {
+      "kicker": "02 — Our Vision",
+      "title": "Making everyone a leader in AI.",
+      "body": "Not a handful of specialists — everyone. People and organisations who can shape AI themselves, rather than wait for someone else to do it for them."
+    },
+    "act3": {
+      "kicker": "03 — Our Mission",
+      "title": "We turn AI from talk into practice.",
+      "body": "Advising, building, and training — so that every person and organisation can design their own solutions and deploy them safely, in their own language, inside their own walls."
+    },
+    "labels": {
+      "consulting": "AI Consulting",
+      "applications": "Custom Applications",
+      "agents": "AI Agents",
+      "training": "Training & Enablement"
+    }
+  },
+  "visionMission": {
+    "visionKicker": "Our Vision",
+    "vision": "Making everyone a leader in AI.",
+    "missionKicker": "Our Mission",
+    "mission": "We turn AI from talk into practice — advising, building, and training, so that every person and organisation can design their own solutions and deploy them safely, in their own language, inside their own walls."
+  },
+  "differentiators": {
+    "heading": "What makes us different",
+    "buildTeach": {
+      "title": "We build and we teach",
+      "body": "A working solution, and a team able to carry it forward."
+    },
+    "speed": {
+      "title": "Days, not months",
+      "body": "We take an idea to a working prototype fast, then prove the case."
+    },
+    "onPremise": {
+      "title": "Inside your walls",
+      "body": "The Safe Build Protocol, for closed premises and sensitive data."
+    }
+  },
+  "pillars": {
+    "eyebrow": "What we offer",
+    "heading": "Three pillars: we advise, we build, we train",
+    "lede": "Start where you need us most — or take the full journey, from the first question to leading AI yourselves.",
+    "consulting": {
+      "title": "Consulting",
+      "cta": "Start here",
+      "points": [
+        "AI readiness assessment for the organisation",
+        "Highest-return use cases and opportunities",
+        "Adoption roadmap with measures of impact",
+        "Safe-use policy and data governance"
+      ]
+    },
+    "applications": {
+      "title": "Building Applications",
+      "cta": "Build with us",
+      "points": [
+        "Custom applications and systems for organisations",
+        "AI agents and automation for repetitive operations",
+        "Working MVPs that prove the case before major investment",
+        "Fast, lightweight solutions for individuals and founders",
+        "The Safe Build Protocol for closed premises and sensitive data"
+      ]
+    },
+    "training": {
+      "title": "Training & Enablement",
+      "cta": "Get trained",
+      "points": [
+        "Applied AI training for individuals and teams",
+        "Vibe Coding: idea to deployed product, no programming background",
+        "Safe and responsible AI workshops",
+        "Programme licensing and train-the-trainer"
+      ]
+    }
+  },
+  "audiences": {
+    "eyebrow": "Who we serve",
+    "heading": "From closed government networks to a founder with an idea",
+    "lede": "AI that fits your constraints — your data, your language, your walls.",
+    "government": {
+      "title": "Government entities",
+      "body": "AI inside closed environments, where data cannot leave the premises. Built under the Safe Build Protocol."
+    },
+    "universities": {
+      "title": "Universities & institutes",
+      "body": "Real AI capability in students and academic staff — with programmes you can license and run yourselves."
+    },
+    "private": {
+      "title": "Private sector",
+      "body": "Raising team productivity and automating operations, with agents and applications shaped to how you already work."
+    },
+    "founders": {
+      "title": "Individuals & founders",
+      "body": "Anyone with an idea and no development team. We take it to a working product, then teach you to evolve it."
+    }
+  },
+  "cta": {
+    "eyebrow": "Get started",
+    "heading": "Ready to lead AI — not just talk about it?",
+    "lede": "Request an AI readiness assessment: a straight look at where AI pays off for you first, and how quickly we can prove it.",
+    "submit": "Request my readiness assessment",
+    "messageLabel": "Where do you want AI to help first?",
+    "messagePlaceholder": "A process to automate, an app idea, training for your team, a use case to assess…"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Straight answers, no jargon",
+    "items": [
+      {
+        "question": "Our data can't leave our premises. Can you still build for us?",
+        "answer": "Yes — that is what our Safe Build Protocol is for. We build inside closed environments for government entities and organisations with sensitive data, so nothing ever leaves your walls."
+      },
+      {
+        "question": "How do we start working with you?",
+        "answer": "With a free AI readiness assessment. We look at where AI pays off for you first and come back within one business day with an honest read on what to fix first — no commitment and no pitch deck."
+      },
+      {
+        "question": "How fast can we see something working?",
+        "answer": "Days, not months. We take an idea to a working prototype quickly, prove the case, and only then talk about larger investment. A scoped prototype typically runs two to six weeks depending on how many systems it has to touch."
+      },
+      {
+        "question": "What does a project cost?",
+        "answer": "The readiness assessment is free. Beyond that, a scoped prototype typically starts around OMR 1,500, and larger builds are quoted per engagement once scope is clear. Training is priced separately — public course cohorts run OMR 100–500 per seat, and team training is a single fixed price rather than a per-seat licence."
+      },
+      {
+        "question": "Who owns the code and the data?",
+        "answer": "You do. You keep full ownership of the systems we build for you and of everything they process. There is no licence tax and no lock-in to us as a vendor."
+      },
+      {
+        "question": "What happens after handover?",
+        "answer": "We hand over the working system, the source, and the documentation — and we train your team to run it. Support and iteration afterwards are available as a separate arrangement rather than assumed."
+      },
+      {
+        "question": "Do you work with organisations outside Oman?",
+        "answer": "Yes. We are based in Muscat and work across the GCC in person, and remotely beyond it. Training can be delivered on-site, remote, or hybrid."
+      },
+      {
+        "question": "What is the Vibe Coding programme?",
+        "answer": "It takes you from an idea to a deployed product with no programming background. You finish the programme with a real, published product rather than a certificate."
+      },
+      {
+        "question": "Do you train teams as well as individuals?",
+        "answer": "Both. Individuals join public cohorts; teams get a syllabus designed around the work they actually do, delivered on-site or remotely, with a manager debrief afterwards on what the team learned and what to deploy next."
+      },
+      {
+        "question": "Do you work in Arabic?",
+        "answer": "Arabic and English side by side — consulting, training, and the products themselves. Most AI knowledge never reaches the people who need it in the language they think in; we close that gap."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Making everyone a leader in AI.",
+    "location": "Muscat, Sultanate of Oman",
+    "whatWeOffer": "What we offer",
+    "company": "Company",
+    "rights": "All rights reserved.",
+    "links": {
+      "consulting": "Consulting",
+      "applications": "Building Applications",
+      "training": "Training & Enablement",
+      "visionMission": "Vision & Mission",
+      "whoWeServe": "Who we serve",
+      "faq": "FAQ",
+      "readiness": "Readiness assessment",
+      "courses": "Courses",
+      "audit": "Systems audit"
+    }
+  },
+  "getStarted": {
+    "eyebrow": "Get started",
+    "heading": "Where should we begin?",
+    "lede": "Pick where you need us most — we'll take it from there.",
+    "continue": "Continue",
+    "back": "Back",
+    "stepLabel": "Step {step} of 3",
+    "readiness": {
+      "title": "AI Readiness Assessment",
+      "points": [
+        "A straight look at where AI pays off for you first",
+        "No commitment — an honest read on what to fix first"
+      ]
+    },
+    "steps": {
+      "start": "Start",
+      "pick": "Pick an option",
+      "details": "Submit",
+      "signin": "Sign in",
+      "confirm": "Confirm"
+    },
+    "welcome": {
+      "title": "Welcome!",
+      "google": "Continue with Google",
+      "email": "Continue with email",
+      "otherWays": "Other ways to sign in",
+      "termsPrefix": "By signing in you agree to our",
+      "serviceTerms": "Service Terms",
+      "privacy": "Privacy Policy"
+    },
+    "signin": {
+      "title": "Almost there — sign in",
+      "lede": "Sign in so we can tie your request to you and follow up.",
+      "google": "Continue with Google",
+      "or": "or",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "password": "Password",
+      "continue": "Continue",
+      "submitting": "Signing in…",
+      "redirecting": "Redirecting to Google…",
+      "invalid": "Invalid email or password.",
+      "cancelled": "Google sign-in was cancelled. Please try again.",
+      "googleError": "Google sign-in didn't complete. Please try again.",
+      "googleUnavailable": "Google sign-in isn't available right now. Please use email, or try again later.",
+      "createAccount": "Create an account"
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "company": "Company",
+      "phone": "Phone",
+      "optional": "(optional)",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "companyPlaceholder": "Acme Co.",
+      "messagePlaceholder": "A few sentences is enough — we'll follow up with the right questions.",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "signIn": "Sign in",
+      "createAccount": "Create account",
+      "signedInAs": "Signed in as",
+      "pickFirst": "Pick an option first.",
+      "chooseOption": "Choose an option",
+      "submitting": "Submitting…",
+      "confirmSubmit": "Confirm & submit",
+      "createAndSubmit": "Create account & submit",
+      "signInAndSubmit": "Sign in & submit",
+      "checkingSession": "Checking your session…",
+      "passwordMismatch": "Passwords do not match",
+      "registrationFailed": "Registration failed",
+      "invalidCredentials": "Invalid email or password",
+      "createdButSignInFailed": "Account created, but sign-in failed — try signing in below.",
+      "genericError": "Something went wrong. Please try again.",
+      "submitError": "Something went wrong submitting your request. Please try again.",
+      "submit": "Submit"
+    },
+    "questions": {
+      "consulting": "What would you like assessed?",
+      "applications": "What are you trying to build?",
+      "training": "Who needs training, and on what?",
+      "readiness": "Where do you want AI to help first?"
+    },
+    "done": {
+      "title": "We have received your request successfully ✅",
+      "body": "We'll be in touch as soon as possible.",
+      "backHome": "Back to home →"
+    }
+  },
+  "audit": {
+    "metaTitle": "Get a free systems audit — FutureLine",
+    "metaDescription": "Tell us what slows you down. We come back with an honest read on what to fix first. No commitment, no pitch deck, no obligation.",
+    "eyebrow": "Free systems audit",
+    "heading": "Tell us what slows you down.",
+    "lede": "Fill in your name and email and we'll come back with the smallest first move that pays for itself.",
+    "whatYouGet": [
+      {
+        "title": "A 30-minute call",
+        "body": "We map your day-to-day, identify the biggest manual touchpoints, and ask the questions a vendor demo never will."
+      },
+      {
+        "title": "A written read",
+        "body": "A short report — plain English — on the three highest-leverage fixes, the rough cost of each, and what they would save."
+      },
+      {
+        "title": "No pitch deck",
+        "body": "If the answer is \"you don't need us\", we'll say so. No commission, no upsell, no commitment."
+      }
+    ],
+    "formEyebrow": "Request a free audit",
+    "formHeading": "Start with your details.",
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "company": "Company",
+      "phone": "Phone",
+      "optional": "(optional)",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "emailPlaceholder": "you@example.com",
+      "companyPlaceholder": "Acme Co.",
+      "messageLabel": "What slows you down?",
+      "messagePlaceholder": "One line is enough. Paper trails, spreadsheet chaos, manual approvals…",
+      "submit": "Request my free audit",
+      "submitting": "Submitting…",
+      "error": "Something went wrong. Please try again.",
+      "disclaimer": "No commitment. No pitch deck. We'll come back with an honest read on what to fix first.",
+      "successTitle": "Request received.",
+      "successBody": "We'll review your details and be in touch within one business day to schedule a 30-minute call.",
+      "submitAnother": "Submit another →"
+    }
+  },
+  "services": {
+    "heading": "Systems that earn their keep.",
+    "lede": "Four ways we build the digital infrastructure that lets your business scale without breaking. Done in weeks, not years. No recurring licence tax.",
+    "browse": "Browse services",
+    "freeAudit": "Get a free audit →",
+    "marqueeTagline": "Systems Built for Scale",
+    "gridEyebrow": "Available now",
+    "gridHeading": "Our services.",
+    "gridLede": "Pick the one that matches where you're stuck. We start with a free audit either way.",
+    "empty": "No services listed yet",
+    "emptyBody": "Check back soon.",
+    "featured": "Featured",
+    "learnMore": "Learn more",
+    "enquiryEyebrow": "Get in touch",
+    "enquiryHeading": "Tell us what's slowing you down.",
+    "enquiryLede": "Send a quick brief. We'll come back with an honest read on whether we can help — and the smallest first move that moves the needle."
+  },
+  "serviceForm": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "firstNamePlaceholder": "First name",
+    "lastNamePlaceholder": "Last name",
+    "emailPlaceholder": "you@example.com",
+    "serviceInterest": "Service interest",
+    "selectService": "Select a service",
+    "digitalisation": "Digitalisation",
+    "customSoftware": "Custom Software",
+    "automations": "Automations",
+    "consultation": "Consultation",
+    "other": "Other",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what's slowing you down.",
+    "submit": "Submit enquiry",
+    "submitting": "Submitting…",
+    "error": "Something went wrong. Please try again.",
+    "successTitle": "Enquiry submitted.",
+    "successBody": "Our team will review your request and be in touch within one business day.",
+    "submitAnother": "Submit another →"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "createOne": "Create one",
+      "errorInvalid": "Invalid email or password"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Start your learning journey",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "errorMismatch": "Passwords do not match",
+      "errorFailed": "Registration failed",
+      "errorGeneric": "Something went wrong"
+    },
+    "forgot": {
+      "title": "Forgot Password",
+      "subtitleSent": "Check your email for a reset link",
+      "subtitleDefault": "Enter your email to receive a reset link",
+      "successMessage": "If an account exists with that email, we have sent a password reset link. Please check your inbox.",
+      "spamHint": "Didn't receive the email? Check your spam folder or try again.",
+      "tryAnother": "Try another email",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send Reset Link",
+      "submitting": "Sending...",
+      "rememberPassword": "Remember your password?",
+      "signIn": "Sign In",
+      "errorTooManyRequests": "Too many requests. Please wait a moment and try again.",
+      "errorGeneric": "Something went wrong. Please try again."
+    },
+    "reset": {
+      "title": "Reset Password",
+      "subtitle": "Enter your new password below",
+      "invalidLink": "Invalid reset link. The link may be missing or malformed.",
+      "requestNew": "Request a new reset link",
+      "successMessage": "Your password has been reset successfully!",
+      "signIn": "Sign In",
+      "newPasswordLabel": "New Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "newPasswordPlaceholder": "At least 6 characters",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "submit": "Reset Password",
+      "submitting": "Resetting...",
+      "backToSignIn": "Back to Sign In",
+      "loading": "Loading...",
+      "errorTooShort": "Password must be at least 6 characters.",
+      "errorMismatch": "Passwords do not match.",
+      "errorFailed": "Failed to reset password.",
+      "errorGeneric": "Something went wrong. Please try again."
+    }
+  },
+  "courseEnquiry": {
+    "successTitle": "Request submitted.",
+    "successBody": "Our team will review your request and get back to you within one business day.",
+    "submitAnother": "Submit another →",
+    "firstName": "First name",
+    "firstNamePlaceholder": "First name",
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Last name",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "topic": "Topic / area of interest",
+    "topicPlaceholder": "e.g. Project Management, Data Analytics, Leadership…",
+    "message": "Message",
+    "messagePlaceholder": "Tell us what you're looking for — format, group size, timeline.",
+    "submitting": "Submitting…",
+    "submit": "Submit request",
+    "error": "Something went wrong. Please try again."
+  },
+  "aiRecommend": {
+    "goalLabel": "What is your goal?",
+    "goalPlaceholder": "e.g., Learn AI, Become a web developer, Improve cybersecurity skills",
+    "skillLabel": "Your skill level",
+    "selectLevel": "Select level",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "deliveryLabel": "Delivery preference",
+    "noPreference": "No preference",
+    "online": "Online",
+    "inPerson": "In-Person",
+    "hybrid": "Hybrid",
+    "budgetLabel": "Maximum budget",
+    "budgetPlaceholder": "e.g., 500",
+    "analysing": "Analysing…",
+    "getRecommendations": "Get recommendations",
+    "noResults": "No matching courses found. Try adjusting your preferences.",
+    "recommendedForYou": "Recommended for you",
+    "free": "Free",
+    "hoursSuffix": "h",
+    "failed": "Failed to get recommendations"
+  },
+  "aiPage": {
+    "hero": {
+      "eyebrow": "FL · Lab · AI & Automation",
+      "heading": "Useful, not magic.",
+      "lead": "Practical AI for businesses. We don't build AI for the sake of AI — every model and automation we ship solves a real problem and pays its way.",
+      "note": "Our AI & Automation division is in active development. Get in touch to discuss your needs early.",
+      "ctaPrimary": "Get in touch",
+      "ctaSecondary": "Explore AI courses"
+    },
+    "marquee": [
+      "Machine Learning",
+      "Process Automation",
+      "AI Analytics",
+      "LLM Integration",
+      "Human-in-the-loop",
+      "Built to be explainable"
+    ],
+    "capabilities": {
+      "eyebrow": "What we're building",
+      "heading": "AI capabilities.",
+      "lead": "A preview of the AI-powered services we're preparing to launch.",
+      "items": [
+        {
+          "title": "Machine Learning",
+          "body": "Custom ML models that learn and adapt to your business data — predictive analytics, anomaly detection, recommendation engines, classifiers trained on your reality."
+        },
+        {
+          "title": "Process Automation",
+          "body": "Intelligent automation that streamlines workflows and decisions across your organisation. Approvals routed, exceptions escalated, audit trail built in."
+        },
+        {
+          "title": "AI-Powered Analytics",
+          "body": "Turn raw data into actionable insights with AI-driven dashboards, reports, and decision support — natural language queries on top of your operational data."
+        }
+      ]
+    },
+    "vision": {
+      "eyebrow": "The vision",
+      "heading": "AI that works for your business.",
+      "body": "Our approach is practical and results-driven. We don't believe in AI for the sake of AI. Every solution is designed to solve a real problem, save time, and deliver measurable impact.",
+      "items": [
+        "Custom AI models tailored to your industry and data",
+        "Automation of repetitive tasks and decision-making",
+        "Integration with your existing tools and workflows",
+        "Ongoing support and model improvement",
+        "Plain-English explanations of what the model is doing",
+        "Human escalation paths on every automated decision"
+      ]
+    },
+    "stats": [
+      {
+        "value": "50+",
+        "label": "AI projects planned",
+        "sub": "In active scoping across industries we serve."
+      },
+      {
+        "value": "98%",
+        "label": "Target satisfaction",
+        "sub": "Designed so the system pays for itself, fast."
+      },
+      {
+        "value": "5+",
+        "label": "Industries served",
+        "sub": "Oil & gas, construction, public sector, education, SME ops."
+      },
+      {
+        "value": "24/7",
+        "label": "AI-powered systems",
+        "sub": "Always-on automation with human escalation built in."
+      }
+    ],
+    "cta": {
+      "eyebrow": "Start the conversation",
+      "heading": "Tell us where AI fits.",
+      "body": "Early enquiries get a free scoping call. We'll tell you up front whether AI is the right tool for your problem — or whether automation, dashboards, or a process fix would be cheaper and faster.",
+      "ctaPrimary": "Email us",
+      "ctaSecondary": "Or book a free systems audit →"
+    }
+  },
+  "faqPage": {},
+  "serviceDetail": {
+    "heroAuditCta": "Get a free systems audit",
+    "heroSeeHow": "See how it works ↓",
+    "eyebrowWhyItMatters": "Why it matters",
+    "eyebrowHowWeWork": "How we work",
+    "eyebrowWhatYouGet": "What you get",
+    "eyebrowByTheNumbers": "By the numbers",
+    "eyebrowWhereItFits": "Where it fits",
+    "eyebrowCommonQuestions": "Common questions",
+    "painHeadingDefault": "The cost of staying manual.",
+    "processHeadingDefault": "Live in weeks.",
+    "builtOn": "Built on",
+    "deliverablesHeadingDefault": "Built to last.",
+    "deliverablesIntro": "Every system ships with what you actually need on day one — not bolted-on later, not behind a future upsell.",
+    "recentBuildsEyebrowDefault": "Recent builds",
+    "recentBuildsDisclaimer": "Stylized previews — examples of what we ship, not specific client work",
+    "buildVsBuyEyebrowDefault": "Decision framework",
+    "category": "Category",
+    "buildVsBuySaasDefault": "Buy SaaS",
+    "buildVsBuyHireDefault": "Hire developer",
+    "commitmentEyebrowDefault": "The engagement",
+    "whatWeDo": "What we do",
+    "whatYouDo": "What you do",
+    "youBadge": "You",
+    "totalAsk": "Total ask",
+    "compareEyebrowDefault": "Why not just buy SaaS?",
+    "compareLeftDefault": "Off-the-shelf SaaS",
+    "compareRightDefault": "FutureLine custom build",
+    "statsHeadingDefault": "What clients gain.",
+    "industriesHeadingDefault": "Built for your industry.",
+    "faqsHeadingDefault": "Things we hear.",
+    "ctaEyebrowDefault": "05 — Start",
+    "ctaHeadingDefault": "Ready when you are.",
+    "ctaSubDefault": "A free systems audit. No commitment. Just an honest look at what's slowing you down.",
+    "ctaPrimaryDefault": "Get a free audit",
+    "spy": {
+      "whyItMatters": "Why it matters",
+      "howWeWork": "How we work",
+      "whatYouGet": "What you get",
+      "recentBuilds": "Recent builds",
+      "buildBuyHire": "Build, buy, or hire?",
+      "theEngagement": "The engagement",
+      "whyNotSaas": "Why not SaaS?",
+      "byTheNumbers": "By the numbers",
+      "whereItFits": "Where it fits",
+      "commonQuestions": "Common questions",
+      "start": "Start"
+    }
+  },
+  "servicePages": {
+    "customSoftware": {
+      "eyebrow": "FL · Lab · Custom Software",
+      "heading": "Software that fits.",
+      "subhead": "Purpose-built platforms shaped around how your team actually works. Live in 6–10 weeks. You own the code. No licence tax — ever.",
+      "painHeading": "Where custom builds go wrong.",
+      "deliverablesHeading": "What you walk away with.",
+      "processHeading": "The 6–10 week build.",
+      "processSubhead": "Working software every Friday. No long silences, no surprise reveals — your team uses each iteration as it’s built, so adoption starts before launch.",
+      "techStack": "Next.js · Postgres · AWS — or your stack of choice",
+      "marqueeItems": [
+        "Custom platforms",
+        "Live in 6–10 weeks",
+        "You own the code",
+        "Weekly demos",
+        "Built around your team"
+      ],
+      "painPoints": [
+        {
+          "stat": "2.7×",
+          "headline": "Scope creep.",
+          "body": "Most custom builds run 2.7× over their original budget. Scope quietly expands mid-build; nobody flags it until invoice 4. A defined budget with phased delivery beats a \"rolling estimate\" every time."
+        },
+        {
+          "stat": "1 in 3",
+          "headline": "The freelancer ghost.",
+          "body": "1 in 3 single-developer builds end with the dev disappearing — usually right when production starts. Stack tour. Codebase no one can read. Half a system, no one to finish it."
+        },
+        {
+          "stat": "60%",
+          "headline": "The prototype trap.",
+          "body": "60% of proof-of-concept builds never reach production. The demo wowed the board; the Figma looked great. Then three months pass with no working software. Demos aren’t software."
+        },
+        {
+          "stat": "40+ hrs/yr",
+          "headline": "The glue tax.",
+          "body": "40+ hours per person, per year, spent maintaining brittle integrations between 5+ SaaS tools — Zapier scripts, manual exports, CSV reconciliation. One vendor pricing change and the stack crawls."
+        }
+      ],
+      "process": [
+        {
+          "when": "Weeks 1–2",
+          "title": "Discovery",
+          "body": "We sit with your team. Map the workflow, the language, the edges. Output: signed scope doc + system map + prioritized risk register."
+        },
+        {
+          "when": "Weeks 2–3",
+          "title": "Design & prototype",
+          "body": "Interactive prototypes — not specs. You click through the system before it’s built. Output: clickable Figma, demo walkthrough, costed change-log."
+        },
+        {
+          "when": "Weeks 3–8",
+          "title": "Build & weekly demos",
+          "body": "Real software every Friday. Your team uses it as it’s built. Output: weekly working build, release notes, defect tracker."
+        },
+        {
+          "when": "Weeks 8–10",
+          "title": "Launch & handover",
+          "body": "Live system, trained team, documented codebase. Output: GitHub repo transferred to your org, runbook, handover demo."
+        }
+      ],
+      "deliverables": [
+        "Operations dashboards built around your KPIs",
+        "Field and mobile apps that work offline",
+        "Client and customer portals",
+        "Internal management tools that replace 2–3 SaaS subscriptions",
+        "Integrations with your existing stack — no Zapier glue",
+        "Full source code, transferred to your GitHub on day 1",
+        "Documentation, trained team, signed handover demo"
+      ],
+      "recentBuilds": {
+        "eyebrow": "Examples",
+        "headline": "Built for what you actually run.",
+        "intro": "Each one is shaped around the team using it — not the SaaS it replaces. Click any tile for the full picture.",
+        "tiles": [
+          {
+            "kind": "dashboard",
+            "industry": "Oil & Gas",
+            "title": "HSE operations dashboard",
+            "subtitle": "Real-time KPIs, incident routing, contractor compliance — one screen leadership actually opens.",
+            "detail": {
+              "lead": "One screen for the team running ops. Real-time KPIs, contractor compliance, incident routing — everything that matters to safety in operations, finally in one place.",
+              "whoItsFor": "Oil & gas operators running field teams across multiple sites, with HSE compliance pressure and contractor accountability that can’t be tracked in spreadsheets.",
+              "replaces": "Excel incident logs, PDF permit forms, WhatsApp HSE walks, the safety officer’s clipboard, and the three vendor dashboards nobody opens.",
+              "features": [
+                "Real-time incident routing with auto-escalation by severity",
+                "Contractor compliance tracking — certs, inductions, permit history",
+                "HSE KPI dashboards built around YOUR safety scorecard",
+                "Audit-grade logs — every decision traceable, defensible",
+                "Permit-to-work workflows that route, notify, and close in minutes",
+                "Offline-first field app for inspectors and supervisors"
+              ],
+              "results": [
+                "60% reduction in compliance prep time before audits",
+                "Zero missed audits across the operational site portfolio",
+                "HSE team manages 3× the contractor headcount with the same staff"
+              ]
+            }
+          },
+          {
+            "kind": "mobile",
+            "industry": "Construction",
+            "title": "Field app, offline-first",
+            "subtitle": "Site diaries, snags, sub-approvals. Works without signal — syncs the moment the foreman walks back to the trailer.",
+            "detail": {
+              "lead": "What the foreman actually uses on site. Site diaries, snags, sub-approvals — all without a cellular signal. Syncs the moment they walk back to the trailer.",
+              "whoItsFor": "Construction GCs, subcontractors, and civil engineering teams running multi-site projects with field crews who don’t have time for office software.",
+              "replaces": "WhatsApp diary chats, paper snag lists, email approval chains, the giant Excel everyone’s afraid to open, and the generic platforms like Procore that nobody opens on site.",
+              "features": [
+                "Offline-first sync — works without signal, queues then uploads when reconnected",
+                "Photo capture with geo-tag and timestamp on every entry",
+                "Snag assignment with photo evidence and resolution tracking",
+                "Sub-approval routing with one-tap accept or reject",
+                "Daily site report auto-generated from the day’s entries — no end-of-day admin",
+                "Mobile-first UI built for gloves, dust, and sun glare"
+              ],
+              "results": [
+                "~4 hrs/day reclaimed per site foreman",
+                "Complete site diary on day 1 — no week-end catch-up",
+                "Zero lost snags between site and office"
+              ]
+            }
+          },
+          {
+            "kind": "portal",
+            "industry": "Public Sector",
+            "title": "Citizen service portal",
+            "subtitle": "Public-facing service requests + internal case management. Compliance-ready out of the box.",
+            "detail": {
+              "lead": "What public service should look like in 2026. Citizens self-serve. Staff manage cases, not queues. Compliance is built in, not bolted on.",
+              "whoItsFor": "Municipalities, ministries, regulatory authorities, and public-facing service delivery teams handling hundreds or thousands of requests per month.",
+              "replaces": "Paper application forms, phone-call queues, generic e-gov framework rollouts, vendor-locked CMS dragging audit trails behind it.",
+              "features": [
+                "Service request intake with conditional logic and document upload",
+                "Citizen-facing status tracking — \"where’s my application?\"",
+                "Internal case management with assignee routing and SLA timers",
+                "Compliance audit trail — every action timestamped and attributable",
+                "WCAG-AA accessibility on day one — not an afterthought",
+                "Multilingual UI (Arabic + English) with RTL support built in"
+              ],
+              "results": [
+                "Service times cut by ~70% across the live service portfolio",
+                "Staff workload halved — same throughput with half the headcount",
+                "Citizen satisfaction scores up 40 points within two quarters"
+              ]
+            }
+          },
+          {
+            "kind": "crm",
+            "industry": "SMEs Scaling Fast",
+            "title": "Custom CRM + ops console",
+            "subtitle": "Replaces 2–3 SaaS subs. Built around your stages, your terminology, your handoffs. No per-seat tax.",
+            "detail": {
+              "lead": "Replace your stack with one system that speaks your team’s language. Pipeline stages match your sales process. Reports match what leadership actually asks for. No per-seat tax that punishes hiring.",
+              "whoItsFor": "Founders and ops leads at SMEs (10–200 people) who’ve outgrown HubSpot/Pipedrive and dread the next per-seat renewal.",
+              "replaces": "2–3 SaaS subs bolted together with Zapier — usually a CRM, a project tool, and a billing tool, plus the Excel everyone hates.",
+              "features": [
+                "Pipeline stages built around YOUR sales motion — not Salesforce’s",
+                "Ops dashboard showing live revenue, deal stage, and team capacity",
+                "Billing integration with your accounting tool of choice",
+                "Your terminology — deals, accounts, projects, tickets, however you name them",
+                "Role-based access without enterprise-tier pricing",
+                "API + integrations to whatever’s already in your stack"
+              ],
+              "results": [
+                "1 system replacing 2–3 subscriptions — ~$25k+/yr eliminated",
+                "Per-seat tax killed — hire freely without budget conversations",
+                "Sales team adoption 95%+ in week 1 (vs ~30% on HubSpot)"
+              ]
+            }
+          }
+        ]
+      },
+      "buildVsBuy": {
+        "eyebrow": "Decision framework",
+        "headline": "Build, buy, or hire?",
+        "intro": "Three honest paths. Different cost, speed, fit, and risk. We’ll be the first to tell you when one of the other two is the right call for you.",
+        "rows": [
+          {
+            "label": "Speed to live",
+            "saas": "Days to a generic instance.",
+            "hire": "6–18 months — recruit, ramp, build.",
+            "futureline": "6–10 weeks. Committed up front, not a rolling estimate."
+          },
+          {
+            "label": "Cost shape",
+            "saas": "Recurring fee, every year. Forever.",
+            "hire": "Salary + benefits + recruiter fee. Every year.",
+            "futureline": "45–75% cheaper than SaaS over 3 years. Paid once, owned forever."
+          },
+          {
+            "label": "Fit to your team",
+            "saas": "30–60%. Built for everyone. Fits no one perfectly.",
+            "hire": "60–90%. Depends on who you hire.",
+            "futureline": "99%+. Shaped around your day-to-day from day one."
+          },
+          {
+            "label": "Ownership",
+            "saas": "0%. Vendor owns the code, the roadmap, the data model.",
+            "hire": "Varies. Depends on the contract.",
+            "futureline": "100%. Source code transferred to your GitHub on day 1."
+          },
+          {
+            "label": "Risk when things go wrong",
+            "saas": "Vendor sunsets, raises prices, kills features — you migrate or you’re stuck.",
+            "hire": "Single point of failure. Devs leave, codebase orphaned.",
+            "futureline": "Documented, supported, owned. You can hire anyone to maintain it."
+          },
+          {
+            "label": "AI readiness",
+            "saas": "Limited to whatever AI features the vendor decides to bolt on.",
+            "hire": "Depends on the dev. AI integration adds months and risk.",
+            "futureline": "Your data, your structure, AI-ready from day 1. Plug in any model."
+          }
+        ]
+      },
+      "commitment": {
+        "eyebrow": "The engagement",
+        "headline": "We do the work. You own the result.",
+        "intro": "Here’s exactly what sits with you — with honest hour estimates.",
+        "weDo": [
+          "Map your workflow and write down what success looks like",
+          "Design and prototype — clickable demo before any code ships",
+          "Build with weekly Friday demos — no long silences, no surprise reveals",
+          "Test, document, train — handover demo signed off by your team lead",
+          "You own the GitHub repo, infrastructure, and credentials — from day 1, not handover"
+        ],
+        "youDo": [
+          {
+            "item": "Discovery — your operations lead walks us through the workflow",
+            "time": "Weeks 1–2 · ~3 hrs/week"
+          },
+          {
+            "item": "Demo feedback — review each Friday build, flag what’s off",
+            "time": "Weeks 3–8 · ~1 hr/week"
+          },
+          {
+            "item": "Sign-off moments — scope, design, launch",
+            "time": "Throughout · 3 × ~30 min"
+          },
+          {
+            "item": "Training — your admin learns the system end-to-end",
+            "time": "Week 10 · ~4 hrs total"
+          }
+        ],
+        "youDoTotal": "~17 hours of your team’s time, across 10 weeks."
+      },
+      "stats": [
+        {
+          "value": "6–10 wks",
+          "label": "Time to launch",
+          "sub": "Most builds live in 6–10 weeks. Committed up front — not a rolling estimate."
+        },
+        {
+          "value": "12 mo",
+          "label": "ROI window",
+          "sub": "Most clients recover the build cost within 12 months of go-live."
+        },
+        {
+          "value": "$0",
+          "label": "Recurring licence fees",
+          "sub": "You own the code. No subscription tax, ever."
+        },
+        {
+          "value": "100%",
+          "label": "Yours, forever",
+          "sub": "Source code, documentation, infrastructure — transferred outright on handover."
+        }
+      ],
+      "industries": [
+        {
+          "name": "Oil & Gas",
+          "pain": "Custom HSE platforms and contractor management — replace 2–3 SaaS subscriptions with one system your field teams actually use."
+        },
+        {
+          "name": "Construction",
+          "pain": "Project management and snag tracking built for the foreman — without the Procore subscription or the bolted-on workarounds."
+        },
+        {
+          "name": "Government & Public Sector",
+          "pain": "Citizen portals and case-management tools that meet compliance and ship faster than the framework-vendor route — owned, not rented."
+        },
+        {
+          "name": "Education & Training",
+          "pain": "Student portals and LMS platforms built around your curriculum — no Moodle force-fit, no per-seat pricing as you grow."
+        },
+        {
+          "name": "SMEs Scaling Fast",
+          "pain": "Custom CRMs and operations dashboards that grow with you — without the per-seat tax that punishes hiring."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Custom software sounds expensive — we can’t afford it.",
+          "a": "Compare it against 3 years of SaaS fees for tools that don’t fit. Most clients recover the build cost within 12 months — and then pay nothing year-on-year. We also offer phased delivery so the investment is spread across the build timeline."
+        },
+        {
+          "q": "What does a custom build actually cost?",
+          "a": "Most builds land between $25k–$120k depending on scope, integrations, and complexity. We commit to a fixed price after the free audit — no rolling estimates, no surprise invoices. Phased delivery means you can spread the investment across the build, and most clients recover the build cost inside 12 months of go-live. From then on, your operating cost is $0 — you own the code."
+        },
+        {
+          "q": "What if requirements change during the build?",
+          "a": "They always do — and we build for it. Our process runs weekly demos and prototyping before coding, so you’re always reviewing working software, not specs on paper. Changes caught early cost almost nothing."
+        },
+        {
+          "q": "Where does the code live? Who owns the repo?",
+          "a": "Your code lives in your GitHub organisation from day one. We’re a collaborator during the build; you’re the owner at handover. There’s no FutureLine-owned \"master copy\" — what’s in your repo IS the software."
+        },
+        {
+          "q": "How does this compare to hiring a developer in-house or a freelancer?",
+          "a": "Hiring is 6–18 months from advert to productive output, plus salary, benefits, and the risk of them leaving. A freelancer is cheap but a single point of failure. We’re a small team with a documented process, a defined budget, and a handover plan. The output is yours; we’re not."
+        },
+        {
+          "q": "What happens if something breaks after launch?",
+          "a": "You have a documented, supported codebase — not a black box. We offer support packages and can train your own technical staff to maintain the system. You’re never dependent on us to keep the lights on."
+        },
+        {
+          "q": "How long will it actually take?",
+          "a": "Most projects go live in 6–10 weeks depending on complexity. We commit to a delivery timeline before we start — not a rolling estimate. If we miss it, we own it."
+        }
+      ],
+      "cta": {
+        "eyebrow": "06 — Start",
+        "headline": "Stop renting. Own.",
+        "sub": "Live in 6–10 weeks. Yours forever. Start with a free audit — we’ll map your stack, find what’s costing you most, and tell you what’s worth building yourself (and what isn’t).",
+        "primaryLabel": "Get a free audit",
+        "secondaryLabel": "All services"
+      }
+    },
+    "consultation": {
+      "eyebrow": "FL · Lab · Consultation",
+      "heading": "Honest second opinion.",
+      "subhead": "A plain-English audit of your current systems. No commission, no vendor bias — just an honest read on what to fix first and what to leave alone.",
+      "painHeading": "Where bad advice costs you.",
+      "processHeading": "The 2–3 week audit.",
+      "processSubhead": "Fast enough to act on. Long enough to be evidence-based — not a hot take from a one-hour call.",
+      "deliverablesHeading": "What you walk away with.",
+      "marqueeItems": [
+        "Independent advice",
+        "No commission",
+        "Plain English",
+        "Roadmap not pitch",
+        "Free first session"
+      ],
+      "painPoints": [
+        {
+          "stat": "100%",
+          "headline": "Biased vendor advice.",
+          "body": "Every vendor demo, agency pitch, and comparison site is funded by someone who wants to sell you something. None of them make money telling you what you actually need."
+        },
+        {
+          "stat": "70%",
+          "headline": "IT projects miss the mark.",
+          "body": "Roughly 70% of business technology projects fail to deliver the value they promised — usually because nobody validated the strategy before the build started."
+        },
+        {
+          "stat": "6 mo",
+          "headline": "Analysis paralysis.",
+          "body": "The volume of options and conflicting advice freezes decision-makers — six months becomes a year, and you’re still on the old system. An independent expert cuts through the noise."
+        },
+        {
+          "stat": "5 yrs",
+          "headline": "The wrong-tool tax.",
+          "body": "Pick the wrong SaaS and you’re locked in for 3–5 years of recurring fees, data migration debt, and workarounds. One free first session can prevent it."
+        }
+      ],
+      "process": [
+        {
+          "when": "Week 1",
+          "title": "Context & discovery",
+          "body": "We listen. What you do, what hurts, what you’ve tried, where the business is going. Output: discovery notes, decision register, list of assumptions to test."
+        },
+        {
+          "when": "Week 2",
+          "title": "Analysis",
+          "body": "We map the current stack, the workflows, the real and hidden costs, and the obvious gaps. Output: stack map, cost analysis, gap inventory."
+        },
+        {
+          "when": "Week 2–3",
+          "title": "Strategy & report",
+          "body": "A clear written report. Priorities, sequencing, budget bands, and what to NOT do. Plain English throughout. Output: written report + executive summary."
+        },
+        {
+          "when": "Ongoing",
+          "title": "Implementation support",
+          "body": "Optional follow-on calls during execution. We stay independent — we don’t build it unless you ask separately. Output: follow-on memo per session."
+        }
+      ],
+      "deliverables": [
+        "A plain-English audit of your current stack — every tool, real cost, hidden cost",
+        "A technology roadmap aligned to where the business is actually going",
+        "Software selection support — without vendor bias or commission",
+        "Pre-investment review for big software decisions before you sign anything",
+        "A written report you own — share it with your board, your investors, your team"
+      ],
+      "commitment": {
+        "eyebrow": "The engagement",
+        "headline": "We do the work. You get the right call.",
+        "intro": "Here’s exactly what sits with you — with honest hour estimates.",
+        "weDo": [
+          "Listen first — understand the business strategy and where it’s going",
+          "Map your stack — every tool, workflow, real cost, hidden cost",
+          "Analyze independently — no vendor bias, no software to sell",
+          "Write the report — priorities, sequencing, budget bands, what to NOT do",
+          "Walk it through with you, your board, your finance team — if you want"
+        ],
+        "youDo": [
+          {
+            "item": "Discovery interview — your leadership walks us through the business",
+            "time": "Week 1 · ~3 hrs total"
+          },
+          {
+            "item": "Stack walk-through — your IT or ops lead shows us what’s there",
+            "time": "Week 1–2 · ~2 hrs"
+          },
+          {
+            "item": "Mid-engagement check-in — clarify findings, flag gaps",
+            "time": "Week 2 · ~1 hr"
+          },
+          {
+            "item": "Report walkthrough — sign-off and Q&A",
+            "time": "Week 3 · ~1.5 hrs"
+          }
+        ],
+        "youDoTotal": "~7 hours of your team’s time, across 2–3 weeks."
+      },
+      "compare": {
+        "eyebrow": "Why not just listen to vendors?",
+        "headline": "Why our advice is different.",
+        "intro": "Every vendor demo, agency pitch, and comparison site is \"free\" — because someone’s being paid downstream when you sign. Here’s the trade you’re making.",
+        "leftHeader": "Vendor-led advice",
+        "rightHeader": "FutureLine independent",
+        "rows": [
+          {
+            "label": "Skin in the game",
+            "saas": "Sells you software. Paid to recommend their tool.",
+            "futureline": "No software to sell. No commission. No vendor partnerships. Not even a referral fee."
+          },
+          {
+            "label": "Pattern recognition",
+            "saas": "Knows one toolset deeply — theirs.",
+            "futureline": "Cross-sector experience across SaaS, custom builds, and in-house teams."
+          },
+          {
+            "label": "Telling you to wait",
+            "saas": "Won’t tell you to skip the buy. Their job is to close.",
+            "futureline": "Routinely recommends \"don’t buy yet\" or \"just use what you already have.\""
+          },
+          {
+            "label": "Whose win matters",
+            "saas": "Win = you sign a contract.",
+            "futureline": "Win = you get the right answer, even when that answer is \"do nothing\"."
+          },
+          {
+            "label": "Lock-in created",
+            "saas": "Recommendations turn into 3–5 year SaaS commitments.",
+            "futureline": "You walk away with the report. Owe us nothing. Use anyone to act on it."
+          }
+        ]
+      },
+      "stats": [
+        {
+          "value": "$0",
+          "label": "Vendor commission",
+          "sub": "No kickbacks from any software vendor. Ever."
+        },
+        {
+          "value": "2–3 wks",
+          "label": "Audit duration",
+          "sub": "From kickoff to written report — fast enough to act on."
+        },
+        {
+          "value": "Free",
+          "label": "First session",
+          "sub": "A free initial consultation. No pitch deck, no hard sell."
+        },
+        {
+          "value": "5+",
+          "label": "Sectors served",
+          "sub": "Oil & gas, construction, public sector, education, SME ops — cross-pollinated insight."
+        }
+      ],
+      "industries": [
+        {
+          "name": "Oil & Gas",
+          "pain": "HSE tech, field ops, and compliance strategy — evaluated independently, vendor by vendor."
+        },
+        {
+          "name": "Construction",
+          "pain": "Project management and site-operations tech — evaluated against your actual workflow, not the vendor’s demo."
+        },
+        {
+          "name": "Government & Public Sector",
+          "pain": "Citizen service transformation and legacy system strategy — realistic, evidence-based, vendor-independent."
+        },
+        {
+          "name": "Education & Training",
+          "pain": "Student experience, LMS, and admin strategy — aligned to your institution, not the LMS vendor’s roadmap."
+        },
+        {
+          "name": "SMEs Scaling Operations",
+          "pain": "What to build now, what to defer, how to scale without technical debt — independent of any tool’s commercial interest."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "We already have an IT team — why would we need consultation?",
+          "a": "Internal IT teams manage what’s there. Strategic consultation is about deciding what should be there next — and why. Most IT teams don’t have the business strategy context or cross-sector experience to make those calls independently."
+        },
+        {
+          "q": "How is this different from talking to a vendor?",
+          "a": "We don’t sell software. We don’t receive commission. We have no financial interest in which tool you choose or whether you build or buy. Our only interest is giving you the right advice — that’s what keeps clients coming back."
+        },
+        {
+          "q": "What does the written report actually contain?",
+          "a": "A 15–30 page document in plain English. Sections: where you are today (stack map, real and hidden costs, gaps), where you should go (roadmap, sequencing, budget bands), what to NOT do (the dead ends to avoid), and a one-page executive summary you can hand to your board. You own it. Share it with anyone."
+        },
+        {
+          "q": "What does this cost?",
+          "a": "Most consultations land between $4k–$15k depending on scope and stack complexity. Fixed price after the free first session — no rolling estimates. The first session itself is genuinely free. No deck, no commitment."
+        },
+        {
+          "q": "What if we just need a quick second opinion?",
+          "a": "That’s often the most valuable engagement. A one-session consult on a single decision (build vs buy, vendor X vs Y, scope of an upcoming project) can save weeks. Reach out — we’ll tell you up front if you even need us."
+        },
+        {
+          "q": "Will the consultation push us toward your other services?",
+          "a": "Only when it’s the right answer. We routinely recommend off-the-shelf tools, in-house builds, or doing nothing yet. If the answer is build, we’ll tell you — and you’re free to take that to anyone."
+        }
+      ],
+      "cta": {
+        "eyebrow": "07 — Start",
+        "headline": "Get an honest read.",
+        "sub": "Plain-English audit. 2–3 weeks. No commission, no hard sell. The first session is free — we listen, ask sharp questions, and tell you what we’d do if it were our business.",
+        "primaryLabel": "Book a free session",
+        "secondaryLabel": "All services"
+      }
+    },
+    "automations": {
+      "eyebrow": "FL · Lab · Automations",
+      "heading": "Robots do the boring.",
+      "subhead": "AI-powered workflows that eliminate manual work, cut errors, and give your team their day back. Live in weeks. Owned forever.",
+      "painHeading": "Where manual work is bleeding you.",
+      "processHeading": "First automation live in week 2.",
+      "processSubhead": "One automation at a time, in production. You see value before the project ends — not at handover.",
+      "techStack": "Built on n8n, Make, custom Python — or whatever fits your stack",
+      "deliverablesHeading": "What goes on autopilot.",
+      "marqueeItems": [
+        "AI workflows",
+        "Approval routing",
+        "Data sync",
+        "Auto-reports",
+        "No more chasing"
+      ],
+      "painPoints": [
+        {
+          "stat": "19 hrs/wk",
+          "headline": "Wasted hours.",
+          "body": "The average small-business team spends 19 hours per week on tasks a machine could do — data entry, copy-paste between tools, chasing approvals."
+        },
+        {
+          "stat": "1 in 20",
+          "headline": "Human error loops.",
+          "body": "Every time a human re-enters data, the error rate is 1 in 20. Across thousands of records, your database is degrading. Automation is error-free, every time."
+        },
+        {
+          "stat": "40%",
+          "headline": "Staff doing robot work.",
+          "body": "40% of most job roles involve tasks that could be fully automated today. Your best people are spending their day on tasks that add zero unique value."
+        },
+        {
+          "stat": "$30k/yr",
+          "headline": "The hidden bill.",
+          "body": "Manual work doesn’t show up on an invoice — but it costs the average SME ~$30k per year, per employee, in time that could be automated. Multiply by your headcount."
+        }
+      ],
+      "process": [
+        {
+          "when": "Week 1",
+          "title": "Process audit",
+          "body": "We shadow your operation. Find the repetitive tasks, the silent waste, the loops worth automating. Output: process map, priority list, savings forecast."
+        },
+        {
+          "when": "Week 2",
+          "title": "Design & agree",
+          "body": "We propose what to automate, in what order, what stays human. You approve before any code ships. Output: signed scope, automation specs."
+        },
+        {
+          "when": "Weeks 2–4",
+          "title": "Build & ship",
+          "body": "Each automation goes live one at a time, with logging and monitoring built in. Output: weekly working automations, runbooks, defect tracker."
+        },
+        {
+          "when": "Week 4+",
+          "title": "Live & maintained",
+          "body": "First month monitored free. Then optional support. Output: GitHub repo, escalation playbook, signed handover demo."
+        }
+      ],
+      "deliverables": [
+        "Approval and sign-off workflows that route themselves",
+        "Data sync between your tools — no more copy-paste",
+        "Automated report generation — daily, weekly, monthly",
+        "Client and customer communications on autopilot",
+        "AI decision routing — for the calls humans hate making the same way 100 times",
+        "Full audit trail and human escalation paths — every action logged"
+      ],
+      "recentBuilds": {
+        "eyebrow": "Examples",
+        "headline": "Built for what you actually run.",
+        "intro": "Each one is shaped around the workflow it’s replacing — not bolted on. Click any tile for the full picture.",
+        "tiles": [
+          {
+            "kind": "dashboard",
+            "industry": "Multi-stage approvals",
+            "title": "Approval workflow router",
+            "subtitle": "Routes, escalates, notifies, closes. Audit trail on every step. Days of email tag → minutes.",
+            "detail": {
+              "lead": "The end of the approval email chain. Routes by rules, escalates on timeout, notifies the right people, closes when signed. Audit-grade trail on every step.",
+              "whoItsFor": "Operations teams drowning in multi-step approvals — purchase orders, leave requests, HSE permits, expense sign-offs, contractor onboarding.",
+              "replaces": "Email chains, WhatsApp groups, signed PDFs floating between inboxes, the Excel that tracks \"who needs to sign next\".",
+              "features": [
+                "Multi-stage routing with escalation on timeout",
+                "Push, email, or in-app notifications by role",
+                "Full audit trail — who, what, when, why",
+                "Mobile sign-off — approvers can act from the field",
+                "Branches by request type — different approval flow for a purchase order vs a leave request",
+                "Integrates with your CRM, HR system, or finance tools"
+              ],
+              "results": [
+                "Approval cycle: 2–3 days → 2–3 hours",
+                "Zero \"did you sign that?\" follow-ups",
+                "Audit prep cut from days to minutes"
+              ]
+            }
+          },
+          {
+            "kind": "portal",
+            "industry": "Data plumbing",
+            "title": "Data sync engine",
+            "subtitle": "Keeps your tools in agreement. No more copy-paste, no more Friday reconciliations.",
+            "detail": {
+              "lead": "One source of truth across every tool you already use. Data flows on its own — accounting talks to CRM, CRM talks to projects, projects talk to billing. No human in the middle.",
+              "whoItsFor": "Teams running 3+ SaaS tools that don’t talk to each other — and burning hours every week on copy-paste reconciliation.",
+              "replaces": "Manual exports, brittle no-code flows that break on every vendor update, the intern doing CSV imports on Friday, the spreadsheet \"master copy\" everyone secretly edits.",
+              "features": [
+                "Two-way sync — change it once, it updates everywhere",
+                "Conflict rules you control — pick which tool wins when records disagree",
+                "Error queue — broken records flagged, not silently dropped",
+                "Field mapping — your terms, not the vendor’s",
+                "Handles vendor rate limits — automatic retries on failure",
+                "Full activity log for every record changed"
+              ],
+              "results": [
+                "~12 hrs/week reclaimed across the ops team",
+                "Friday reconciliation rituals retired",
+                "Data quality measurably up — no more \"which number is right?\""
+              ]
+            }
+          },
+          {
+            "kind": "crm",
+            "industry": "AI-powered triage",
+            "title": "AI decision router",
+            "subtitle": "Reads the inbound. Routes it. Drafts a reply. Escalates the edge cases to a human.",
+            "detail": {
+              "lead": "Inbound that used to need a human reading every line. The router triages by intent, routes by rules, drafts a first reply, and flags only the edge cases for a person. The 100 calls humans hate making the same way — gone.",
+              "whoItsFor": "Support teams, ops teams, and customer-facing functions handling high volumes of inbound that follow patterns — tickets, emails, forms, applications.",
+              "replaces": "The triage tray, the \"we’ll get back to you within 48 hours\" queue, the junior staffer copy-pasting the same answer 100 times a day.",
+              "features": [
+                "Reads what each request is really about — your categories, your data",
+                "Smart routing — by team, by priority, by language",
+                "AI-drafted reply — a human approves or edits before send",
+                "Escalates the uncertain cases to a person automatically",
+                "Learns continuously from human corrections",
+                "Plug in any model — OpenAI, Anthropic, open source, or self-hosted"
+              ],
+              "results": [
+                "First-response time: hours → minutes",
+                "~70% of inbound handled without human touch",
+                "Triage team freed up for the actual hard cases"
+              ]
+            }
+          },
+          {
+            "kind": "mobile",
+            "industry": "Field operations",
+            "title": "Field-triggered automation",
+            "subtitle": "A worker scans a barcode, snaps a photo, taps a button — the whole back-office workflow fires.",
+            "detail": {
+              "lead": "The field is where the work happens. A scan, a photo, a tap — and the whole back-office sequence fires. No phone-call relays, no end-of-day data entry, no waiting on the office.",
+              "whoItsFor": "Field teams in oil & gas, construction, logistics, maintenance — where the action happens away from a desk.",
+              "replaces": "Phone calls back to the office, paper forms collected at end of shift, the next-morning data-entry catch-up, the dispatcher manually creating tickets.",
+              "features": [
+                "Works without signal — saves locally, uploads when reconnected",
+                "Barcode + photo + GPS capture in one tap",
+                "Fires off the next steps automatically: tickets, dispatch, billing, restock",
+                "Push notifications to the right person, not the team channel",
+                "Audit trail with geo-tag and timestamp on every action",
+                "Configurable per role — driver, supervisor, technician"
+              ],
+              "results": [
+                "Field-to-office latency: hours → seconds",
+                "Daily reconciliation step eliminated",
+                "Faster billing, faster dispatch, fewer disputes"
+              ]
+            }
+          }
+        ]
+      },
+      "buildVsBuy": {
+        "eyebrow": "Decision framework",
+        "headline": "Off-the-shelf, hire a dev, or us?",
+        "intro": "Three honest paths. Different cost, reliability, and ceiling. We’ll tell you when an off-the-shelf tool is genuinely the right call — it sometimes is.",
+        "saasHeader": "Off-the-shelf tool",
+        "hireHeader": "Hire a developer",
+        "rows": [
+          {
+            "label": "Setup speed",
+            "saas": "Days. Drag-and-drop in a browser.",
+            "hire": "Weeks. Devs write scripts in their own style.",
+            "futureline": "1–2 weeks. First automation in production by week 2 — committed up front."
+          },
+          {
+            "label": "Cost shape",
+            "saas": "Per-task fees. Costs scale linearly with volume.",
+            "hire": "Hourly + ongoing maintenance retainer.",
+            "futureline": "Project fee. No per-task tax — runs free forever after."
+          },
+          {
+            "label": "Reliability at scale",
+            "saas": "Breaks at edge cases. 10k+ tasks/month gets expensive and brittle.",
+            "hire": "Depends on the dev’s discipline and testing.",
+            "futureline": "Logged, monitored, escalated. Built for production from day 1."
+          },
+          {
+            "label": "Maintenance burden",
+            "saas": "You maintain the flows. Vendor updates break them.",
+            "hire": "You depend on the dev (or a replacement) for every change.",
+            "futureline": "Documented. Your team can extend. Optional support package — not a dependency."
+          },
+          {
+            "label": "AI capabilities",
+            "saas": "Add-on credits. Limited integrations. One model option.",
+            "hire": "Depends on the dev’s machine-learning experience.",
+            "futureline": "Use any model. Your data, your prompts, your fallback rules. On-prem option."
+          }
+        ]
+      },
+      "commitment": {
+        "eyebrow": "The engagement",
+        "headline": "We do the work. You own the result.",
+        "intro": "Here’s exactly what sits with you — with honest hour estimates.",
+        "weDo": [
+          "Shadow your operation, map every loop, identify the highest-impact automations",
+          "Build each automation one at a time — live in production, not in a demo",
+          "Logging, error handling, human escalation paths — built in, not bolted on",
+          "Monitor in production for the first month free — handed over once it’s stable",
+          "You own the code, runbooks, and credentials — from day 1, not handover"
+        ],
+        "youDo": [
+          {
+            "item": "Process audit walk-through — show us where time bleeds",
+            "time": "Week 1 · ~3 hrs total"
+          },
+          {
+            "item": "Priority list sign-off — what we automate, in what order",
+            "time": "Week 2 · ~1 hr"
+          },
+          {
+            "item": "Weekly check-ins — flag what’s off, confirm the next loop",
+            "time": "Weeks 2–4 · ~30 min/week"
+          },
+          {
+            "item": "Handover — your admin learns the runbooks and escalation paths",
+            "time": "Week 4 · ~2 hrs total"
+          }
+        ],
+        "youDoTotal": "~8 hours of your team’s time, across 4 weeks."
+      },
+      "stats": [
+        {
+          "value": "2–4 wks",
+          "label": "First go-live",
+          "sub": "First automation in production within two weeks. Whole project lives in 4."
+        },
+        {
+          "value": "Error-free",
+          "label": "Quality",
+          "sub": "Automated steps don’t mistype, don’t forget, don’t miss days."
+        },
+        {
+          "value": "$0",
+          "label": "Per-task fees",
+          "sub": "No per-task pricing like off-the-shelf automation tools. Once it’s built, it runs free forever."
+        },
+        {
+          "value": "24/7",
+          "label": "Runs without you",
+          "sub": "Automations don’t take days off. They work the night shift, every shift."
+        }
+      ],
+      "industries": [
+        {
+          "name": "Oil & Gas",
+          "pain": "Permit routing, HSE incident escalation, shift handover notifications — automated to cut hours of admin per shift."
+        },
+        {
+          "name": "Construction",
+          "pain": "Snag assignment, material order approvals, subcontractor payment workflows — moving on their own."
+        },
+        {
+          "name": "Government & Public Sector",
+          "pain": "Citizen enquiry routing, document processing, compliance reporting — automated to cut admin in half."
+        },
+        {
+          "name": "Education & Training",
+          "pain": "Enrolment confirmations, attendance alerts, exam notifications — sent without manual effort, every time."
+        },
+        {
+          "name": "SMEs Scaling Operations",
+          "pain": "Replace the daily manual tasks your team hates most — quotes, follow-ups, internal approvals, weekly reports."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Our processes are too complicated to automate.",
+          "a": "We’ve heard this every time. Complex processes are exactly what automation is designed for — because the more steps involved, the more time and error risk you’re carrying. We start simple and build up, so complexity is managed, not avoided."
+        },
+        {
+          "q": "What if the automation makes a mistake?",
+          "a": "Every automation we build has error handling, logging, and human escalation paths built in. When an edge case occurs, it routes to a human rather than silently failing. You have full visibility of every action taken — and a runbook for what to do."
+        },
+        {
+          "q": "Will it replace our people?",
+          "a": "Almost never. Automation replaces repetitive tasks, not roles. Your team gets their time back for the work that actually requires judgement, creativity, and relationships — the work you actually hired them for."
+        },
+        {
+          "q": "What does this actually cost?",
+          "a": "Most automation projects land between $8k–$45k depending on integration count and complexity. Fixed price after the free audit — no rolling estimates. Then $0/month forever (unlike off-the-shelf automation tools that charge per task). Most clients recover the cost within 6 months from the time saved."
+        },
+        {
+          "q": "Who owns the automations after handover?",
+          "a": "You. The code, runbooks, and credentials live in your repo and your infrastructure from day 1. We document everything and train your team. You can extend the automations, hire someone else to maintain them, or rip them out — your call. We’re never a single point of failure."
+        },
+        {
+          "q": "Will this work with our existing tools?",
+          "a": "Yes — that’s the point. We integrate with what you already have (CRM, HR system, accounting, project tools, custom databases). If something doesn’t have a ready-made integration, we write one. No \"you must migrate to our platform first\" conversations."
+        },
+        {
+          "q": "How do we maintain it once it’s live?",
+          "a": "We document everything and train your team to extend the automations. Most clients keep us on a small monthly support package — not as a dependency, but as cheap insurance against the rare edge case."
+        }
+      ],
+      "cta": {
+        "eyebrow": "07 — Start",
+        "headline": "Give your team their day back.",
+        "sub": "First automation in week 2. Whole project live in 4. Start with a free audit — we’ll find the three highest-impact automations in your operation and tell you what each would save in time and money.",
+        "primaryLabel": "Get a free audit",
+        "secondaryLabel": "All services"
+      }
+    },
+    "digitalisation": {
+      "eyebrow": "FL · Lab · Digitalisation",
+      "heading": "Paper out. Systems in.",
+      "subhead": "Replace paper, spreadsheets, and inbox approvals with one system your team will actually use. Live in weeks. Owned forever. AI-ready by design.",
+      "marqueeItems": [
+        "Digital workflows",
+        "One source of truth",
+        "Audit trails",
+        "Real-time dashboards",
+        "No spreadsheet sprawl",
+        "AI-ready by design"
+      ],
+      "painPoints": [
+        {
+          "stat": "11 hrs/wk",
+          "headline": "Wasted hours.",
+          "body": "Manual data entry alone costs the average SME employee 11 hours per week — time your competitors are spending on growth."
+        },
+        {
+          "stat": "88%",
+          "headline": "Spreadsheet risk.",
+          "body": "88% of spreadsheets contain critical errors. Every one is an unaudited liability sitting in someone’s inbox."
+        },
+        {
+          "stat": "$47k",
+          "headline": "Cost of getting it wrong.",
+          "body": "The average failed digital project costs SMEs $47,000 in licences, build time, and rollback — before they decide to abandon it. We start with a free audit so you build the right thing the first time."
+        },
+        {
+          "stat": "2–3 days",
+          "headline": "Approvals that crawl.",
+          "body": "A typical sign-off chain takes 2 to 3 days of email tag. Digital workflows route, notify, and close in minutes. Days back in everyone’s week — every week."
+        }
+      ],
+      "process": [
+        {
+          "when": "Week 1",
+          "title": "Audit",
+          "body": "We sit in your operation. Map every manual touchpoint, decision point, and bottleneck — nothing assumed."
+        },
+        {
+          "when": "Weeks 2–3",
+          "title": "Design",
+          "body": "We build the digital workflow. You approve every step before a line of code is written."
+        },
+        {
+          "when": "Weeks 3–5",
+          "title": "Build & Test",
+          "body": "Live system, trained team, zero disruption to daily operations. We go live when you’re confident."
+        },
+        {
+          "when": "Week 5+",
+          "title": "Handover",
+          "body": "It runs. You own it. We stay available — but most clients don’t need us after month one."
+        }
+      ],
+      "deliverables": [
+        "One system. Everyone on the same page.",
+        "Sign-off without the email chase.",
+        "Nobody asks \"what’s the status?\" ever again.",
+        "Leadership decisions on today’s data, not last month’s.",
+        "Every decision traceable, defensible, audit-ready.",
+        "Built for 50. Ready for 500.",
+        "Your team’s tribal knowledge — searchable, AI-ready."
+      ],
+      "compare": {
+        "eyebrow": "Why not just buy SaaS?",
+        "headline": "Off-the-shelf vs. built for you.",
+        "intro": "Most teams reach for a SaaS subscription first. It feels safe, fast, and cheap. Five years in, the maths flips. Here’s what you actually trade.",
+        "leftHeader": "Off-the-shelf SaaS",
+        "rightHeader": "FutureLine custom build",
+        "rows": [
+          {
+            "label": "5-Year Cost",
+            "saas": "$12k+ per year. $60k+ over 5 years — and rising every renewal.",
+            "futureline": "One build. Zero ongoing licences. Pays itself back inside year one."
+          },
+          {
+            "label": "Ownership",
+            "saas": "You rent. The vendor owns the code, the data model, and the roadmap.",
+            "futureline": "You own the source code, the infrastructure, and the data. Forever."
+          },
+          {
+            "label": "Fit",
+            "saas": "80% of features your team never uses. The 20% you need is half-shaped.",
+            "futureline": "Built around your workflow. Every screen earns its place."
+          },
+          {
+            "label": "Adoption",
+            "saas": "Your team works around the tool. Workarounds become the real process.",
+            "futureline": "Your team uses it because it matches how they actually work."
+          },
+          {
+            "label": "Lock-In",
+            "saas": "When the vendor raises prices, kills features, or shuts down — you’re stuck.",
+            "futureline": "No vendor. No lock-in. You decide what changes and when."
+          },
+          {
+            "label": "AI Readiness",
+            "saas": "Limited to whatever AI features the vendor decides to bolt on.",
+            "futureline": "Your data, your structure, AI-ready from day one. Plug in any model."
+          }
+        ]
+      },
+      "industries": [
+        {
+          "name": "Oil & Gas",
+          "pain": "Digital permit-to-work, HSE incident routing, and field apps that work offline on a rig."
+        },
+        {
+          "name": "Construction",
+          "pain": "Project management the foreman uses on site — not the office. Diaries, snags, sub-approvals."
+        },
+        {
+          "name": "Government & Public Sector",
+          "pain": "Citizen portals and internal workflows that meet compliance and ship faster than your IT vendor."
+        },
+        {
+          "name": "Education & Training",
+          "pain": "Student portals and admin systems your registrar will actually use — not work around."
+        },
+        {
+          "name": "SMEs Scaling Operations",
+          "pain": "Rebuild the operation around how you’ll work at 50 people — before you hit 50."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "We’ve tried software before and it didn’t work.",
+          "a": "Off-the-shelf software is built for everyone, which means it fits no one perfectly. We build around your workflow, not the other way around. If it doesn’t fit how your team works, your team won’t use it — and we know that."
+        },
+        {
+          "q": "Sounds expensive. We can’t justify the cost right now.",
+          "a": "Manual processes are already expensive — you’re just not seeing the invoice. At 11 hours of wasted admin per employee per week, the cost of NOT digitalising is far higher than our build fee. We can show you the numbers in the first session — that’s why the audit is free."
+        },
+        {
+          "q": "Our team won’t adopt new technology.",
+          "a": "Because we build WITH your team — not for them. Every step is reviewed and approved by the people who will use it. We train your people before go-live. Adoption is a design problem, not a people problem."
+        },
+        {
+          "q": "We’re too busy to change right now.",
+          "a": "That’s exactly when you need it most. The reason you’re too busy is because manual processes are consuming time you don’t have. We handle the build — your team’s involvement is minimal during delivery."
+        },
+        {
+          "q": "Where does our data live, and who has access?",
+          "a": "Your data, your cloud (AWS, Azure, GCP, or your own infra). Role-based access on day one. Full audit log of who touched what, when. We never ship a system that puts your data on a vendor we don’t control with you."
+        },
+        {
+          "q": "What happens after handover? Are we stuck with you forever?",
+          "a": "No. You own the codebase, the documentation, and the credentials. Most clients don’t need us after month one. Those who want ongoing support get a small monthly package — but it’s opt-in, never a requirement."
+        }
+      ],
+      "cta": {
+        "eyebrow": "06 — Start",
+        "headline": "Stop paying for paper. Start owning your systems.",
+        "sub": "Live in weeks. Owned forever. Start with a free audit — we’ll come back with the smallest first move that pays for itself.",
+        "primaryLabel": "Get a free audit",
+        "secondaryLabel": "All services"
+      }
+    }
+  },
+  "coursesPage": {
+    "eyebrow": "FL · Academy",
+    "heading": "Learn Future AI Skills, Today.",
+    "subhead": "Cohort-paced courses in AI, cybersecurity, cloud, and data. Taught by people shipping the systems they teach — so what you learn is what you can actually use.",
+    "searchPlaceholder": "Search courses…",
+    "filterAll": "All",
+    "levelLabel": "Level",
+    "levelBeginner": "Beginner",
+    "levelIntermediate": "Intermediate",
+    "levelAdvanced": "Advanced",
+    "categoryLabel": "Category",
+    "deliveryLabel": "Delivery",
+    "deliveryOnline": "Online",
+    "deliveryInPerson": "In-person",
+    "deliveryHybrid": "Hybrid",
+    "viewLabel": "View",
+    "viewAll": "All courses",
+    "viewEnrolled": "My courses",
+    "emptyTitle": "No courses found",
+    "emptyBody": "Try adjusting your filters.",
+    "cardContinue": "Continue →",
+    "cardFree": "Free",
+    "cardTaughtBy": "Taught by",
+    "hoursSuffix": "h",
+    "scheduleSelfPaced": "Self-paced",
+    "scheduleDatesTbc": "Dates TBC",
+    "scheduleNextCohort": "Next cohort TBA",
+    "scheduleStarts": "Starts",
+    "whereEyebrow": "Where it gets paid",
+    "whereHeading": "Skills Organizations Are Hiring For.",
+    "whereLede": "Four practical outcomes AI proficiency unlocks. Here's where each gets applied — and the roles people get hired to do them.",
+    "whereApplied": "Where it's applied",
+    "whatItPays": "What it pays",
+    "rolesLabel": "Roles you could land",
+    "pillars": [
+      {
+        "name": "Build",
+        "pitch": "Build Your Dream App with AI.",
+        "sectors": [
+          "Internal tools",
+          "Workflow apps",
+          "Side-project prototypes",
+          "Personal automations",
+          "Founder experiments"
+        ],
+        "earn": "Startups, SMEs, and product teams pay well for builders who can ship without a six-month dev cycle.",
+        "roles": [
+          "Solo Builder",
+          "Product Operator",
+          "Tech Founder",
+          "No-Code Lead",
+          "Solo Developer"
+        ],
+        "demand": "The bar for shipping useful software has dropped — but the people who actually ship are still rare."
+      },
+      {
+        "name": "Automate",
+        "pitch": "Automate Boring Tasks with AI.",
+        "sectors": [
+          "Reporting",
+          "Email triage",
+          "Document review",
+          "Data cleanup",
+          "Routine admin"
+        ],
+        "earn": "Time saved is value created — and operators who automate their busywork get promoted into bigger work.",
+        "roles": [
+          "Automation Engineer",
+          "Workflow Designer",
+          "Operations Lead",
+          "Process Owner",
+          "Productivity Specialist"
+        ],
+        "demand": "The average knowledge worker loses hours every day to busywork. The ones who automate it pull ahead."
+      },
+      {
+        "name": "Decide",
+        "pitch": "Make Sharper Decisions with AI.",
+        "sectors": [
+          "Strategy reviews",
+          "Market analysis",
+          "Stress-testing decisions",
+          "Risk assessments",
+          "Insight reports"
+        ],
+        "earn": "Decisions that hit the target are worth what the wrong call would have cost.",
+        "roles": [
+          "Analyst",
+          "Insights Lead",
+          "Strategy Consultant",
+          "Decision Scientist",
+          "Researcher"
+        ],
+        "demand": "Every organisation drowns in data and starves for insight. AI-fluent decision-makers close that gap."
+      },
+      {
+        "name": "Advance",
+        "pitch": "Land Your Next Role with AI.",
+        "sectors": [
+          "Career pivots",
+          "Promotions",
+          "Internal moves",
+          "Job applications",
+          "Salary negotiations"
+        ],
+        "earn": "AI proficiency is the new computer literacy — invisible if you have it, expensive if you don't.",
+        "roles": [
+          "Senior Specialist",
+          "Team Lead",
+          "Manager",
+          "Consultant",
+          "Specialist Hire"
+        ],
+        "demand": "AI fluency is the difference between staying relevant and falling behind. Most people are scrambling to catch up."
+      }
+    ],
+    "compareEyebrow": "How it compares",
+    "compareHeading": "Others and FutureLine.",
+    "compareLede": "Two honest paths. Pick the one that matches how you actually finish.",
+    "compareOthers": "Others",
+    "vsRows": [
+      {
+        "label": "Cost shape",
+        "others": "Free content with hidden time cost, or premium tuition for a full-time commitment.",
+        "fl": "Per-cohort pricing for individuals. Team training scales without per-seat tax."
+      },
+      {
+        "label": "Time to first result",
+        "others": "Weeks to months. If you finish at all.",
+        "fl": "Working setup and first reviewed milestone inside the opening weeks."
+      },
+      {
+        "label": "Instructor access",
+        "others": "Either none, or a scripted curriculum from junior assistants.",
+        "fl": "Live sessions with practitioners shipping the systems they teach."
+      },
+      {
+        "label": "Completion rate",
+        "others": "Most people don't finish — the format isn't built for it.",
+        "fl": "Cohort-paced and end-to-end designed for the people who do."
+      },
+      {
+        "label": "What you leave with",
+        "others": "Notes, maybe a generic capstone built by everyone in the cohort.",
+        "fl": "A portfolio-grade project tied to your own work + instructor feedback."
+      }
+    ],
+    "teamsEyebrow": "For teams",
+    "teamsHeading": "Upskill Your Team With FutureLine.",
+    "teamsLede": "For 5+ team members. We design the training around the work your team actually does — and price it like training, not a per-seat licence.",
+    "teamsItems": [
+      "Custom syllabus designed around your team's actual work and tools",
+      "On-site (Oman / GCC), remote (any timezone), or hybrid",
+      "Single invoice — no per-seat tax that punishes hiring",
+      "Capstone projects tied to your own actual systems",
+      "Manager debriefs after the cohort — what your team learned, what to deploy next"
+    ],
+    "instructorsEyebrow": "Who teaches",
+    "instructorsHeading": "Learn From Practitioners.",
+    "instructorsLede": "The people teaching ship the systems they teach — real builds, real clients, real critique. No curriculum read from a deck.",
+    "instructorFallbackName": "FutureLine Instructor",
+    "instructorBadge": "FL Practitioner",
+    "faqEyebrow": "FAQ",
+    "faqHeading": "Things people ask.",
+    "faqs": [
+      {
+        "q": "How much does a course cost?",
+        "a": "Public courses run between $250–$1,200 per cohort depending on length and depth (OMR 100–500 in local pricing). Team training scales differently — a fixed price for 5+ seats with no per-seat tax. Discounts available for non-profits and the education sector. Exact price is listed on each course's card in the catalog above."
+      },
+      {
+        "q": "How much time per week do I need?",
+        "a": "Plan for 4–6 hours per week: 2 hours of live session + 2–4 hours of hands-on labs and reading. Live cohorts run weekday evenings UTC+4 (Oman) and are recorded. We'd rather you finish at week 6 than not at all — flexibility is built in."
+      },
+      {
+        "q": "What if I miss a session or fall behind?",
+        "a": "Every live session is recorded and posted within a few hours. Slack channel with the instructor + your cohort. If you fall a week behind, the instructor will help you catch up — or roll you into the next cohort at no extra cost."
+      },
+      {
+        "q": "Do I get a certificate?",
+        "a": "Yes — and a portfolio piece (the capstone), which is the more useful of the two. The certificate is FutureLine-issued and verifiable. The portfolio is what gets you hired or promoted."
+      },
+      {
+        "q": "What if it's not for me?",
+        "a": "Full refund within the first week of the cohort — no questions, no awkward call. After week 1, we offer pro-rata refunds if you stop attending. We'd rather lose the booking than have you stuck."
+      },
+      {
+        "q": "Are there prerequisites?",
+        "a": "Listed per course. Most beginner tracks have none beyond \"comfortable using a laptop.\" Intermediate and advanced tracks call out 1–2 specific prereqs (e.g., basic Python, basic SQL) up front — no surprise gates."
+      }
+    ],
+    "enquiryEyebrow": "Get in touch",
+    "enquiryHeading": "Can't find what you need?",
+    "enquiryLede": "A different schedule, a different topic, or training that doesn't fit a public cohort — tell us what you're working toward and we'll come back within a business day."
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "update": "Update Password",
+    "updating": "Updating…",
+    "passwordsDoNotMatch": "New passwords do not match",
+    "failedToUpdate": "Failed to update password",
+    "updatedSuccessfully": "Password updated successfully",
+    "somethingWentWrong": "Something went wrong. Please try again."
+  },
+  "enroll": {
+    "processing": "Processing…",
+    "enrolForFree": "Enrol for Free",
+    "payViaBankTransfer": "Pay via Bank Transfer",
+    "creditCard": "Credit Card",
+    "comingSoon": "Coming Soon",
+    "requestSubmitted": "Request Submitted",
+    "pendingApproval": "Your enrolment request is pending admin approval. You will receive access within 12 hours.",
+    "close": "Close",
+    "bankTransferPayment": "Bank Transfer Payment",
+    "bankInstructions": "Please make bank payment to <strong>{name}</strong>. You <strong>MUST</strong> send the receipt to WhatsApp with your full name to <strong>{phone}</strong>. Your enrolment will be approved within 12 hours.",
+    "submitting": "Submitting…",
+    "iHavePaid": "I Have Paid — Submit My Request",
+    "somethingWentWrong": "Something went wrong",
+    "failedToProcess": "Failed to process enrolment",
+    "somethingWentWrongRetry": "Something went wrong. Please try again.",
+    "failedToSubmit": "Failed to submit request. Please try again."
+  },
+  "lessonViewer": {
+    "moduleLabel": "Module {number}: {name}",
+    "moduleLessons": "{count} lessons · {done}/{total} completed",
+    "quiz": "Quiz",
+    "videoAvailable": "Video content is available for this lesson.",
+    "instructions": "Instructions",
+    "lessonNotes": "Lesson Notes",
+    "attachments": "Attachments",
+    "completed": "Completed",
+    "markComplete": "Mark as Complete",
+    "noLessons": "No lessons available for this course yet.",
+    "submitAnswers": "Submit Answers",
+    "score": "You scored {score} out of {total}",
+    "perfectSuffix": " — Perfect!",
+    "tryAgain": "Try Again"
+  }
+}

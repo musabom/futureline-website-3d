@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -23,7 +23,7 @@ export default function HeroButtons() {
         >
           <Link
             href="/courses"
-            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-gradient-to-r from-navy-light to-primary-container text-white font-semibold hover:shadow-lg hover:shadow-primary-container/20 transition-shadow duration-300"
+            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-gradient-to-r from-navy-light to-primary-container text-navy font-semibold hover:shadow-lg hover:shadow-primary-container/20 transition-shadow duration-300"
           >
             Explore Courses
             <motion.span

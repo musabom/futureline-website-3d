@@ -1,8 +1,10 @@
 'use client';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Send, CheckCircle } from 'lucide-react';
 
 export default function CourseEnquiryForm() {
+  const t = useTranslations('courseEnquiry');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -38,18 +40,18 @@ export default function CourseEnquiryForm() {
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-academy/30 bg-academy/10">
           <CheckCircle size={24} className="text-academy" />
         </div>
-        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-white">
-          Request submitted.
+        <h3 className="mb-2 text-2xl font-semibold tracking-[-0.01em] text-navy">
+          {t('successTitle')}
         </h3>
-        <p className="mb-8 text-sm leading-relaxed text-white/55">
-          Our team will review your request and get back to you within one business day.
+        <p className="mb-8 text-sm leading-relaxed text-ink-muted">
+          {t('successBody')}
         </p>
         <button
           onClick={() => setStatus('idle')}
           className="font-mono text-[11px] uppercase tracking-[0.3em] text-academy transition-colors hover:text-academy-light"
           data-cursor="hover"
         >
-          Submit another →
+          {t('submitAnother')}
         </button>
       </div>
     );
@@ -59,7 +61,7 @@ export default function CourseEnquiryForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
-          <label className="fl-label" htmlFor="ce-firstName">First name *</label>
+          <label className="fl-label" htmlFor="ce-firstName">{t('firstName')} *</label>
           <input
             id="ce-firstName"
             type="text"
@@ -67,11 +69,11 @@ export default function CourseEnquiryForm() {
             value={form.firstName}
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
             className="fl-input"
-            placeholder="First name"
+            placeholder={t('firstNamePlaceholder')}
           />
         </div>
         <div>
-          <label className="fl-label" htmlFor="ce-lastName">Last name *</label>
+          <label className="fl-label" htmlFor="ce-lastName">{t('lastName')} *</label>
           <input
             id="ce-lastName"
             type="text"
@@ -79,13 +81,13 @@ export default function CourseEnquiryForm() {
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
             className="fl-input"
-            placeholder="Last name"
+            placeholder={t('lastNamePlaceholder')}
           />
         </div>
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="ce-email">Email *</label>
+        <label className="fl-label" htmlFor="ce-email">{t('email')} *</label>
         <input
           id="ce-email"
           type="email"
@@ -93,12 +95,12 @@ export default function CourseEnquiryForm() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           className="fl-input"
-          placeholder="you@example.com"
+          placeholder={t('emailPlaceholder')}
         />
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="ce-topic">Topic / area of interest *</label>
+        <label className="fl-label" htmlFor="ce-topic">{t('topic')} *</label>
         <input
           id="ce-topic"
           type="text"
@@ -106,12 +108,12 @@ export default function CourseEnquiryForm() {
           value={form.tourType}
           onChange={(e) => setForm({ ...form, tourType: e.target.value })}
           className="fl-input"
-          placeholder="e.g. Project Management, Data Analytics, Leadership…"
+          placeholder={t('topicPlaceholder')}
         />
       </div>
 
       <div>
-        <label className="fl-label" htmlFor="ce-message">Message *</label>
+        <label className="fl-label" htmlFor="ce-message">{t('message')} *</label>
         <textarea
           id="ce-message"
           required
@@ -119,7 +121,7 @@ export default function CourseEnquiryForm() {
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           className="fl-textarea"
-          placeholder="Tell us what you're looking for — format, group size, timeline."
+          placeholder={t('messagePlaceholder')}
         />
       </div>
 
@@ -131,12 +133,12 @@ export default function CourseEnquiryForm() {
         data-cursor-strength="20"
       >
         <Send size={15} />
-        {status === 'sending' ? 'Submitting…' : 'Submit request'}
+        {status === 'sending' ? t('submitting') : t('submit')}
       </button>
 
       {status === 'error' && (
         <p className="pt-1 text-center text-xs text-red-400/90">
-          Something went wrong. Please try again.
+          {t('error')}
         </p>
       )}
     </form>

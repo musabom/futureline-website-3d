@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ServiceStickyNavProps {
@@ -32,7 +32,7 @@ export function ServiceStickyNav({
   return (
     /* Sits at top-16 to clear the global sticky header (h-16, z-50) */
     <div
-      className="fixed top-16 left-0 right-0 z-40 border-b border-white/[0.08] bg-[#030d1a]/95 backdrop-blur-md transition-transform duration-300"
+      className="fixed top-16 left-0 right-0 z-40 border-b border-hairline bg-canvas/95 backdrop-blur-md transition-transform duration-300"
       style={{ transform: visible ? 'translateY(0)' : 'translateY(-100%)' }}
       aria-hidden={!visible}
     >
@@ -40,7 +40,7 @@ export function ServiceStickyNav({
         {/* Back link */}
         <Link
           href="/services"
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors shrink-0"
+          className="inline-flex items-center gap-2 text-ink-muted hover:text-navy text-xs font-bold uppercase tracking-widest transition-colors shrink-0"
           tabIndex={visible ? 0 : -1}
         >
           <ArrowLeft size={13} />
@@ -63,7 +63,7 @@ export function ServiceStickyNav({
         {/* Contextual CTA */}
         <Link
           href={ctaHref}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-bold uppercase tracking-widest shrink-0 hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-navy text-xs font-bold uppercase tracking-widest shrink-0 hover:opacity-90 transition-opacity"
           style={{ background: gradient }}
           tabIndex={visible ? 0 : -1}
         >

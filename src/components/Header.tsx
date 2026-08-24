@@ -1,16 +1,39 @@
+/**
+ * Header — light glass navigation for the redesigned public site.
+ *
+ * Nav now follows the company profile's three pillars rather than the old
+ * four-service taxonomy. Same-page anchors are routed through scrollToHash so
+ * they drive Lenis instead of fighting it, and they are written absolute
+ * ("/#services") so they still work from /courses or /login.
+ *
+ * Links use the locale-aware Link from @/i18n/routing: with localePrefix
+ * 'as-needed' a plain next/link would drop an Arabic visitor back into
+ * English on every navigation.
+ */
 'use client';
-import Link from 'next/link';
+
+import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { strings } from '@/lib/strings';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@/i18n/routing';
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
+import { scrollToHash } from '@/lib/scroll';
 
 export default function Header() {
   const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const t = useTranslations('nav');
+  const pathname = usePathname();
 
-  // Transparent over hero, glass + hairline once scrolled past the fold.
+  // The home hero is dark, so over it (top of the home page, before the nav
+  // gains its glass background) the nav text flips to light so it stays
+  // readable — same transparent bar, same items, just legible on dark.
+  const overDarkHero = pathname === '/' && !scrolled && !mobileOpen;
+
+  // Transparent over the hero, glass + hairline once past the fold.
   useEffect(() => {
     let raf = 0;
     const onScroll = () => {
@@ -25,27 +48,45 @@ export default function Header() {
     };
   }, []);
 
-  // Nav exposes our 4 services directly + the Academy catalogue. The
-  // aggregator "/services" page and the marketing "/ai" page are
-  // intentionally not in the top nav — direct routes for what you can
-  // actually buy.
+  // Anchors point at home-page sections; absolute so they work from any route.
+  // '/get-started' and '/faq' are real routes (no anchor field), not
+  // same-page anchors — the 3 options and the FAQ live off the home page.
+  //
+  // No "Vision" entry: removed by request. The vision now surfaces as a
+  // labelled cluster in the story scene rather than as its own nav
+  // destination. The nav.vision i18n key is left in messages/en.json,
+  // unused, in case it comes back.
   const navLinks = [
-    { href: '/services/digitalisation', label: 'Digitalisation' },
-    { href: '/services/custom-software', label: 'Custom Software' },
-    { href: '/services/automations', label: 'Automations' },
-    { href: '/services/consultation', label: 'Consultation' },
-    { href: '/courses', label: strings.nav.courses },
+    { href: '/get-started', label: t('whatWeOffer') },
+    { href: '/#who-we-serve', label: t('whoWeServe'), anchor: '#who-we-serve' },
+    { href: '/courses', label: t('courses') },
+    { href: '/faq', label: t('faq') },
   ];
 
   const headerClass = [
     'sticky top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500',
     scrolled || mobileOpen
-      ? 'bg-black/65 backdrop-blur-md border-b border-white/[0.06]'
-      : 'bg-transparent border-b border-transparent',
+      ? 'fl-glass-strong border-b border-hairline'
+      : overDarkHero
+        ? // Over the dark hero: 30% transparent (70% opaque) dark glass, so
+          // the hero behind is slightly visible through the bar, aligned with
+          // the section behind it.
+          'bg-[#081a2e]/70 backdrop-blur-md border-b border-white/10'
+        : 'bg-transparent border-b border-transparent',
   ].join(' ');
 
-  const linkClass =
-    'text-[13px] font-medium text-white/70 transition-colors hover:text-white';
+  const linkClass = overDarkHero
+    ? 'font-display text-[13px] font-medium text-white/85 transition-colors hover:text-white'
+    : 'font-display text-[13px] font-medium text-ink-muted transition-colors hover:text-navy';
+
+  /** Same-page anchors: drive Lenis rather than letting the browser jump. */
+  const onAnchorClick = (e: React.MouseEvent, anchor?: string) => {
+    if (!anchor) return;
+    if (window.location.pathname.replace(/^\/(en|ar)(?=\/|$)/, '') !== '') return;
+    e.preventDefault();
+    setMobileOpen(false);
+    scrollToHash(anchor);
+  };
 
   return (
     <header className={headerClass} aria-label="Primary">
@@ -57,71 +98,79 @@ export default function Header() {
             aria-label="FutureLine home"
             data-cursor="hover"
           >
-            <span
-              aria-hidden="true"
-              className="block h-2 w-2 rounded-full bg-lab shadow-[0_0_12px_2px_rgba(24,169,153,0.55)] transition-shadow group-hover:shadow-[0_0_16px_3px_rgba(24,169,153,0.75)]"
+            <Image
+              src="/images/logo-mark.png"
+              alt=""
+              width={30}
+              height={30}
+              className="h-[30px] w-[30px] drop-shadow-[0_4px_8px_rgba(24,169,153,0.35)]"
+              priority
             />
-            <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-lg font-black tracking-tight text-transparent">
-              {strings.brand.name}
+            <span
+              className={`font-display text-lg font-bold tracking-tight ${
+                overDarkHero ? 'text-white' : 'text-navy'
+              }`}
+            >
+              FutureLine
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-6 lg:gap-7 md:flex" aria-label="Main">
+          <nav className="hidden items-center gap-6 md:flex lg:gap-7" aria-label="Main">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={linkClass}
+                onClick={(e) => onAnchorClick(e, link.anchor)}
                 data-cursor="hover"
               >
                 {link.label}
               </Link>
             ))}
+            {/* Language switcher sits inside the nav, alongside the links,
+                rather than over with the auth buttons — placed here by
+                request. */}
+            <LocaleSwitcher tone={overDarkHero ? 'dark' : 'light'} />
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
             {session ? (
               <>
-                {session.user.role === 'ADMIN' ? (
-                  <Link href="/admin" className={linkClass} data-cursor="hover">
-                    {strings.nav.admin}
-                  </Link>
-                ) : session.user.role === 'INSTRUCTOR' ? (
-                  <Link href="/instructor" className={linkClass} data-cursor="hover">
-                    Dashboard
-                  </Link>
-                ) : (
-                  <Link href="/dashboard" className={linkClass} data-cursor="hover">
-                    {strings.nav.dashboard}
-                  </Link>
-                )}
+                <Link
+                  href={
+                    session.user.role === 'ADMIN'
+                      ? '/admin'
+                      : session.user.role === 'INSTRUCTOR'
+                        ? '/instructor'
+                        : '/dashboard'
+                  }
+                  className={linkClass}
+                  data-cursor="hover"
+                >
+                  {t('dashboard')}
+                </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className={linkClass}
                   data-cursor="hover"
                 >
-                  {strings.nav.signOut}
+                  {t('signOut')}
                 </button>
               </>
             ) : (
-              <>
-                <Link href="/login" className={linkClass} data-cursor="hover">
-                  {strings.nav.signIn}
-                </Link>
-                <Link
-                  href="/register"
-                  data-cursor="magnetic"
-                  data-cursor-strength="18"
-                  className="rounded-full bg-white px-4 py-2 text-[13px] font-medium text-black transition-colors hover:bg-white/90"
-                >
-                  {strings.nav.getStarted}
-                </Link>
-              </>
+              /* The "Readiness assessment" CTA that sat next to Sign In was
+                 removed by request. /audit is still reachable from the
+                 footer and from the Get Started flow. */
+              <Link href="/login" className={linkClass} data-cursor="hover">
+                {t('signIn')}
+              </Link>
             )}
           </div>
 
           <button
-            className="p-2 text-white/80 transition-colors hover:text-white md:hidden"
+            className={`p-2 transition-colors md:hidden ${
+              overDarkHero ? 'text-white/85 hover:text-white' : 'text-ink-muted hover:text-navy'
+            }`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
@@ -131,18 +180,27 @@ export default function Header() {
         </div>
 
         {mobileOpen && (
-          <div className="flex flex-col gap-1 border-t border-white/[0.06] py-3 md:hidden">
+          <div className="flex flex-col gap-1 border-t border-hairline py-3 md:hidden">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
-                onClick={() => setMobileOpen(false)}
+                className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
+                onClick={(e) => {
+                  onAnchorClick(e, link.anchor);
+                  setMobileOpen(false);
+                }}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="my-2 h-px bg-white/[0.06]" />
+            {/* Same switcher in the mobile menu — the desktop nav is hidden
+                below md, so without this there'd be no way to change
+                language on a phone. */}
+            <div className="px-3 py-2">
+              <LocaleSwitcher />
+            </div>
+            <div className="my-2 h-px bg-hairline" />
             {session ? (
               <>
                 <Link
@@ -150,38 +208,31 @@ export default function Header() {
                     session.user.role === 'ADMIN'
                       ? '/admin'
                       : session.user.role === 'INSTRUCTOR'
-                      ? '/instructor'
-                      : '/dashboard'
+                        ? '/instructor'
+                        : '/dashboard'
                   }
-                  className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
+                  className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
                   onClick={() => setMobileOpen(false)}
                 >
-                  {strings.nav.dashboard}
+                  {t('dashboard')}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="rounded-md px-3 py-2.5 text-left text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
+                  className="rounded-md px-3 py-2.5 text-start font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
                 >
-                  {strings.nav.signOut}
+                  {t('signOut')}
                 </button>
               </>
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="rounded-md px-3 py-2.5 text-sm font-medium text-white/75 transition-colors hover:bg-white/[0.04] hover:text-white"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {strings.nav.signIn}
-                </Link>
-                <Link
-                  href="/register"
-                  className="mt-1 rounded-full bg-white px-4 py-2.5 text-center text-sm font-medium text-black transition-colors hover:bg-white/90"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {strings.nav.getStarted}
-                </Link>
-              </>
+              /* Readiness assessment CTA removed here too, matching the
+                 desktop header. */
+              <Link
+                href="/login"
+                className="rounded-md px-3 py-2.5 font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
+                onClick={() => setMobileOpen(false)}
+              >
+                {t('signIn')}
+              </Link>
             )}
           </div>
         )}

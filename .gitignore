@@ -9,3 +9,10 @@ next-env.d.ts
 
 # Locally uploaded images (instructor photos, etc.)
 /public/uploads/
+
+# Local editor/agent tooling
+.claude/
+.mcp.json
+
+# Local git backup bundles — large binaries, never commit
+*.bundle

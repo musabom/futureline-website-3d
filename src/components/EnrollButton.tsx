@@ -2,10 +2,12 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/lib/utils';
 import { CheckCircle, X, CreditCard } from 'lucide-react';
 
 export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: string; slug: string; price?: number }) {
+  const t = useTranslations('enroll');
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -27,10 +29,10 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
       if (data.enrolled) {
         router.push(`/dashboard/course/${data.slug || slug}`);
       } else {
-        alert(data.error || 'Something went wrong');
+        alert(data.error || t('somethingWentWrong'));
       }
     } catch {
-      alert('Failed to process enrolment');
+      alert(t('failedToProcess'));
     } finally {
       setLoading(false);
     }
@@ -53,10 +55,10 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
       if (data.pendingApproval) {
         setSubmitted(true);
       } else {
-        alert(data.error || 'Something went wrong. Please try again.');
+        alert(data.error || t('somethingWentWrongRetry'));
       }
     } catch {
-      alert('Failed to submit request. Please try again.');
+      alert(t('failedToSubmit'));
     } finally {
       setLoading(false);
     }
@@ -67,9 +69,9 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
       <button
         onClick={handleFreeEnroll}
         disabled={loading}
-        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
       >
-        {loading ? 'Processing…' : 'Enrol for Free'}
+        {loading ? t('processing') : t('enrolForFree')}
       </button>
     );
   }
@@ -78,61 +80,65 @@ export default function EnrollButton({ courseId, slug, price = 0 }: { courseId: 
     <div className="space-y-3">
       <button
         onClick={handleBankTransferOpen}
-        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
+        className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
       >
-        Pay via Bank Transfer
+        {t('payViaBankTransfer')}
       </button>
 
       <button
         disabled
-        className="w-full py-2.5 px-4 rounded-lg border border-white/[0.08] text-slate-600 text-sm font-semibold cursor-not-allowed bg-white/[0.02] flex items-center justify-center gap-2"
+        className="w-full py-2.5 px-4 rounded-lg border border-hairline text-ink-muted text-sm font-semibold cursor-not-allowed bg-canvas-card flex items-center justify-center gap-2"
       >
         <CreditCard size={14} />
-        <span>Credit Card</span>
-        <span className="text-[10px] bg-slate-800 text-slate-500 px-2 py-0.5 rounded-full uppercase tracking-widest">Coming Soon</span>
+        <span>{t('creditCard')}</span>
+        <span className="text-[10px] bg-slate-800 text-ink-muted px-2 py-0.5 rounded-full uppercase tracking-widest">{t('comingSoon')}</span>
       </button>
 
       {showQR && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="rounded-2xl border border-white/[0.07] bg-slate-950/90 backdrop-blur-xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-canvas-card backdrop-blur-sm p-4">
+          <div className="rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
             {submitted ? (
               <div className="text-center space-y-4 py-4">
                 <div className="w-14 h-14 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mx-auto">
                   <CheckCircle className="text-teal-400" size={28} />
                 </div>
-                <h3 className="text-lg font-black text-white tracking-tight">Request Submitted</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  Your enrolment request is pending admin approval. You will receive access within 12 hours.
+                <h3 className="text-lg font-black text-navy tracking-tight">{t('requestSubmitted')}</h3>
+                <p className="text-sm text-ink-muted leading-relaxed">
+                  {t('pendingApproval')}
                 </p>
                 <button
                   onClick={() => { setShowQR(false); setSubmitted(false); }}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity uppercase tracking-widest"
                 >
-                  Close
+                  {t('close')}
                 </button>
               </div>
             ) : (
               <>
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-black text-white tracking-tight">Bank Transfer Payment</h3>
+                  <h3 className="text-base font-black text-navy tracking-tight">{t('bankTransferPayment')}</h3>
                   <button
                     onClick={() => setShowQR(false)}
-                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-white/[0.08] text-slate-500 hover:text-white hover:border-white/20 transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-hairline text-ink-muted hover:text-navy hover:border-hairline transition-colors"
                   >
                     <X size={14} />
                   </button>
                 </div>
 
                 <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-xs text-amber-300 leading-relaxed">
-                  Please make bank payment to <strong className="text-amber-200">Musab Al Sabahi, 96532326</strong>. You <strong className="text-amber-200">MUST</strong> send the receipt to WhatsApp with your full name to <strong className="text-amber-200">96532326</strong>. Your enrolment will be approved within 12 hours.
+                  {t.rich('bankInstructions', {
+                    name: 'Musab Al Sabahi, 96532326',
+                    phone: '96532326',
+                    strong: (chunks) => <strong className="text-amber-200">{chunks}</strong>,
+                  })}
                 </div>
 
                 <button
                   onClick={handleSubmitBankTransfer}
                   disabled={loading}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 uppercase tracking-widest"
                 >
-                  {loading ? 'Submitting…' : 'I Have Paid — Submit My Request'}
+                  {loading ? t('submitting') : t('iHavePaid')}
                 </button>
               </>
             )}

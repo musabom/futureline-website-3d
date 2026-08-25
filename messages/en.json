@@ -198,7 +198,9 @@
       "faq": "FAQ",
       "readiness": "Readiness assessment",
       "courses": "Courses",
-      "audit": "Systems audit"
+      "audit": "Systems audit",
+      "privacy": "Privacy",
+      "terms": "Terms"
     }
   },
   "getStarted": {
@@ -1873,5 +1875,263 @@
     "score": "You scored {score} out of {total}",
     "perfectSuffix": " — Perfect!",
     "tryAgain": "Try Again"
+  },
+  "legal": {
+    "privacy": {
+      "eyebrow": "Legal",
+      "title": "Privacy Policy",
+      "updatedLabel": "Last updated",
+      "updated": "25 August 2026",
+      "intro": "FutureLine (FutureLine.ai) is an Omani company providing AI consulting, custom application development, and professional training. This policy explains exactly what personal information futureline.ai collects, why we collect it, who else can see it, and what you can ask us to do with it. It describes what our website actually does — not a generic template. If anything here is unclear, write to us at flservices.ai@gmail.com.",
+      "contactNote": "Questions about this policy, or want to access, correct or delete your data? Write to us at",
+      "sections": [
+        {
+          "heading": "About this policy",
+          "body": [
+            "This policy covers the website at https://futureline.ai, including the public pages, the enquiry forms, the course catalogue, the sign-in and student dashboard areas, and the FL Tourism enquiry page. FutureLine is the controller of the personal data described here.",
+            "We collect only what we need to answer your enquiry, run your account, and deliver the courses and services you ask for. Where we describe a third party below, it is because our code genuinely uses that service — we have not listed anything we do not use."
+          ]
+        },
+        {
+          "heading": "Information you provide through enquiry forms",
+          "body": [
+            "Our enquiry forms — the services enquiry, the course enquiry, the AI audit enquiry, the Get Started request, and the FL Tourism form — ask for your first name, last name, and email address, and the message you write. Depending on the form, they may also ask for your phone number, your company name, and the topic or type of service you are interested in. Only the name, email, and message are required; phone and company are optional.",
+            "Each submission is saved as an enquiry record in our database together with the page or form it came from (for example \"FL Services\", \"FL Courses\", \"FL Tourism\", or \"Get Started\") and the date and time. As our team works on your enquiry, we may add internal follow-up information to that record: a stage (new, contacted, follow-up, won, lost), a priority, an estimated value, the team member handling it, dates of last contact and next follow-up, and internal notes written by our staff.",
+            "When you submit an enquiry, our system sends a confirmation email to the address you gave and an internal notification to FutureLine so we can respond."
+          ]
+        },
+        {
+          "heading": "Account and sign-in information",
+          "body": [
+            "If you create an account, we store your first name, last name, email address, and a hashed version of your password. We never store your password itself. Your account also carries a role (customer, instructor, or administrator), an active/inactive flag, and the date the account was created.",
+            "You can instead sign in with Google. In that case Google tells us your name, your email address, and your Google profile picture link, and we create or link an account for you using that information. We do not receive your Google password. Because you sign in through Google, no password of ours is used for your account.",
+            "Instructors and administrators may additionally have a short biography and a profile photo link on their account, which appear on public course and instructor sections of the site. If you ask us to reset a password, we store only a one-way hash of the reset token together with its one-hour expiry time, and both are erased as soon as the reset is used."
+          ]
+        },
+        {
+          "heading": "Enrolment, orders and payment",
+          "body": [
+            "When you enrol in a course, we record the enrolment (which account, which course, the date, your progress percentage, and whether you have completed it). For paid courses we create an order record holding your account, the course, the amount, the payment method, and the payment status.",
+            "We do not take card payments on this website and we do not collect, process, or store card numbers, CVV codes, or bank credentials anywhere on the site. Paid enrolments are arranged by bank transfer, handled outside the website; an administrator marks the order as paid once the transfer is confirmed. Any payment details you share with your bank stay with your bank.",
+            "For instructors, we also keep earnings records linking an instructor and a course to an amount, the platform and instructor shares, and the period the earnings relate to."
+          ]
+        },
+        {
+          "heading": "Information collected automatically",
+          "body": [
+            "Our forms and sign-in endpoints are rate-limited to prevent abuse. To do this we store a short-lived counter keyed to your IP address (or, for sign-in attempts, your email address) together with a reset time. The counter resets at the end of each short window and is not used to build a profile of you.",
+            "Our servers keep ordinary operational logs. These include records of successful and failed sign-in attempts, which contain the email address used, and error messages generated by the application. These logs exist for security and troubleshooting only.",
+            "The AI course recommender asks about your learning goal, skill level, delivery preference, and budget. Those answers are used to search our course catalogue in the moment and are not saved to your record or sent to any external AI service."
+          ]
+        },
+        {
+          "heading": "Cookies, browser storage and tracking",
+          "body": [
+            "The only cookie our website sets is the sign-in session cookie created by our authentication system. It holds a signed token identifying your account and role, it is strictly necessary for keeping you signed in, and it expires two hours after sign-in. If you never sign in, our site does not set a session cookie for you.",
+            "We also use your browser's session storage — which is cleared when you close the tab — for two purely functional things: remembering that you have already seen the site's opening animation, and carrying the details you typed into the Get Started form across the sign-in step so you do not have to retype them.",
+            "We do not use advertising cookies, tracking pixels, or third-party analytics of any kind. There is no Google Analytics, no Meta pixel, no advertising network, and no behavioural tracking on this website. We do not sell or rent personal information to anyone."
+          ]
+        },
+        {
+          "heading": "How and why we use your information",
+          "body": [
+            "We use enquiry information to reply to you, understand what you need, and follow up about the services, courses, or tours you asked about. We use account information to authenticate you, show you your dashboard, and give you access to the courses you are enrolled in. We use enrolment and order information to administer your place on a course, confirm payment, and track your progress. We use technical information to keep the site secure and working.",
+            "We send transactional emails — enquiry confirmations, welcome emails, password reset links, password change confirmations, enrolment confirmations, payment-pending notices, and updates on the status of your enquiry. These relate to something you asked for or did. We do not run a marketing mailing list from this site.",
+            "Our legal basis is your consent when you choose to submit a form or create an account, and the necessity of processing to perform the service or contract you have asked for (such as delivering a course you enrolled in). Keeping secure logs and rate-limiting rests on our legitimate interest in protecting the site. We handle personal data in the spirit of applicable data-protection law, including the personal data protection rules of the Sultanate of Oman. You may withdraw consent at any time by contacting us."
+          ]
+        },
+        {
+          "heading": "Service providers and international transfers",
+          "body": [
+            "We share personal data only with the providers we need to operate the site: Google, if you choose to sign in with your Google account; Resend, which delivers our transactional emails and therefore handles your email address and the content of those messages; and our hosting and database provider, which stores the application and its PostgreSQL database on our behalf. Each of these acts on our instructions for the purposes described above.",
+            "These providers operate internationally, so your information may be stored or processed on servers outside the Sultanate of Oman. We choose established providers that offer contractual and technical safeguards for the data they hold for us.",
+            "We may also disclose information where we are legally required to do so by a competent Omani authority or court. We do not share your data with advertisers or data brokers."
+          ]
+        },
+        {
+          "heading": "Embedded video from YouTube and Vimeo",
+          "body": [
+            "Some course preview videos and lesson videos are hosted on YouTube or Vimeo and embedded in our pages. Our site does not host or store those videos itself.",
+            "When a page containing an embedded video loads, your browser connects directly to YouTube or Vimeo, and those services may set their own cookies and receive your IP address, browser details, and the page you are viewing. That processing is governed by their own privacy policies, not ours. Pages without an embedded video make no such connection."
+          ]
+        },
+        {
+          "heading": "How long we keep your information",
+          "body": [
+            "We keep enquiry records, including internal notes and follow-up history, for as long as needed to handle the enquiry and to maintain a reasonable record of our business dealings with you. Account, enrolment, and order records are kept for as long as your account is active, and afterwards only where we need them for legitimate accounting or record-keeping reasons.",
+            "Password reset tokens expire after one hour and are deleted as soon as they are used. Rate-limiting counters are short-lived and reset within minutes. Operational logs are retained only as long as they are useful for security and troubleshooting.",
+            "If you ask us to delete your data, we will do so unless we are required to retain specific records by law, and we will tell you if that applies."
+          ]
+        },
+        {
+          "heading": "How we protect your information",
+          "body": [
+            "Passwords are stored only as bcrypt hashes with a work factor of 12, so the original password cannot be recovered from our database. Password reset tokens are stored only as SHA-256 hashes with a one-hour expiry. The site is served over HTTPS with HTTP Strict Transport Security enabled.",
+            "Access inside the application is role-based: administrator areas are guarded at the network middleware layer and the account's role is re-checked against the database on each session refresh, so a revoked administrator cannot keep elevated access. Sign-in sessions expire after two hours, and deactivated accounts are refused at sign-in.",
+            "We apply standard browser protections through security headers, including a content security policy, clickjacking and MIME-sniffing protection, a strict referrer policy, and a permissions policy that blocks camera, microphone, and geolocation access. Enquiry, registration, sign-in, password reset, and checkout endpoints are rate-limited. No system can be guaranteed completely secure, but we take these measures seriously and review them as the site evolves."
+          ]
+        },
+        {
+          "heading": "Your rights and how to exercise them",
+          "body": [
+            "You can ask us for a copy of the personal information we hold about you, ask us to correct anything inaccurate, ask us to delete it, ask us to stop using it for a particular purpose, or withdraw consent you previously gave. If you have an account, you can also update your own name and password from within your account and change your password at any time.",
+            "To make a request, email flservices.ai@gmail.com from the address associated with your enquiry or account, or tell us clearly which records your request concerns. We may need to ask a question or two to confirm your identity before acting, so that we do not disclose someone else's data. We aim to respond to every request within 30 days.",
+            "If you are not satisfied with how we have handled your request, tell us and we will look at it again."
+          ]
+        },
+        {
+          "heading": "Children's data",
+          "body": [
+            "Our courses and services are intended for adults and working professionals. The website is not directed at children, and we do not knowingly collect personal information from anyone under 18.",
+            "If you believe a child has given us personal information, contact us at flservices.ai@gmail.com and we will delete it. Where a young person attends a course, enrolment is arranged with a parent, guardian, or sponsoring organisation."
+          ]
+        },
+        {
+          "heading": "Changes to this policy and how to contact us",
+          "body": [
+            "We may update this policy as the website changes or as our practices develop. When we do, we will change the date at the top of this page. Material changes will be described plainly rather than buried, and continuing to use the site after an update means the updated policy applies to you.",
+            "This policy and any dispute relating to it are governed by the laws of the Sultanate of Oman, and the courts of Oman have jurisdiction.",
+            "For any privacy question, data request, or complaint, contact FutureLine at flservices.ai@gmail.com. We read every message sent to that address."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "eyebrow": "Legal",
+      "title": "Terms of Service",
+      "updatedLabel": "Last updated",
+      "updated": "25 August 2026",
+      "intro": "These Terms of Service govern your use of futureline.ai and the services offered through it, including our course platform, enquiry forms, and the public FL Lab demo tools. FutureLine is a company established in the Sultanate of Oman providing AI consulting, custom application development, and training. Please read these terms carefully — they set out what you can expect from us and what we expect from you.",
+      "contactNote": "Questions about these terms? Write to us at",
+      "sections": [
+        {
+          "heading": "Acceptance of These Terms",
+          "body": [
+            "By accessing futureline.ai, creating an account, enrolling in a course, submitting an enquiry, or using any of our demo tools, you agree to be bound by these Terms of Service. If you do not agree, please do not use the site.",
+            "These terms cover your use of the website and the course platform. Consulting engagements, custom application development, and private training delivered to a client are governed by a separate written agreement between FutureLine and that client; where such an agreement conflicts with these terms, the signed agreement takes precedence for that engagement.",
+            "In these terms, \"we\", \"us\", and \"FutureLine\" refer to FutureLine; \"you\" refers to the person using the site."
+          ]
+        },
+        {
+          "heading": "Accounts, Eligibility and Security",
+          "body": [
+            "You need an account to enrol in a course or access course material. You may register with your name, email address, and a password, or sign in with a Google account where that option is enabled. You must provide accurate information and use an email address you control. If you are under 18, you may only use the platform with the consent and supervision of a parent or guardian.",
+            "Passwords must be at least six characters. We store passwords hashed and never in readable form, but a six-character minimum is a floor, not a recommendation — choose a strong, unique password. You are responsible for keeping your credentials confidential and for all activity that occurs under your account.",
+            "Tell us at flservices.ai@gmail.com if you believe your account has been accessed without your permission. Do not share your login, and do not use another person's account."
+          ]
+        },
+        {
+          "heading": "Acceptable Use",
+          "body": [
+            "Use the site lawfully and reasonably. You must not attempt to gain unauthorised access to any account, administrative area, or part of our systems; probe or interfere with the platform's security; scrape or bulk-download content; or circumvent the rate limits we apply to registration, enquiries, checkout, and the demo tools.",
+            "You must not upload or transmit material that is unlawful, infringing, malicious, or designed to disrupt the service. You must not use the platform to harass others, to misrepresent your identity or affiliation, or to resell or redistribute access to material you obtained through it.",
+            "We may investigate suspected misuse and take any action we reasonably consider appropriate, including restricting features, suspending accounts, and reporting unlawful activity to the relevant authorities."
+          ]
+        },
+        {
+          "heading": "The FL Lab Demo Tools",
+          "body": [
+            "The FL Lab video effects demo lets anyone upload a short video clip and apply one of a fixed set of visual effects. No account is required. Uploads are limited to 50 MB, must be a video file, and the processed result is trimmed to the first 30 seconds and returned as an MP4. Requests are rate-limited per IP address.",
+            "Only upload video you own or are authorised to use, and that contains nothing confidential, sensitive, or personal to someone who has not agreed to it. Do not upload material that is unlawful, infringing, or depicts a person without their consent. The demo is provided for illustration; it is not a production service.",
+            "Processed files are written to a location on our server that is reachable by anyone holding the generated link. We do not index or publish those links, but we do not treat them as secret. We remove files from time to time and give no undertaking to retain your output — download anything you want to keep. Do not use the demo for anything you would be unwilling to have accessible by URL."
+          ]
+        },
+        {
+          "heading": "Course Enrolment and Access",
+          "body": [
+            "Courses may be delivered online, in person, or as a hybrid, and may run as a live cohort with set dates, a one-off workshop, or a self-paced course you take at your own speed. The course page states the format, level, duration, and, where relevant, the schedule and seat capacity. Some courses have a limited number of seats, and enrolment closes once they are filled.",
+            "Free courses enrol you immediately. Paid courses require payment and approval before access is granted, as described in the next section. Once enrolled, you can access the course lessons, videos, resources, and quizzes from your dashboard, and the platform records your progress through the material.",
+            "Enrolment is personal to you. Access is for your own learning and may not be shared, transferred, or resold, and course materials may not be redistributed. Course content and schedules may be updated or corrected over time."
+          ]
+        },
+        {
+          "heading": "Paying for Courses, Refunds and Cancellations",
+          "body": [
+            "Paid courses are currently purchased by bank transfer only. When you choose to enrol, the site displays the transfer instructions and records your enrolment request as a pending order. You then make the transfer yourself through your own bank. Our team checks that the funds have arrived and either approves the order — at which point your enrolment is created and you receive a confirmation email — or declines it and notifies you. Access is not granted until that manual approval happens, so allow time for it.",
+            "We do not currently accept card payments. The card option shown on course pages is marked \"coming soon\" and is disabled; no card details are collected, stored, or processed anywhere on this site. If that changes, we will update these terms and the checkout accordingly. Prices are shown on each course page, and where a discounted price is displayed, that is the amount payable.",
+            "Refunds are handled manually. If a course is cancelled by us, or you are charged for a course you were not enrolled in, contact us at flservices.ai@gmail.com and we will refund the amount paid. For requests to withdraw from a course you have enrolled in, contact us before the course start date and we will consider the request in good faith, taking into account how much of the material you have already accessed. Live cohort and workshop dates can shift; if a date changes materially, we will tell you and you may request a refund or a transfer to a later cohort."
+          ]
+        },
+        {
+          "heading": "Instructor Content and Approval",
+          "body": [
+            "Instructors with an instructor account can create courses and lessons on the platform. All instructor-created courses require administrative approval before they can be published: a newly created or edited course returns to a pending state and cannot be made public until it has been approved. Approval may be refused, and a reason given.",
+            "Instructors are responsible for the accuracy, originality, and lawfulness of the material they submit, and confirm they hold the rights necessary to publish it. Our review is an editorial and quality check; it does not transfer responsibility for the content to us, and approving a course does not mean we have verified every claim in it.",
+            "Where an instructor is entitled to a share of course revenue, the applicable commission rate is recorded on their account and payouts are calculated from completed orders. Payouts are arranged and paid outside the platform. Nothing in these terms creates an employment relationship between FutureLine and an instructor."
+          ]
+        },
+        {
+          "heading": "Intellectual Property",
+          "body": [
+            "The website and everything we put into it — text, design, graphics, 3D scenes, animations, code, logos, the FutureLine name and branding, and the course materials we produce — belongs to FutureLine or to our licensors, and is protected by copyright and other intellectual property laws.",
+            "Enrolling in a course gives you a personal, non-transferable, revocable licence to view and use the course material for your own learning. It does not give you ownership of anything. You may not copy, republish, record, redistribute, sell, or create derivative works from our content, or use our name or branding, without our written permission.",
+            "You may share ordinary links to public pages on our site, and use short quotations with attribution."
+          ]
+        },
+        {
+          "heading": "Your Content and the Licence You Grant",
+          "body": [
+            "You keep ownership of everything you submit: enquiry messages, profile details and bio, videos you put through the demo tools, and, for instructors, the courses and lessons you author. We do not claim ownership of your material.",
+            "To operate the service, you grant FutureLine a non-exclusive, worldwide, royalty-free licence to store, reproduce, process, adapt for formatting and delivery, and — where the content is intended to be public, such as a published course or an instructor profile — display your submissions. This licence exists only so that we can host and deliver the service, and it ends when you remove the content or your account, except where we must retain records to meet a legal or accounting obligation.",
+            "You are responsible for having the rights to whatever you submit, and you must not upload material that infringes someone else's rights. If you believe content on our site infringes your rights, contact us at flservices.ai@gmail.com and we will investigate."
+          ]
+        },
+        {
+          "heading": "Third-Party Links and Embedded Video",
+          "body": [
+            "Course lesson videos are typically hosted on third-party platforms such as YouTube or Vimeo and are shown on our site through embedded players. When you play an embedded video, that provider may set cookies and receive data about your visit under its own terms and privacy policy — not ours.",
+            "Our site also links to external websites and social media accounts. We do not control those sites, do not endorse them by linking to them, and are not responsible for their content, availability, or practices. Your use of any third-party site or service is between you and that provider.",
+            "We rely on third parties for infrastructure such as hosting, database services, transactional email, and authentication. Their involvement is described in our Privacy Policy."
+          ]
+        },
+        {
+          "heading": "Service Availability and Changes",
+          "body": [
+            "We aim to keep the site available and working, but we do not guarantee uninterrupted or error-free access. The service may be unavailable during maintenance, updates, or events outside our control, and features may be slow or temporarily disabled.",
+            "We may add, change, suspend, or withdraw any part of the site — including courses, lessons, demo tools, and pricing — at any time. Where a change materially affects a course you are already enrolled in, we will make reasonable efforts to notify you and to offer a fair alternative.",
+            "The FL Lab demo tools in particular are experimental and may be modified or removed without notice."
+          ]
+        },
+        {
+          "heading": "Disclaimer of Warranties",
+          "body": [
+            "The site, the course platform, and the demo tools are provided \"as is\" and \"as available\". To the fullest extent permitted by law, we disclaim all warranties, express or implied, including any implied warranties of merchantability, fitness for a particular purpose, accuracy, and non-infringement.",
+            "Course material, articles, and any automated course recommendations are provided for general educational and informational purposes. They are not professional, legal, financial, or technical advice for your specific situation, and we do not guarantee any particular learning outcome, certification, career result, or business result.",
+            "Output produced by the demo tools is provided without any warranty as to quality, suitability, or fitness for any use, and should not be relied on for production work."
+          ]
+        },
+        {
+          "heading": "Limitation of Liability and Indemnity",
+          "body": [
+            "To the maximum extent permitted by Omani law, FutureLine and its officers, employees, and contractors will not be liable for any indirect, incidental, special, consequential, or punitive damages, or for any loss of profits, revenue, data, business, or goodwill, arising out of or connected with your use of the site — whether the claim is in contract, tort, or otherwise, and whether or not we were advised of the possibility.",
+            "Our total aggregate liability to you for all claims connected with the service is limited to the amount you actually paid to FutureLine through this website in the twelve months before the event giving rise to the claim, or OMR 50, whichever is greater. Nothing in these terms excludes liability that cannot lawfully be excluded, including liability for death or personal injury caused by our negligence, or for fraud.",
+            "You agree to indemnify and hold FutureLine harmless against claims, losses, liabilities, and reasonable legal costs arising from your breach of these terms, your misuse of the service, content you submit, or your infringement of a third party's rights."
+          ]
+        },
+        {
+          "heading": "Suspension and Termination",
+          "body": [
+            "You may stop using the site at any time and may ask us to close your account by emailing flservices.ai@gmail.com. Closing your account ends your access to any courses you are enrolled in.",
+            "We may suspend or terminate your account, or restrict your access to part of the service, if you breach these terms, if we reasonably suspect fraud, non-payment, or misuse, or if we are required to do so by law. Where circumstances allow, we will tell you why and give you an opportunity to respond.",
+            "Sections that by their nature should survive termination — including intellectual property, the licence you grant us, disclaimers, limitation of liability, indemnity, and governing law — continue to apply after your account ends."
+          ]
+        },
+        {
+          "heading": "Governing Law and Changes to These Terms",
+          "body": [
+            "These terms and any dispute or claim arising out of them, or out of your use of the site, are governed by the laws of the Sultanate of Oman. The courts of the Sultanate of Oman have exclusive jurisdiction. Before starting formal proceedings, we ask that you contact us so we can try to resolve the matter directly.",
+            "We may update these terms as the service develops or as the law requires. The revised version takes effect when posted, and the \"last updated\" date at the top will change. Where a change is significant, we will make reasonable efforts to notify registered users by email or through the site.",
+            "Continuing to use the site after an update means you accept the revised terms. If you do not accept them, please stop using the service and, if you wish, ask us to close your account."
+          ]
+        },
+        {
+          "heading": "Contact",
+          "body": [
+            "For questions about these terms, enrolment, payments, refunds, or content on the site, email us at flservices.ai@gmail.com.",
+            "FutureLine — Sultanate of Oman — https://futureline.ai"
+          ]
+        }
+      ]
+    }
   }
 }

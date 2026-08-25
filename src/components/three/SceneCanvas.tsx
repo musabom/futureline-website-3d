@@ -27,6 +27,12 @@ interface Props {
   flat?: boolean
   camera?: { position?: [number, number, number]; fov?: number }
   className?: string
+  /**
+   * Device-pixel-ratio range. Default [1, 1.75]. Pass lower (e.g. [1, 1.25])
+   * for scenes that are blurred/masked/behind other layers, where retina
+   * detail is invisible but still costs fill rate.
+   */
+  dpr?: [number, number]
 }
 
 export function SceneCanvas({
@@ -36,15 +42,16 @@ export function SceneCanvas({
   flat = true,
   camera = { position: [0, 0, 5.2], fov: 45 },
   className,
+  dpr = [1, 1.75],
 }: Props) {
   return (
     <CanvasBoundary fallback={fallback}>
       <Canvas
         flat={flat}
         frameloop={frameloop}
-        // Capped at 1.75 rather than 2: the extra pixels are invisible on
+        // Capped below 2 by default: the extra pixels are invisible on
         // these soft, blurred scenes but cost real fill rate on retina.
-        dpr={[1, 1.75]}
+        dpr={dpr}
         camera={camera}
         className={className}
         gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}

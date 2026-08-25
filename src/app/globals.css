@@ -158,6 +158,20 @@ select.fl-input > option {
   .fl-elev-2 { box-shadow: var(--fl-elev-2); }
   .fl-elev-3 { box-shadow: var(--fl-elev-3); }
 
+  /* A very subtle white highlight along the UPPER edges of the logo — like
+     soft light reflecting from above — so the mark lifts off the dark hero
+     without a thick outline or a border around the whole shape. Both drops
+     are offset UPWARD only (negative Y), so the white catches just the top-
+     facing contours of the ring and strokes; the sides and bottom get none.
+     Thin, soft and low-alpha — enhances visibility without altering the
+     original logo. The logo's colours, shape, size and position are
+     untouched. */
+  .fl-logo-stroke {
+    filter:
+      drop-shadow(0 -1px 1px rgba(255, 255, 255, 0.5))
+      drop-shadow(0 -0.5px 0.5px rgba(255, 255, 255, 0.35));
+  }
+
   /* Slowly rotating aurora behind hero/vision headlines. */
   .fl-aurora {
     background: conic-gradient(
@@ -217,20 +231,24 @@ select.fl-input > option {
   }
 
   /* Wordmark with a bright specular light-sweep travelling left→right. A
-     narrow highlight band (first layer) is animated across the base teal
+     narrow highlight band (first layer) is animated across the base
      gradient (second layer); both are clipped to the text so the letters
-     briefly catch the light as it passes. */
+     briefly catch the light as it passes.
+     The base gradient is deliberately BRIGHT at every stop (ice-white →
+     sky → cyan-blue, symmetric) so all letters read clearly on the dark
+     hero — the old navy end-stops made the first/last letters vanish into
+     the background — and the blue-cyan family matches the scene's neon. */
   .fl-text-sweep {
     background-image:
       linear-gradient(
         105deg,
         transparent 38%,
         rgba(255, 255, 255, 0.5) 46%,
-        rgba(200, 255, 248, 0.95) 50%,
+        rgba(215, 245, 255, 0.95) 50%,
         rgba(255, 255, 255, 0.5) 54%,
         transparent 62%
       ),
-      linear-gradient(90deg, #0f1e3d 0%, #18a999 28%, #2dd4bf 50%, #18a999 72%, #0f1e3d 100%);
+      linear-gradient(90deg, #dff4ff 0%, #93d8ff 26%, #56bdf9 50%, #93d8ff 74%, #dff4ff 100%);
     background-size:
       260% 100%,
       100% 100%;

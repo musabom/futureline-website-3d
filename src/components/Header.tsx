@@ -98,12 +98,16 @@ export default function Header() {
             aria-label="FutureLine home"
             data-cursor="hover"
           >
+            {/* The brand mark, exactly as designed — original colours, shape
+                and size. A thin white outline (fl-logo-stroke) traces its
+                silhouette so the edges read cleanly on the dark hero; the
+                original teal glow is folded into that same filter. */}
             <Image
               src="/images/logo-mark.png"
               alt=""
               width={30}
               height={30}
-              className="h-[30px] w-[30px] drop-shadow-[0_4px_8px_rgba(24,169,153,0.35)]"
+              className="fl-logo-stroke h-[30px] w-[30px]"
               priority
             />
             <span

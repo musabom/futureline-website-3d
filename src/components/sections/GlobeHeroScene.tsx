@@ -42,7 +42,10 @@ export function GlobeHeroScene() {
       onPointerMove={handlePointerMove}
       onPointerLeave={resetPointer}
     >
-      <SceneCanvas frameloop={frameloop} fallback={<ConstellationFallback />}>
+      {/* dpr capped low: this scene sits masked behind the hero video, so
+          retina-resolution wireframe detail is invisible — but it would
+          still cost full fill rate every frame. */}
+      <SceneCanvas frameloop={frameloop} dpr={[1, 1.25]} fallback={<ConstellationFallback />}>
         <GlobeHeroCanvas pointerRef={pointerRef} />
       </SceneCanvas>
     </div>

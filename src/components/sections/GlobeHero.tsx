@@ -16,6 +16,7 @@ import { Link } from '@/i18n/routing';
 import { ArrowRight } from 'lucide-react';
 import GlobeHeroScene from './GlobeHeroCanvasLazy';
 import { HeroNetwork } from './HeroNetwork';
+import { EmergingWordmark } from './EmergingWordmark';
 import { DecodeText } from '@/components/ui/DecodeText';
 
 export async function GlobeHero() {
@@ -50,12 +51,14 @@ export async function GlobeHero() {
           figure (visible around the edges), not over it. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-20"
         style={{
-          // Brighter, more saturated, with a soft neon-blue glow around the
-          // hologram's lines/nodes (drop-shadow follows their alpha).
-          filter:
-            'brightness(1.5) saturate(1.35) drop-shadow(0 0 6px rgba(66,140,255,0.85))',
+          // NOTE: no CSS filter here. brightness/saturate/drop-shadow over a
+          // live WebGL canvas re-filters the whole layer every animation
+          // frame and was a major FPS cost — the neon glow is carried by the
+          // scene itself and the network sprites, not a wrapper filter.
+          // Wrapper opacity is 20% (by request) so the hologram sits as a
+          // subtle layer behind the robot rather than competing with it.
           // Fade the hologram out over the robot's centre column so it reads
           // as sitting BEHIND the figure (visible around the edges), not over.
           maskImage:
@@ -72,23 +75,22 @@ export async function GlobeHero() {
           the robot. A real continuous animation, not an image. */}
       <HeroNetwork />
 
-      {/* TEST: cinematic hero video — the robot in the foreground.
-          mix-blend-lighten composites it over the network below: the robot
-          and its bright edges stay solid and clearly visible, while the
-          video's dark background drops out so the AI network (the globe
-          canvas above) shows through around and behind the figure. Full-bleed
-          object-cover keeps it centred with the headline; z-[1] sits above
-          the network/aurora, and the copy (z-10) stays on top. */}
+      {/* Cinematic hero video — the robot raises his open palm (~7s in) and
+          blue/cyan light rays + particles pour out of it, from which the
+          wordmark forms (see EmergingWordmark). Plays once and freezes on the
+          open-palm frame — no loop, so there is no jarring jump-cut back to
+          the start, and the hand holds still while the light plays out.
+          mix-blend-lighten keeps the robot/scene solid while the neon network
+          behind glows through the night sky. */}
       <video
         aria-hidden
         autoPlay
         muted
-        loop
         playsInline
         preload="auto"
-        className="pointer-events-none absolute inset-0 z-[1] h-full w-full object-cover mix-blend-lighten brightness-[0.62]"
+        className="pointer-events-none absolute inset-0 z-[1] h-full w-full object-cover mix-blend-lighten opacity-30"
       >
-        <source src="/hero-cinematic.mp4" type="video/mp4" />
+        <source src="/hero-test.mp4" type="video/mp4" />
       </video>
 
       {/* Perspective grid floor */}
@@ -108,14 +110,15 @@ export async function GlobeHero() {
           id="hero-heading"
           className="mb-3 font-display text-[clamp(3.5rem,12vw,8.5rem)] font-bold leading-[0.95] tracking-[-0.04em]"
         >
-          <span className="fl-text-sweep drop-shadow-[0_0_26px_rgba(45,212,191,0.35)]">
-            FutureLine
-          </span>
+          <EmergingWordmark
+            text="FutureLine"
+            className="fl-text-sweep drop-shadow-[0_0_28px_rgba(86,189,249,0.45)]"
+          />
         </h1>
 
         <DecodeText
           text={t('tagline')}
-          className="mb-6 font-display text-[clamp(0.9rem,2vw,1.25rem)] font-semibold tracking-[0.4em] text-teal"
+          className="mb-6 font-display text-[clamp(0.9rem,2vw,1.25rem)] font-semibold tracking-[0.4em] text-[#7cc9f8]"
         />
 
         <p className="mb-9 max-w-xl text-lg leading-relaxed text-white/75">{t('lede')}</p>

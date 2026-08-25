@@ -11,12 +11,24 @@
 'use client'
 
 import { useEffect, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import { initLenisGsap, destroyAllScrollTriggers } from '@/lib/lenis-gsap'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
-import { scrollToInitialHash } from '@/lib/scroll'
+import { scrollToInitialHash, scrollToHashWhenReady } from '@/lib/scroll'
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion()
+  const pathname = usePathname()
+
+  // Arriving at /#section from ANOTHER page is a client-side navigation, so
+  // this provider never remounts and the mount effect below doesn't re-run —
+  // which left header links like "Who we serve" dropping the visitor part-way
+  // down the home page instead of on the section. Re-run the anchor scroll
+  // whenever the route changes and a hash is present.
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.location.hash) return
+    scrollToHashWhenReady(window.location.hash)
+  }, [pathname])
 
   useEffect(() => {
     if (reduced) {

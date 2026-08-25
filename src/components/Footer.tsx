@@ -86,8 +86,6 @@ export default async function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-hairline pt-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {year} FutureLine.ai. {t('rights')}</p>
-          {/* No privacy/terms routes exist in the app yet — deliberately not
-              linked rather than pointing at a 404. */}
           <p>
             <Link href="/courses" className="transition-colors hover:text-teal">
               {t('links.courses')}
@@ -97,6 +95,18 @@ export default async function Footer() {
             </span>
             <Link href="/audit" className="transition-colors hover:text-teal">
               {t('links.audit')}
+            </Link>
+            <span aria-hidden className="mx-2">
+              ·
+            </span>
+            <Link href="/privacy" className="transition-colors hover:text-teal">
+              {t('links.privacy')}
+            </Link>
+            <span aria-hidden className="mx-2">
+              ·
+            </span>
+            <Link href="/terms" className="transition-colors hover:text-teal">
+              {t('links.terms')}
             </Link>
           </p>
         </div>

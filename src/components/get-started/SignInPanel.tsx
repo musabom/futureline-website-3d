@@ -217,13 +217,19 @@ function SignInInner() {
 
             <p className="mx-auto mt-8 max-w-[300px] text-center text-xs leading-relaxed text-ink-muted">
               {t('welcome.termsPrefix')}{' '}
-              <span className="text-ink-muted underline decoration-hairline underline-offset-2">
+              <Link
+                href="/terms"
+                className="text-ink-muted underline decoration-hairline underline-offset-2 transition-colors hover:text-teal"
+              >
                 {t('welcome.serviceTerms')}
-              </span>{' '}
+              </Link>{' '}
               ·{' '}
-              <span className="text-ink-muted underline decoration-hairline underline-offset-2">
+              <Link
+                href="/privacy"
+                className="text-ink-muted underline decoration-hairline underline-offset-2 transition-colors hover:text-teal"
+              >
                 {t('welcome.privacy')}
-              </span>
+              </Link>
             </p>
           </>
         ) : (

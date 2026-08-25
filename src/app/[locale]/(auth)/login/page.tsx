@@ -3,11 +3,13 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Link } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
 
 
 export default function LoginPage() {
   const t = useTranslations('auth');
+  const locale = useLocale();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,12 +34,14 @@ export default function LoginPage() {
       const sessionRes = await fetch('/api/auth/session');
       const session = await sessionRes.json();
       const role = session?.user?.role;
+      // Keep the active locale: with localePrefix 'always' a bare '/admin'
+      // redirects to the English route and drops an Arabic user's locale.
       if (role === 'ADMIN') {
-        window.location.href = '/admin';
+        window.location.href = `/${locale}/admin`;
       } else if (role === 'INSTRUCTOR') {
-        window.location.href = '/instructor';
+        window.location.href = `/${locale}/instructor`;
       } else {
-        window.location.href = '/dashboard';
+        window.location.href = `/${locale}/dashboard`;
       }
     }
   };
@@ -69,6 +73,11 @@ export default function LoginPage() {
               {error}
             </div>
           )}
+
+          {/* Google lands on /dashboard, which routes ADMIN → /admin and
+              INSTRUCTOR → /instructor, mirroring the credentials flow below.
+              signIn() isn't locale-aware, so the prefix is added by hand. */}
+          <GoogleSignInButton callbackUrl={`/${locale}/dashboard`} />
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>

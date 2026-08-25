@@ -142,6 +142,10 @@ export function EmergingWordmark({
       }
 
       tl = gsap.timeline();
+      // Non-null alias for use inside the forEach callbacks below: TypeScript
+      // can't narrow the outer `tl` (declared `Timeline | null`) through a
+      // closure, even though these callbacks run synchronously right here.
+      const timeline = tl;
 
       // 1 — palm glow blooms, then fades as the light streams out of it.
       tl.fromTo(
@@ -156,7 +160,7 @@ export function EmergingWordmark({
       rays.forEach((f, i) => {
         const centre = Math.abs(i - (RAY_COUNT - 1) / 2) / ((RAY_COUNT - 1) / 2);
         const delay = 0.12 + centre * 0.28 + Math.random() * 0.06;
-        tl.to(
+        timeline.to(
           f,
           { scaleY: 1, opacity: 0.9, duration: 0.55, ease: 'power3.out' },
           delay,
@@ -171,7 +175,7 @@ export function EmergingWordmark({
         const midY = ey + (t.y - ey) * 0.5 - 24 - Math.random() * 55;
         const d = 0.8 + Math.random() * 0.55;
         const delay = 0.5 + Math.random() * 0.6;
-        tl.fromTo(
+        timeline.fromTo(
           p,
           { x: ex, y: ey, opacity: 0, scale: 0.6 },
           {

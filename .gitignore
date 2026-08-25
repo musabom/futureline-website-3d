@@ -16,3 +16,6 @@ next-env.d.ts
 
 # Local git backup bundles — large binaries, never commit
 *.bundle
+
+# PM2 runtime logs
+logs/

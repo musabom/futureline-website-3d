@@ -35,9 +35,15 @@ class ResendNotificationProvider implements NotificationProvider {
 
   async sendEmail(notification: EmailNotification): Promise<boolean> {
     try {
+      // futureline.ai has no inbound MX, so a reply to the From address would
+      // bounce. Point replies at a mailbox that actually receives — the brand
+      // contact address — so "just reply to this email" is true.
+      const replyTo = process.env.REPLY_TO_EMAIL || 'flservices.ai@gmail.com';
+
       const { data, error } = await this.resend.emails.send({
         from: this.fromAddress,
         to: notification.to,
+        replyTo,
         subject: notification.subject,
         text: notification.body,
       });

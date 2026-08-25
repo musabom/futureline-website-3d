@@ -390,7 +390,9 @@
       "forgotPassword": "Forgot your password?",
       "noAccount": "Don't have an account?",
       "createOne": "Create one",
-      "errorInvalid": "Invalid email or password"
+      "errorInvalid": "Invalid email or password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
     },
     "register": {
       "title": "Create Account",

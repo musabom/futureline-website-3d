@@ -3,6 +3,7 @@ import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { PasswordInput } from '@/components/auth/PasswordInput';
 
 function ResetPasswordForm() {
   const t = useTranslations('auth');
@@ -94,34 +95,28 @@ function ResetPasswordForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-            {t('reset.newPasswordLabel')}
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-            placeholder={t('reset.newPasswordPlaceholder')}
-            required
-            minLength={6}
-          />
-        </div>
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-            {t('reset.confirmPasswordLabel')}
-          </label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-            placeholder={t('reset.confirmPasswordPlaceholder')}
-            required
-            minLength={6}
-          />
-        </div>
+        <PasswordInput
+          id="reset-new-password"
+          label={t('reset.newPasswordLabel')}
+          value={password}
+          onChange={setPassword}
+          autoComplete="new-password"
+          placeholder={t('reset.newPasswordPlaceholder')}
+          minLength={6}
+          showLabelText={t('login.showPassword')}
+          hideLabelText={t('login.hidePassword')}
+        />
+        <PasswordInput
+          id="reset-confirm-password"
+          label={t('reset.confirmPasswordLabel')}
+          value={confirmPassword}
+          onChange={setConfirmPassword}
+          autoComplete="new-password"
+          placeholder={t('reset.confirmPasswordPlaceholder')}
+          minLength={6}
+          showLabelText={t('login.showPassword')}
+          hideLabelText={t('login.hidePassword')}
+        />
         <button
           type="submit"
           disabled={loading}

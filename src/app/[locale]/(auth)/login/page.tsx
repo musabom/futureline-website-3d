@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
+import { PasswordInput } from '@/components/auth/PasswordInput';
 
 /**
  * Sign in.
@@ -141,22 +142,15 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <div>
-              <label className="fl-label" htmlFor="login-password">
-                {t('login.passwordLabel')}
-              </label>
-              <input
-                id="login-password"
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="fl-input"
-                required
-              />
-            </div>
+            <PasswordInput
+              id="login-password"
+              label={t('login.passwordLabel')}
+              value={password}
+              onChange={setPassword}
+              autoComplete="current-password"
+              showLabelText={t('login.showPassword')}
+              hideLabelText={t('login.hidePassword')}
+            />
 
             <button type="submit" disabled={loading} className="fl-submit" data-cursor="magnetic">
               {loading ? t('login.submitting') : t('login.submit')}

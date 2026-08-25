@@ -11,9 +11,17 @@
 set -euo pipefail
 
 BRANCH="${1:-main}"
-APP_NAME="futureline"
+# The PM2 process serving futureline.ai from /opt/futureline is `futureline-web`.
+# A separate, unrelated app is registered as plain `futureline` (/var/www/futureline
+# on :3000) — restarting that one deploys nothing. Override with APP_NAME=... if
+# the process is named differently on another host.
+APP_NAME="${APP_NAME:-futureline-web}"
 PORT="${PORT:-5000}"
 HEALTH_URL="http://127.0.0.1:${PORT}/en"
+
+# This box has 2 GB RAM; an uncapped Next build gets OOM-killed part-way and
+# leaves .next inconsistent. Cap the heap so the build stays within budget.
+export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=1536}"
 
 log() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31mDEPLOY FAILED: %s\033[0m\n' "$*" >&2; exit 1; }

@@ -380,6 +380,7 @@
   },
   "auth": {
     "login": {
+      "eyebrow": "Account",
       "title": "Welcome Back",
       "subtitle": "Sign in to your account",
       "emailLabel": "Email",

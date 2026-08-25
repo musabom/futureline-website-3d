@@ -1,16 +1,20 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
 
-
+/**
+ * Sign in.
+ *
+ * Uses the shared brand form primitives (.fl-label / .fl-input / .fl-submit)
+ * and surface tokens rather than hand-rolled Tailwind, so it reads as part of
+ * the light redesign instead of the generic form it used to be.
+ */
 export default function LoginPage() {
   const t = useTranslations('auth');
   const locale = useLocale();
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -47,29 +51,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-6">
-            <span
-              className="text-2xl font-black tracking-tight"
-              style={{
-                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              FutureLine
-            </span>
-          </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">{t('login.title')}</h1>
-          <p className="text-ink-muted text-sm mt-2">{t('login.subtitle')}</p>
-        </div>
+    <main className="fl-light relative flex min-h-screen items-center justify-center overflow-hidden bg-canvas px-6 py-16 text-ink">
+      {/* Brand ambience: a soft teal bloom top-left and a navy one bottom-right,
+          the same treatment the public pages use to keep the canvas from
+          reading as flat white. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 -top-40 h-[28rem] w-[28rem] rounded-full opacity-60 blur-3xl"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(24,169,153,0.16) 0%, rgba(24,169,153,0) 70%)',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 -right-40 h-[26rem] w-[26rem] rounded-full opacity-60 blur-3xl"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(27,44,99,0.14) 0%, rgba(27,44,99,0) 70%)',
+        }}
+      />
 
-        <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
+      <div className="relative w-full max-w-[420px]">
+        <Link
+          href="/"
+          className="mx-auto mb-10 flex items-center justify-center gap-2"
+          data-cursor="hover"
+        >
+          <span className="font-display text-2xl font-bold tracking-tight">
+            <span className="text-navy">Future</span>
+            <span className="text-teal">Line</span>
+          </span>
+        </Link>
+
+        <div className="rounded-card border border-hairline bg-canvas-card p-8 fl-elev-2">
+          <p className="mb-3 text-center font-display text-[11px] font-semibold uppercase tracking-[0.3em] text-teal">
+            {t('login.eyebrow')}
+          </p>
+          <h1 className="text-center font-display text-3xl font-bold tracking-tight text-navy">
+            {t('login.title')}
+          </h1>
+          <p className="mx-auto mt-2 mb-8 max-w-[280px] text-center text-sm leading-relaxed text-ink-muted">
+            {t('login.subtitle')}
+          </p>
+
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div
+              role="alert"
+              className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600"
+            >
               {error}
             </div>
           )}
@@ -81,59 +111,63 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
+              <label className="fl-label" htmlFor="login-email">
                 {t('login.emailLabel')}
               </label>
               <input
+                id="login-email"
                 type="email"
                 name="email"
                 autoComplete="email"
+                placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
+                className="fl-input"
                 required
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
+              <label className="fl-label" htmlFor="login-password">
                 {t('login.passwordLabel')}
               </label>
               <input
+                id="login-password"
                 type="password"
                 name="password"
                 autoComplete="current-password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
+                className="fl-input"
                 required
               />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
+
+            <button type="submit" disabled={loading} className="fl-submit" data-cursor="magnetic">
               {loading ? t('login.submitting') : t('login.submit')}
             </button>
           </form>
 
-          <div className="text-center mt-4">
+          <div className="mt-5 text-center">
             <Link
               href="/forgot-password"
-              className="text-sm text-teal-400 hover:text-teal-300 font-semibold transition-colors"
+              className="text-sm font-medium text-teal transition-colors hover:text-teal-dark"
             >
               {t('login.forgotPassword')}
             </Link>
           </div>
-
-          <p className="text-center text-sm text-ink-muted mt-6">
-            {t('login.noAccount')}{' '}
-            <Link href="/register" className="text-teal-400 hover:text-teal-300 font-semibold">
-              {t('login.createOne')}
-            </Link>
-          </p>
         </div>
+
+        <p className="mt-6 text-center text-sm text-ink-muted">
+          {t('login.noAccount')}{' '}
+          <Link
+            href="/register"
+            className="font-semibold text-teal transition-colors hover:text-teal-dark"
+          >
+            {t('login.createOne')}
+          </Link>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

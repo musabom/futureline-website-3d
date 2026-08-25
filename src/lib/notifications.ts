@@ -134,12 +134,64 @@ export async function notifyOrderRejected(user: { name: string; email: string },
   });
 }
 
-export async function notifyLeadConfirmation(lead: { name: string; email: string }) {
+/**
+ * Auto-reply sent to whoever submits a request — through an enquiry form or by
+ * finishing the get-started flow (whether they identified themselves with
+ * Google or with email). It quotes back the topic they picked and the request
+ * they actually wrote, so the reply is about *their* enquiry rather than a
+ * generic "thanks, we got it".
+ */
+export async function notifyLeadConfirmation(lead: {
+  name: string;
+  email: string;
+  topic?: string;
+  message?: string;
+  source?: string;
+}) {
+  const topic = (lead.topic || '').trim();
+  const message = (lead.message || '').trim();
+
+  // Human-readable label for the get-started pillar keys.
+  const TOPIC_LABELS: Record<string, string> = {
+    consulting: 'AI Consulting',
+    applications: 'Applications & Custom Software',
+    training: 'Training & Enablement',
+    readiness: 'AI Readiness Assessment',
+  };
+  const topicLabel = TOPIC_LABELS[topic.toLowerCase()] || topic;
+
+  const subject = topicLabel
+    ? `FutureLine — we received your ${topicLabel} request`
+    : 'FutureLine — we received your request';
+
+  const lines = [
+    `Dear ${lead.name},`,
+    '',
+    'Thank you for reaching out to FutureLine. This is an automatic confirmation that your request has reached our team.',
+    '',
+  ];
+
+  if (topicLabel) lines.push(`What you asked about: ${topicLabel}`);
+  if (message) {
+    // Keep the quote short — it's a reminder of what they sent, not a transcript.
+    const excerpt = message.length > 600 ? `${message.slice(0, 600)}…` : message;
+    lines.push('', 'Your request, as we received it:', `"${excerpt}"`);
+  }
+
+  lines.push(
+    '',
+    'A member of our team will review this and get back to you personally within one business day. If anything has changed in the meantime, just reply to this email and it will reach us.',
+    '',
+    'Best regards,',
+    'FutureLine Team',
+    'https://futureline.ai',
+  );
+
   await sendEmail({
     to: lead.email,
-    subject: 'FutureLine - Thank You for Your Enquiry',
-    body: `Dear ${lead.name},\n\nThank you for submitting your enquiry on FutureLine!\n\nWe have received your request and will review it shortly. One of our team members will be in touch with you within 24 hours.\n\nIn the meantime, if you have any urgent questions, feel free to reach out via WhatsApp at 96532326.\n\nBest regards,\nFutureLine Team`,
-    metadata: { type: 'lead_confirmation' },
+    subject,
+    body: lines.join('\n'),
+    metadata: { type: 'lead_confirmation', topic: topic || undefined, source: lead.source },
   });
 }
 

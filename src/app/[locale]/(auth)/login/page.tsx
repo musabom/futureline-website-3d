@@ -1,6 +1,7 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
@@ -73,12 +74,26 @@ export default function LoginPage() {
       />
 
       <div className="relative w-full max-w-[420px]">
+        {/* Brand lockup above the card — the pattern every large product uses
+            on its sign-in screen (logo mark + wordmark, centred, linking home).
+            dir="ltr" keeps the Latin wordmark and mark in the correct order on
+            the Arabic (RTL) layout. */}
         <Link
           href="/"
-          className="mx-auto mb-10 flex items-center justify-center gap-2"
+          dir="ltr"
+          className="mx-auto mb-8 flex items-center justify-center gap-3"
+          aria-label="FutureLine home"
           data-cursor="hover"
         >
-          <span className="font-display text-2xl font-bold tracking-tight">
+          <Image
+            src="/images/logo-mark.png"
+            alt=""
+            width={44}
+            height={44}
+            className="h-11 w-11"
+            priority
+          />
+          <span className="font-display text-3xl font-bold tracking-tight">
             <span className="text-navy">Future</span>
             <span className="text-teal">Line</span>
           </span>

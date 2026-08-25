@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 import { prisma } from './prisma';
 import { rateLimit } from './rateLimit';
+import { notifyWelcome } from './notifications';
 
 // Default to the production origin only in production. In dev, leaving this
 // unset lets NextAuth infer the URL from the request host (localhost), so the
@@ -131,6 +132,14 @@ export const authOptions: NextAuthOptions = {
             role: 'CUSTOMER',
           },
         });
+
+        // Credentials sign-up sends a welcome from /api/auth/register; Google
+        // sign-up had no equivalent, so first-time Google users received
+        // nothing at all. Fire-and-forget so a mail failure can't block login.
+        notifyWelcome({
+          name: `${nameParts[0] ?? ''} ${nameParts.slice(1).join(' ')}`.trim() || 'there',
+          email,
+        }).catch((err) => console.error('[AUTH] Welcome email failed:', err));
       }
       return true;
     },

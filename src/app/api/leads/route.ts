@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         company: company || null,
         tourType: tourType || 'General Enquiry',
         message,
-        source: source || 'FL Tourism',
+        source: source || 'Website',
         stage: 'NEW',
         priority: 'MEDIUM',
       },
@@ -41,13 +41,19 @@ export async function POST(req: Request) {
       data: {
         leadId: lead.id,
         type: 'LEAD_CREATED',
-        description: `New lead submitted via ${source || 'FL Tourism'} contact form`,
+        description: `New lead submitted via ${source || 'Website'} contact form`,
       },
     });
 
+    // Auto-reply to the person, quoting their own topic and request back to
+    // them. Sent for every enquiry route, including the get-started flow —
+    // which reaches here after the visitor signs in with Google or email.
     notifyLeadConfirmation({
       name: firstName,
       email,
+      topic: tourType || undefined,
+      message,
+      source: source || 'Website',
     });
 
     notifyAdminNewLead({
@@ -56,7 +62,7 @@ export async function POST(req: Request) {
       phone: phone || undefined,
       tourType: tourType || 'General Enquiry',
       message,
-      source: source || 'FL Tourism',
+      source: source || 'Website',
     });
 
     return NextResponse.json({ success: true, id: lead.id });

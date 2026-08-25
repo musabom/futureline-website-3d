@@ -237,7 +237,11 @@ export function EmergingWordmark({
   }, []);
 
   return (
-    <span ref={wrapRef} className={className} aria-label={text} role="text">
+    // dir="ltr" is required: the wordmark is rendered as one inline-block span
+    // per letter, and inside the Arabic (RTL) layout those spans lay out
+    // right-to-left, printing the brand name backwards ("eniLerutuF").
+    // "FutureLine" is a Latin brand name and always reads left-to-right.
+    <span ref={wrapRef} dir="ltr" className={className} aria-label={text} role="text">
       {Array.from(text).map((ch, i) => (
         <span
           key={i}

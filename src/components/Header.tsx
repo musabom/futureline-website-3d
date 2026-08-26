@@ -16,16 +16,18 @@ import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher';
 import { scrollToHash } from '@/lib/scroll';
+import { AccountMenu } from '@/components/AccountMenu';
 
 export default function Header() {
   const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const t = useTranslations('nav');
+  const locale = useLocale();
   const pathname = usePathname();
 
   // The home hero is dark, so over it (top of the home page, before the nav
@@ -139,28 +141,9 @@ export default function Header() {
 
           <div className="hidden items-center gap-3 md:flex">
             {session ? (
-              <>
-                <Link
-                  href={
-                    session.user.role === 'ADMIN'
-                      ? '/admin'
-                      : session.user.role === 'INSTRUCTOR'
-                        ? '/instructor'
-                        : '/dashboard'
-                  }
-                  className={linkClass}
-                  data-cursor="hover"
-                >
-                  {t('dashboard')}
-                </Link>
-                <button
-                  onClick={() => signOut({ callbackUrl: '/' })}
-                  className={linkClass}
-                  data-cursor="hover"
-                >
-                  {t('signOut')}
-                </button>
-              </>
+              /* Signed in: identity + account actions behind an avatar, rather
+                 than a growing row of bare text links. */
+              <AccountMenu user={session.user as any} dark={overDarkHero} />
             ) : (
               /* The "Readiness assessment" CTA that sat next to Sign In was
                  removed by request. /audit is still reachable from the
@@ -221,7 +204,7 @@ export default function Header() {
                   {t('dashboard')}
                 </Link>
                 <button
-                  onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={() => signOut({ callbackUrl: `/${locale}` })}
                   className="rounded-md px-3 py-2.5 text-start font-display text-sm font-medium text-ink-muted transition-colors hover:bg-canvas-alt hover:text-navy"
                 >
                   {t('signOut')}

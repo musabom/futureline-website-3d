@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Link } from '@/i18n/routing';
+import { AuthShell } from '@/components/auth/AuthShell';
 import { useTranslations } from 'next-intl';
 
 export default function ForgotPasswordPage() {
@@ -37,87 +38,72 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-6">
-            <span
-              className="text-2xl font-black tracking-tight"
-              style={{
-                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              FutureLine
-            </span>
+    <AuthShell
+      eyebrow={t('forgot.eyebrow')}
+      title={t('forgot.title')}
+      subtitle={submitted ? t('forgot.subtitleSent') : t('forgot.subtitleDefault')}
+      footer={
+        <>
+          {t('forgot.rememberPassword')}{' '}
+          <Link
+            href="/login"
+            className="font-semibold text-teal transition-colors hover:text-teal-dark"
+          >
+            {t('forgot.signIn')}
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">{t('forgot.title')}</h1>
-          <p className="text-ink-muted text-sm mt-2">
-            {submitted
-              ? t('forgot.subtitleSent')
-              : t('forgot.subtitleDefault')}
-          </p>
+        </>
+      }
+    >
+      {submitted ? (
+        <div>
+          <div className="mb-6 rounded-lg border border-teal/25 bg-teal/[0.08] px-4 py-3 text-sm text-teal-dark">
+            {t('forgot.successMessage')}
+          </div>
+          <p className="mb-4 text-center text-sm text-ink-muted">{t('forgot.spamHint')}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setSubmitted(false);
+              setEmail('');
+            }}
+            className="mx-auto block text-sm font-semibold text-teal transition-colors hover:text-teal-dark"
+          >
+            {t('forgot.tryAnother')}
+          </button>
         </div>
-
-        <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
-          {submitted ? (
-            <div>
-              <div className="bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-3 rounded-lg mb-6 text-sm">
-                {t('forgot.successMessage')}
-              </div>
-              <p className="text-center text-sm text-ink-muted mb-4">
-                {t('forgot.spamHint')}
-              </p>
-              <button
-                onClick={() => { setSubmitted(false); setEmail(''); }}
-                className="text-teal-400 hover:text-teal-300 font-semibold text-sm block mx-auto transition-colors"
-              >
-                {t('forgot.tryAnother')}
-              </button>
+      ) : (
+        <>
+          {error && (
+            <div
+              role="alert"
+              className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600"
+            >
+              {error}
             </div>
-          ) : (
-            <>
-              {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                    {t('forgot.emailLabel')}
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                    placeholder={t('forgot.emailPlaceholder')}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-                >
-                  {loading ? t('forgot.submitting') : t('forgot.submit')}
-                </button>
-              </form>
-            </>
           )}
 
-          <p className="text-center text-sm text-ink-muted mt-6">
-            {t('forgot.rememberPassword')}{' '}
-            <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
-              {t('forgot.signIn')}
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="fl-label" htmlFor="forgot-email">
+                {t('forgot.emailLabel')}
+              </label>
+              <input
+                id="forgot-email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="fl-input"
+                placeholder={t('forgot.emailPlaceholder')}
+                required
+              />
+            </div>
+            <button type="submit" disabled={loading} className="fl-submit" data-cursor="magnetic">
+              {loading ? t('forgot.submitting') : t('forgot.submit')}
+            </button>
+          </form>
+        </>
+      )}
+    </AuthShell>
   );
 }

@@ -21,6 +21,7 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { getProviders, signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
@@ -171,12 +172,33 @@ function SignInInner() {
         {t('back')}
       </Link>
 
-      <div className="w-full max-w-[380px]">
+      <div className="w-full max-w-[420px]">
         {view === 'choice' ? (
           <>
-            <h1 className="mb-12 text-center font-display text-5xl font-bold tracking-tight text-navy">
+            {/* Brand lockup above the copy, matching /login and the pattern
+                every large product uses on its sign-in screen. dir="ltr" keeps
+                the Latin wordmark in order on the Arabic layout. */}
+            <div dir="ltr" className="mb-8 flex items-center justify-center gap-3">
+              <Image
+                src="/images/logo-mark.png"
+                alt=""
+                width={40}
+                height={40}
+                className="h-10 w-10"
+                priority
+              />
+              <span className="font-display text-2xl font-bold tracking-tight">
+                <span className="text-navy">Future</span>
+                <span className="text-teal">Line</span>
+              </span>
+            </div>
+
+            <h1 className="text-center font-display text-4xl font-bold leading-[1.1] tracking-tight text-navy">
               {t('welcome.title')}
             </h1>
+            <p className="mx-auto mb-10 mt-4 max-w-[340px] text-center text-sm leading-relaxed text-ink-muted">
+              {t('welcome.lede')}
+            </p>
 
             {error && (
               <div className="mb-4 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-center text-sm text-red-600">

@@ -2,6 +2,7 @@
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
+import { AuthShell } from '@/components/auth/AuthShell';
 import { useTranslations } from 'next-intl';
 import { PasswordInput } from '@/components/auth/PasswordInput';
 
@@ -72,14 +73,11 @@ function ResetPasswordForm() {
 
   if (success) {
     return (
-      <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
-        <div className="bg-teal-500/10 border border-teal-500/20 text-teal-400 px-4 py-3 rounded-lg mb-6 text-sm">
+      <div>
+        <div className="mb-6 rounded-lg border border-teal/25 bg-teal/[0.08] px-4 py-3 text-sm text-teal-dark">
           {t('reset.successMessage')}
         </div>
-        <Link
-          href="/login"
-          className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity block text-center"
-        >
+        <Link href="/login" className="fl-submit" data-cursor="magnetic">
           {t('reset.signIn')}
         </Link>
       </div>
@@ -87,9 +85,9 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
+    <div>
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
+        <div role="alert" className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600">
           {error}
         </div>
       )}
@@ -127,7 +125,7 @@ function ResetPasswordForm() {
       </form>
 
       <p className="text-center text-sm text-ink-muted mt-6">
-        <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
+        <Link href="/login" className="font-semibold text-teal transition-colors hover:text-teal-dark">
           {t('reset.backToSignIn')}
         </Link>
       </p>
@@ -138,35 +136,14 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   const t = useTranslations('auth');
   return (
-    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-6">
-            <span
-              className="text-2xl font-black tracking-tight"
-              style={{
-                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              FutureLine
-            </span>
-          </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">{t('reset.title')}</h1>
-          <p className="text-ink-muted text-sm mt-2">{t('reset.subtitle')}</p>
-        </div>
-        <Suspense
-          fallback={
-            <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8 text-center text-ink-muted">
-              {t('reset.loading')}
-            </div>
-          }
-        >
-          <ResetPasswordForm />
-        </Suspense>
-      </div>
-    </div>
+    <AuthShell
+      eyebrow={t('reset.eyebrow')}
+      title={t('reset.title')}
+      subtitle={t('reset.subtitle')}
+    >
+      <Suspense fallback={<p className="text-center text-sm text-ink-muted">{t('reset.loading')}</p>}>
+        <ResetPasswordForm />
+      </Suspense>
+    </AuthShell>
   );
 }

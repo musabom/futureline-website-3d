@@ -2,12 +2,16 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Link } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
+import { GoogleSignInButton } from '@/components/auth/GoogleSignInButton';
+import { PasswordInput } from '@/components/auth/PasswordInput';
+import { AuthShell } from '@/components/auth/AuthShell';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { signIn } from 'next-auth/react';
 
 export default function RegisterPage() {
   const t = useTranslations('auth');
+  const locale = useLocale();
   const router = useRouter();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -52,115 +56,107 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-6">
-            <span
-              className="text-2xl font-black tracking-tight"
-              style={{
-                background: 'linear-gradient(to right, #2dd4bf, #3b82f6)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              FutureLine
-            </span>
+    <AuthShell
+      eyebrow={t('register.eyebrow')}
+      title={t('register.title')}
+      subtitle={t('register.subtitle')}
+      footer={
+        <>
+          {t('register.haveAccount')}{' '}
+          <Link
+            href="/login"
+            className="font-semibold text-teal transition-colors hover:text-teal-dark"
+          >
+            {t('register.signIn')}
           </Link>
-          <h1 className="text-2xl font-black tracking-tight text-navy">{t('register.title')}</h1>
-          <p className="text-ink-muted text-sm mt-2">{t('register.subtitle')}</p>
+        </>
+      }
+    >
+      {error && (
+        <div
+          role="alert"
+          className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600"
+        >
+          {error}
+        </div>
+      )}
+
+      <GoogleSignInButton callbackUrl={`/${locale}/dashboard`} />
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="fl-label" htmlFor="reg-first">
+              {t('register.firstNameLabel')}
+            </label>
+            <input
+              id="reg-first"
+              type="text"
+              autoComplete="given-name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="fl-input"
+              required
+            />
+          </div>
+          <div>
+            <label className="fl-label" htmlFor="reg-last">
+              {t('register.lastNameLabel')}
+            </label>
+            <input
+              id="reg-last"
+              type="text"
+              autoComplete="family-name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="fl-input"
+              required
+            />
+          </div>
         </div>
 
-        <div className="w-full max-w-md rounded-2xl border border-hairline bg-canvas-card backdrop-blur-xl p-8">
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                  {t('register.firstNameLabel')}
-                </label>
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                  {t('register.lastNameLabel')}
-                </label>
-                <input
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                  required
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                {t('register.emailLabel')}
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                {t('register.passwordLabel')}
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                required
-                minLength={6}
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-ink-muted mb-1.5">
-                {t('register.confirmPasswordLabel')}
-              </label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-canvas-card border border-hairline rounded-lg px-4 py-2.5 text-sm text-ink-muted placeholder:text-ink-muted focus:outline-none focus:border-teal-500/50 transition-colors"
-                required
-                minLength={6}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-teal-500 to-blue-600 text-navy text-sm font-bold py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? t('register.submitting') : t('register.submit')}
-            </button>
-          </form>
-
-          <p className="text-center text-sm text-ink-muted mt-6">
-            {t('register.haveAccount')}{' '}
-            <Link href="/login" className="text-teal-400 hover:text-teal-300 font-semibold">
-              {t('register.signIn')}
-            </Link>
-          </p>
+        <div>
+          <label className="fl-label" htmlFor="reg-email">
+            {t('register.emailLabel')}
+          </label>
+          <input
+            id="reg-email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="fl-input"
+            required
+          />
         </div>
-      </div>
-    </div>
+
+        <PasswordInput
+          id="reg-password"
+          label={t('register.passwordLabel')}
+          value={password}
+          onChange={setPassword}
+          autoComplete="new-password"
+          minLength={6}
+          showLabelText={t('login.showPassword')}
+          hideLabelText={t('login.hidePassword')}
+        />
+
+        <PasswordInput
+          id="reg-confirm"
+          label={t('register.confirmPasswordLabel')}
+          value={confirmPassword}
+          onChange={setConfirmPassword}
+          autoComplete="new-password"
+          minLength={6}
+          showLabelText={t('login.showPassword')}
+          hideLabelText={t('login.hidePassword')}
+        />
+
+        <button type="submit" disabled={loading} className="fl-submit" data-cursor="magnetic">
+          {loading ? t('register.submitting') : t('register.submit')}
+        </button>
+      </form>
+    </AuthShell>
   );
 }

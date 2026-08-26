@@ -13,7 +13,8 @@
     "getStarted": "Get Started",
     "readinessAssessment": "Readiness assessment",
     "dashboard": "Dashboard",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "account": "Account"
   },
   "hero": {
     "eyebrow": "AI Consulting · Applications · Training",
@@ -225,13 +226,14 @@
       "confirm": "Confirm"
     },
     "welcome": {
-      "title": "Welcome!",
+      "title": "The future is built, not waited for",
       "google": "Continue with Google",
       "email": "Continue with email",
       "otherWays": "Other ways to sign in",
       "termsPrefix": "By signing in you agree to our",
       "serviceTerms": "Service Terms",
-      "privacy": "Privacy Policy"
+      "privacy": "Privacy Policy",
+      "lede": "One step, and your request reaches the team that turns AI from talk into working systems."
     },
     "signin": {
       "title": "Almost there — sign in",
@@ -408,7 +410,8 @@
       "signIn": "Sign in",
       "errorMismatch": "Passwords do not match",
       "errorFailed": "Registration failed",
-      "errorGeneric": "Something went wrong"
+      "errorGeneric": "Something went wrong",
+      "eyebrow": "Create account"
     },
     "forgot": {
       "title": "Forgot Password",
@@ -424,7 +427,8 @@
       "rememberPassword": "Remember your password?",
       "signIn": "Sign In",
       "errorTooManyRequests": "Too many requests. Please wait a moment and try again.",
-      "errorGeneric": "Something went wrong. Please try again."
+      "errorGeneric": "Something went wrong. Please try again.",
+      "eyebrow": "Password reset"
     },
     "reset": {
       "title": "Reset Password",
@@ -444,7 +448,8 @@
       "errorTooShort": "Password must be at least 6 characters.",
       "errorMismatch": "Passwords do not match.",
       "errorFailed": "Failed to reset password.",
-      "errorGeneric": "Something went wrong. Please try again."
+      "errorGeneric": "Something went wrong. Please try again.",
+      "eyebrow": "New password"
     }
   },
   "courseEnquiry": {

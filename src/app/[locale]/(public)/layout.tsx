@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import InactivityWatcher from '@/components/InactivityWatcher';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { SplashIntro } from '@/components/ui/SplashIntro';
+import { CoursePromoDialog } from '@/components/ui/CoursePromoDialog';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,6 +22,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {children}
       </div>
       <Footer />
+      <CoursePromoDialog />
     </SmoothScrollProvider>
   );
 }

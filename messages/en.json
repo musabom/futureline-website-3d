@@ -2141,5 +2141,16 @@
         }
       ]
     }
+  },
+  "promo": {
+    "eyebrow": "Coming soon",
+    "title": "Vibe Coding",
+    "tagline": "Build real software by directing AI — not by memorising syntax.",
+    "priceNow": "OMR 99",
+    "priceWas": "OMR 149",
+    "priceNote": "Early waitlist price",
+    "cta": "Join the waitlist",
+    "dismiss": "Maybe later",
+    "close": "Close"
   }
 }

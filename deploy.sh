@@ -26,7 +26,9 @@ export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=1536}"
 log() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31mDEPLOY FAILED: %s\033[0m\n' "$*" >&2; exit 1; }
 
-cd "$(dirname "$0")"
+# Resolve symlinks first: invoked as /usr/local/bin/deploy, a bare dirname "$0"
+# would cd to /usr/local/bin and fail the .env check below.
+cd "$(dirname "$(readlink -f "$0")")"
 
 [ -f .env ] || fail ".env is missing in $(pwd). Create it before deploying (see docs/DEPLOYMENT.md)."
 

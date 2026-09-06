@@ -11,6 +11,7 @@ import {
   ChevronLeft,
 } from 'lucide-react';
 import EnrollButton from '@/components/EnrollButton';
+import { WaitlistRecorder } from '@/components/courses/WaitlistRecorder';
 import { formatPrice } from '@/lib/utils';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { BrandedHeading } from '@/components/ui/BrandedHeading';
@@ -62,6 +63,10 @@ export default async function CourseDetailPage({
 
   return (
     <main className="bg-canvas">
+      {/* Records anyone arriving from the promo's "Join the waitlist"
+          button, which returns here after Google sign-in. */}
+      <WaitlistRecorder slug={course.slug} />
+
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-hairline">
         <div

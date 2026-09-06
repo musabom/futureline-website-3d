@@ -1,6 +1,7 @@
 'use client';
 import { signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { useLocale, useTranslations } from 'next-intl';
@@ -13,10 +14,22 @@ import { PasswordInput } from '@/components/auth/PasswordInput';
  * Uses the shared brand form primitives (.fl-label / .fl-input / .fl-submit)
  * and surface tokens rather than hand-rolled Tailwind, so it reads as part of
  * the light redesign instead of the generic form it used to be.
+ *
+ * Honours ?callbackUrl= so anything that sends someone here to sign in first
+ * — the course waitlist, a gated page — gets them back where they were
+ * instead of dropping them on the dashboard.
  */
-export default function LoginPage() {
+function LoginForm() {
   const t = useTranslations('auth');
   const locale = useLocale();
+  const searchParams = useSearchParams();
+
+  // Only same-site relative paths. A bare '//host' or 'https://host' would
+  // turn this into an open redirect that phishing links could point anywhere.
+  const requested = searchParams.get('callbackUrl');
+  const callbackUrl =
+    requested && requested.startsWith('/') && !requested.startsWith('//') ? requested : null;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -36,6 +49,8 @@ export default function LoginPage() {
     if (result?.error) {
       setError(t('login.errorInvalid'));
       setLoading(false);
+    } else if (callbackUrl) {
+      window.location.href = callbackUrl;
     } else {
       const sessionRes = await fetch('/api/auth/session');
       const session = await sessionRes.json();
@@ -81,7 +96,7 @@ export default function LoginPage() {
       {/* Google lands on /dashboard, which routes ADMIN → /admin and
           INSTRUCTOR → /instructor, mirroring the credentials flow below.
           signIn() isn't locale-aware, so the prefix is added by hand. */}
-      <GoogleSignInButton callbackUrl={`/${locale}/dashboard`} />
+      <GoogleSignInButton callbackUrl={callbackUrl ?? `/${locale}/dashboard`} />
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
@@ -125,5 +140,13 @@ export default function LoginPage() {
         </Link>
       </div>
     </AuthShell>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
